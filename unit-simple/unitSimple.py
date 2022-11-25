@@ -58,7 +58,7 @@ class Factor(object):
 
 
 class Unit(Factor):
-  """classe abstraite"""
+  """classe abstraite de fonctionnalites communes a toutes les unites"""
 
   def __init__(self):
     super(Unit, self).__init__(self, 1, 1)
@@ -104,9 +104,11 @@ class TransformedUnit(Unit):
   def toBase(self):
     return self.reference().toBase().concatenate(self.toReference())
 
+
 class DerivedUnit(Unit):
 
   def __init__(self, definition):
+    super(DerivedUnit, self).__init__()
     self._definition = definition
 
   def definition(self):
