@@ -1,0 +1,11 @@
+before_script:
+  - python --version
+
+stages:
+  - test
+
+build-unit-simple:
+  stage: test
+  script:
+    - cd unit-simple
+    - python test.py
