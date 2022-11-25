@@ -1,5 +1,5 @@
 class UnitConverter(object):
-  """convetisseur d'unites"""
+  """convertisseur d'unites"""
 
   def __init__(self, scale, offset = 0., inverse = None):
     self._scale = scale
@@ -83,12 +83,14 @@ class Unit(Factor):
 
 
 class FundamentalUnit(Unit):
+  """unite definie par elle-meme"""
 
   def toBase(self):
     return UnitConverter(1.0)
 
 
 class TransformedUnit(Unit):
+  """unite definie par transformation d'une unite de reference"""
 
   def __init__(self, toReference, reference):
     super(TransformedUnit, self).__init__()
@@ -106,6 +108,7 @@ class TransformedUnit(Unit):
 
 
 class DerivedUnit(Unit):
+  """unite definie comme combinaison de facteurs d'unites, chacune elevee a une puissance rationnelle"""
 
   def __init__(self, definition):
     super(DerivedUnit, self).__init__()
