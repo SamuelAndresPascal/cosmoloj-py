@@ -72,7 +72,7 @@ kToC = k.getConverterTo(c)
 kToC.convert(0) // -273.15
 kToC.inverse().convert(0) // 273.15
 
-// en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
+# en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
 m = su.FundamentalUnit()
 cPerM = su.DerivedUnit([c, m.factor(-1)])
 kPerM = su.DerivedUnit([k, m.factor(-1)])
