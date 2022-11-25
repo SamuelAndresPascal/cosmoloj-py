@@ -118,35 +118,3 @@ class DerivedUnit(Unit):
       transform = factor.dim().toBase().linearPow(factor.power()).concatenate(transform)
     return transform
 
-
-# m = FundamentalUnit()
-# km = m.scaleMultiply(1000)
-# cm = m.scaleDivide(100)
-
-# m2 = DerivedUnit([m.factor(2)])
-# cm2 = DerivedUnit([cm.factor(2)])
-# km2 = DerivedUnit([km.factor(2)])
-
-# kmToCm = km.getConverterTo(cm)
-# print(kmToCm.convert(5))
-# print(kmToCm.inverse().convert(5))
-
-# cm2ToKm2 = cm2.getConverterTo(km2)
-# print(cm2ToKm2.convert(3))
-# print(cm2ToKm2.inverse().convert(4))
-
-k = FundamentalUnit()
-c = k.shift(273.15)
-kToC = k.getConverterTo(c)
-
-print(kToC.convert(0))
-print(kToC.inverse().convert(0))
-
-# en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent devenir lineaires
-m = FundamentalUnit()
-cPerM = DerivedUnit([c, m.factor(-1)])
-kPerM = DerivedUnit([k, m.factor(-1)])
-kPerMToCPerM = kPerM.getConverterTo(cPerM)
-
-print(kPerMToCPerM.convert(3.))
-print(kPerMToCPerM.inverse().convert(3.))
