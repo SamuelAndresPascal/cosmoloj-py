@@ -45,7 +45,7 @@ class TestStringMethods(unittest.TestCase):
     self.assertAlmostEqual(1e-10, gPerM2ToTonPerCm2.convert(1.), None, 1e-20)
     self.assertAlmostEqual(3e-10, gPerM2ToTonPerCm2.convert(3.), None, 1e-20)
     self.assertEqual(0., gPerM2ToTonPerCm2.offset())
-    self.assertEqual(1e-10, gPerM2ToTonPerCm2.scale(), 1e-10)
+    self.assertEqual(1e-10, gPerM2ToTonPerCm2.scale())
     self.assertEqual(-0., gPerM2ToTonPerCm2.inverse().offset())
     self.assertAlmostEqual(3., gPerM2ToTonPerCm2.inverse().convert(3e-10), None, 1e-10)
 
