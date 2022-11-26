@@ -8,9 +8,9 @@ kmToCm = km.getConverterTo(cm)
 print(kmToCm.convert(5))
 print(kmToCm.inverse().convert(5))
 
-m2 = su.DerivedUnit([m.factor(2)])
-km2 = su.DerivedUnit([km.factor(2)])
-cm2 = su.DerivedUnit([cm.factor(2)])
+m2 = su.DerivedUnit(m.factor(2))
+km2 = su.DerivedUnit(km.factor(2))
+cm2 = su.DerivedUnit(cm.factor(2))
 
 cm2ToKm2 = cm2.getConverterTo(km2)
 print(cm2ToKm2.convert(3))

@@ -110,7 +110,7 @@ class TransformedUnit(Unit):
 class DerivedUnit(Unit):
   """unite definie comme combinaison de facteurs d'unites, chacune elevee a une puissance rationnelle"""
 
-  def __init__(self, definition):
+  def __init__(self, *definition):
     super(DerivedUnit, self).__init__()
     self._definition = definition
 

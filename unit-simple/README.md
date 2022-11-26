@@ -24,9 +24,9 @@ import unitSimple as su
 m = su.FundamentalUnit()
 km = m.scaleMultiply(1000)
 
-km2 = su.DerivedUnit([km.factor(2)])
+km2 = su.DerivedUnit(km.factor(2))
 cm = m.scaleDivide(100)
-cm2 = su.DerivedUnit([cm.factor(2)])
+cm2 = su.DerivedUnit(cm.factor(2))
 km2Tocm2 = km2.getConverterTo(cm2)
 
 km2Tocm2.convert(3) # 30000000000
@@ -42,11 +42,11 @@ m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
 g = kg.scaleDivide(1000)
 ton = kg.scaleMultiply(1000)
-gPerM2 = su.DerivedUnit([g, m.factor(-2)])
+gPerM2 = su.DerivedUnit(g, m.factor(-2))
 km = m.scaleMultiply(1000)
-tonPerKm2 = su.DerivedUnit([ton, km.factor(-2)])
+tonPerKm2 = su.DerivedUnit(ton, km.factor(-2))
 cm = m.scaleDivide(100)
-tonPerCm2 = su.DerivedUnit([ton, cm.factor(-2)])
+tonPerCm2 = su.DerivedUnit(ton, cm.factor(-2))
 gPerM2ToTonPerKm2 = gPerM2.getConverterTo(tonPerKm2)
 gPerM2ToTonPerCm2 = gPerM2.getConverterTo(tonPerCm2)
 
@@ -74,8 +74,8 @@ kToC.inverse().convert(0) # 273.15
 
 # en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
 m = su.FundamentalUnit()
-cPerM = su.DerivedUnit([c, m.factor(-1)])
-kPerM = su.DerivedUnit([k, m.factor(-1)])
+cPerM = su.DerivedUnit(c, m.factor(-1))
+kPerM = su.DerivedUnit(k, m.factor(-1))
 kPerMToCPerM = kPerM.getConverterTo(cPerM)
 
 kPerMToCPerM.convert(3) # 3
