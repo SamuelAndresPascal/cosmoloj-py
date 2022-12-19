@@ -82,22 +82,3 @@ kPerMToCPerM.convert(3) # 3
 kPerMToCPerM.inverse().convert(3) # 3
 ```
 
-## Développement
-
-Résolution des dépendances :
-
-```shell
-npm install
-```
-
-Compilation et tests :
-
-```shell
-npm run build
-```
-
-Test seuls :
-
-```shell
-npm run test
-```
