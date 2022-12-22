@@ -82,3 +82,22 @@ kPerMToCPerM.convert(3) # 3
 kPerMToCPerM.inverse().convert(3) # 3
 ```
 
+Utilisation des conversions non décimales :
+
+```py
+import unitSimple as su
+
+m = su.FundamentalUnit()
+km = m.scaleMultiply(1000.)
+
+s = su.FundamentalUnit()
+h = s.scaleMultiply(3600.)
+
+ms = su.DerivedUnit(m, s.factor(-1))
+kmh = su.DerivedUnit(km, h.factor(-1))
+
+msToKmh = ms.getConverterTo(kmh)
+
+msToKmh.convert(100.) # 360
+msToKmh.inverse().convert(18.) # 5
+```

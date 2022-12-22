@@ -69,5 +69,24 @@ class TestStringMethods(unittest.TestCase):
     self.assertAlmostEqual(3., kPerMToCPerM.inverse().convert(3.), None, 1e-10)
 
 
+  def test_speed(self):
+
+    m = su.FundamentalUnit()
+    km = m.scaleMultiply(1000.)
+
+    s = su.FundamentalUnit()
+    min = s.scaleMultiply(60.)
+    h = s.scaleMultiply(3600.)
+
+    ms = su.DerivedUnit(m, s.factor(-1))
+    kmh = su.DerivedUnit(km, h.factor(-1))
+
+    msToKmh = ms.getConverterTo(kmh)
+
+    self.assertAlmostEqual(360., msToKmh.convert(100.), None, 1e-10)
+    self.assertAlmostEqual(5., msToKmh.inverse().convert(18.), None, 1e-10)
+
+
+
 if __name__ == '__main__':
     unittest.main()
