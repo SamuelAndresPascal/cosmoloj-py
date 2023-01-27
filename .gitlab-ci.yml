@@ -9,3 +9,9 @@ build-unit-simple:
   script:
     - cd unit-simple
     - python test.py
+
+build-unit-simple-python2:
+  stage: test
+  script:
+    - cd unit-simple
+    - python3 test.py
