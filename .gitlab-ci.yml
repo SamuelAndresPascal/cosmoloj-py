@@ -1,16 +1,17 @@
 before_script:
-  - python --version
+  - python2 --version
+  - python3 --version
 
 stages:
   - test
 
-build-unit-simple:
+build-unit-simple-python2:
   stage: test
   script:
     - cd unit-simple
-    - python test.py
+    - python2 test.py
 
-build-unit-simple-python2:
+build-unit-simple-python3:
   stage: test
   script:
     - cd unit-simple
