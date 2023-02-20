@@ -10,13 +10,13 @@ lint:unit-simple:
   stage: lint
   script:
     - cd unit-simple
-    - pylint -rcfile=../pylintrc unitSimple.py
+    - pylint --rcfile=../pylintrc unitSimple.py
 
 lint:unit-simple:test:
   stage: lint
   script:
     - cd unit-simple
-    - pylint -rcfile=../pylintrc test.py
+    - pylint --rcfile=../pylintrc test.py
 
 test:unit-simple:python2:
   stage: test
