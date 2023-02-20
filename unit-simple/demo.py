@@ -1,8 +1,8 @@
-import unitSimple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
-km = m.scaleMultiply(1000)
-cm = m.scaleDivide(100)
+km = m.scale_multiply(1000)
+cm = m.scale_divide(100)
 
 kmToCm = km.getConverterTo(cm)
 print(kmToCm.convert(5))

@@ -3,16 +3,31 @@ before_script:
   - python3 --version
 
 stages:
+  - lint
   - test
 
-build-unit-simple-python2:
+lint:unit-simple:
+  stage: lint
+  script:
+    - cd unit-simple
+    - pylint -rcfile=../pylintrc unitSimple.py
+
+lint:unit-simple:test:
+  stage: lint
+  script:
+    - cd unit-simple
+    - pylint -rcfile=../pylintrc test.py
+
+test:unit-simple:python2:
   stage: test
   script:
     - cd unit-simple
     - python2 test.py
 
-build-unit-simple-python3:
+test:unit-simple:python3:
   stage: test
   script:
     - cd unit-simple
     - python3 test.py
+
+
