@@ -5,5 +5,5 @@
 ## Installation de Python
 
 ```bash
-sudo apt-get install python
+sudo apt-get install python2 python3
 ```
