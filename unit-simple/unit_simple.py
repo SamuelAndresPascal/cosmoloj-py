@@ -1,6 +1,6 @@
 """Simple Unit module"""
 
-class UnitConverter(object):
+class UnitConverter:
     """convertisseur d'unites"""
 
     def __init__(self, scale, offset=0., inverse=None):
@@ -47,7 +47,7 @@ class UnitConverter(object):
         return UnitConverter(converter.scale() * self.scale(), self.convert(converter.offset()))
 
 
-class Factor(object):
+class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
     def __init__(self, unit, numerator=1, denominator=1):
@@ -76,7 +76,7 @@ class Unit(Factor):
     """classe abstraite de fonctionnalites communes a toutes les unites"""
 
     def __init__(self):
-        super(Unit, self).__init__(self, 1, 1)
+        super().__init__(self, 1, 1)
 
     def get_converter_to(self, target):
         """construit un convertisseur de l'unite d'appel vers l'unite cible en parametre"""
@@ -117,7 +117,7 @@ class TransformedUnit(Unit):
     """unite definie par transformation d'une unite de reference"""
 
     def __init__(self, to_reference, reference):
-        super(TransformedUnit, self).__init__()
+        super().__init__()
         self._reference = reference
         self._to_reference = to_reference
 
@@ -137,7 +137,7 @@ class DerivedUnit(Unit):
     """unite definie comme combinaison de facteurs d'unites, chacune elevee a une puissance rationnelle"""
 
     def __init__(self, *definition):
-        super(DerivedUnit, self).__init__()
+        super().__init__()
         self._definition = definition
 
     def definition(self):
