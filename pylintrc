@@ -1,2 +1,5 @@
+[MESSAGES CONTROL]
+disable=useless-object-inheritance
+
 [FORMAT]
 max-line-length=120
