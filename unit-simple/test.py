@@ -3,6 +3,7 @@
 import unittest
 import unit_simple as su
 
+
 class TestStringMethods(unittest.TestCase):
     """test class for Simple Unit"""
 
@@ -16,7 +17,6 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertAlmostEqual(.00003, cm_to_km.convert(3.), None, 1e-10)
         self.assertAlmostEqual(3., cm_to_km.inverse().convert(0.00003), None, 1e-10)
-
 
     def test_derived(self):
         """test derived units"""
@@ -56,7 +56,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(-0., g_per_m2_to_ton_per_cm2.inverse().offset())
         self.assertAlmostEqual(3., g_per_m2_to_ton_per_cm2.inverse().convert(3e-10), None, 1e-10)
 
-
     def test_temperatures(self):
         """test linear conversions with temperature scales combined into derived units"""
 
@@ -77,7 +76,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertAlmostEqual(3., k_per_m_to_c_per_m.convert(3.), None, 1e-10)
         self.assertAlmostEqual(3., k_per_m_to_c_per_m.inverse().convert(3.), None, 1e-10)
 
-
     def test_speed(self):
         """test non decimal conversions"""
 
@@ -94,7 +92,6 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertAlmostEqual(360., ms_to_kmh.convert(100.), None, 1e-10)
         self.assertAlmostEqual(5., ms_to_kmh.inverse().convert(18.), None, 1e-10)
-
 
 
 if __name__ == '__main__':

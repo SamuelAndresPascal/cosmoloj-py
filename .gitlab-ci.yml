@@ -17,6 +17,12 @@ lint:unit-simple:test:
     - cd unit-simple
     - pylint --rcfile=../pylintrc test.py
 
+lint:unit-simple:pytest:
+  stage: lint
+  script:
+    - cd unit-simple
+    - python3 -m pytest
+
 test:unit-simple:python3:
   stage: test
   script:
