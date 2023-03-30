@@ -6,4 +6,5 @@
 
 ```bash
 sudo apt-get install python2 python3 pylint
+pip install pytest
 ```
