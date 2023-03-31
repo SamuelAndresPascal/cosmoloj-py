@@ -1,5 +1,8 @@
 """Simple Unit module"""
 
+from enum import Enum
+
+
 class UnitConverter:
     """convertisseur d'unites"""
 
@@ -149,3 +152,33 @@ class DerivedUnit(Unit):
         for factor in self._definition:
             transform = factor.dim().to_base().linear_pow(factor.power()).concatenate(transform)
         return transform
+
+
+class Metric(Enum):
+    """definition des prefixes du systeme metrique"""
+    YOTTA = pow(10, 24)
+    ZETTA = pow(10, 21)
+    EXA = pow(10, 18)
+    PETA = pow(10, 15)
+    TERA = pow(10, 12)
+    GIGA = pow(10, 9)
+    MEGA = pow(10, 6)
+    KILO = 1000
+    HECTO = 100
+    DEKA = 10
+    DECI = 1 / 10
+    CENTI = 1 / 100
+    MILLI = 1 / 1000
+    MICRO = pow(10, -6)
+    NANO = pow(10, -9)
+    PICO = pow(10, -12)
+    FEMTO = pow(10, -15)
+    ZEPTO = pow(10, -21)
+    YOCTO = pow(10, -24)
+
+    def __init__(self, factor):
+        self._factor = factor
+
+    def prefix(self, unit: Unit) -> TransformedUnit:
+        """application du prefixe du systeme metrique a une unite"""
+        return unit.scale_multiply(self._factor)

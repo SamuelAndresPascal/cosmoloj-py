@@ -10,14 +10,16 @@ lint:unit-simple:
   script:
     - cd unit-simple
     - pylint --rcfile=../pylintrc unit_simple.py
+    - pylint --rcfile=../pylintrc demo.py
 
 lint:unit-simple:test:
   stage: lint
   script:
     - cd unit-simple
     - pylint --rcfile=../pylintrc test.py
+    - pylint --rcfile=../pylintrc unit_simple_test.py
 
-lint:unit-simple:pytest:
+test:unit-simple:pytest:
   stage: lint
   script:
     - cd unit-simple

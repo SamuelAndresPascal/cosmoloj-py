@@ -2,7 +2,19 @@
 
 import pytest
 import unit_simple as su
+from unit_simple import Metric as pm
 
+
+def test_metric_prefix():
+    """test transformed units"""
+
+    metre = su.FundamentalUnit()
+    k_metre = pm.KILO.prefix(metre)
+    c_metre = pm.CENTI.prefix(metre)
+    cm_to_km = c_metre.get_converter_to(k_metre)
+
+    assert pytest.approx(.00003, 1e-10) == cm_to_km.convert(3.)
+    assert pytest.approx(3., 1e-10) == cm_to_km.inverse().convert(0.00003)
 
 def test_transformed():
     """test transformed units"""
@@ -50,8 +62,8 @@ def test_combined_dimension_derived():
     assert pytest.approx(3., 1e-10) == g_per_m2_to_ton_per_km2.inverse().convert(3.)
     assert pytest.approx(1e-10, 1e-20) == g_per_m2_to_ton_per_cm2.convert(1.)
     assert pytest.approx(3e-10, 1e-20) == g_per_m2_to_ton_per_cm2.convert(3.)
-    assert 0. == g_per_m2_to_ton_per_cm2.offset()
-    assert 1e-10 == g_per_m2_to_ton_per_cm2.scale()
+    assert g_per_m2_to_ton_per_cm2.offset() == 0.
+    assert g_per_m2_to_ton_per_cm2.scale() == 1e-10
     assert -0. == g_per_m2_to_ton_per_cm2.inverse().offset()
     assert pytest.approx(3., 1e-10) == g_per_m2_to_ton_per_cm2.inverse().convert(3e-10)
 
