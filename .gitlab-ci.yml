@@ -1,9 +1,31 @@
-before_script:
-  - python3 --version
+default:
+  before_script:
+    - PATH=$PATH:$CONDA_HOME/bin
+    - python --version
+    - conda --version
+    - which python
+    - conda init bash
+    - conda create -n cosmoloj_py python=3.10
+    - . ~/.bashrc
+    - conda activate cosmoloj_py
+    - which python
+    - conda install pylint pytest
+
+  after_script:
+    - PATH=$PATH:$CONDA_HOME/bin
+    - python --version
+    - conda --version
+    - which python
+    - conda init bash
+    - . ~/.bashrc
+    - conda activate cosmoloj_py
+    - which python
+    - conda remove pylint pytest
 
 stages:
   - lint
   - test
+  - demo
 
 lint:unit-simple:
   stage: lint
@@ -20,15 +42,19 @@ lint:unit-simple:test:
     - pylint --rcfile=../pylintrc unit_simple_test.py
 
 test:unit-simple:pytest:
-  stage: lint
-  script:
-    - cd unit-simple
-    - python3 -m pytest
-
-test:unit-simple:python3:
   stage: test
   script:
     - cd unit-simple
-    - python3 test.py
+    - pytest
 
+test:unit-simple:testunit:
+  stage: test
+  script:
+    - cd unit-simple
+    - python test.py
 
+demo:unit-simple:
+  stage: demo
+  script:
+    - cd unit-simple
+    - python demo.py
