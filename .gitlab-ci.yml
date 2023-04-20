@@ -26,7 +26,7 @@ default:
 stages:
   - lint
   - test
-  - build
+  - package
   - demo
 
 lint:unit-simple:
@@ -46,11 +46,13 @@ test:unit-simple:
     - pytest
     - python test.py
 
-build:unit-simple:
-  stage: build
+package:unit-simple:
+  stage: package
   script:
     - cd unit-simple
+    - pip install --upgrade build
     - python -m build
+    - pip uninstall build
 
 demo:unit-simple:
   stage: demo
