@@ -55,34 +55,40 @@ demo:unit-simple:
 
 package:unit-simple:test_pypi:
   stage: package
+  variables:
+    DIST_DIR: test_pypi_dist
   script:
     - cd unit-simple
-    - rm -rf test_pypi_dist/
+    - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ \"\"#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - cat pyproject.toml
     - pip install .
     - pip install --upgrade build
-    - python -m build -o test_pypi_dist
-    - ls -l test_pypi_dist
+    - python -m build -o $DIST_DIR
+    - ls -l $DIST_DIR
     - pip uninstall -y build
   artifacts:
     paths:
-      - unit-simple/test_pypi_dist/*
+      - unit-simple/$DIST_DIR/*
 
 package:unit-simple:pypi:
   stage: package
+  variables:
+    DIST_DIR: dist
   when: manual
   script:
     - cd unit-simple
-    - rm -rf test_pypi_dist/
+    - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - cat pyproject.toml
     - pip install .
     - pip install --upgrade build
     - python -m build
-    - ls -l dist
+    - ls -l $DIST_DIR
     - pip uninstall -y build
   artifacts:
     paths:
-      - unit-simple/dist/*
+      - unit-simple/$DIST_DIR/*
 
 publish:unit-simple:test_pypi:
   stage: publish
