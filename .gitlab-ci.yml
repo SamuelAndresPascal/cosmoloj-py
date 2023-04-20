@@ -85,7 +85,7 @@ package:unit-simple:pypi:
 publish:unit-simple:test_pypi:
   stage: publish
   dependencies:
-    - package:unit-simple:testpypi
+    - package:unit-simple:test_pypi
   when: manual
   script:
     - cd unit-simple
