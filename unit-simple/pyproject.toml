@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unit_simple"
-version = ""
+version = "0.0.0"
 authors = [
   { name="Samuel Andrés", email="samuel.andres@yahoo.fr" },
 ]
