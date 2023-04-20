@@ -59,6 +59,7 @@ package:unit-simple:test_pypi:
     - cd unit-simple
     - rm -rf test_pypi_dist/
     - sed -i "s#version\ =\ \"\"#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - pip install .
     - pip install --upgrade build
     - python -m build -o test_pypi_dist
     - ls -l test_pypi_dist
@@ -74,6 +75,7 @@ package:unit-simple:pypi:
     - cd unit-simple
     - rm -rf test_pypi_dist/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - pip install .
     - pip install --upgrade build
     - python -m build
     - ls -l dist
