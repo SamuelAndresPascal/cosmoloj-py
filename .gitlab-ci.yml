@@ -34,6 +34,7 @@ lint:unit-simple:
   script:
     - cd unit-simple
     - pylint --rcfile=../pylintrc unit_simple.py
+    - pip install .
     - pylint --rcfile=../pylintrc demo.py
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc unit_simple_test.py
