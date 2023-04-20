@@ -26,6 +26,7 @@ default:
 stages:
   - lint
   - test
+  - build
   - demo
 
 lint:unit-simple:
@@ -34,25 +35,21 @@ lint:unit-simple:
     - cd unit-simple
     - pylint --rcfile=../pylintrc unit_simple.py
     - pylint --rcfile=../pylintrc demo.py
-
-lint:unit-simple:test:
-  stage: lint
-  script:
-    - cd unit-simple
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc unit_simple_test.py
 
-test:unit-simple:pytest:
+test:unit-simple:
   stage: test
   script:
     - cd unit-simple
     - pytest
+    - python test.py
 
-test:unit-simple:testunit:
-  stage: test
+build:unit-simple:
+  stage: build
   script:
     - cd unit-simple
-    - python test.py
+    - python -m build
 
 demo:unit-simple:
   stage: demo

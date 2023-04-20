@@ -5,7 +5,7 @@
 Utilisation des unités transformées :
 
 ```py
-import unitSimple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000)
@@ -19,7 +19,7 @@ cmToKm.inverse().convert(0.00003) # 3
 Utilisation des unités dérivées :
 
 ```py
-import unitSimple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000)
@@ -36,7 +36,7 @@ km2Tocm2.inverse().convert(30000000000) # 3
 Utilisation des unités dérivées en combinant les dimensions :
 
 ```py
-import unitSimple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
@@ -63,7 +63,7 @@ gPerM2ToTonPerCm2.inverse().convert(3e-10) # 3
 Utilisation des températures (conversions affines et linéaires) :
 
 ```py
-import unitSimple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()
 c = k.shift(273.15)
@@ -85,7 +85,7 @@ kPerMToCPerM.inverse().convert(3) # 3
 Utilisation des conversions non décimales :
 
 ```py
-import unitSimple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000.)
