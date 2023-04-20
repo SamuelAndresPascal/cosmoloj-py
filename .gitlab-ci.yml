@@ -52,7 +52,7 @@ package:unit-simple:
     - cd unit-simple
     - pip install --upgrade build
     - python -m build
-    - pip uninstall build
+    - pip uninstall -y build
 
 demo:unit-simple:
   stage: demo
