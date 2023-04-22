@@ -29,6 +29,7 @@ stages:
   - demo
   - pypi-package
   - pypi-publish
+  - conda-package
 
 lint:unit-simple:
   stage: lint
@@ -102,7 +103,7 @@ pypi-publish:unit-simple:test_pypi:
     - pip uninstall -y twine
 
 pypi-publish:unit-simple:pypi:
-  stage: pipy-publish
+  stage: pypi-publish
   dependencies:
     - pypi-package:unit-simple:pypi
   when: manual
