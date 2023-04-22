@@ -16,6 +16,7 @@ def test_metric_prefix():
     assert pytest.approx(.00003, 1e-10) == cm_to_km.convert(3.)
     assert pytest.approx(3., 1e-10) == cm_to_km.inverse().convert(0.00003)
 
+
 def test_transformed():
     """test transformed units"""
 

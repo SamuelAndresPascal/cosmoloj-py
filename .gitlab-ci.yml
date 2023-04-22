@@ -27,8 +27,8 @@ stages:
   - lint
   - test
   - demo
-  - package
-  - publish
+  - pypi-package
+  - pypi-publish
 
 lint:unit-simple:
   stage: lint
@@ -53,8 +53,8 @@ demo:unit-simple:
     - cd unit-simple
     - python demo.py
 
-package:unit-simple:test_pypi:
-  stage: package
+pypi-package:unit-simple:test_pypi:
+  stage: pypi-package
   variables:
     DIST_DIR: test_pypi_dist
   script:
@@ -71,8 +71,8 @@ package:unit-simple:test_pypi:
     paths:
       - unit-simple/$DIST_DIR/*
 
-package:unit-simple:pypi:
-  stage: package
+pypi-package:unit-simple:pypi:
+  stage: pypi-package
   variables:
     DIST_DIR: dist
   when: manual
@@ -90,8 +90,8 @@ package:unit-simple:pypi:
     paths:
       - unit-simple/$DIST_DIR/*
 
-publish:unit-simple:test_pypi:
-  stage: publish
+pypi-publish:unit-simple:test_pypi:
+  stage: pypi-publish
   dependencies:
     - package:unit-simple:test_pypi
   when: manual
@@ -101,8 +101,8 @@ publish:unit-simple:test_pypi:
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD test_pypi_dist/*
     - pip uninstall -y twine
 
-publish:unit-simple:pypi:
-  stage: publish
+pypi-publish:unit-simple:pypi:
+  stage: pipy-publish
   dependencies:
     - package:unit-simple:pypi
   when: manual
@@ -111,3 +111,17 @@ publish:unit-simple:pypi:
     - pip install --upgrade twine
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
     - pip uninstall -y twine
+
+conda-package:unit-simple:
+  stage: conda-package
+  variables:
+    DIST_DIR: conda_dist
+    PYPI_URL: https://pypi.io/pypi/ # to use test pypi : https://test.pypi.io/pypi/
+  when: manual
+  script:
+    - cd unit-simple
+    - rm -rf $DIST_DIR/
+    - conda skeleton pypi --pypi-url $PYPI_URL --output-dir $DIST_DIR unit_simple
+  artifacts:
+    paths:
+      - unit-simple/$DIST_DIR/*

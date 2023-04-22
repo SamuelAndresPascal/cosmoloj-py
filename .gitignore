@@ -2,5 +2,6 @@
 *.pyc
 .idea
 **/dist/
+**/conda_dist/
 **/*.egg-info/
 **/build/

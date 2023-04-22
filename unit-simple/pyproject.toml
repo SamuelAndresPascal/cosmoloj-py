@@ -8,7 +8,7 @@ version = "0.0.0"
 authors = [
   { name="Samuel Andrés", email="samuel.andres@yahoo.fr" },
 ]
-description = "A small example package"
+description = "A simple measurement unit API to handle basic unit conversions."
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
