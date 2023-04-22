@@ -117,11 +117,18 @@ conda-package:unit-simple:
   stage: conda-package
   variables:
     DIST_DIR: conda_dist
+    PACKAGE: unit_simple
+    VERSION: $UNIT_SIMPLE_VERSION
   when: manual
   script:
     - cd unit-simple
     - rm -rf $DIST_DIR/
-    - conda skeleton pypi --pypi-url $PYPI_URL --output-dir $DIST_DIR unit_simple
+    - conda skeleton pypi --pypi-url $PYPI_URL --output-dir $DIST_DIR $PACKAGE
+    - conda build $DIST_DIR/$PACKAGE
+    - anaconda logout
+    - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
+    - anaconda upload $CONDA_HOME/conda-bld/linux-64/$PACKAGE-$VERSION-py310_0.tar.bz2
+    - anaconda logout
   artifacts:
     paths:
       - unit-simple/$DIST_DIR/*
