@@ -1,5 +1,7 @@
 # Simple Unit (implémentation Python)
 
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
+
 ## Utilisation
 
 Utilisation des unités transformées :
