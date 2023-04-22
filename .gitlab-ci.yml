@@ -117,7 +117,6 @@ conda-package:unit-simple:
   stage: conda-package
   variables:
     DIST_DIR: conda_dist
-    PYPI_URL: https://pypi.io/pypi/ # to use test pypi : https://test.pypi.io/pypi/
   when: manual
   script:
     - cd unit-simple
