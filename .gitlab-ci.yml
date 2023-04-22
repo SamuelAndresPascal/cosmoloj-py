@@ -93,7 +93,7 @@ pypi-package:unit-simple:pypi:
 pypi-publish:unit-simple:test_pypi:
   stage: pypi-publish
   dependencies:
-    - package:unit-simple:test_pypi
+    - pypi-package:unit-simple:test_pypi
   when: manual
   script:
     - cd unit-simple
@@ -104,7 +104,7 @@ pypi-publish:unit-simple:test_pypi:
 pypi-publish:unit-simple:pypi:
   stage: pipy-publish
   dependencies:
-    - package:unit-simple:pypi
+    - pypi-package:unit-simple:pypi
   when: manual
   script:
     - cd unit-simple
