@@ -5,3 +5,5 @@
 **/conda_dist/
 **/*.egg-info/
 **/build/
+*.coverage
+report.xml

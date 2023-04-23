@@ -16,7 +16,7 @@ conda create -n cosmoloj_py python=3.10
 # activation de l'environnement
 conda activate cosmoloj_py
 # installation des dépendances du projet (dépendances de test)
-conda install pylint pytest
+conda install pylint pytest pytest-cov
 ```
 
 ## Construction du paquetage PIP d'un module

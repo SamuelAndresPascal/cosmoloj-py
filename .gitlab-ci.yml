@@ -10,7 +10,7 @@ default:
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - which python
-    - conda install pylint pytest
+    - conda install pylint pytest-cov
 
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
@@ -21,7 +21,7 @@ default:
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - which python
-    - conda remove pylint pytest
+    - conda remove pylint pytest-cov
 
 stages:
   - lint
@@ -41,12 +41,16 @@ lint:unit-simple:
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc unit_simple_test.py
 
-test:unit-simple:
+test:
   stage: test
   script:
-    - cd unit-simple
-    - pytest
+    - pytest --cov=unit_simple --junitxml=report.xml
     - python test.py
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    expire_in: 2 days
 
 demo:unit-simple:
   stage: demo
