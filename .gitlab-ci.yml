@@ -45,11 +45,15 @@ test:
   stage: test
   script:
     - pytest --cov=unit_simple --junitxml=report.xml
+    - coverage xml
     - python unit-simple/test.py
   artifacts:
     when: always
     reports:
       junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
     expire_in: 2 days
 
 demo:unit-simple:
