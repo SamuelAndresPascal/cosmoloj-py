@@ -45,7 +45,7 @@ test:
   stage: test
   script:
     - pytest --cov=unit_simple --junitxml=report.xml
-    - python test.py
+    - python unit-simple/test.py
   artifacts:
     when: always
     reports:
