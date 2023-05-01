@@ -8,3 +8,4 @@
 *.coverage
 report.xml
 coverage.xml
+.scannerwork

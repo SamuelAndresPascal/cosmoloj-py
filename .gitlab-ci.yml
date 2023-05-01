@@ -30,6 +30,7 @@ stages:
   - pypi-package
   - pypi-publish
   - conda-package
+  - sonar
 
 lint:unit-simple:
   stage: lint
@@ -140,3 +141,10 @@ conda-package:unit-simple:
   artifacts:
     paths:
       - unit-simple/$DIST_DIR/*
+
+sonar:
+  stage: sonar
+  script:
+    - $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_LOGIN
+  artifacts:
+    expire_in: 2 days
