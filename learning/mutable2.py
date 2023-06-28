@@ -1,41 +1,9 @@
-from dataclasses import dataclass
+from learning.model import MutableNotHashable, MutableHashable, ImmutableHashable
 
 """Problème : ranger un objet dans un ensemble et le retrouver.
 1. Pour le ranger dans l'ensemble il doit être hashable.
 2. Pour être certain de le retrouver, le hash ne doit pas changer. La recette classique est l'immuabilité (frozen)
 """
-
-
-@dataclass
-class MutableNotHashable:
-    id: int
-
-
-@dataclass(frozen=True)
-class ImmutableNotEq:
-    id: int
-
-
-@dataclass
-class MutableHashable:
-    id: int
-
-    def __hash__(self):
-        return self.id
-
-    def __eq__(self, other):
-        return self.id == other.id
-
-
-@dataclass(frozen=True)
-class ImmutableHashable:
-    id: int
-
-    def __hash__(self):
-        return self.id
-
-    def __eq__(self, other):
-        return self.id == other.id
 
 
 def mutable_not_hashable():
