@@ -6,6 +6,8 @@ from learning.mutable.model import MutableNotHashable, MutableHashable, Immutabl
 
 Grâce à "frozen", on peut utiliser l'objet comme un hashable tout en évitant des bogues et en aidant l'IDE à
 signaler les tentatives de modification d'un objet qui ne doit pas pouvoir l'être.
+
+https://docs.python.org/2/glossary.html => hashable
 """
 
 

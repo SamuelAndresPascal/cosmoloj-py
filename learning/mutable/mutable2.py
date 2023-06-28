@@ -6,6 +6,8 @@ from learning.mutable.model import MutableNotHashable, MutableHashable, Immutabl
 
 Grâce à "frozen", on peut utiliser l'objet comme un hashable tout en évitant des bogues et en aidant l'IDE à
 signaler les tentatives de modification d'un objet qui ne doit pas pouvoir l'être.
+
+https://docs.python.org/2/glossary.html => hashable
 """
 
 
@@ -17,11 +19,11 @@ def mutable_not_hashable():
     # on place l'objet dans un hashmap
     collection = {object1 : 'Trouvé'}  # ==> ERREUR : l'objet n'est pas hashable
 
-    print(object1 in collection)
+    print(collection[object1])
 
     object1.id = 2
 
-    print(object1 in collection)
+    print(collection[object1])
 
 
 def mutable_hashable():
@@ -61,7 +63,7 @@ def immutable_hashable():
 
 
 if __name__ == '__main__':
-   # mutable_not_hashable()  ## mutable non hashable ==> erreur python
+   mutable_not_hashable()  ## mutable non hashable ==> erreur python
    # mutable_hashable()  ## mutable hashable ==> pas d'erreur python mais 99% de chances de bug
    # immutable_hashable()  ## immutable hashable ==> erreur python qui prévient la modification de l'objet
 
