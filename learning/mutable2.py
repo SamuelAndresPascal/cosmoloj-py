@@ -3,6 +3,9 @@ from learning.model import MutableNotHashable, MutableHashable, ImmutableHashabl
 """Problème : ranger un objet dans un ensemble et le retrouver.
 1. Pour le ranger dans l'ensemble il doit être hashable.
 2. Pour être certain de le retrouver, le hash ne doit pas changer. La recette classique est l'immuabilité (frozen)
+
+Grâce à "frozen", on peut utiliser l'objet comme un hashable tout en évitant des bogues et en aidant l'IDE à
+signaler les tentatives de modification d'un objet qui ne doit pas pouvoir l'être.
 """
 
 
