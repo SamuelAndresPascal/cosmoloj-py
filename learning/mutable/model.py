@@ -6,11 +6,6 @@ class MutableNotHashable:
     id: int
 
 
-@dataclass(frozen=True)
-class ImmutableNotEq:
-    id: int
-
-
 @dataclass
 class MutableHashable:
     id: int
