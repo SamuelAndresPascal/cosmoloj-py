@@ -56,14 +56,14 @@ def immutable_hashable():
     print(object1 in collection)
 
     # on change l'état de l'objet : on peut car il est mutable
-    object1.id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi l'utiliser comme hashable modifié
+    object1.id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi de l'utiliser comme hashable modifié
 
     # on cherche l'objet dans le hashset
     print(object1 in collection)
 
 
 if __name__ == '__main__':
-   # mutable_not_hashable()  ## mutable non hashable ==> erreur python
+   mutable_not_hashable()  ## mutable non hashable ==> erreur python
    # mutable_hashable()  ## mutable hashable ==> pas d'erreur python mais 99% de chances de bug
    # immutable_hashable()  ## immutable hashable ==> erreur python qui prévient la modification de l'objet
 

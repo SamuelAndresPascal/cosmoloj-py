@@ -50,13 +50,13 @@ def immutable_hashable():
     object1 = tuple([ImmutableHashable(id=1)])
 
     # on place l'objet dans un hashmap
-    collection = {object1: 'Trouvé'}
+    collection = {object1}
 
     # on cherche l'objet dans le hashmap
     print(object1 in collection)
 
     # on change l'état de l'objet : on peut car il est mutable
-    object1[0].id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi l'utiliser comme hashable modifié
+    object1[0].id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi de l'utiliser comme hashable modifié
 
     # on cherche l'objet dans le hashmap
     print(object1 in collection)
@@ -65,5 +65,5 @@ def immutable_hashable():
 if __name__ == '__main__':
    # mutable_not_hashable()  ## tuple avec mutable non hashable ==> erreur python
    # mutable_hashable()  ## tuple avec mutable hashable ==> pas d'erreur python mais 99% de chances de bug
-   # immutable_hashable()  ## tuple avec immutable hashable ==> erreur python qui prévient la modification de l'objet
+   immutable_hashable()  ## tuple avec immutable hashable ==> erreur python qui prévient la modification de l'objet
 

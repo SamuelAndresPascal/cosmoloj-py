@@ -17,7 +17,7 @@ def mutable_not_hashable():
     object1 = MutableNotHashable(id=1)
 
     # on place l'objet dans un hashmap
-    collection = {object1 : 'Trouvé'}  # ==> ERREUR : l'objet n'est pas hashable
+    collection = {object1: 'Trouve'}  # ==> ERREUR : l'objet n'est pas hashable
 
     print(collection[object1])
 
@@ -32,7 +32,7 @@ def mutable_hashable():
     object1 = MutableHashable(id=1)
 
     # on place l'objet dans un hashmap
-    collection = {object1 : 'Trouvé'}
+    collection = {object1 : 'Trouve'}
 
     # on cherche l'objet dans le hashmap
     print(collection[object1])
@@ -50,13 +50,13 @@ def immutable_hashable():
     object1 = ImmutableHashable(id=1)
 
     # on place l'objet dans un hashmap
-    collection = {object1 : 'Trouvé'}
+    collection = {object1 : 'Trouve'}
 
     # on cherche l'objet dans le hashmap
     print(collection[object1])
 
-    # on change l'état de l'objet : on peut car il est mutable
-    object1.id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi l'utiliser comme hashable modifié
+    # on change l'état de l'objet : mais python lance une erreur
+    object1.id = 2  # ==> ERREUR : l'objet est marqué "FROZEN" et on évite ainsi de l'utiliser comme hashable modifié
 
     # on cherche l'objet dans le hashmap
     print(collection[object1])
