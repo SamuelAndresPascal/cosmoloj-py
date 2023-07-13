@@ -5,7 +5,7 @@ import unit_simple as su
 from unit_simple import Metric as pm
 
 
-class TestStringMethods(unittest.TestCase):
+class TestSimpleUnit(unittest.TestCase):
     """test class for Simple Unit"""
 
     def test_metric_prefix(self):

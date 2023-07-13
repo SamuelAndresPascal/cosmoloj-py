@@ -3,6 +3,12 @@
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
+## Mettre à jour l'environnement
+
+```commandline
+conda env update --file environment.yml
+```
+
 ## Utilisation
 
 Utilisation des unités transformées :
