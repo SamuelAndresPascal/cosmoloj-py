@@ -2,6 +2,10 @@
 
 import unittest
 
+import pandas as pd
+
+from taxref.taxref11 import pdReadCts
+
 
 class TestTaxref(unittest.TestCase):
     """test class for Simple Unit"""
@@ -9,10 +13,13 @@ class TestTaxref(unittest.TestCase):
     def test_taxref11(self):
         """test metric prefixes units"""
 
-        metre = su.FundamentalUnit()
-        k_metre = pm.KILO.prefix(metre)
-        c_metre = pm.CENTI.prefix(metre)
-        cm_to_km = c_metre.get_converter_to(k_metre)
+        df_taxref11 = pd.read_csv(
+            '/home/samuel/.bioloj/taxref/TAXREF_INPN_v11/TAXREFv11.txt',
+            sep=pdReadCts.sep,
+            header=pdReadCts.header,
+            index_col=pdReadCts.index_col,
+            dtype=pdReadCts.dtype,
+            na_filter=pdReadCts.na_filter)
 
-        self.assertAlmostEqual(.00003, cm_to_km.convert(3.), None, 1e-10)
-        self.assertAlmostEqual(3., cm_to_km.inverse().convert(0.00003), None, 1e-10)
+        self.assertEquals(550843, len(df_taxref11))
+        self.assertEquals(39, len(df_taxref11.loc['183718']))

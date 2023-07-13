@@ -1,5 +1,15 @@
 from collections import namedtuple
 
+PdReadCts = namedtuple('PdReadCts', ['sep', 'header', 'index_col', 'dtype', 'na_filter'])
+
+pdReadCts = PdReadCts(sep='\t',
+                      header=0,
+                      index_col='CD_NOM',
+                      dtype={
+                          'CD_NOM': 'string'
+                      },
+                      na_filter=False)
+
 Taxref11 = namedtuple('Taxref11',
                       ['regne',
                        'phylum',
