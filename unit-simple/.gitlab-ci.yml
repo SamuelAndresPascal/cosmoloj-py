@@ -7,10 +7,10 @@ lint:unit-simple:
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc unit_simple_test.py
 
-test:
+test:unit-simple:
   stage: test
   script:
-    - pytest --cov=unit_simple --junitxml=report.xml
+    - pytest --cov=unit-simple --cov-append --junitxml=report.xml
     - coverage xml
     - python unit-simple/test.py
   artifacts:

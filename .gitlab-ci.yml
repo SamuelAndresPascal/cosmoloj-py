@@ -34,6 +34,7 @@ stages:
 
 include:
   - local: 'unit-simple/.gitlab-ci.yml'
+  - local: 'taxref/.gitlab-ci.yml'
 
 sonar:
   stage: sonar

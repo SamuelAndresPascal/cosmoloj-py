@@ -1,0 +1,23 @@
+lint:taxref:
+  stage: lint
+  script:
+    - cd taxref
+    - pylint --rcfile=../pylintrc taxref.py
+    - pylint --rcfile=../pylintrc taxref11.py
+    - pylint --rcfile=../pylintrc test.py
+
+test:taxref:
+  stage: test
+  allow_failure: true
+  script:
+    - pytest --cov=taxref --cov-append --junitxml=report.xml
+    - coverage xml
+    - python taxref/test.py
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    expire_in: 2 days
