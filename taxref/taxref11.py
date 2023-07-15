@@ -1,3 +1,5 @@
+"""Taxref 11 specific module"""
+
 from collections import namedtuple
 from enum import Enum, auto
 
@@ -5,52 +7,58 @@ from pandas.core.indexing import _LocIndexer
 
 
 class Taxref11(Enum):
-  REGNE = auto()
-  PHYLUM = auto()
-  CLASSE = auto()
-  ORDRE = auto()
-  FAMILLE = auto()
-  SOUS_FAMILLE = auto()
-  TRIBU = auto()
-  GROUP1_INPN = auto()
-  GROUP2_INPN = auto()
-  CD_NOM = auto()
-  CD_TAXSUP = auto()
-  CD_SUP = auto()
-  CD_REF = auto()
-  RANG = auto()
-  LB_NOM = auto()
-  LB_AUTEUR = auto()
-  NOM_COMPLET = auto()
-  NOM_COMPLET_HTML = auto()
-  NOM_VALIDE = auto()
-  NOM_VERN = auto()
-  NOM_VERN_ENG = auto()
-  HABITAT = auto()
-  FR = auto()
-  GF = auto()
-  MAR = auto()
-  GUA = auto()
-  SM = auto()
-  SB = auto()
-  SPM = auto()
-  MAY = auto()
-  EPA = auto()
-  REU = auto()
-  SA = auto()
-  TA = auto()
-  TAAF = auto()
-  PF = auto()
-  NC = auto()
-  WF = auto()
-  CLI = auto()
-  URL = auto()
+    """
+    Taxref 11 specification.
+    """
+    REGNE = auto()
+    PHYLUM = auto()
+    CLASSE = auto()
+    ORDRE = auto()
+    FAMILLE = auto()
+    SOUS_FAMILLE = auto()
+    TRIBU = auto()
+    GROUP1_INPN = auto()
+    GROUP2_INPN = auto()
+    CD_NOM = auto()
+    CD_TAXSUP = auto()
+    CD_SUP = auto()
+    CD_REF = auto()
+    RANG = auto()
+    LB_NOM = auto()
+    LB_AUTEUR = auto()
+    NOM_COMPLET = auto()
+    NOM_COMPLET_HTML = auto()
+    NOM_VALIDE = auto()
+    NOM_VERN = auto()
+    NOM_VERN_ENG = auto()
+    HABITAT = auto()
+    FR = auto()
+    GF = auto()
+    MAR = auto()
+    GUA = auto()
+    SM = auto()
+    SB = auto()
+    SPM = auto()
+    MAY = auto()
+    EPA = auto()
+    REU = auto()
+    SA = auto()
+    TA = auto()
+    TAAF = auto()
+    PF = auto()
+    NC = auto()
+    WF = auto()
+    CLI = auto()
+    URL = auto()
 
 
 Taxref11_tuple = namedtuple('Taxref11_tuple', [v.name.lower() for v in Taxref11])
 
 
 def to_taxref11_tuple(single: _LocIndexer) -> Taxref11_tuple:
+    """
+    Builds a namedtuple from a panda row.
+    """
     return Taxref11_tuple(regne=single[Taxref11.REGNE.name],
                           phylum=single[Taxref11.PHYLUM.name],
                           classe=single[Taxref11.CLASSE.name],

@@ -1,3 +1,5 @@
+"""Taxref common module"""
+
 from collections import namedtuple
 
 PdReadCts = namedtuple('PdReadCts', ['sep', 'header', 'index_col', 'dtype', 'na_filter'])

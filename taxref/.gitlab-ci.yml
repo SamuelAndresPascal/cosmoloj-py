@@ -5,6 +5,7 @@ lint:taxref:
     - pylint --rcfile=../pylintrc taxref.py
     - pylint --rcfile=../pylintrc taxref11.py
     - pylint --rcfile=../pylintrc test.py
+    - pylint --rcfile=../pylintrc taxref_test.py
 
 test:taxref:
   stage: test
