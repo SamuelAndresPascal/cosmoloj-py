@@ -2,7 +2,7 @@ lint:unit-simple:
   stage: lint
   script:
     - cd unit-simple
-    - conda env create --file environment.dev.yml
+    - conda env create --force --file environment.dev.yml
     - pylint --rcfile=../pylintrc unit_simple.py
     - pylint --rcfile=../pylintrc demo.py
     - pylint --rcfile=../pylintrc test.py
@@ -11,7 +11,7 @@ lint:unit-simple:
 test:unit-simple:
   stage: test
   script:
-    - conda env create --file unit-simple/environment.dev.yml
+    - conda env create --force --file unit-simple/environment.dev.yml
     - pytest --cov=unit-simple --cov-append --junitxml=report.xml
     - coverage xml
     - python unit-simple/test.py
@@ -28,7 +28,7 @@ demo:unit-simple:
   stage: demo
   script:
     - cd unit-simple
-    - conda env create --file environment.dev.yml
+    - conda env create --force --file environment.dev.yml
     - python demo.py
 
 pypi-package:unit-simple:test_pypi:
@@ -37,7 +37,7 @@ pypi-package:unit-simple:test_pypi:
     DIST_DIR: test_pypi_dist
   script:
     - cd unit-simple
-    - conda env create --file environment.yml
+    - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
@@ -57,7 +57,7 @@ pypi-package:unit-simple:pypi:
   when: manual
   script:
     - cd unit-simple
-    - conda env create --file environment.yml
+    - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
@@ -77,7 +77,7 @@ pypi-publish:unit-simple:test_pypi:
   when: manual
   script:
     - cd unit-simple
-    - conda env create --file environment.yml
+    - conda env create --force --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD test_pypi_dist/*
     - conda uninstall -y twine
@@ -89,7 +89,7 @@ pypi-publish:unit-simple:pypi:
   when: manual
   script:
     - cd unit-simple
-    - conda env create --file environment.yml
+    - conda env create --force --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
     - conda uninstall -y twine
@@ -103,7 +103,7 @@ conda-package:unit-simple:
   when: manual
   script:
     - cd unit-simple
-    - conda env create --file environment.yml
+    - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
     - conda skeleton pypi --pypi-url $PYPI_URL --output-dir $DIST_DIR $PACKAGE
     - conda build $DIST_DIR/$PACKAGE

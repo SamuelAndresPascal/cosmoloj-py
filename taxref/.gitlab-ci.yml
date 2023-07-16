@@ -2,7 +2,7 @@ lint:taxref:
   stage: lint
   script:
     - cd taxref
-    - conda env create --file environment.dev.yml
+    - conda env create --force --file environment.dev.yml
     - pylint --rcfile=../pylintrc taxref.py
     - pylint --rcfile=../pylintrc taxref11.py
     - pylint --rcfile=../pylintrc test.py
@@ -12,7 +12,7 @@ test:taxref:
   stage: test
   allow_failure: true
   script:
-    - conda env create --file taxref/environment.dev.yml
+    - conda env create --force --file taxref/environment.dev.yml
     - pytest --cov=taxref --cov-append --junitxml=report.xml
     - coverage xml
     - python taxref/test.py
