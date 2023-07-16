@@ -10,7 +10,6 @@ default:
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - which python
-    - conda install pylint pytest-cov
 
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
