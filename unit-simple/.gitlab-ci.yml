@@ -29,6 +29,7 @@ demo:unit-simple:
   script:
     - cd unit-simple
     - conda env create --force --file environment.dev.yml
+    - pip install .
     - python demo.py
 
 pypi-package:unit-simple:test_pypi:
