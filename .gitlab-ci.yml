@@ -20,7 +20,6 @@ default:
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - which python
-    - conda remove pylint pytest-cov
 
 stages:
   - lint
