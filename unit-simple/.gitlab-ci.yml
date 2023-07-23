@@ -12,17 +12,14 @@ lint:unit-simple:
 test:unit-simple:
   stage: test
   script:
-    - conda env create --force --file unit-simple/environment.dev.yml
-    - pytest --cov=unit-simple --cov-append --junitxml=report.xml
-    - coverage xml
-    - python unit-simple/test.py
+    - cd unit-simple
+    - conda env create --force --file environment.dev.yml
+    - pytest --cov=. --junitxml=report.xml
+    - python test.py
   artifacts:
     when: always
     reports:
       junit: report.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
     expire_in: 2 days
 
 demo:unit-simple:

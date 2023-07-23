@@ -24,6 +24,7 @@ default:
 stages:
   - lint
   - test
+  - coverage
   - demo
   - pypi-package
   - pypi-publish
@@ -33,6 +34,19 @@ stages:
 include:
   - local: 'unit-simple/.gitlab-ci.yml'
   - local: 'taxref/.gitlab-ci.yml'
+
+coverage:
+  stage: coverage
+  script:
+    - coverage xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    expire_in: 2 days
 
 sonar:
   stage: sonar
