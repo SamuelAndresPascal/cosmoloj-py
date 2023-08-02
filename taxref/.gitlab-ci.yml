@@ -15,6 +15,7 @@ test:taxref:
     - cd taxref
     - conda env create --force --file environment.dev.yml
     - pytest --cov=. --junitxml=report.xml
+    - pip install .
     - python test.py
   artifacts:
     when: always
