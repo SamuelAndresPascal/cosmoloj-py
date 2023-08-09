@@ -19,7 +19,7 @@ class TestTaxref(unittest.TestCase):
     def test_taxref11(self):
         """test metric prefixes units"""
 
-        self.assertEqual(40, len(Taxref11))
+        self.assertEqual(first=40, second=len(Taxref11))
 
         df_taxref11 = pd.read_csv(
             Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v11', 'TAXREFv11.txt'),
