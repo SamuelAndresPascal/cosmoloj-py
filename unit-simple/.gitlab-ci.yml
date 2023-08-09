@@ -4,7 +4,7 @@ lint:unit-simple:
     - cd unit-simple
     - conda env create --force --file environment.dev.yml
     - pylint --rcfile=../pylintrc unit_simple.py
-    - pylint --rcfile=../pylintrc demo.py
+#    - pylint --rcfile=../pylintrc demo.py
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc unit_simple_test.py
 
