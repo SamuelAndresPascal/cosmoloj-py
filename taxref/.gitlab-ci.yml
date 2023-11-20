@@ -3,6 +3,7 @@ lint:taxref:
   script:
     - cd taxref
     - conda env create --force --file environment.dev.yml
+    - conda list
     - pylint --rcfile=../pylintrc taxref.py
     - pylint --rcfile=../pylintrc taxref11.py
     - pylint --rcfile=../pylintrc test.py
