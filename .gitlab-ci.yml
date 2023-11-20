@@ -6,9 +6,12 @@ default:
     - conda --version
     - which python
     - conda init bash
+    - conda env list
+    - conda list cosmoloj_py
     - conda create -n cosmoloj_py python=3.10
     - . ~/.bashrc
     - conda activate cosmoloj_py
+    - conda list
     - which python
 
   after_script:
