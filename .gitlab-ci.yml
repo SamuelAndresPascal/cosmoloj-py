@@ -22,7 +22,6 @@ default:
     - conda init bash
     - . ~/.bashrc
     - conda remove -n cosmoloj_py --all -y
-    - which python
 
 stages:
   - lint
