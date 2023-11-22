@@ -3,7 +3,10 @@ lint:unit-simple:
   script:
     - cd unit-simple
     - conda env create --force --file environment.yml
+    # install tool
     - conda install pylint
+    # install deps for pylint to find
+    - conda install pytest
     - pip install .
     - conda list
     - pylint --rcfile=../pylintrc unit_simple.py
