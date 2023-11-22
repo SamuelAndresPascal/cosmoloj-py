@@ -21,7 +21,7 @@ default:
     - which python
     - conda init bash
     - . ~/.bashrc
-    - conda activate cosmoloj_py
+    - conda remove -n cosmoloj_py --all -y
     - which python
 
 stages:
