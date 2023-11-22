@@ -2,7 +2,8 @@ lint:unit-simple:
   stage: lint
   script:
     - cd unit-simple
-    - conda env create --force --file environment.dev.yml
+    - conda env create --force --file environment.yml
+    - conda install pylint
     - pip install .
     - conda list
     - pylint --rcfile=../pylintrc unit_simple.py
@@ -14,7 +15,8 @@ test:unit-simple:
   stage: test
   script:
     - cd unit-simple
-    - conda env create --force --file environment.dev.yml
+    - conda env create --force --file environment.yml
+    - conda install pytest-cov
     - pytest --cov=. --junitxml=report.xml
     - python test.py
   artifacts:
