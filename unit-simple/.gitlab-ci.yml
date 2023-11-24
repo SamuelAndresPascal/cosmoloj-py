@@ -21,6 +21,7 @@ test:unit-simple:
     - conda env create --force --file environment.yml
     - conda install pytest-cov
     - pytest --cov=. --junitxml=report.xml
+    - cat report.xml
     - python test.py
   artifacts:
     when: always
