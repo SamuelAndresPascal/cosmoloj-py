@@ -25,6 +25,8 @@ test:unit-simple:
     - python test.py
   artifacts:
     when: always
+    paths:
+      - unit-simple/reports.xml
     reports:
       junit: unit-simple/report.xml
     expire_in: 2 days
