@@ -30,7 +30,6 @@ test:taxref:
     when: always
     paths:
       - .coverage
-      - taxref/.coverage
       - taxref/report.xml
     reports:
       junit: taxref/report.xml

@@ -26,7 +26,6 @@ test:unit-simple:
     when: always
     paths:
       - .coverage
-      - unit-simple/.coverage
       - unit-simple/report.xml
     reports:
       junit: unit-simple/report.xml
