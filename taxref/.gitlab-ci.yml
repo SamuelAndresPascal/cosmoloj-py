@@ -11,7 +11,7 @@ lint:taxref:
     - conda install pytest
     - pip install .
     - conda list
-    - pylint --rcfile=../pylintrc taxref.py
+    - pylint --rcfile=../pylintrc taxref_common.py
     - pylint --rcfile=../pylintrc taxref11.py
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc taxref_test.py
