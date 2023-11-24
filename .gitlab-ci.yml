@@ -40,6 +40,7 @@ include:
 coverage:
   stage: coverage
   script:
+    - conda install coverage
     - coverage xml
   artifacts:
     when: always
