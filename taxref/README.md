@@ -1,4 +1,10 @@
-#
+# Taxref
+
+## Dépendances
+
+```bash
+conda install pandas
+```
 
 ## Variables d'environnement
 
