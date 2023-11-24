@@ -20,8 +20,7 @@ test:unit-simple:
     - conda env create --force --file unit-simple/environment.yml
     - conda install pytest-cov
     - pytest --cov=unit-simple --junitxml=unit-simple/report.xml --cov-append unit-simple
-    - cat report.xml
-    - python test.py
+    - python unit-simple/test.py
   artifacts:
     when: always
     paths:
