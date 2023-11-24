@@ -17,15 +17,16 @@ lint:unit-simple:
 test:unit-simple:
   stage: test
   script:
-    - cd unit-simple
-    - conda env create --force --file environment.yml
+    - conda env create --force --file unit-simple/environment.yml
     - conda install pytest-cov
-    - pytest --cov=. --junitxml=report.xml
+    - pytest --cov=unit-simple --junitxml=unit-simple/report.xml --cov-append unit-simple
     - cat report.xml
     - python test.py
   artifacts:
     when: always
     paths:
+      - .coverage
+      - unit-simple/.coverage
       - unit-simple/report.xml
     reports:
       junit: unit-simple/report.xml

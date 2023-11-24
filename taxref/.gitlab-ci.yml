@@ -2,7 +2,14 @@ lint:taxref:
   stage: lint
   script:
     - cd taxref
-    - conda env create --force --file environment.dev.yml
+    - conda env create --force --file environment.yml
+    # install deps
+    - conda install pandas python-dotenv
+    # install tool
+    - conda install pylint
+    # install deps for pylint to find
+    - conda install pytest
+    - pip install .
     - conda list
     - pylint --rcfile=../pylintrc taxref.py
     - pylint --rcfile=../pylintrc taxref11.py
@@ -13,13 +20,18 @@ test:taxref:
   stage: test
   allow_failure: true
   script:
-    - cd taxref
-    - conda env create --force --file environment.dev.yml
-    - pytest --cov=. --junitxml=report.xml
+    - conda env create --force --file taxref/environment.yml
+    - conda install pandas python-dotenv
+    - conda install pytest-cov
+    - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
     - pip install .
     - python test.py
   artifacts:
     when: always
+    paths:
+      - .coverage
+      - taxref/.coverage
+      - taxref/report.xml
     reports:
       junit: taxref/report.xml
     expire_in: 2 days
