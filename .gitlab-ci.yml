@@ -44,7 +44,7 @@ coverage:
   artifacts:
     when: always
     reports:
-      junit: report.xml
+      junit: unit-simple/report.xml
       coverage_report:
         coverage_format: cobertura
         path: coverage.xml
