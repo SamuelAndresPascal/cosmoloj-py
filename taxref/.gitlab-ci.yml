@@ -24,7 +24,6 @@ test:taxref:
     - conda install pandas python-dotenv
     - conda install pytest-cov
     - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
-    - pip install .
     - python taxref/test.py
   artifacts:
     when: always
