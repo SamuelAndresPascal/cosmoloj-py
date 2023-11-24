@@ -35,7 +35,7 @@ stages:
 
 include:
   - local: 'unit-simple/.gitlab-ci.yml'
-#  - local: 'taxref/.gitlab-ci.yml'
+  - local: 'taxref/.gitlab-ci.yml'
 
 coverage:
   stage: coverage
@@ -45,7 +45,6 @@ coverage:
   artifacts:
     when: always
     reports:
-      junit: unit-simple/report.xml
       coverage_report:
         coverage_format: cobertura
         path: coverage.xml
