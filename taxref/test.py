@@ -6,9 +6,9 @@ import unittest
 
 from dotenv import load_dotenv
 import pandas as pd
+from taxref_common import pdReadCts
 
-from taxref.taxref import pdReadCts
-from taxref.taxref11 import Taxref11, to_taxref11_tuple
+from taxref11 import Taxref11, to_taxref11_tuple
 
 
 class TestTaxref(unittest.TestCase):
@@ -40,3 +40,7 @@ class TestTaxref(unittest.TestCase):
         single_tu = to_taxref11_tuple(single)
 
         self.assertEqual(len(Taxref11), len(single_tu))
+
+
+if __name__ == '__main__':
+    unittest.main()
