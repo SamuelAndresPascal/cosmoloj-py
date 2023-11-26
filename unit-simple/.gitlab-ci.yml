@@ -18,6 +18,8 @@ lint:unit-simple:
 
 test:unit-simple:
   stage: test
+  variables:
+    PYTHONPATH: unit-simple
   script:
     - conda env create --force --file unit-simple/environment.yml
     - conda install pytest-cov

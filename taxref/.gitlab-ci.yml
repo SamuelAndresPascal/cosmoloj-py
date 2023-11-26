@@ -20,13 +20,14 @@ lint:taxref:
 
 test:taxref:
   stage: test
+  variables:
+    PYTHONPATH: taxref
   allow_failure: true
   script:
     - conda env create --force --file taxref/environment.yml
     - conda install pandas python-dotenv
     - conda install pytest-cov
     - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
-    - pip install ./taxref
     - python taxref/test.py
   artifacts:
     when: always
