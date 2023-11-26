@@ -52,10 +52,10 @@ pypi-package:unit-simple:test_pypi:
     - sed -i "s#version\ =\ .*#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - conda install build
+    - conda install -y build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
-    - pip uninstall -y build
+    - conda uninstall -y build
   artifacts:
     paths:
       - unit-simple/$DIST_DIR/*
@@ -72,7 +72,7 @@ pypi-package:unit-simple:pypi:
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - pip install --upgrade build
+    - conda install -y build
     - python -m build
     - ls -l $DIST_DIR
     - pip uninstall -y build
@@ -82,6 +82,8 @@ pypi-package:unit-simple:pypi:
 
 pypi-publish:unit-simple:test_pypi:
   stage: pypi-publish
+  variables:
+    DIST_DIR: test_pypi_dist
   dependencies:
     - pypi-package:unit-simple:test_pypi
   when: manual
@@ -89,7 +91,7 @@ pypi-publish:unit-simple:test_pypi:
     - cd unit-simple
     - conda env create --force --file environment.yml
     - conda install -y --update-deps twine
-    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD test_pypi_dist/*
+    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD $DIST_DIR/*
     - conda uninstall -y twine
 
 pypi-publish:unit-simple:pypi:
@@ -119,7 +121,7 @@ conda-package:unit-simple:
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
-    - anaconda upload $CONDA_HOME/conda-bld/linux-64/$PACKAGE-$VERSION-py310_0.tar.bz2
+    - anaconda upload $CONDA_HOME/conda-bld/linux-64/$PACKAGE-$VERSION-py311_0.tar.bz2
     - anaconda logout
   artifacts:
     paths:
