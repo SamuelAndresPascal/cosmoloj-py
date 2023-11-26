@@ -56,7 +56,7 @@ pypi-package:taxref:test_pypi:
     paths:
       - taxref/$DIST_DIR/*
 
-pypi-package:unit-simple:pypi:
+pypi-package:taxref:pypi:
   stage: pypi-package
   variables:
     DIST_DIR: dist
