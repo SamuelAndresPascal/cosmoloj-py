@@ -51,7 +51,7 @@ pypi-package:taxref:test_pypi:
     - conda install build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
-    - pip uninstall -y build
+    - conda uninstall -y build
   artifacts:
     paths:
       - taxref/$DIST_DIR/*
@@ -65,13 +65,13 @@ pypi-package:taxref:pypi:
     - cd unit-simple
     - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
-    - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - sed -i "s#version\ =\ .*\$#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
     - conda install -y build
     - python -m build
     - ls -l $DIST_DIR
-    - pip uninstall -y build
+    - conda uninstall -y build
   artifacts:
     paths:
       - taxref/$DIST_DIR/*

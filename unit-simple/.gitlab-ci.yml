@@ -75,7 +75,7 @@ pypi-package:unit-simple:pypi:
     - conda install -y build
     - python -m build
     - ls -l $DIST_DIR
-    - pip uninstall -y build
+    - conda uninstall -y build
   artifacts:
     paths:
       - unit-simple/$DIST_DIR/*
