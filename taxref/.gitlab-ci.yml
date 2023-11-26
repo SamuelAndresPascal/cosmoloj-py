@@ -11,7 +11,6 @@ lint:taxref:
     - conda install pylint
     # install deps for pylint to find
     - conda install pytest
-    - pip install .
     - conda list
     - pylint --rcfile=../pylintrc taxref_common.py
     - pylint --rcfile=../pylintrc taxref11.py
@@ -37,3 +36,22 @@ test:taxref:
     reports:
       junit: taxref/report.xml
     expire_in: 2 days
+
+pypi-package:taxref:test_pypi:
+  stage: pypi-package
+  variables:
+    DIST_DIR: test_pypi_dist
+  script:
+    - cd taxref
+    - conda env create --force --file environment.yml
+    - rm -rf $DIST_DIR/
+    - sed -i "s#version\ =\ .*#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
+    - cat pyproject.toml
+    - pip install .
+    - conda install build
+    - python -m build -o $DIST_DIR
+    - ls -l $DIST_DIR
+    - pip uninstall -y build
+  artifacts:
+    paths:
+      - taxref/$DIST_DIR/*

@@ -9,7 +9,6 @@ lint:unit-simple:
     - conda install pylint
     # install deps for pylint to find
     - conda install pytest
-    - pip install .
     - conda list
     - pylint --rcfile=../pylintrc unit_simple.py
     - pylint --rcfile=../pylintrc demo.py
@@ -53,7 +52,7 @@ pypi-package:unit-simple:test_pypi:
     - sed -i "s#version\ =\ .*#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - pip install --upgrade build
+    - conda install build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
     - pip uninstall -y build
