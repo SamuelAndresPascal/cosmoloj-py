@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [tool.setuptools]
-py-modules = ["taxref"]
+py-modules = ["taxref_common", "taxref11"]
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py"
