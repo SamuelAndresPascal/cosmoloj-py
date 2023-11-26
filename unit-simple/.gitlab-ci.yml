@@ -1,5 +1,7 @@
 lint:unit-simple:
   stage: lint
+  variables:
+    PYTHONPATH: .
   script:
     - cd unit-simple
     - conda env create --force --file environment.yml

@@ -1,5 +1,7 @@
 lint:taxref:
   stage: lint
+  variables:
+    PYTHONPATH: .
   script:
     - cd taxref
     - conda env create --force --file environment.yml
