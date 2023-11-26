@@ -3,6 +3,7 @@
 .idea
 **/dist/
 **/conda_dist/
+**/test_pypi_dist/
 **/*.egg-info/
 **/build/
 *.coverage
