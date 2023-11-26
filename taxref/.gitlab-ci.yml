@@ -62,7 +62,7 @@ pypi-package:taxref:pypi:
     DIST_DIR: dist
   when: manual
   script:
-    - cd unit-simple
+    - cd taxref
     - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
