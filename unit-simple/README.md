@@ -17,11 +17,6 @@ conda env update --prune
 conda env create --force
 ```
 
-Pour mettre à jour l'environnement de dev (test, linter…):
-
-```commandline
-conda env create --force environment.dev.yml
-```
 
 ## Utilisation
 
