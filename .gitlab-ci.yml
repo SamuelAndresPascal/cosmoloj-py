@@ -12,6 +12,7 @@ default:
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - conda list
+    - python --version
     - which python
 
   after_script:
