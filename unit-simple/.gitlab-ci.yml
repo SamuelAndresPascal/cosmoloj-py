@@ -6,9 +6,9 @@ lint:unit-simple:
     - cd unit-simple
     - conda env create --force --file environment.yml
     # install tool
-    - pip install pylint
+    - conda install -c conda-forge pylint
     # install deps for pylint to find
-    - conda install pytest
+    - conda install -y pytest
     - conda list
     - pylint --rcfile=../pylintrc unit_simple.py
     - pylint --rcfile=../pylintrc demo.py
@@ -21,7 +21,7 @@ test:unit-simple:
     PYTHONPATH: unit-simple
   script:
     - conda env create --force --file unit-simple/environment.yml
-    - conda install pytest-cov
+    - conda install -y pytest-cov
     - pytest --cov=unit-simple --junitxml=unit-simple/report.xml --cov-append unit-simple
     - python unit-simple/test.py
   artifacts:
@@ -52,7 +52,7 @@ pypi-package:unit-simple:test_pypi:
     - sed -i "s#version\ =\ .*#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - conda install -y build
+    - conda install -c conda-forge -y build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
     - conda uninstall -y build

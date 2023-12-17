@@ -6,9 +6,9 @@ lint:taxref:
     - cd taxref
     - conda env create --force --file environment.yml
     # install deps
-    - conda install pandas python-dotenv
+    - conda install -y pandas python-dotenv
     # install tool
-    - pip install pylint
+    - conda install -c conda-forge -y  pylint
     # install deps for pylint to find
     - conda install pytest
     - conda list
@@ -24,8 +24,8 @@ test:taxref:
   allow_failure: true
   script:
     - conda env create --force --file taxref/environment.yml
-    - conda install pandas python-dotenv
-    - conda install pytest-cov
+    - conda install -y pandas python-dotenv
+    - conda install -y pytest-cov
     - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
     - python taxref/test.py
   artifacts:
@@ -48,7 +48,7 @@ pypi-package:taxref:test_pypi:
     - sed -i "s#version\ =\ .*#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - conda install build
+    - conda install -c conda-forge build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
     - conda uninstall -y build
