@@ -8,7 +8,7 @@ lint:taxref:
     # install deps
     - conda install -y pandas python-dotenv
     # install tool
-    - conda install -c conda-forge -y  pylint>3.0.3
+    - conda install -c conda-forge -y pylint>=3.0.3
     # install deps for pylint to find
     - conda install pytest
     - conda list
