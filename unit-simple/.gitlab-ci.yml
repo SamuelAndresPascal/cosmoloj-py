@@ -37,7 +37,7 @@ demo:unit-simple:
   stage: demo
   script:
     - cd unit-simple
-    - conda env create --force --file environment.dev.yml
+    - conda env create --force --file environment.yml
     - pip install .
     - python demo.py
 
