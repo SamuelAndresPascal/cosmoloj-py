@@ -50,6 +50,22 @@ class UnitConverter:
         return UnitConverter(converter.scale() * self.scale(), self.convert(converter.offset()))
 
 
+class UnitConverters(Enum):
+    IDENTITY = UnitConverter(1.0)
+
+    @staticmethod
+    def linear(scale):
+        return UnitConverter(scale)
+
+    @staticmethod
+    def offset(offset):
+        return UnitConverter(1.0, offset)
+
+    @staticmethod
+    def identity():
+        return UnitConverters.IDENTITY.value
+
+
 class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
@@ -91,12 +107,12 @@ class Unit(Factor):
     def shift(self, value):
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(UnitConverter(1.0, value), self)
+        return TransformedUnit(UnitConverters.offset(value), self)
 
     def scale_multiply(self, value):
         """construit une unite transformee en multipliant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(UnitConverter(value), self)
+        return TransformedUnit(UnitConverters.linear(value), self)
 
     def scale_divide(self, value):
         """construit une unite transformee en divisant le facteur d'echelle par la valeur en parametre par rapport a
@@ -113,7 +129,7 @@ class FundamentalUnit(Unit):
     """unite definie par elle-meme"""
 
     def to_base(self):
-        return UnitConverter(1.0)
+        return UnitConverters.identity()
 
 
 class TransformedUnit(Unit):
@@ -148,7 +164,7 @@ class DerivedUnit(Unit):
         return self._definition
 
     def to_base(self):
-        transform = UnitConverter(1.0)
+        transform = UnitConverters.identity()
         for factor in self._definition:
             transform = factor.dim().to_base().linear_pow(factor.power()).concatenate(transform)
         return transform
