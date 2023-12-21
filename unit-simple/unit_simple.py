@@ -6,11 +6,13 @@ from enum import Enum
 class UnitConverter:
     """convertisseur d'unites"""
 
-    def __init__(self, scale, offset=0., inverse=None):
+    def __init__(self, scale: float, offset: float = 0.0, inverse=None):
         self._scale = scale
         self._offset = offset
         self._inverse = \
-            UnitConverter(1. / self._scale, -self._offset / self._scale, self) if inverse is None else inverse
+            UnitConverter(scale=1. / self._scale,
+                          offset=-self._offset / self._scale,
+                          inverse=self) if inverse is None else inverse
 
     def scale(self):
         """pente (facteur d'echelle) de la conversion"""
@@ -29,17 +31,17 @@ class UnitConverter:
         # comparaison volontaire avec un double
         if self._offset == 0.:
             return self
-        return UnitConverter(self._scale)
+        return UnitConverter(scale=self._scale)
 
-    def linear_pow(self, power):
+    def linear_pow(self, power: float):
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel, eleve a la
         puissance en parametre"""
         # comparaison volontaire avec des doubles
         if self._offset == 0. and power == 1.:
             return self
-        return UnitConverter(self._scale ** power)
+        return UnitConverter(scale=self._scale ** power)
 
-    def convert(self, value):
+    def convert(self, value: float) -> float:
         """exprime la valeur en parametre dans l'unite cible du convertisseur en faisant l'hypothese qu'elle est
         exprimee dans son unite source"""
         return value * self._scale + self._offset
@@ -47,19 +49,20 @@ class UnitConverter:
     def concatenate(self, converter):
         """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la
         conversion du convertisseur d'appel"""
-        return UnitConverter(converter.scale() * self.scale(), self.convert(converter.offset()))
+        return UnitConverter(scale=converter.scale() * self.scale(),
+                             offset=self.convert(converter.offset()))
 
 
 class UnitConverters(Enum):
-    IDENTITY = UnitConverter(1.0)
+    IDENTITY = UnitConverter(scale=1.0)
 
     @staticmethod
     def linear(scale):
-        return UnitConverter(scale)
+        return UnitConverter(scale=scale)
 
     @staticmethod
     def offset(offset):
-        return UnitConverter(1.0, offset)
+        return UnitConverter(scale=1.0, offset=offset)
 
     @staticmethod
     def identity():
@@ -69,7 +72,7 @@ class UnitConverters(Enum):
 class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
-    def __init__(self, unit, numerator=1, denominator=1):
+    def __init__(self, unit, numerator: int = 1, denominator: int = 1):
         self._unit = unit
         self._numerator = numerator
         self._denominator = denominator
@@ -78,15 +81,15 @@ class Factor:
         """dimension (unite) du facteur"""
         return self._unit
 
-    def numerator(self):
+    def numerator(self) -> int:
         """numerateur de la puissance rationnelle du facteur"""
         return self._numerator
 
-    def denominator(self):
+    def denominator(self) -> int:
         """denominateur de la puissance rationnelle du facteur"""
         return self._denominator
 
-    def power(self):
+    def power(self) -> float:
         """puissance du facteur"""
         return self._numerator if self._denominator == 1. else self._numerator / self._denominator
 
@@ -95,61 +98,62 @@ class Unit(Factor):
     """classe abstraite de fonctionnalites communes a toutes les unites"""
 
     def __init__(self):
-        super().__init__(self, 1, 1)
+        super().__init__(self, numerator=1, denominator=1)
 
-    def get_converter_to(self, target):
+    def get_converter_to(self, target) -> UnitConverter:
         """construit un convertisseur de l'unite d'appel vers l'unite cible en parametre"""
-        return target.to_base().inverse().concatenate(self.to_base())
+        return target.to_base().inverse().concatenate(converter=self.to_base())
 
-    def to_base(self):
+    def to_base(self) -> UnitConverter:
         """construit un convertisseur vers le jeu d'unites fondamentales sous-jascent a l'unite d'appel"""
+        pass
 
-    def shift(self, value):
+    def shift(self, value: float):
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(UnitConverters.offset(value), self)
+        return TransformedUnit(to_reference=UnitConverters.offset(offset=value), reference=self)
 
-    def scale_multiply(self, value):
+    def scale_multiply(self, value: float):
         """construit une unite transformee en multipliant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(UnitConverters.linear(value), self)
+        return TransformedUnit(to_reference=UnitConverters.linear(scale=value), reference=self)
 
-    def scale_divide(self, value):
+    def scale_divide(self, value: float):
         """construit une unite transformee en divisant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
-        return self.scale_multiply(1.0 / value)
+        return self.scale_multiply(value=1.0 / value)
 
-    def factor(self, numerator, denominator=1):
+    def factor(self, numerator: int, denominator: int = 1):
         """construit un facteur de l'unite d'appel eleve a la puissance rationnelle dont le numerateur et le
         denominateur sont en parametre"""
-        return Factor(self, numerator, denominator)
+        return Factor(self, numerator=numerator, denominator=denominator)
 
 
 class FundamentalUnit(Unit):
     """unite definie par elle-meme"""
 
-    def to_base(self):
+    def to_base(self) -> UnitConverter:
         return UnitConverters.identity()
 
 
 class TransformedUnit(Unit):
     """unite definie par transformation d'une unite de reference"""
 
-    def __init__(self, to_reference, reference):
+    def __init__(self, to_reference: UnitConverter, reference: Unit):
         super().__init__()
-        self._reference = reference
         self._to_reference = to_reference
+        self._reference = reference
 
-    def to_reference(self):
-        """unite de reference de l'unite transformer"""
+    def to_reference(self) -> UnitConverter:
+        """convertisseur de l'unite d'appel vers l'unite de reference"""
         return self._to_reference
 
-    def reference(self):
-        """convertisseur de l'unite d'appel vers l'unite de reference"""
+    def reference(self) -> Unit:
+        """unite de reference de l'unite transformer"""
         return self._reference
 
-    def to_base(self):
-        return self.reference().to_base().concatenate(self.to_reference())
+    def to_base(self) -> UnitConverter:
+        return self.reference().to_base().concatenate(converter=self.to_reference())
 
 
 class DerivedUnit(Unit):
@@ -163,7 +167,7 @@ class DerivedUnit(Unit):
         """collection des facteurs de definition de l'unite derivee"""
         return self._definition
 
-    def to_base(self):
+    def to_base(self) -> UnitConverter:
         transform = UnitConverters.identity()
         for factor in self._definition:
             transform = factor.dim().to_base().linear_pow(factor.power()).concatenate(transform)
@@ -192,9 +196,9 @@ class Metric(Enum):
     ZEPTO = pow(10, -21)
     YOCTO = pow(10, -24)
 
-    def __init__(self, factor):
+    def __init__(self, factor: float):
         self._factor = factor
 
     def prefix(self, unit: Unit) -> TransformedUnit:
         """application du prefixe du systeme metrique a une unite"""
-        return unit.scale_multiply(self._factor)
+        return unit.scale_multiply(value=self._factor)
