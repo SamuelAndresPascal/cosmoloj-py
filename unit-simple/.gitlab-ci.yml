@@ -6,7 +6,7 @@ lint:unit-simple:
     - cd unit-simple
     - conda env create --force --file environment.yml
     # install tool
-    - conda install -c conda-forge pylint>=3.0.3
+    - conda install -c conda-forge pylint=3.0.3
     # install deps for pylint to find
     - conda install -y pytest
     - conda list
