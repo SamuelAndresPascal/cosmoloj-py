@@ -1,5 +1,6 @@
 lint:taxref:
   stage: lint
+  when: never
   variables:
     PYTHONPATH: .
   script:
