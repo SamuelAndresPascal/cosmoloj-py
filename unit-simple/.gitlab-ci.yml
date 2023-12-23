@@ -1,6 +1,5 @@
-lint:unit-simple:
+.lint:unit-simple:
   stage: lint
-  when: never
   variables:
     PYTHONPATH: .
   script:
