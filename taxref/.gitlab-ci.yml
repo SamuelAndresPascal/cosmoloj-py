@@ -12,6 +12,7 @@ lint:taxref:
     # install deps for pylint to find
     - conda install pytest
     - conda list
+    - pip install .
     - pylint --rcfile=../pylintrc taxref_common.py
     - pylint --rcfile=../pylintrc taxref11.py
     - pylint --rcfile=../pylintrc test.py
