@@ -110,7 +110,6 @@ class Unit(Factor):
 
     def to_base(self) -> UnitConverter:
         """construit un convertisseur vers le jeu d'unites fondamentales sous-jascent a l'unite d'appel"""
-        pass
 
     def shift(self, value: float):
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
