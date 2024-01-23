@@ -1,4 +1,4 @@
-.lint:taxref:
+lint:taxref:
   stage: lint
   variables:
     PYTHONPATH: .
@@ -8,7 +8,7 @@
     # install deps
     - conda install -y pandas python-dotenv
     # install tool
-    - conda install -c conda-forge -y pylint=3.0.3
+    - conda install pylint
     # install deps for pylint to find
     - conda install pytest
     - conda list
