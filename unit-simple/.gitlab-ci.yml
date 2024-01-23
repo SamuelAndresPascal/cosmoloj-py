@@ -1,4 +1,4 @@
-.lint:unit-simple:
+lint:unit-simple:
   stage: lint
   variables:
     PYTHONPATH: .
@@ -7,7 +7,6 @@
     - conda env create --force --file environment.yml
     # install tool
     - conda install -y pylint
-    - conda install -c conda-forge -y astroid # pour un problème d'import pandas / mais ne supporte pas python 3.12
     # install deps for pylint to find
     - conda install -y pytest
     - conda list
