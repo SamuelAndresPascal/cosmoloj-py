@@ -54,19 +54,23 @@ class UnitConverter:
 
 
 class UnitConverters(Enum):
-    IDENTITY = UnitConverter(scale=1.0)
+    """utility unit converter factory"""
+    _IDENTITY = UnitConverter(scale=1.0)
 
     @staticmethod
     def linear(scale):
+        """build a linear converter"""
         return UnitConverter(scale=scale)
 
     @staticmethod
     def offset(offset):
+        """build an offset converter"""
         return UnitConverter(scale=1.0, offset=offset)
 
     @staticmethod
     def identity():
-        return UnitConverters.IDENTITY.value
+        """get the instance of the identity converter"""
+        return UnitConverters._IDENTITY.value
 
 
 class Factor:
