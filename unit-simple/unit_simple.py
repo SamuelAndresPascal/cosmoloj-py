@@ -131,6 +131,12 @@ class Unit(Factor):
         denominateur sont en parametre"""
         return Factor(self, numerator=numerator, denominator=denominator)
 
+    def __mul__(self, other):
+        return self.scale_multiply(other)
+
+    def __truediv__(self, other):
+        return self.scale_divide(other)
+
 
 class FundamentalUnit(Unit):
     """unite definie par elle-meme"""
