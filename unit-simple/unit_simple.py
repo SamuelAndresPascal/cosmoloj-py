@@ -52,6 +52,9 @@ class UnitConverter:
         return UnitConverter(scale=converter.scale() * self.scale(),
                              offset=self.convert(converter.offset()))
 
+    def __invert__(self):
+        return self.inverse()
+
 
 class UnitConverters(Enum):
     """utility unit converter factory"""
