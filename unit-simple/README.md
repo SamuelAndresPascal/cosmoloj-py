@@ -18,7 +18,9 @@ conda env create --force
 ```
 
 
-## Utilisation de base
+## Utilisation standard
+
+L'utilisation standard se réfère aux méthodes implémentant la spécification Simple Unit.
 
 Utilisation des unités transformées :
 
@@ -122,6 +124,9 @@ msToKmh.inverse().convert(18.) # 5
 
 ## Utilisation avec surcharge d'opérateurs
 
+L'implémentation en Python de Simple Unit utilise la surcharge d'opérateurs utilisable dans ce langage comme
+alternative aux méthodes standards.
+
 Utilisation des unités transformées :
 
 ```py
@@ -130,10 +135,10 @@ import unit_simple as su
 m = su.FundamentalUnit()
 km = m * 1000
 cm = m / 100
-cmToKm = cm.get_converter_to(km)
+cmToKm = cm >> km
 
-cmToKm.convert(3) # 0.00003
-(~cmToKm).convert(0.00003) # 3
+cmToKm(3) # 0.00003
+(~cmToKm)(0.00003) # 3
 ```
 
 Utilisation des unités dérivées :
@@ -144,13 +149,13 @@ import unit_simple as su
 m = su.FundamentalUnit()
 km = m * 1000
 
-km2 = su.DerivedUnit(km ** 2)
+km2 = km ** 2
 cm = m / 100
-cm2 = su.DerivedUnit(cm ** 2)
-km2Tocm2 = km2.get_converter_to(cm2)
+cm2 = cm ** 2
+km2Tocm2 = km2 >> cm2
 
-km2Tocm2.convert(3) # 30000000000
-(~km2Tocm2).convert(30000000000) # 3
+km2Tocm2(3) # 30000000000
+(~km2Tocm2)(30000000000) # 3
 ```
 
 Utilisation des unités dérivées en combinant les dimensions :
@@ -162,22 +167,22 @@ m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
 g = kg / 1000
 ton = kg * 1000
-gPerM2 = su.DerivedUnit(g, m ** -2)
+gPerM2 = g / m ** 2
 km = m * 1000
-tonPerKm2 = su.DerivedUnit(ton, km ** -2)
+tonPerKm2 = ton * ~km ** 2
 cm = m / 100
-tonPerCm2 = su.DerivedUnit(ton, cm ** -2)
-gPerM2ToTonPerKm2 = gPerM2.get_converter_to(tonPerKm2)
-gPerM2ToTonPerCm2 = gPerM2.get_converter_to(tonPerCm2)
+tonPerCm2 = ton / cm ** 2
+gPerM2ToTonPerKm2 = gPerM2 >> tonPerKm2
+gPerM2ToTonPerCm2 = tonPerCm2 << gPerM2
 
-gPerM2ToTonPerKm2.convert(1) # 1
-(~gPerM2ToTonPerKm2).convert(3) # 3
-gPerM2ToTonPerCm2.convert(1) # 1e-4
-gPerM2ToTonPerCm2.convert(3) # 3e-10
+gPerM2ToTonPerKm2(1) # 1
+(~gPerM2ToTonPerKm2)(3) # 3
+gPerM2ToTonPerCm2(1) # 1e-4
+gPerM2ToTonPerCm2(3) # 3e-10
 gPerM2ToTonPerCm2.offset() # 0.0
 gPerM2ToTonPerCm2.scale() # 1e-10
 (~gPerM2ToTonPerCm2).offset() # -0.0
-(~gPerM2ToTonPerCm2).convert(3e-10) # 3
+(~gPerM2ToTonPerCm2)(3e-10) # 3
 ```
 
 Utilisation des températures (conversions affines et linéaires) :
@@ -187,19 +192,19 @@ import unit_simple as su
 
 k = su.FundamentalUnit()
 c = k + 273.15
-kToC = k.get_converter_to(c)
+kToC = k >> c
 
-kToC.convert(0) # -273.15
-(~kToC).convert(0) # 273.15
+kToC(0) # -273.15
+(~kToC)(0) # 273.15
 
 # en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
 m = su.FundamentalUnit()
-cPerM = su.DerivedUnit(c, m ** -1)
-kPerM = su.DerivedUnit(k, m ** -1)
-kPerMToCPerM = kPerM.get_converter_to(cPerM)
+cPerM = c / m
+kPerM = k / m
+kPerMToCPerM = kPerM >> cPerM
 
-kPerMToCPerM.convert(3) # 3
-(~kPerMToCPerM).convert(3) # 3
+kPerMToCPerM(3) # 3
+(~kPerMToCPerM)(3) # 3
 ```
 
 Utilisation des conversions non décimales :
@@ -213,11 +218,11 @@ km = m * 1000.
 s = su.FundamentalUnit()
 h = s * 3600.
 
-ms = su.DerivedUnit(m, s ** -1)
-kmh = su.DerivedUnit(km, h ** -1)
+ms = m / s
+kmh = km / h
 
-msToKmh = ms.get_converter_to(kmh)
+msToKmh = ms >> kmh
 
-msToKmh.convert(100.) # 360
-(~msToKmh).convert(18.) # 5
+msToKmh(100.) # 360
+(~msToKmh)(18.) # 5
 ```
