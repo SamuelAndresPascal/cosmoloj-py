@@ -9,8 +9,8 @@ def test_metric_prefix():
     """test transformed units"""
 
     metre = su.FundamentalUnit()
-    k_metre = pm.KILO.prefix(metre)
-    c_metre = pm.CENTI.prefix(metre)
+    k_metre = pm.KILO(metre)
+    c_metre = pm.CENTI(metre)
     cm_to_km = c_metre.get_converter_to(k_metre)
 
     assert pytest.approx(.00003, 1e-10) == cm_to_km.convert(3.)

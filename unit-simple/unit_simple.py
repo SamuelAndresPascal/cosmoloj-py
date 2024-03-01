@@ -225,3 +225,6 @@ class Metric(Enum):
     def prefix(self, unit: Unit) -> TransformedUnit:
         """application du prefixe du systeme metrique a une unite"""
         return unit.scale_multiply(value=self._factor)
+
+    def __call__(self, *args, **kwargs):
+        return self.prefix(args[0])
