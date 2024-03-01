@@ -55,6 +55,9 @@ class UnitConverter:
     def __invert__(self):
         return self.inverse()
 
+    def __call__(self, *args, **kwargs):
+        return self.convert(args[0])
+
 
 class UnitConverters(Enum):
     """utility unit converter factory"""
@@ -111,6 +114,9 @@ class Factor:
     def __truediv__(self, other):
         return DerivedUnit(self, Factor(other, -1))
 
+    def __invert__(self):
+        return DerivedUnit(Factor(self, -1))
+
 class Unit(Factor):
     """classe abstraite de fonctionnalites communes a toutes les unites"""
 
@@ -162,8 +168,14 @@ class Unit(Factor):
 
     def __pow__(self, power, modulo=None):
         if isinstance(power, int):
-            return self.factor(power)
+            return DerivedUnit(self.factor(power))
         raise ValueError
+
+    def __rshift__(self, other):
+        return self.get_converter_to(other)
+
+    def __lshift__(self, other):
+        return self.get_converter_to(other).inverse()
 
 
 class FundamentalUnit(Unit):
