@@ -147,7 +147,7 @@ class Unit(Factor):
         return self.scale_divide(other)
 
     def __pow__(self, power, modulo=None):
-        if type(power) is int:
+        if isinstance(power, int):
             return self.factor(power)
         raise ValueError
 
