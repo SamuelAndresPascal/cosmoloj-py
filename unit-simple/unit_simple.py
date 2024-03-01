@@ -80,9 +80,14 @@ class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
     def __init__(self, unit, numerator: int = 1, denominator: int = 1):
-        self._unit = unit
-        self._numerator = numerator
-        self._denominator = denominator
+        if type(unit) is Factor:
+            self._unit = unit.dim()
+            self._numerator = numerator * unit.numerator()
+            self._denominator = denominator * unit.denominator()
+        else:
+            self._unit = unit
+            self._numerator = numerator
+            self._denominator = denominator
 
     def dim(self):
         """dimension (unite) du facteur"""
@@ -100,6 +105,11 @@ class Factor:
         """puissance du facteur"""
         return self._numerator if self._denominator == 1. else self._numerator / self._denominator
 
+    def __mul__(self, other):
+        return DerivedUnit(self, other)
+
+    def __truediv__(self, other):
+        return DerivedUnit(self, Factor(other, -1))
 
 class Unit(Factor):
     """classe abstraite de fonctionnalites communes a toutes les unites"""
@@ -141,9 +151,13 @@ class Unit(Factor):
         return self.shift(-other)
 
     def __mul__(self, other):
+        if isinstance(other, Factor):
+            return super().__mul__(other)
         return self.scale_multiply(other)
 
     def __truediv__(self, other):
+        if isinstance(other, Factor):
+            return super().__truediv__(other)
         return self.scale_divide(other)
 
     def __pow__(self, power, modulo=None):

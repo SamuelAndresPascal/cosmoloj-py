@@ -51,11 +51,11 @@ def test_combined_dimension_derived():
     k_gram = su.FundamentalUnit()
     gram = k_gram / 1000
     ton = k_gram * 1000
-    g_per_m2 = su.DerivedUnit(gram, metre ** -2)
+    g_per_m2 = gram / metre ** 2
     k_metre = metre * 1000
-    ton_per_km2 = su.DerivedUnit(ton, k_metre ** -2)
+    ton_per_km2 = ton / k_metre ** 2
     c_metre = metre / 100
-    ton_per_cm2 = su.DerivedUnit(ton, c_metre ** -2)
+    ton_per_cm2 = ton / c_metre ** 2
     g_per_m2_to_ton_per_km2 = g_per_m2.get_converter_to(ton_per_km2)
     g_per_m2_to_ton_per_cm2 = g_per_m2.get_converter_to(ton_per_cm2)
 
@@ -82,12 +82,12 @@ def test_temperatures():
     # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
     # devenir lineaires
     metre = su.FundamentalUnit()
-    c_per_m = su.DerivedUnit(celcius, metre ** -1)
-    k_per_m = su.DerivedUnit(kelvin, metre ** -1)
+    c_per_m = celcius / metre
+    k_per_m = kelvin / metre
     k_per_m_to_c_per_m = k_per_m.get_converter_to(c_per_m)
 
-    assert pytest.approx(3., 1e-10) == k_per_m_to_c_per_m.convert(3.)
-    assert pytest.approx(3., 1e-10) == (~k_per_m_to_c_per_m).convert(3.)
+    assert pytest.approx(expected=3., rel=1e-10) == k_per_m_to_c_per_m.convert(3.)
+    assert pytest.approx(expected=3., rel=1e-10) == (~k_per_m_to_c_per_m).convert(3.)
 
 
 def test_speed():
