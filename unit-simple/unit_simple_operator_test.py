@@ -35,9 +35,9 @@ def test_derived():
     metre = su.FundamentalUnit()
     k_metre = metre * 1000
 
-    km2 = su.DerivedUnit(k_metre.factor(2))
+    km2 = su.DerivedUnit(k_metre ** 2)
     c_metre = metre / 100
-    cm2 = su.DerivedUnit(c_metre.factor(2))
+    cm2 = su.DerivedUnit(c_metre ** 2)
     km2_to_cm2 = km2.get_converter_to(cm2)
 
     assert pytest.approx(30000000000., 1e-10) == km2_to_cm2.convert(3.)
@@ -51,11 +51,11 @@ def test_combined_dimension_derived():
     k_gram = su.FundamentalUnit()
     gram = k_gram / 1000
     ton = k_gram * 1000
-    g_per_m2 = su.DerivedUnit(gram, metre.factor(-2))
+    g_per_m2 = su.DerivedUnit(gram, metre ** -2)
     k_metre = metre * 1000
-    ton_per_km2 = su.DerivedUnit(ton, k_metre.factor(-2))
+    ton_per_km2 = su.DerivedUnit(ton, k_metre ** -2)
     c_metre = metre / 100
-    ton_per_cm2 = su.DerivedUnit(ton, c_metre.factor(-2))
+    ton_per_cm2 = su.DerivedUnit(ton, c_metre ** -2)
     g_per_m2_to_ton_per_km2 = g_per_m2.get_converter_to(ton_per_km2)
     g_per_m2_to_ton_per_cm2 = g_per_m2.get_converter_to(ton_per_cm2)
 
@@ -73,7 +73,7 @@ def test_temperatures():
     """test linear conversions with temperature scales combined into derived units"""
 
     kelvin = su.FundamentalUnit()
-    celcius = kelvin.shift(273.15)
+    celcius = kelvin + 273.15
     k_to_c = kelvin.get_converter_to(celcius)
 
     assert pytest.approx(-273.15, 1e-10) == k_to_c.convert(0)
@@ -82,8 +82,8 @@ def test_temperatures():
     # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
     # devenir lineaires
     metre = su.FundamentalUnit()
-    c_per_m = su.DerivedUnit(celcius, metre.factor(-1))
-    k_per_m = su.DerivedUnit(kelvin, metre.factor(-1))
+    c_per_m = su.DerivedUnit(celcius, metre ** -1)
+    k_per_m = su.DerivedUnit(kelvin, metre ** -1)
     k_per_m_to_c_per_m = k_per_m.get_converter_to(c_per_m)
 
     assert pytest.approx(3., 1e-10) == k_per_m_to_c_per_m.convert(3.)
@@ -99,8 +99,8 @@ def test_speed():
     second = su.FundamentalUnit()
     hour = second * 3600.
 
-    metre_per_second = su.DerivedUnit(metre, second.factor(-1))
-    kmh = su.DerivedUnit(k_metre, hour.factor(-1))
+    metre_per_second = su.DerivedUnit(metre, second ** -1)
+    kmh = su.DerivedUnit(k_metre, hour ** -1)
 
     ms_to_kmh = metre_per_second.get_converter_to(kmh)
 

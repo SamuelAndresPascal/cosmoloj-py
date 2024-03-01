@@ -131,11 +131,22 @@ class Unit(Factor):
         denominateur sont en parametre"""
         return Factor(self, numerator=numerator, denominator=denominator)
 
+    def __add__(self, other):
+        return self.shift(other)
+
+    def __sub__(self, other):
+        return self.shift(-other)
+
     def __mul__(self, other):
         return self.scale_multiply(other)
 
     def __truediv__(self, other):
         return self.scale_divide(other)
+
+    def __pow__(self, power, modulo=None):
+        if type(power) is int:
+            return self.factor(power)
+        raise ValueError
 
 
 class FundamentalUnit(Unit):
