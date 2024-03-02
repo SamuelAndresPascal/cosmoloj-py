@@ -83,14 +83,14 @@ class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
     def __init__(self, unit, numerator: int = 1, denominator: int = 1):
-        if type(unit) is Factor:
-            self._unit = unit.dim()
-            self._numerator = numerator * unit.numerator()
-            self._denominator = denominator * unit.denominator()
-        else:
+        if isinstance(unit, Unit):
             self._unit = unit
             self._numerator = numerator
             self._denominator = denominator
+        else:
+            self._unit = unit.dim()
+            self._numerator = numerator * unit.numerator()
+            self._denominator = denominator * unit.denominator()
 
     def dim(self):
         """dimension (unite) du facteur"""
