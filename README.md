@@ -19,6 +19,21 @@ conda activate cosmoloj_py
 conda install pylint pytest-cov
 ```
 
+
+## Mettre à jour unenvironnement
+
+```commandline
+conda env update --file environment.yml
+# ou bien simplement sans faire mention du fichier de conf Conda environment.yml implicite :
+conda env update
+# ou bien encore, pour supprimer les dépendances absentes du fichier d'environnement :
+conda env update --prune --file environement.yml
+# ou bien plus implement :
+conda env update --prune
+# ou bien pour forcer la suppression des dépendances :
+conda env create --force
+```
+
 ## Construction du paquetage PIP d'un module (exemple avec unit-simple)
 
 https://packaging.python.org/en/latest/tutorials/packaging-projects/

@@ -3,19 +3,9 @@
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
-## Mettre à jour l'environnement
+* [Utilisation standard](#Utilisation-standard)
+* [Utilisation avec surcharge des opérateurs](#Utilisation-avec-surcharge-des-opérateurs)
 
-```commandline
-conda env update --file environment.yml
-# ou bien simplement sans faire mention du fichier de conf Conda environment.yml implicite :
-conda env update
-# ou bien encore, pour supprimer les dépendances absentes du fichier d'environnement :
-conda env update --prune --file environement.yml
-# ou bien plus implement :
-conda env update --prune
-# ou bien pour forcer la suppression des dépendances :
-conda env create --force
-```
 
 
 ## Utilisation standard
@@ -122,7 +112,7 @@ msToKmh.convert(100.) # 360
 msToKmh.inverse().convert(18.) # 5
 ```
 
-## Utilisation avec surcharge d'opérateurs
+## Utilisation avec surcharge des opérateurs
 
 L'implémentation en Python de Simple Unit utilise la surcharge d'opérateurs utilisable dans ce langage comme
 alternative aux méthodes standards.
