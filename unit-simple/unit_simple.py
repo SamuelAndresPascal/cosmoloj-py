@@ -6,13 +6,16 @@ from enum import Enum
 class UnitConverter:
     """convertisseur d'unites"""
 
-    def __init__(self, scale: float, offset: float = 0.0, inverse=None):
+    def __init__(self, scale: float != 0., offset: float = 0.0, inverse=None):
+        assert scale != 0.
         self._scale = scale
         self._offset = offset
-        self._inverse = \
-            UnitConverter(scale=1. / self._scale,
-                          offset=-self._offset / self._scale,
-                          inverse=self) if inverse is None else inverse
+        if scale == 1. and offset == 0. and inverse is None:
+            self._inverse = self
+        else:
+            self._inverse = UnitConverter(scale=1. / self._scale,
+                                          offset=-self._offset / self._scale,
+                                          inverse=self) if inverse is None else inverse
 
     def scale(self):
         """pente (facteur d'echelle) de la conversion"""
@@ -31,7 +34,7 @@ class UnitConverter:
         # comparaison volontaire avec un double
         if self._offset == 0.:
             return self
-        return UnitConverter(scale=self._scale)
+        return UnitConverters.linear(scale=self._scale)
 
     def linear_pow(self, power: float):
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel, eleve a la
@@ -39,7 +42,7 @@ class UnitConverter:
         # comparaison volontaire avec des doubles
         if self._offset == 0. and power == 1.:
             return self
-        return UnitConverter(scale=self._scale ** power)
+        return UnitConverters.linear(scale=self._scale ** power)
 
     def convert(self, value: float) -> float:
         """exprime la valeur en parametre dans l'unite cible du convertisseur en faisant l'hypothese qu'elle est
