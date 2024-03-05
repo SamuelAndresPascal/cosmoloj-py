@@ -106,3 +106,37 @@ def test_speed():
 
     assert pytest.approx(expected=360., rel=1e-10) == ms_to_kmh(100.)
     assert pytest.approx(expected=5., rel=1e-10) == (~ms_to_kmh)(18.)
+
+
+def test_temperatures_additional():
+    """test linear conversions with temperature scales combined into derived units"""
+
+    kelvin = su.FundamentalUnit()
+    celcius = kelvin + 273.15
+
+    rankine = kelvin * 5 / 9
+    fahrenheit1 = rankine + 459.67 #255.37 	−17.78 	0 	459.67
+    fahrenheit2 = kelvin * 5 / 9 + 459.67
+    fahrenheit3 = (kelvin + 273.15) * 5 / 9 - 32
+    fahrenheits = {fahrenheit1, fahrenheit2, fahrenheit3}
+
+    for fahrenheit in fahrenheits:
+        c_to_f = celcius >> fahrenheit
+        assert pytest.approx(expected=-459.67, rel=1e-10) == c_to_f(-273.15)
+        assert pytest.approx(expected=0., abs=1e-2) == c_to_f(-17.78)
+        assert pytest.approx(expected=32., rel=1e-10) == c_to_f(0.)
+        assert pytest.approx(expected=211.97102, rel=1e-10) == c_to_f(99.9839)
+        assert pytest.approx(expected=-273.15, rel=1e-10) == (~c_to_f)(-459.67)
+        assert pytest.approx(expected=-17.78, abs=1e-2) == (~c_to_f)(0.)
+        assert pytest.approx(expected=0., rel=1e-10) == (~c_to_f)(32.)
+        assert pytest.approx(expected=99.9839, rel=1e-10) == (~c_to_f)(211.97102)
+
+        k_to_f = kelvin >> fahrenheit
+        assert pytest.approx(expected=-459.67, rel=1e-10) == k_to_f(.0)
+        assert pytest.approx(expected=0., abs=1e-2) == k_to_f(255.37)
+        assert pytest.approx(expected=32., rel=1e-10) == k_to_f(273.15)
+        assert pytest.approx(expected=211.97102, rel=1e-10) == k_to_f(373.1339)
+        assert pytest.approx(expected=.0, rel=1e-10) == (~k_to_f)(-459.67)
+        assert pytest.approx(expected=255.37, abs=1e-2) == (~k_to_f)(0.)
+        assert pytest.approx(expected=273.15, rel=1e-10) == (~k_to_f)(32.)
+        assert pytest.approx(expected=373.1339, rel=1e-10) == (~k_to_f)(211.97102)
