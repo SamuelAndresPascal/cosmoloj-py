@@ -13,8 +13,8 @@ def test_metric_prefix():
     c_metre = pm.CENTI(metre)
     cm_to_km = c_metre >> k_metre
 
-    assert pytest.approx(.00003, 1e-10) == cm_to_km(3.)
-    assert pytest.approx(3., 1e-10) == (~cm_to_km)(0.00003)
+    assert pytest.approx(expected=.00003, rel=1e-10) == cm_to_km(3.)
+    assert pytest.approx(expected=3., rel=1e-10) == (~cm_to_km)(0.00003)
 
 
 def test_transformed():
@@ -40,8 +40,8 @@ def test_derived():
     cm2 = c_metre ** 2
     km2_to_cm2 = km2 >> cm2
 
-    assert pytest.approx(30000000000., 1e-10) == km2_to_cm2(3.)
-    assert pytest.approx(3., 1e-10) == (~km2_to_cm2)(30000000000.)
+    assert pytest.approx(expected=30000000000., rel=1e-10) == km2_to_cm2(3.)
+    assert pytest.approx(expected=3., rel=1e-10) == (~km2_to_cm2)(30000000000.)
 
 
 def test_combined_dimension_derived():
@@ -59,14 +59,14 @@ def test_combined_dimension_derived():
     g_per_m2_to_ton_per_km2 = g_per_m2 >> ton_per_km2
     g_per_m2_to_ton_per_cm2 = ton_per_cm2 << g_per_m2
 
-    assert pytest.approx(1., 1e-10) == g_per_m2_to_ton_per_km2(1.)
-    assert pytest.approx(3., 1e-10) == (~g_per_m2_to_ton_per_km2)(3.)
-    assert pytest.approx(1e-10, 1e-20) == g_per_m2_to_ton_per_cm2(1.)
-    assert pytest.approx(3e-10, 1e-20) == g_per_m2_to_ton_per_cm2(3.)
+    assert pytest.approx(expected=1., rel=1e-10) == g_per_m2_to_ton_per_km2(1.)
+    assert pytest.approx(expected=3., rel=1e-10) == (~g_per_m2_to_ton_per_km2)(3.)
+    assert pytest.approx(expected=1e-10, rel=1e-20) == g_per_m2_to_ton_per_cm2(1.)
+    assert pytest.approx(expected=3e-10, rel=1e-20) == g_per_m2_to_ton_per_cm2(3.)
     assert g_per_m2_to_ton_per_cm2.offset() == 0.
     assert g_per_m2_to_ton_per_cm2.scale() == 1e-10
     assert -0. == (~g_per_m2_to_ton_per_cm2).offset()
-    assert pytest.approx(3., 1e-10) == (~g_per_m2_to_ton_per_cm2)(3e-10)
+    assert pytest.approx(expected=3., rel=1e-10) == (~g_per_m2_to_ton_per_cm2)(3e-10)
 
 
 def test_temperatures():

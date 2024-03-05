@@ -117,6 +117,7 @@ class Factor:
     def __invert__(self):
         return DerivedUnit(Factor(self, -1))
 
+
 class Unit(Factor):
     """classe abstraite de fonctionnalites communes a toutes les unites"""
 
@@ -225,25 +226,25 @@ class DerivedUnit(Unit):
 
 class Metric(Enum):
     """definition des prefixes du systeme metrique"""
-    YOTTA = pow(10, 24)
-    ZETTA = pow(10, 21)
-    EXA = pow(10, 18)
-    PETA = pow(10, 15)
-    TERA = pow(10, 12)
-    GIGA = pow(10, 9)
-    MEGA = pow(10, 6)
+    YOTTA = 1e24
+    ZETTA = 1e21
+    EXA = 1e18
+    PETA = 1e15
+    TERA = 1e12
+    GIGA = 1e9
+    MEGA = 1e6
     KILO = 1000
     HECTO = 100
     DEKA = 10
-    DECI = 1 / 10
-    CENTI = 1 / 100
-    MILLI = 1 / 1000
-    MICRO = pow(10, -6)
-    NANO = pow(10, -9)
-    PICO = pow(10, -12)
-    FEMTO = pow(10, -15)
-    ZEPTO = pow(10, -21)
-    YOCTO = pow(10, -24)
+    DECI = 1e-1
+    CENTI = 1e-2
+    MILLI = 1e-3
+    MICRO = 1e-6
+    NANO = 1e-9
+    PICO = 1e-12
+    FEMTO = 1e-15
+    ZEPTO = 1e-21
+    YOCTO = 1e-24
 
     def __init__(self, factor: float):
         self._factor = factor
