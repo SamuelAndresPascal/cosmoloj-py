@@ -1,4 +1,4 @@
-# Simple Unit (Python implementation)
+# Simple Unit (implémentation Python)
 
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
@@ -8,11 +8,11 @@
 
 
 
-## Standard use
+## Utilisation standard
 
-The Simple Unit Python implementation standard use refers to method and classes defined in the Simple Unit specification.
+L'utilisation standard se réfère aux méthodes implémentant la spécification Simple Unit.
 
-Use of transformed units:
+Utilisation des unités transformées :
 
 ```py
 import unit_simple as su
@@ -26,7 +26,7 @@ cmToKm.convert(3) # 0.00003
 cmToKm.inverse().convert(0.00003) # 3
 ```
 
-Use of derived units:
+Utilisation des unités dérivées :
 
 ```py
 import unit_simple as su
@@ -43,7 +43,7 @@ km2Tocm2.convert(3) # 30000000000
 km2Tocm2.inverse().convert(30000000000) # 3
 ```
 
-Use of derived units combining dimensions:
+Utilisation des unités dérivées en combinant les dimensions :
 
 ```py
 import unit_simple as su
@@ -70,7 +70,7 @@ gPerM2ToTonPerCm2.inverse().offset() # -0.0
 gPerM2ToTonPerCm2.inverse().convert(3e-10) # 3
 ```
 
-Use of temperatures (affine and linear conversions):
+Utilisation des températures (conversions affines et linéaires) :
 
 ```py
 import unit_simple as su
@@ -82,7 +82,7 @@ kToC = k.get_converter_to(c)
 kToC.convert(0) # -273.15
 kToC.inverse().convert(0) # 273.15
 
-# combined with other units, temperatures only keep their linear conversion part
+# en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
 m = su.FundamentalUnit()
 cPerM = su.DerivedUnit(c, m.factor(-1))
 kPerM = su.DerivedUnit(k, m.factor(-1))
@@ -92,7 +92,7 @@ kPerMToCPerM.convert(3) # 3
 kPerMToCPerM.inverse().convert(3) # 3
 ```
 
-Use of non-decimal conversions:
+Utilisation des conversions non décimales :
 
 ```py
 import unit_simple as su
@@ -112,11 +112,12 @@ msToKmh.convert(100.) # 360
 msToKmh.inverse().convert(18.) # 5
 ```
 
-## Operator overloading usage
+## Utilisation avec surcharge des opérateurs
 
-The Simple Unit Python implementation provides an extension of the base specification to overloads some language operators.
+L'implémentation en Python de Simple Unit utilise la surcharge d'opérateurs utilisable dans ce langage comme
+alternative aux méthodes standards.
 
-Use of transformed units:
+Utilisation des unités transformées :
 
 ```py
 import unit_simple as su
@@ -130,7 +131,7 @@ cmToKm(3) # 0.00003
 (~cmToKm)(0.00003) # 3
 ```
 
-Use of derived Units:
+Utilisation des unités dérivées :
 
 ```py
 import unit_simple as su
@@ -147,7 +148,7 @@ km2Tocm2(3) # 30000000000
 (~km2Tocm2)(30000000000) # 3
 ```
 
-Use of derived units combining dimensions:
+Utilisation des unités dérivées en combinant les dimensions :
 
 ```py
 import unit_simple as su
@@ -174,7 +175,7 @@ gPerM2ToTonPerCm2.scale() # 1e-10
 (~gPerM2ToTonPerCm2)(3e-10) # 3
 ```
 
-Use of temperatures (affine and linear conversions):
+Utilisation des températures (conversions affines et linéaires) :
 
 ```py
 import unit_simple as su
@@ -186,7 +187,7 @@ kToC = k >> c
 kToC(0) # -273.15
 (~kToC)(0) # 273.15
 
-# combined with other units, temperatures only keep their linear conversion part
+# en combinaison avec d'autres unités, les conversions d'unités de températures doivent devenir linéaires
 m = su.FundamentalUnit()
 cPerM = c / m
 kPerM = k / m
@@ -196,7 +197,7 @@ kPerMToCPerM(3) # 3
 (~kPerMToCPerM)(3) # 3
 ```
 
-Use of non-decimal conversions:
+Utilisation des conversions non décimales :
 
 ```py
 import unit_simple as su
