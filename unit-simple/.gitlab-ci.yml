@@ -53,7 +53,7 @@ pypi-package:unit-simple:test_pypi:
     - sed -i "s#version\ =\ .*#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - conda install -c conda-forge -y build
+    - conda install -y build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
     - conda uninstall -y build
@@ -73,7 +73,7 @@ pypi-package:unit-simple:pypi:
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - pip install .
-    - conda install -c conda-forge -y build
+    - conda install -y build
     - python -m build
     - ls -l $DIST_DIR
     - conda uninstall -y build

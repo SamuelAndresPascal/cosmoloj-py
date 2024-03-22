@@ -10,7 +10,7 @@
 # ./Anaconda3-2023.03-Linux-x86_64.sh
 
 # création d'un environnement python dédié au projet
-conda create -n cosmoloj_py python=3.12
+conda create -n cosmoloj_py python=3.11
 # rechargement de la configuration du terminal pour pouvoir activer l'environnement python
 . ~/.bashrc
 # activation de l'environnement

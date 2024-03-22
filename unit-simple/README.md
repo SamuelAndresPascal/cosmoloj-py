@@ -3,16 +3,16 @@
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
-* [Utilisation standard](#Utilisation-standard)
-* [Utilisation avec surcharge des opérateurs](#Utilisation-avec-surcharge-des-opérateurs)
+* [Standard usage](#Utilisation-standard)
+* [Operator overloading usage](#Utilisation-avec-surcharge-des-opérateurs)
 
 
 
-## Standard use
+## Standard usage
 
-The Simple Unit Python implementation standard use refers to method and classes defined in the Simple Unit specification.
+The Simple Unit Python implementation standard usage refers to method and classes defined in the Simple Unit specification.
 
-Use of transformed units:
+Usage of transformed units:
 
 ```py
 import unit_simple as su
@@ -26,7 +26,7 @@ cmToKm.convert(3) # 0.00003
 cmToKm.inverse().convert(0.00003) # 3
 ```
 
-Use of derived units:
+Usage of derived units:
 
 ```py
 import unit_simple as su
@@ -43,7 +43,7 @@ km2Tocm2.convert(3) # 30000000000
 km2Tocm2.inverse().convert(30000000000) # 3
 ```
 
-Use of derived units combining dimensions:
+Usage of derived units combining dimensions:
 
 ```py
 import unit_simple as su
@@ -70,7 +70,7 @@ gPerM2ToTonPerCm2.inverse().offset() # -0.0
 gPerM2ToTonPerCm2.inverse().convert(3e-10) # 3
 ```
 
-Use of temperatures (affine and linear conversions):
+Usage of temperatures (affine and linear conversions):
 
 ```py
 import unit_simple as su
@@ -92,7 +92,7 @@ kPerMToCPerM.convert(3) # 3
 kPerMToCPerM.inverse().convert(3) # 3
 ```
 
-Use of non-decimal conversions:
+Usage of non-decimal conversions:
 
 ```py
 import unit_simple as su
@@ -116,7 +116,7 @@ msToKmh.inverse().convert(18.) # 5
 
 The Simple Unit Python implementation provides an extension of the base specification to overloads some language operators.
 
-Use of transformed units:
+Usage of transformed units:
 
 ```py
 import unit_simple as su
@@ -130,7 +130,7 @@ cmToKm(3) # 0.00003
 (~cmToKm)(0.00003) # 3
 ```
 
-Use of derived Units:
+Usage of derived Units:
 
 ```py
 import unit_simple as su
@@ -147,7 +147,7 @@ km2Tocm2(3) # 30000000000
 (~km2Tocm2)(30000000000) # 3
 ```
 
-Use of derived units combining dimensions:
+Usage of derived units combining dimensions:
 
 ```py
 import unit_simple as su
@@ -174,7 +174,7 @@ gPerM2ToTonPerCm2.scale() # 1e-10
 (~gPerM2ToTonPerCm2)(3e-10) # 3
 ```
 
-Use of temperatures (affine and linear conversions):
+Usage of temperatures (affine and linear conversions):
 
 ```py
 import unit_simple as su
@@ -196,7 +196,7 @@ kPerMToCPerM(3) # 3
 (~kPerMToCPerM)(3) # 3
 ```
 
-Use of non-decimal conversions:
+Usage of non-decimal conversions:
 
 ```py
 import unit_simple as su

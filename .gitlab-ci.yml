@@ -8,7 +8,7 @@ default:
     - conda init bash
     - conda env list
     - conda list cosmoloj_py
-    - conda create -n cosmoloj_py python=3.12 -y
+    - conda create -n cosmoloj_py python=3.11 -y
     - . ~/.bashrc
     - conda activate cosmoloj_py
     - conda list
