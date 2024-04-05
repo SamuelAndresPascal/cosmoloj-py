@@ -119,7 +119,7 @@ conda-package:unit-simple:
   script:
     - cd unit-simple
     - conda env create --force --file environment.yml
-    - rm -rf $DIST_DIR
+    - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
     - grayskull pypi -o $DIST_DIR $PACKAGE

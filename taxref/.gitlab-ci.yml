@@ -49,8 +49,9 @@ pypi-package:taxref:test_pypi:
     - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
+    - cp ../LICENSE.md .
     - pip install .
-    - conda install -c conda-forge build
+    - conda install -y build
     - python -m build -o $DIST_DIR
     - ls -l $DIST_DIR
     - conda uninstall -y build
@@ -69,6 +70,7 @@ pypi-package:taxref:pypi:
     - rm -rf $DIST_DIR/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
+    - cp ../LICENSE.md .
     - pip install .
     - conda install -y build
     - python -m build
@@ -115,7 +117,9 @@ conda-package:taxref:
     - cd taxref
     - conda env create --force --file environment.yml
     - rm -rf $DIST_DIR/
-    - conda skeleton pypi --pypi-url $PYPI_URL --output-dir $DIST_DIR $PACKAGE
+    - mkdir $DIST_DIR
+    - conda install -c conda-forge grayskull
+    - grayskull pypi -o $DIST_DIR $PACKAGE
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
