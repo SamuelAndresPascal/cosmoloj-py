@@ -10,3 +10,4 @@
 report.xml
 coverage.xml
 .scannerwork
+**/LICENSE.md
