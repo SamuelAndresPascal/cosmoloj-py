@@ -5,8 +5,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import pandas as pd
 
-from taxref_common import pdReadCts
-from taxref11 import Taxref11, to_taxref11_tuple
+from taxref.taxref_common import pdReadCts
+from taxref.taxref11 import Taxref11, to_taxref11_tuple
 
 
 load_dotenv()
