@@ -23,7 +23,7 @@ test:unit_simple:
   script:
     - conda env create --force --file unit_simple/environment.yml
     - conda install -y pytest-cov
-    - pip install .
+    - pip install unit_simple
     - pytest --cov=unit_simple --junitxml=unit_simple/report.xml --cov-append unit_simple
     - python unit_simple/test.py
   artifacts:
