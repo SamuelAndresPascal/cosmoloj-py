@@ -1,6 +1,6 @@
 """Simple Unit demo"""
 
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 M = su.FundamentalUnit()
 KM = M.scale_multiply(1000)
