@@ -1,6 +1,6 @@
 # Cosmoloj-py
 
-[Implémentation de Simple Unit en Python](unit-simple/)
+[Implémentation de Simple Unit en Python](unit_simple/)
 
 ## Installation de Python
 
@@ -34,14 +34,14 @@ conda env update --prune
 conda env create --force
 ```
 
-## Construction du paquetage PIP d'un module (exemple avec unit-simple)
+## Construction du paquetage PIP d'un module (exemple avec unit_simple)
 
 https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
 Se placer dans le répertoire du module.
 
 ```commandline
-cd unit-simple
+cd unit_simple
 ```
 
 Puis, après avoir configuré le fichier pyproject.toml, construire les paquetages:
@@ -58,12 +58,12 @@ pip install --upgrade twine
 python -m twine upload --repository pypi dist/*
 ```
 
-## Construction du paquetage Conda d'un module (exemple avec unit-simple)
+## Construction du paquetage Conda d'un module (exemple avec unit_simple)
 
 Après avoir publié le paquet PyPI, se placer dans le répertoire du module.
 
 ```commandline
-cd unit-simple
+cd unit_simple
 ```
 
 Puis construire la recette de build conda :

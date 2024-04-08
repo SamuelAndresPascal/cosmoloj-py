@@ -82,6 +82,10 @@ pypi-package:taxref:pypi:
 
 pypi-publish:taxref:test_pypi:
   stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^taxref-/
+      when: manual
+    - when: never
   variables:
     DIST_DIR: test_pypi_dist
   dependencies:
@@ -96,6 +100,10 @@ pypi-publish:taxref:test_pypi:
 
 pypi-publish:taxref:pypi:
   stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^taxref-/
+      when: manual
+    - when: never
   dependencies:
     - pypi-package:taxref:pypi
   when: manual
@@ -108,6 +116,10 @@ pypi-publish:taxref:pypi:
 
 conda-package:taxref:
   stage: conda-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^taxref-/
+      when: manual
+    - when: never
   variables:
     DIST_DIR: conda_dist
     PACKAGE: taxref
