@@ -6,9 +6,9 @@ import unittest
 
 from dotenv import load_dotenv
 import pandas as pd
-from taxref.taxref_common import pdReadCts
+from taxref.src.taxref.taxref_common import pdReadCts
 
-from taxref.taxref11 import Taxref11, to_taxref11_tuple
+from taxref.src.taxref.taxref11 import Taxref11, to_taxref11_tuple
 
 
 class TestTaxref(unittest.TestCase):

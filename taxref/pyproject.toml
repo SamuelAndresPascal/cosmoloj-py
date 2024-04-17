@@ -16,8 +16,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-[tool.setuptools]
-py-modules = ["taxref_common", "taxref11"]
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py"

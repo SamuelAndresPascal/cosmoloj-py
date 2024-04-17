@@ -14,8 +14,7 @@ lint:taxref:
     - conda install -y pytest
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc taxref_common.py
-    - pylint --rcfile=../pylintrc taxref11.py
+    - pylint --rcfile=../pylintrc src
     - pylint --rcfile=../pylintrc test.py
     - pylint --rcfile=../pylintrc taxref_test.py
 
@@ -24,12 +23,14 @@ test:taxref:
   variables:
     PYTHONPATH: taxref
   script:
+    - cd taxref
     - conda env create --force --file taxref/environment.yml
     - conda install -y pandas python-dotenv
     - conda install -y pytest-cov
-    - pip install taxref
+    - pip install .
+    - cd ..
     - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
-    - python taxref/test.py
+    - python taxref/test/test.py
   artifacts:
     when: always
     paths:
