@@ -15,8 +15,8 @@ lint:taxref:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc src
-    - pylint --rcfile=../pylintrc test.py
-    - pylint --rcfile=../pylintrc taxref_test.py
+    - pylint --rcfile=../pylintrc test/test.py
+    - pylint --rcfile=../pylintrc test/taxref_test.py
 
 test:taxref:
   stage: test
