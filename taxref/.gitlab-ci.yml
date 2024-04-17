@@ -24,7 +24,7 @@ test:taxref:
     PYTHONPATH: taxref
   script:
     - cd taxref
-    - conda env create --force --file taxref/environment.yml
+    - conda env create --force --file environment.yml
     - conda install -y pandas python-dotenv
     - conda install -y pytest-cov
     - pip install .
