@@ -11,10 +11,11 @@ lint:unit_simple:
     - conda install -y pytest
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc unit_simple.py
+    - pylint --rcfile=../pylintrc src
     - pylint --rcfile=../pylintrc demo.py
-    - pylint --rcfile=../pylintrc test.py
-    - pylint --rcfile=../pylintrc unit_simple_test.py
+    - pylint --rcfile=../pylintrc test/test.py
+    - pylint --rcfile=../pylintrc test/unit_simple_test.py
+    - pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
 
 test:unit_simple:
   stage: test
@@ -25,7 +26,7 @@ test:unit_simple:
     - conda install -y pytest-cov
     - pip install unit_simple
     - pytest --cov=unit_simple --junitxml=unit_simple/report.xml --cov-append unit_simple
-    - python unit_simple/test.py
+    - python unit_simple/test/test.py
   artifacts:
     when: always
     paths:
