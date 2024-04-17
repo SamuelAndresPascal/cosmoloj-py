@@ -3,8 +3,8 @@
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
-* [Standard usage](#Utilisation-standard)
-* [Operator overloading usage](#Utilisation-avec-surcharge-des-opérateurs)
+* [Standard usage](#standard-usage)
+* [Operator overloading usage](#operator-overloading-usage)
 
 
 
