@@ -3,6 +3,7 @@ lint:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
+    - when: always
   variables:
     PYTHONPATH: .
   script:
@@ -25,6 +26,7 @@ test:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
+    - when: always
   variables:
     PYTHONPATH: unit_simple
   script:
@@ -49,6 +51,7 @@ demo:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
+    - when: always
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
