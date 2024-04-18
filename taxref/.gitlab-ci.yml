@@ -51,7 +51,7 @@ pypi-package:taxref:pypi:
   script:
     - cd taxref
     - conda env create --force --file environment.yml
-    - rm -rf $DIST_DIR/
+    - rm -rf dist/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
