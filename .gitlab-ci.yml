@@ -40,6 +40,8 @@ include:
 
 coverage:
   stage: coverage
+    - if: $CI_COMMIT_TAG
+      when: never
   script:
     - conda install coverage
     - coverage xml
@@ -53,6 +55,8 @@ coverage:
 
 sonar:
   stage: sonar
+    - if: $CI_COMMIT_TAG
+      when: never
   script:
     - $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_LOGIN
   artifacts:
