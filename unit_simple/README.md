@@ -1,12 +1,10 @@
 # Simple Unit (Python implementation)
 
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
-![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_date.svg)
-![Anaconda-Server Badge](
-https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_relative_date.svg)
-![Anaconda-Server Badge](
-https://anaconda.org/cosmoloj/unit_simple/badges/platforms.svg)
-![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/license.svg)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_date.svg)](https://anaconda.org/cosmoloj/unit_simple)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_relative_date.svg)](https://anaconda.org/cosmoloj/unit_simple)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/platforms.svg)](https://anaconda.org/cosmoloj/unit_simple)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/license.svg)](https://anaconda.org/cosmoloj/unit_simple)
 
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
