@@ -6,7 +6,7 @@
 https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_relative_date.svg)
 ![Anaconda-Server Badge](
 https://anaconda.org/cosmoloj/unit_simple/badges/platforms.svg)
-![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/license.svg)]
+![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/license.svg)
 
 [![PyPI repository Badge](https://badge.fury.io/py/unit_simple.svg)](https://badge.fury.io/py/unit_simple)
 
