@@ -24,6 +24,7 @@ classifiers = [
     "Topic :: Utilities"
 ]
 keywords = ["units", "converter", "unit converter", "measure", "units of measurement"]
+documentation = "http://cosmoloj.com/mkdocs/unit_simple"
 
 [tool.pytest.ini_options]
 addopts = [
@@ -31,4 +32,4 @@ addopts = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/unit_simple"

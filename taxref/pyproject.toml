@@ -23,4 +23,4 @@ addopts = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/taxref"

@@ -1,0 +1,8 @@
+site_name: Simple Unit (Python RI)
+nav:
+  - Home: index.md
+  - Specification: specification.md
+  - Standard: standard.md
+  - Operators: operators.md
+  - About: about.md
+theme: readthedocs
