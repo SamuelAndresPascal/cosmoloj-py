@@ -25,7 +25,6 @@ mkdocs:unit_simple:
   stage: doc
   script:
     - cd unit_simple
-    - cd unit_simple
     - conda install -c conda-forge mkdocs
     - mkdocs build
     - mv site unit_simple
