@@ -21,6 +21,18 @@ lint:unit_simple:
     - pylint --rcfile=../pylintrc test/unit_simple_test.py
     - pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
 
+mkdocs:unit_simple:
+  stage: doc
+  script:
+    - cd unit_simple
+    - cd unit_simple
+    - conda install -c conda-forge mkdocs
+    - mkdocs build
+    - mv site unit_simple
+    - zip -r unit_simple.zip unit_simple/
+    - scp unit_simple.zip $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST:$MKDOCS_SERVER_PATH
+    - ssh $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST "cd $MKDOCS_SERVER_PATH ; rm unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"
+
 test:unit_simple:
   stage: test
   rules:
@@ -149,14 +161,3 @@ conda-package:unit_simple:
   environment:
     name: anaconda simple unit
     url: https://anaconda.org/cosmoloj/unit_simple/
-
-mkdocs:unit_simple:
-  stage: lint
-  script:
-    - cd unit_simple
-    - conda install -c conda-forge mkdocs
-    - mkdocs build
-    - mv site unit_simple
-    - zip unit_simple.zip unit_simple/
-    - scp unit_simple.zip $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST:$MKDOCS_SERVER_PATH
-    - ssh $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST "cd $MKDOCS_SERVER_PATH ; rm unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"

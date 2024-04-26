@@ -26,6 +26,7 @@ default:
 
 stages:
   - lint
+  - doc
   - test
   - coverage
   - demo
