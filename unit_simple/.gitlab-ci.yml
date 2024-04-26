@@ -158,5 +158,5 @@ mkdocs:unit_simple:
     - mkdocs build
     - mv site unit_simple
     - zip unit_simple.zip unit_simple/
-    - scp site.zip $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST:$MKDOCS_SERVER_PATH
+    - scp unit_simple.zip $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST:$MKDOCS_SERVER_PATH
     - ssh $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST "cd $MKDOCS_SERVER_PATH ; rm unit_simple* ; unzip unit_simple.zip ; rm unit_simple.zip"
