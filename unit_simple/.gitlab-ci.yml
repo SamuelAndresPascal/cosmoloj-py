@@ -154,7 +154,7 @@ mkdocs:unit_simple:
   stage: lint
   script:
     - cd unit_simple
-    - conda install mkdocs
+    - conda install -c conda-forge mkdocs
     - mkdocs build
     - mv site unit_simple
     - zip unit_simple.zip unit_simple/
