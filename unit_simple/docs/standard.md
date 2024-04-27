@@ -10,14 +10,14 @@ Also keep in mind that *Simple Unit* only supports affine conversions from a uni
 
 ## Fundamental units
 
-A *funtamental unit* is a unit defined by itself. Fundamental units are not exactly what it is called a *base unit*
+A *fundamental unit* is a unit defined by itself. Fundamental units are not exactly what it is called a *base unit*
 since the *base* concept is not present in *Simple Unit*, but it is related to the same idea that we have to define a
 minimal set of units related to some dimensions from which all other units will be defined.
 
 A fundamental unit can be created in a very simple way by calling the FundamentalUnit constructor:
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit() # define metre unit
 ```
@@ -194,7 +194,8 @@ import unit_simple.unit_simple as su
 k = su.FundamentalUnit()
 
 # standard academic solution using explicit converter concatenation
-f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9).concatenate(su.UnitConverter(scale=1, offset=459.67)),
+f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9)
+                                      .concatenate(su.UnitConverter(scale=1, offset=459.67)),
                        reference=k)
 
 k_to_f = k.get_converter_to(f)
@@ -370,7 +371,7 @@ print(km2_to_cm2.convert(3))
 print(km2_to_cm2.inverse().convert(30000000000))
 ```
 
-Derived units allows to build units multiplying factors of distinct dimensions. 
+Derived units allow to build units by multiplying factors of distinct dimensions. 
 
 ```py
 import unit_simple.unit_simple as su
@@ -396,42 +397,25 @@ print(g_per_m2_to_ton_per_cm2.inverse().convert(3e-10))
 
 ## Temperatures
 
+Temperatures are very specific. They are often related one to another by non-linear affine transforms and this 
+non-linear part is supposed to disappear when the temperature is combined with other units.
+
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 k = su.FundamentalUnit()
 c = k.shift(273.15)
-kToC = k.get_converter_to(c)
+k_to_c = k.get_converter_to(c)
 
-kToC.convert(0) # -273.15
-kToC.inverse().convert(0) # 273.15
+print(k_to_c.convert(0))
+print(k_to_c.inverse().convert(0))
 
 # combined with other units, temperatures only keep their linear conversion part
 m = su.FundamentalUnit()
-cPerM = su.DerivedUnit(c, m.factor(-1))
-kPerM = su.DerivedUnit(k, m.factor(-1))
-kPerMToCPerM = kPerM.get_converter_to(cPerM)
+c_per_m = su.DerivedUnit(c, m.factor(-1))
+k_per_m = su.DerivedUnit(k, m.factor(-1))
+k_per_m_to_c_per_m = k_per_m.get_converter_to(c_per_m)
 
-kPerMToCPerM.convert(3) # 3
-kPerMToCPerM.inverse().convert(3) # 3
-```
-
-## Non-decimal conversions
-
-```py
-import unit_simple as su
-
-m = su.FundamentalUnit()
-km = m.scale_multiply(1000.)
-
-s = su.FundamentalUnit()
-h = s.scale_multiply(3600.)
-
-ms = su.DerivedUnit(m, s.factor(-1))
-kmh = su.DerivedUnit(km, h.factor(-1))
-
-msToKmh = ms.get_converter_to(kmh)
-
-msToKmh.convert(100.) # 360
-msToKmh.inverse().convert(18.) # 5
+print(k_per_m_to_c_per_m.convert(3))
+print(k_per_m_to_c_per_m.inverse().convert(3))
 ```
