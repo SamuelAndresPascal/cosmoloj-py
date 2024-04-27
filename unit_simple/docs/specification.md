@@ -1,6 +1,6 @@
 # Simple Unit - specification
 
-Whereas most of the unit converter tools proposes conversions between a defined set of units, *Simple Unit* only 
+Whereas most of the unit converter tools proposes conversions between a defined set of units, *[Simple Unit](https://cosmoloj.com/su/)* only 
 represents *what* units are and *how* they are defined, allowing the library consumer to define its own units. So, the
 user is not limited by a predefined set of units neither by a string representation. Units are simply represented by 
 objects in the code.
