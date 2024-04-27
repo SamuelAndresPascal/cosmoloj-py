@@ -30,7 +30,7 @@ mkdocs:unit_simple:
     - mv site unit_simple
     - zip -r unit_simple.zip unit_simple/
     - scp unit_simple.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs ; rm unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs ; rm -rf unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"
 
 test:unit_simple:
   stage: test
