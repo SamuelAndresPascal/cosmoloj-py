@@ -29,8 +29,8 @@ mkdocs:unit_simple:
     - mkdocs build
     - mv site unit_simple
     - zip -r unit_simple.zip unit_simple/
-    - scp unit_simple.zip $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST:$MKDOCS_SERVER_PATH
-    - ssh $MKDOCS_SERVER_USER@$MKDOCS_SERVER_HOST "cd $MKDOCS_SERVER_PATH ; rm unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"
+    - scp unit_simple.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs ; rm unit_simple ; unzip unit_simple.zip ; rm unit_simple.zip"
 
 test:unit_simple:
   stage: test

@@ -4,5 +4,4 @@ nav:
   - Specification: specification.md
   - Standard: standard.md
   - Operators: operators.md
-  - About: about.md
-theme: readthedocs
+theme: mkdocs  # readthedocs

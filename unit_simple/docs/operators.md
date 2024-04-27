@@ -52,7 +52,7 @@ gPerM2ToTonPerCm2 = tonPerCm2 << gPerM2
 
 gPerM2ToTonPerKm2(1) # 1
 (~gPerM2ToTonPerKm2)(3) # 3
-gPerM2ToTonPerCm2(1) # 1e-4
+gPerM2ToTonPerCm2(1) # 1e-10
 gPerM2ToTonPerCm2(3) # 3e-10
 gPerM2ToTonPerCm2.offset() # 0.0
 gPerM2ToTonPerCm2.scale() # 1e-10

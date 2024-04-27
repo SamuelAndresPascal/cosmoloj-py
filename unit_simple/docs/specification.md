@@ -10,3 +10,6 @@ There are three kind of units defined by the *Simple Unit* specification. A *fun
 *reference* can be a unit of any kind (fundamental, transformed or derived). A *derived unit* is defined from a set 
 (a product) of units raised to a rational power. Each unit raised to a rational power is called a *factor*. All the 
 units *are* factor of themselves raised to the rational power 1.
+
+Although the *Simple Unit* specification is lighter than the Unit API Java specification, the principle of unit
+representation is the same : units and converters are objects that have to be defined by the user.
