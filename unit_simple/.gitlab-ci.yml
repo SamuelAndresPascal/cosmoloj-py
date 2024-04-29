@@ -87,8 +87,8 @@ pypi-package:unit_simple:pypi:
     - conda env create --force --file environment.yml
     - rm -rf dist/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
-    - sed -i 's#\("Homepage" = .*/\)master\(/unit_simple\)#\1$CI_COMMIT_TAG\2#g' pyproject.toml
-    - sed -i 's#\("Documentation" = .*/\)master#\1$UNIT_SIMPLE_VERSION#g' pyproject.toml
+    - sed -i "s#\(\"Homepage\" = .*/\)master\(/unit_simple\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml
+    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$UNIT_SIMPLE_VERSION#g" pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
