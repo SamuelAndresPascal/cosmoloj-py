@@ -27,7 +27,7 @@ mkdocs:unit_simple:
     - cd unit_simple
     - conda install -c conda-forge mkdocs mkdocstrings mkdocstrings-python -y
     - pip install . # to compile the API docstrings with mkdocstrings
-    - if [ $CI_COMMIT_TAG ] ; then DOC_VERSION=$CI_COMMIT_TAG ; else DOC_VERSION=$CI_COMMIT_BRANCH ; fi
+    - if [ $CI_COMMIT_TAG ] ; then DOC_VERSION=$UNIT_SIMPLE_VERSION ; else DOC_VERSION=$CI_COMMIT_BRANCH ; fi
     - echo "\n**Version $DOC_VERSION**" >> docs/about.md
     - mkdocs build
     - zip -r site.zip site/
@@ -84,6 +84,8 @@ pypi-package:unit_simple:pypi:
     - conda env create --force --file environment.yml
     - rm -rf dist/
     - sed -i "s#version\ =\ .*\$#version\ =\ \"$UNIT_SIMPLE_VERSION\"#g" pyproject.toml
+    - sed -i 's#\("Homepage" = .*/\)master\(/unit_simple\)#\1$CI_COMMIT_TAG\2#g' pyproject.toml
+    - sed -i 's#\("Documentation" = .*/\)master#\1$UNIT_SIMPLE_VERSION#g' pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
