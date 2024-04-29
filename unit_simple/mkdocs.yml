@@ -4,6 +4,7 @@ nav:
   - Standard: standard.md
   - Operators: operators.md
   - API: api.md
+  - About: about.md
 theme: mkdocs  # readthedocs
 plugins:
   - search
