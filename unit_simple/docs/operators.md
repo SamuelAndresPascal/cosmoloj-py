@@ -1,11 +1,12 @@
 # Python operator overloading
 
-The Simple Unit Python implementation provides an extension of the base specification to overloads some language operators.
+The Simple Unit Python implementation provides an extension of the base specification to overload some language 
+operators in order to make units and converters more intuitive.
 
 ## Transformed units
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit()
 km = m * 1000
@@ -19,7 +20,7 @@ cmToKm(3) # 0.00003
 ## Derived units
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit()
 km = m * 1000
@@ -63,7 +64,7 @@ gPerM2ToTonPerCm2.scale() # 1e-10
 ## Temperatures
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 k = su.FundamentalUnit()
 c = k + 273.15
@@ -85,7 +86,7 @@ kPerMToCPerM(3) # 3
 ## Non-decimal conversions
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit()
 km = m * 1000.
