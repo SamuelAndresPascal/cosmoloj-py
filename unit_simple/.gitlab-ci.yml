@@ -25,7 +25,8 @@ mkdocs:unit_simple:
   stage: doc
   script:
     - cd unit_simple
-    - conda install -c conda-forge mkdocs
+    - conda install -c conda-forge mkdocs mkdocstrings mkdocstrings-python -y
+    - pip install . # to compile the API docstrings with mkdocstrings
     - mkdocs build
     - mv site unit_simple
     - zip -r unit_simple.zip unit_simple/

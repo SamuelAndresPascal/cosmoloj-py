@@ -36,7 +36,7 @@ km2Tocm2(3) # 30000000000
 ## Multidimensional derived units
 
 ```py
-import unit_simple as su
+import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()

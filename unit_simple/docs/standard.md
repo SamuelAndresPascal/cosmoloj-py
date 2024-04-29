@@ -3,10 +3,11 @@
 The Simple Unit Python reference implementation standard usage refers to methods and classes defined in the 
 *Simple Unit* specification.
 
-Keep in mind that unit purpose is to create converters between them and that conversions can only be defined between 
-units members of the same unit graph. A unit graph is built from a set of *fundamental units*.
+!!! note
+    Keep in mind that unit purpose is to create converters between them and that conversions can only be defined between 
+    units members of the same unit graph. A unit graph is built from a set of *fundamental units*.
 
-Also keep in mind that *Simple Unit* only supports affine conversions from a unit to another.
+    Also keep in mind that *Simple Unit* only supports affine conversions from a unit to another.
 
 ## Fundamental units
 
@@ -22,8 +23,9 @@ import unit_simple.unit_simple as su
 m = su.FundamentalUnit() # define metre unit
 ```
 
-Once a fundamental unit has been defined for a dimension, do not define another one for the same dimension, even if the
-unit does not theoretically depend on the same so-called "system of units".
+!!! danger
+    Once a fundamental unit has been defined for a dimension, do not define another one for the same dimension, even if
+    the unit does not theoretically depend on the same so-called "system of units".
 
 ```py
 import unit_simple.unit_simple as su
@@ -63,7 +65,7 @@ inch = su.TransformedUnit(to_reference=su.UnitConverter(scale=2.54), reference=c
 Transformed units allow to define units from other units. This mechanism will allow Simple Unit RI to build unit 
 converters between the units in the graph.
 
-But, define a transformed unit using the constructor is boilerplate. *Simple Unit* defines unit methods to build 
+To define a transformed unit using the constructor is boilerplate. *Simple Unit* defines unit methods to build 
 multiple and fractional units in a simpler way.
 
 ```py
@@ -81,10 +83,11 @@ cm = m.scale_divide(100)
 inch = cm.scale_multiply(2.54)
 ```
 
-You will see later that using python operator overloading, to define a transformed unit from another one can even be
-simpler. But operator overloading is not included in the *Simple Unit* specification since it depends on the 
-programming language. Operator overloading is implemented by the Simple Unit Python reference implementation as an
-extension to the *Simple Unit* specification.
+!!! note
+    You will see later that using python operator overloading, to define a transformed unit from another one can even be
+    simpler. But operator overloading is not included in the *Simple Unit* specification since it depends on the 
+    programming language. Operator overloading is implemented by the Simple Unit Python reference implementation as an
+    extension to the *Simple Unit* specification.
 
 Well. So, we defined units, but we do not use them in another way to define new unit from other ones. Units only are the
 first step to define unit converters in a simple and efficient way.
@@ -132,9 +135,11 @@ print(m_to_km.convert(3))
 print(m_to_km.convert(4))
 ```
 
-Simple Unit converters are supposed to be immutable and can be highly reused in the code by defining them globally. So,
-unit conversions can be achieved without necessity to build the same conversion formula twice. Once the converter is
-build once and for all, the conversion only applies an affine transform, which allows high performance computations.
+!!! note
+    Simple Unit converters are supposed to be immutable and can be highly reused in the code by defining them globally.
+    So, unit conversions can be achieved without necessity to build the same conversion formula twice. Once the 
+    converter is build once and for all, the conversion only applies an affine transform, which allows high performance 
+    computations.
 
 A large part of units are transformed one to another using linear operations. Nevertheless, in some cases, the operation
 is affine. The most familiar example of affine transforms between units relates to temperature scales.
@@ -166,7 +171,7 @@ print(k_to_c.inverse().convert(0))
 
 The *Simple Unit* specification does not define shortcut method in the general case. So, for instance, defining the 
 Fahrenheit from the kelvin needs either calling the `TransformedUnit` constructor or to create an intermediary unit. 
-Let's examine the different way to address this case.
+Let's examine the different ways to address this case.
 
 The first one, consists in trying to represent the affine conversion in a single synthetic way:
 
@@ -303,9 +308,10 @@ print(acre_to_m2.convert(15))
 print(acre_to_m2.inverse().convert(15))
 ```
 
-The *Simple Unit* specification states that a unit is a specific unit factor of itself raised at the power 1. This is 
-why units can sometimes replace explicit factor instantiation in a more concise syntax. The initial example was
-equivalent to:
+!!! note
+    The *Simple Unit* specification states that a unit is a specific unit factor of itself raised at the power 1. This 
+    is why units can sometimes replace explicit factor instantiation in a more concise syntax. The initial example was
+    equivalent to:
 
 ```py
 import unit_simple.unit_simple as su
@@ -321,10 +327,12 @@ print(acre_to_m2.convert(15))
 print(acre_to_m2.inverse().convert(15))
 ```
 
-Note that if all units are factors, all the factors are not unit themselves. Although the *Simple Unit* specification
-does not forbid it, the present implementation does not build plain units as a result of the `factor` method invocation.
+!!! warning
+    Note that if all units are factors, all the factors are not unit themselves. Although the *Simple Unit* 
+    specification does not forbid it, the present implementation does not build plain units as a result of the `factor` 
+    method invocation.
 
-Both following codes are incorrect:
+    Both following codes are incorrect:
 
 ```py
 import unit_simple.unit_simple as su

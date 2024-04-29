@@ -67,12 +67,12 @@ class UnitConverters(Enum):
     _IDENTITY = UnitConverter(scale=1.0)
 
     @staticmethod
-    def linear(scale):
+    def linear(scale: float):
         """build a linear converter"""
         return UnitConverter(scale=scale)
 
     @staticmethod
-    def offset(offset):
+    def offset(offset: float):
         """build an offset converter"""
         return UnitConverter(scale=1.0, offset=offset)
 
