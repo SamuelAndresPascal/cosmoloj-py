@@ -35,7 +35,7 @@ mkdocs:unit_simple:
     - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple ; rm -rf $DOC_VERSION ; unzip site.zip ; mv site $DOC_VERSION ; rm site.zip"
   environment:
     name: documentation
-    url: https://cosmoloj.com/mkdocs/unit_simple/$DOC_VERSION/
+    url: https://cosmoloj.com/mkdocs/unit_simple/master
 
 test:unit_simple:
   stage: test
