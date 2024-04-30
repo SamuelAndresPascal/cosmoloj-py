@@ -72,8 +72,8 @@ class TestSimpleUnit(unittest.TestCase):
         """test linear conversions with temperature scales combined into derived units"""
 
         kelvin = su.FundamentalUnit()
-        celcius = kelvin.shift(273.15)
-        k_to_c = kelvin.get_converter_to(celcius)
+        celsius = kelvin.shift(273.15)
+        k_to_c = kelvin.get_converter_to(celsius)
 
         self.assertAlmostEqual(-273.15, k_to_c.convert(0), None, 1e-10)
         self.assertAlmostEqual(273.15, k_to_c.inverse().convert(0), None, 1e-10)
@@ -81,7 +81,7 @@ class TestSimpleUnit(unittest.TestCase):
         # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
         # devenir lineaires
         metre = su.FundamentalUnit()
-        c_per_m = su.DerivedUnit(celcius, metre.factor(-1))
+        c_per_m = su.DerivedUnit(celsius, metre.factor(-1))
         k_per_m = su.DerivedUnit(kelvin, metre.factor(-1))
         k_per_m_to_c_per_m = k_per_m.get_converter_to(c_per_m)
 

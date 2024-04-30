@@ -73,8 +73,8 @@ def test_temperatures():
     """test linear conversions with temperature scales combined into derived units"""
 
     kelvin = su.FundamentalUnit()
-    celcius = kelvin + 273.15
-    k_to_c = kelvin >> celcius
+    celsius = kelvin + 273.15
+    k_to_c = kelvin >> celsius
 
     assert pytest.approx(expected=-273.15, rel=1e-10) == k_to_c(0)
     assert pytest.approx(expected=273.15, rel=1e-10) == (~k_to_c)(0)
@@ -82,7 +82,7 @@ def test_temperatures():
     # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
     # devenir lineaires
     metre = su.FundamentalUnit()
-    c_per_m = celcius / metre
+    c_per_m = celsius / metre
     k_per_m = kelvin / metre
     k_per_m_to_c_per_m = k_per_m >> c_per_m
 
@@ -112,16 +112,17 @@ def test_temperatures_additional():
     """test linear conversions with temperature scales combined into derived units"""
 
     kelvin = su.FundamentalUnit()
-    celcius = kelvin + 273.15
+    celsius = kelvin + 273.15
 
     rankine = kelvin * 5 / 9
     fahrenheit1 = rankine + 459.67 #255.37 	−17.78 	0 	459.67
     fahrenheit2 = kelvin * 5 / 9 + 459.67
     fahrenheit3 = (kelvin + 273.15) * 5 / 9 - 32
-    fahrenheits = {fahrenheit1, fahrenheit2, fahrenheit3}
+    fahrenheit4 = celsius * 5 / 9 - 32
+    fahrenheits = {fahrenheit1, fahrenheit2, fahrenheit3, fahrenheit4}
 
     for fahrenheit in fahrenheits:
-        c_to_f = celcius >> fahrenheit
+        c_to_f = celsius >> fahrenheit
         assert pytest.approx(expected=-459.67, rel=1e-10) == c_to_f(-273.15)
         assert pytest.approx(expected=0., abs=1e-2) == c_to_f(-17.78)
         assert pytest.approx(expected=32., rel=1e-10) == c_to_f(0.)

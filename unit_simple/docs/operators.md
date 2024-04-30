@@ -5,100 +5,143 @@ operators in order to make units and converters more intuitive.
 
 ## Transformed units
 
+A transformed unit can be built from another unity by multiplying or dividing them by a scalar. Just keep in mind the
+first operand *must* be the unit and the second one *must* be the number.
+
 ```py
 import unit_simple.unit_simple as su
 
-m = su.FundamentalUnit()
-km = m * 1000
-cm = m / 100
-cmToKm = cm >> km
+m = su.FundamentalUnit()  # metre
+km = m * 1000  # kilometre: overloads m.scale_multiply(1000)
+cm = m / 100  # centimetre: overloads m.scale_divide(100)
+```
 
-cmToKm(3) # 0.00003
-(~cmToKm)(0.00003) # 3
+Scale offset can also be built using arithmetic operators overloading. It can be used, for instance, to define the
+Celsius degree from Kelvin:
+
+```py
+import unit_simple.unit_simple as su
+
+k = su.FundamentalUnit()  # Kelvin
+c = k + 273.15  # Celsius degree: overloads k.shift(273.15) 
+f = c * 5 / 9 - 32  # Fahrenheit degree: overloads c.scale_multiply(5).scale_divide(9).shift(-32)
 ```
 
 ## Derived units
 
+Derived units defined from a single unit can be obtained raising a unit to a scalar power. 
+
 ```py
 import unit_simple.unit_simple as su
 
-m = su.FundamentalUnit()
-km = m * 1000
+m = su.FundamentalUnit()  # metre
+m2 = m ** 2  # square metre: overloads DerivedUnit(m.factor(2))
 
-km2 = km ** 2
-cm = m / 100
-cm2 = cm ** 2
-km2Tocm2 = km2 >> cm2
-
-km2Tocm2(3) # 30000000000
-(~km2Tocm2)(30000000000) # 3
+s = su.FundamentalUnit()  # second
+hz = s ** -1  # Hertz: overloads DerivedUnit(s.factor(-1)
 ```
 
-## Multidimensional derived units
+Invert a unit can be obtained by simply use the overloading of the homonym python bitwise operator:
+
+```py
+import unit_simple.unit_simple as su
+
+s = su.FundamentalUnit()  # second
+hz = ~s  # Hertz: overloads DerivedUnit(s.factor(-1)
+```
+
+Units derived from multiple units use the common arithmetic operators for multiplication and division. 
 
 ```py
 import unit_simple.unit_simple as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
-g = kg / 1000
-ton = kg * 1000
-gPerM2 = g / m ** 2
-km = m * 1000
-tonPerKm2 = ton * ~km ** 2
-cm = m / 100
-tonPerCm2 = ton / cm ** 2
-gPerM2ToTonPerKm2 = gPerM2 >> tonPerKm2
-gPerM2ToTonPerCm2 = tonPerCm2 << gPerM2
+g = kg / 1000  # gram is a transformed unit since the second operand is a scalar
+ton = kg * 1000  # ton is a transformed unit since the second operant is a scalar
 
-gPerM2ToTonPerKm2(1) # 1
-(~gPerM2ToTonPerKm2)(3) # 3
-gPerM2ToTonPerCm2(1) # 1e-10
-gPerM2ToTonPerCm2(3) # 3e-10
-gPerM2ToTonPerCm2.offset() # 0.0
-gPerM2ToTonPerCm2.scale() # 1e-10
-(~gPerM2ToTonPerCm2).offset() # -0.0
-(~gPerM2ToTonPerCm2)(3e-10) # 3
+# g_per_m2 is a derived unit since both operands (g and m ** 2) are units
+# overloads DeriveUnit(g, DerivedUnit(m.factor(2)))
+g_per_m2 = g / m ** 2
+
+km = m * 1000  # km is a transformed unit since the second operand is a scalar
+
+# ton_per_km2 is a derived unit since both operands (ton and ~km ** 2) are units
+# overloads DerivedUnit(ton, DerivedUnit(DerivedUnit(km.factor(-1).factor(2))))
+# the equivalent definition :
+# ton_per_km2 = ton * km ** -2
+# would have more efficiently overload DerivedUnit(ton, DerivedUnit(km.factor(-2)) 
+ton_per_km2 = ton * ~km ** 2
 ```
 
-## Temperatures
+## Converters
+
+Converters can also be built from units using operator overloading. The right shift bitwise operator overloads the most
+intuitive way to instantiate a unit converter from a source unit (left) to a target unit (right):
 
 ```py
 import unit_simple.unit_simple as su
 
-k = su.FundamentalUnit()
-c = k + 273.15
-kToC = k >> c
+k = su.FundamentalUnit()  # Kelvin
+c = k + 273.15  # Celsius degree
+k_to_c = k >> c  # get a unit converter from Kelvin to Celsius degree: overloads k.get_converter_to(c)
 
-kToC(0) # -273.15
-(~kToC)(0) # 273.15
-
-# combined with other units, temperatures only keep their linear conversion part
-m = su.FundamentalUnit()
-cPerM = c / m
-kPerM = k / m
-kPerMToCPerM = kPerM >> cPerM
-
-kPerMToCPerM(3) # 3
-(~kPerMToCPerM)(3) # 3
+print(k_to_c.convert(3))
 ```
 
-## Non-decimal conversions
+Note the inverse converter can be obtained directly from the homonym overloaded bitwise operator:
 
 ```py
 import unit_simple.unit_simple as su
 
-m = su.FundamentalUnit()
-km = m * 1000.
+k = su.FundamentalUnit()  # Kelvin
+c = k + 273.15  # Celsius degree
+k_to_c = k >> c  # get a unit converter from Kelvin to Celsius degree: overloads k.get_converter_to(c)
 
-s = su.FundamentalUnit()
-h = s * 3600.
+# get the Kelvin to Celsius degree inverse converter (from Celsius degree to Kelvin)
+# overloads k_to_c.inverse()
+# note that this way does not instantiate a new converter object since the inverse converter is instantiated 
+# at the same time the direct one is built
+c_to_k = ~k_to_c 
 
-ms = m / s
-kmh = km / h
+print(c_to_k.convert(3))
+print((~k_to_c).convert(3))
+print((~k_to_c) is c_to_k)  # the inverse converter return by the invert operator (~) is always the same instance
+```
 
-msToKmh = ms >> kmh
+The overloaded bitwise left shift operator is an alternative way to obtain the inverse converter between two units, but 
+like the right shift does for the direct one, it instantiates a new converter.
 
-msToKmh(100.) # 360
-(~msToKmh)(18.) # 5
+```py
+import unit_simple.unit_simple as su
+
+k = su.FundamentalUnit()  # Kelvin
+c = k + 273.15  # Celsius degree
+
+# get the Kelvin to Celsius degree inverse converter (from Celsius degree to Kelvin)
+# overloads k.get_converter_to(c).inverse()
+# note that this way instantiates a new inverse converter object since the direct one is instantiated calling the method
+# k.get_converter_to(c)
+c_to_k = k << c 
+
+print(c_to_k.convert(3))
+print((k << c).convert(3))
+print((k << c) is c_to_k)  # a new inverse converter is returned since a new direct one is built
+```
+
+## Unit conversion
+
+Unit converters are callable and invoke the `convert()` method when they are called. So, once built, unit converters can
+be used like conversion functions.
+
+
+```py
+import unit_simple.unit_simple as su
+
+k = su.FundamentalUnit()  # Kelvin
+c = k + 273.15  # Celsius degree
+k_to_c = k >> c  # get a unit converter from Kelvin to Celsius degree: overloads k.get_converter_to(c)
+
+print(k_to_c(3))  # converts 3 Kelvin to Celsius degree: overloads k_to_c.convert(3)
+print((~k_to_c)(3))  # converts 3 Celcius degree to Kelvin: overloads k_to_c.inverse().convert(3)
 ```
