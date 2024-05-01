@@ -34,7 +34,7 @@ mkdocs:unit_simple:
     - zip -r site.zip site/
     - scp site.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple
     - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple ; rm -rf $VERSION ; unzip site.zip ; mv site $VERSION ; rm site.zip"
-    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple ; rm latest ; ln -s $VERSION latest"
+    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple ; rm latest ; ln -s $VERSION latest" ; fi
   environment:
     name: documentation
     url: https://cosmoloj.com/mkdocs/unit_simple/master
