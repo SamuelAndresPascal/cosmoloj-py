@@ -60,7 +60,10 @@ pypi-package:taxref:pypi:
     - cd taxref
     - conda env create --force --file environment.yml
     - rm -rf dist/
-    - sed -i "s#version\ =\ .*\$#version\ =\ \"$TAXREF_VERSION\"#g" pyproject.toml
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2)
+    - sed -i "s#version\ =\ .*\$#version\ =\ \"$VERSION\"#g" pyproject.toml
+    - sed -i "s#\(\"Homepage\" = .*/\)master\(/taxref\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml
+    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
@@ -119,11 +122,11 @@ conda-package:taxref:
   variables:
     DIST_DIR: conda_dist
     PACKAGE: taxref
-    VERSION: $TAXREF_VERSION
   when: manual
   script:
     - cd taxref
     - conda env create --force --file environment.yml
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
