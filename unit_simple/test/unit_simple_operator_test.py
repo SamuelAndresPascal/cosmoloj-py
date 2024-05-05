@@ -1,8 +1,8 @@
 """test module for Simple Unit"""
 
 import pytest
-import unit_simple.unit_simple as su
-from unit_simple.unit_simple import Metric as pm
+import unit_simple as su
+from unit_simple import Metric as pm
 
 
 def test_metric_prefix():
@@ -13,8 +13,8 @@ def test_metric_prefix():
     c_metre = pm.CENTI(metre)
     cm_to_km = c_metre >> k_metre
 
-    assert pytest.approx(expected=.00003, rel=1e-10) == cm_to_km(3.)
-    assert pytest.approx(expected=3., rel=1e-10) == (~cm_to_km)(0.00003)
+    assert cm_to_km(3.) == pytest.approx(expected=.00003, rel=1e-10)
+    assert (~cm_to_km)(0.00003) == pytest.approx(expected=3., rel=1e-10)
 
 
 def test_transformed():
@@ -25,8 +25,8 @@ def test_transformed():
     c_metre = metre / 100
     cm_to_km = c_metre >> k_metre
 
-    assert pytest.approx(expected=.00003, rel=1e-10) == cm_to_km(3.)
-    assert pytest.approx(expected=3., rel=1e-10) == (~cm_to_km)(0.00003)
+    assert cm_to_km(3.) == pytest.approx(expected=.00003, rel=1e-10)
+    assert (~cm_to_km)(0.00003) == pytest.approx(expected=3., rel=1e-10)
 
 
 def test_derived():
@@ -40,8 +40,8 @@ def test_derived():
     cm2 = c_metre ** 2
     km2_to_cm2 = km2 >> cm2
 
-    assert pytest.approx(expected=30000000000., rel=1e-10) == km2_to_cm2(3.)
-    assert pytest.approx(expected=3., rel=1e-10) == (~km2_to_cm2)(30000000000.)
+    assert km2_to_cm2(3.) == pytest.approx(expected=30000000000., rel=1e-10)
+    assert (~km2_to_cm2)(30000000000.) == pytest.approx(expected=3., rel=1e-10)
 
 
 def test_combined_dimension_derived():
@@ -59,14 +59,14 @@ def test_combined_dimension_derived():
     g_per_m2_to_ton_per_km2 = g_per_m2 >> ton_per_km2
     g_per_m2_to_ton_per_cm2 = ton_per_cm2 << g_per_m2
 
-    assert pytest.approx(expected=1., rel=1e-10) == g_per_m2_to_ton_per_km2(1.)
-    assert pytest.approx(expected=3., rel=1e-10) == (~g_per_m2_to_ton_per_km2)(3.)
-    assert pytest.approx(expected=1e-10, rel=1e-20) == g_per_m2_to_ton_per_cm2(1.)
-    assert pytest.approx(expected=3e-10, rel=1e-20) == g_per_m2_to_ton_per_cm2(3.)
+    assert g_per_m2_to_ton_per_km2(1.) == pytest.approx(expected=1., rel=1e-10)
+    assert (~g_per_m2_to_ton_per_km2)(3.) == pytest.approx(expected=3., rel=1e-10)
+    assert g_per_m2_to_ton_per_cm2(1.) == pytest.approx(expected=1e-10, rel=1e-20)
+    assert g_per_m2_to_ton_per_cm2(3.) == pytest.approx(expected=3e-10, rel=1e-20)
     assert g_per_m2_to_ton_per_cm2.offset() == 0.
     assert g_per_m2_to_ton_per_cm2.scale() == 1e-10
-    assert -0. == (~g_per_m2_to_ton_per_cm2).offset()
-    assert pytest.approx(expected=3., rel=1e-10) == (~g_per_m2_to_ton_per_cm2)(3e-10)
+    assert (~g_per_m2_to_ton_per_cm2).offset() == -0.
+    assert (~g_per_m2_to_ton_per_cm2)(3e-10) == pytest.approx(expected=3., rel=1e-10)
 
 
 def test_temperatures():
@@ -76,8 +76,8 @@ def test_temperatures():
     celsius = kelvin + 273.15
     k_to_c = kelvin >> celsius
 
-    assert pytest.approx(expected=-273.15, rel=1e-10) == k_to_c(0)
-    assert pytest.approx(expected=273.15, rel=1e-10) == (~k_to_c)(0)
+    assert k_to_c(0) == pytest.approx(expected=-273.15, rel=1e-10)
+    assert (~k_to_c)(0) == pytest.approx(expected=273.15, rel=1e-10)
 
     # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
     # devenir lineaires
@@ -86,8 +86,8 @@ def test_temperatures():
     k_per_m = kelvin / metre
     k_per_m_to_c_per_m = k_per_m >> c_per_m
 
-    assert pytest.approx(expected=3., rel=1e-10) == k_per_m_to_c_per_m(3.)
-    assert pytest.approx(expected=3., rel=1e-10) == (~k_per_m_to_c_per_m)(3.)
+    assert k_per_m_to_c_per_m(3.) == pytest.approx(expected=3., rel=1e-10)
+    assert (~k_per_m_to_c_per_m)(3.) == pytest.approx(expected=3., rel=1e-10)
 
 
 def test_speed():
@@ -104,8 +104,8 @@ def test_speed():
 
     ms_to_kmh = metre_per_second >> kmh
 
-    assert pytest.approx(expected=360., rel=1e-10) == ms_to_kmh(100.)
-    assert pytest.approx(expected=5., rel=1e-10) == (~ms_to_kmh)(18.)
+    assert ms_to_kmh(100.) == pytest.approx(expected=360., rel=1e-10)
+    assert (~ms_to_kmh)(18.) == pytest.approx(expected=5., rel=1e-10)
 
 
 def test_temperatures_additional():
@@ -115,7 +115,7 @@ def test_temperatures_additional():
     celsius = kelvin + 273.15
 
     rankine = kelvin * 5 / 9
-    fahrenheit1 = rankine + 459.67 #255.37 	−17.78 	0 	459.67
+    fahrenheit1 = rankine + 459.67
     fahrenheit2 = kelvin * 5 / 9 + 459.67
     fahrenheit3 = (kelvin + 273.15) * 5 / 9 - 32
     fahrenheit4 = celsius * 5 / 9 - 32
@@ -123,21 +123,21 @@ def test_temperatures_additional():
 
     for fahrenheit in fahrenheits:
         c_to_f = celsius >> fahrenheit
-        assert pytest.approx(expected=-459.67, rel=1e-10) == c_to_f(-273.15)
-        assert pytest.approx(expected=0., abs=1e-2) == c_to_f(-17.78)
-        assert pytest.approx(expected=32., rel=1e-10) == c_to_f(0.)
-        assert pytest.approx(expected=211.97102, rel=1e-10) == c_to_f(99.9839)
-        assert pytest.approx(expected=-273.15, rel=1e-10) == (~c_to_f)(-459.67)
-        assert pytest.approx(expected=-17.78, abs=1e-2) == (~c_to_f)(0.)
-        assert pytest.approx(expected=0., rel=1e-10) == (~c_to_f)(32.)
-        assert pytest.approx(expected=99.9839, rel=1e-10) == (~c_to_f)(211.97102)
+        assert c_to_f(-273.15) == pytest.approx(expected=-459.67, rel=1e-10)
+        assert c_to_f(-17.78) == pytest.approx(expected=0., abs=1e-2)
+        assert c_to_f(0.) == pytest.approx(expected=32., rel=1e-10)
+        assert c_to_f(99.9839) == pytest.approx(expected=211.97102, rel=1e-10)
+        assert (~c_to_f)(-459.67) == pytest.approx(expected=-273.15, rel=1e-10)
+        assert (~c_to_f)(0.) == pytest.approx(expected=-17.78, abs=1e-2)
+        assert (~c_to_f)(32.) == pytest.approx(expected=0., rel=1e-10)
+        assert (~c_to_f)(211.97102) == pytest.approx(expected=99.9839, rel=1e-10)
 
         k_to_f = kelvin >> fahrenheit
-        assert pytest.approx(expected=-459.67, rel=1e-10) == k_to_f(.0)
-        assert pytest.approx(expected=0., abs=1e-2) == k_to_f(255.37)
-        assert pytest.approx(expected=32., rel=1e-10) == k_to_f(273.15)
-        assert pytest.approx(expected=211.97102, rel=1e-10) == k_to_f(373.1339)
-        assert pytest.approx(expected=.0, rel=1e-10) == (~k_to_f)(-459.67)
-        assert pytest.approx(expected=255.37, abs=1e-2) == (~k_to_f)(0.)
-        assert pytest.approx(expected=273.15, rel=1e-10) == (~k_to_f)(32.)
-        assert pytest.approx(expected=373.1339, rel=1e-10) == (~k_to_f)(211.97102)
+        assert k_to_f(.0) == pytest.approx(expected=-459.67, rel=1e-10)
+        assert k_to_f(255.37) == pytest.approx(expected=0., abs=1e-2)
+        assert k_to_f(273.15) == pytest.approx(expected=32., rel=1e-10)
+        assert k_to_f(373.1339) == pytest.approx(expected=211.97102, rel=1e-10)
+        assert (~k_to_f)(-459.67) == pytest.approx(expected=.0, rel=1e-10)
+        assert (~k_to_f)(0.) == pytest.approx(expected=255.37, abs=1e-2)
+        assert (~k_to_f)(32.) == pytest.approx(expected=273.15, rel=1e-10)
+        assert (~k_to_f)(211.97102) == pytest.approx(expected=373.1339, rel=1e-10)

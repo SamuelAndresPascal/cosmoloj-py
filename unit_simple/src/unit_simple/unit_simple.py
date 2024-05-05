@@ -1,20 +1,73 @@
 """Simple Unit module"""
-
+import math
 from enum import Enum
 
 
 class UnitConverter:
-    """convertisseur d'unites"""
+    """Converter between units.
 
-    def __init__(self, scale: float != 0., offset: float = 0.0, inverse=None):
+    Examples:
+    ---------
+
+        A converter represents an inversible affine transform.
+
+        Do not use the inverse constructor parameter since it is internally computed.
+
+        >>> import unit_simple as su
+        >>>
+        >>> unit_converter = su.UnitConverter(scale=2.0, offset=1.2)
+        >>> print(unit_converter.convert(2))
+        >>> print(unit_converter.scale())
+        >>> print(unit_converter.offset())
+
+        Unit converters are used to build a transformed unit from a reference unit.
+
+        >>> import unit_simple as su
+        >>>
+        >>> k = su.FundamentalUnit()
+        >>> f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9)
+        >>>                                       .concatenate(su.UnitConverter(scale=1, offset=459.67)),
+        >>>                        reference=k)
+
+        Most of the time, unit converters are not directly instancitated.
+
+        >>> import unit_simple as su
+        >>>
+        >>> unit_converter = su.UnitConverter(scale=2.0, offset=1.2)
+        >>> inverse_converter = unit_converter.inverse()
+        >>> print(inverse_converter.convert(2))
+        >>> print(inverse_converter.scale())
+        >>> print(inverse_converter.offset())
+
+        Most of the transformed units are only built from scaling or translation affine transforms and can be
+        instantiated using the built-in Unit methods.
+
+        >>> import unit_simple as su
+        >>>
+        >>> m = su.FundamentalUnit()
+        >>> km = m.scale_multiply(1000)
+        >>> cm = m.scale_divide(100)
+        >>>
+        >>> k = su.FundamentalUnit()
+        >>> c = k.shift(273.15)
+
+    See Also:
+    ---------
+
+    UnitConverter.inverse: build the inverse converter
+
+
+    """
+
+    def __init__(self, scale: float != 0., translation: float = 0.0, inverse=None):
         assert scale != 0.
         self._scale = scale
-        self._offset = offset
-        if scale == 1. and offset == 0. and inverse is None:
+        self._translation = translation
+        if scale == 1. and translation == 0. and inverse is None:
             self._inverse = self
         else:
             self._inverse = UnitConverter(scale=1. / self._scale,
-                                          offset=-self._offset / self._scale,
+                                          translation=-self._translation / self._scale,
                                           inverse=self) if inverse is None else inverse
 
     def scale(self):
@@ -23,37 +76,38 @@ class UnitConverter:
 
     def offset(self):
         """decalage d'origine d'echelle"""
-        return self._offset
+        return self._translation
 
     def inverse(self):
-        """convertisseur inverse au convertisseur courant : de son unite cible vers son unite source"""
+        """Inverse converter, from the target unit to the source unit of the current converter.
+        """
         return self._inverse
 
     def linear(self):
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel"""
         # comparaison volontaire avec un double
-        if self._offset == 0.:
+        if self._translation == 0.:
             return self
-        return UnitConverters.linear(scale=self._scale)
+        return UnitConverters.scaling(scale=self._scale)
 
     def linear_pow(self, power: float):
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel, eleve a la
         puissance en parametre"""
         # comparaison volontaire avec des doubles
-        if self._offset == 0. and power == 1.:
+        if self._translation == 0. and power == 1.:
             return self
-        return UnitConverters.linear(scale=self._scale ** power)
+        return UnitConverters.scaling(scale=self._scale ** power)
 
     def convert(self, value: float) -> float:
         """exprime la valeur en parametre dans l'unite cible du convertisseur en faisant l'hypothese qu'elle est
         exprimee dans son unite source"""
-        return value * self._scale + self._offset
+        return value * self._scale + self._translation
 
     def concatenate(self, converter):
         """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la
         conversion du convertisseur d'appel"""
         return UnitConverter(scale=converter.scale() * self.scale(),
-                             offset=self.convert(converter.offset()))
+                             translation=self.convert(converter.offset()))
 
     def __invert__(self):
         return self.inverse()
@@ -67,14 +121,14 @@ class UnitConverters(Enum):
     _IDENTITY = UnitConverter(scale=1.0)
 
     @staticmethod
-    def linear(scale: float):
+    def scaling(scale: float):
         """build a linear converter"""
         return UnitConverter(scale=scale)
 
     @staticmethod
-    def offset(offset: float):
+    def translation(translation: float):
         """build an offset converter"""
-        return UnitConverter(scale=1.0, offset=offset)
+        return UnitConverter(scale=1.0, translation=translation)
 
     @staticmethod
     def identity():
@@ -109,7 +163,10 @@ class Factor:
 
     def power(self) -> float:
         """puissance du facteur"""
-        return self._numerator if self._denominator == 1. else self._numerator / self._denominator
+        if self._denominator == 1.:
+            return self._numerator
+        else:
+            return self._numerator / self._denominator
 
     def __mul__(self, other):
         return DerivedUnit(self, other)
@@ -134,15 +191,20 @@ class Unit(Factor):
     def to_base(self) -> UnitConverter:
         """construit un convertisseur vers le jeu d'unites fondamentales sous-jascent a l'unite d'appel"""
 
+    def translate(self, value: float):
+        """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
+        l'unite d'appel"""
+        return TransformedUnit(to_reference=UnitConverters.translation(translation=value), reference=self)
+
     def shift(self, value: float):
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(to_reference=UnitConverters.offset(offset=value), reference=self)
+        return self.translate(value)
 
     def scale_multiply(self, value: float):
         """construit une unite transformee en multipliant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
-        return TransformedUnit(to_reference=UnitConverters.linear(scale=value), reference=self)
+        return TransformedUnit(to_reference=UnitConverters.scaling(scale=value), reference=self)
 
     def scale_divide(self, value: float):
         """construit une unite transformee en divisant le facteur d'echelle par la valeur en parametre par rapport a
@@ -164,6 +226,12 @@ class Unit(Factor):
         if isinstance(other, Factor):
             return super().__mul__(other)
         return self.scale_multiply(other)
+
+    def __rmul__(self, other):
+        return self.scale_multiply(other)
+
+    def __rtruediv__(self, other):
+        return DerivedUnit(self.factor(-1)).scale_multiply(other)
 
     def __truediv__(self, other):
         if isinstance(other, Factor):
@@ -258,3 +326,99 @@ class Metric(Enum):
 
     def __call__(self, *args, **kwargs):
         return self.prefix(args[0])
+
+
+class _EnumUnit(Unit, Enum):
+
+    def __init__(self, value):
+        super().__init__()
+
+    def dim(self):
+        return self.value.dim() if isinstance(self.value, _EnumUnit) else self.value
+
+    def to_base(self):
+        return self.dim().to_base()
+
+
+class Si(_EnumUnit):
+    s = FundamentalUnit()
+    m = FundamentalUnit()
+    _g = FundamentalUnit()
+    kg = Metric.KILO(_g)
+    A = FundamentalUnit()
+    K = FundamentalUnit()
+    mol = FundamentalUnit()
+    cd = FundamentalUnit()
+
+
+class Force(_EnumUnit):
+    N = Si.kg * Si.m / Si.s ** 2
+
+
+class Charge(_EnumUnit):
+    C = Si.A * Si.s
+
+
+class Voltage(_EnumUnit):
+    V = Si.kg * Si.m ** 2 * Si.s ** -3 * ~Si.A
+
+
+class Energy(_EnumUnit):
+    J = Si.kg * Si.m ** 2 * Si.s ** -2
+
+
+class Angle(_EnumUnit):
+    rad = Si.m / Si.m
+    degree = rad * math.pi / 180
+
+
+class SolidAngle(_EnumUnit):
+    sr = Si.m * Si.m / (Si.m * Si.m)
+
+
+class Time(_EnumUnit):
+    s = Si.s
+
+
+class Frequency(_EnumUnit):
+    Hz = ~Si.s
+
+
+class Length(_EnumUnit):
+    m = Si.m
+
+
+class Surface(_EnumUnit):
+    m2 = Si.m * Si.m
+
+
+class Volume(_EnumUnit):
+    m3 = Si.m * Surface.m2
+
+
+class Temperature(_EnumUnit):
+    K = Si.K
+    C = K + 273.15
+    R = K * 5 / 9
+    F = R + 459.67
+
+
+class Mass(_EnumUnit):
+    g = Si.kg / 1000
+    kg = Si.kg
+
+
+class Current(_EnumUnit):
+    A = Si.A
+
+
+class Substance(_EnumUnit):
+    mol = Si.mol
+
+
+class Intensity(_EnumUnit):
+    cd = Si.cd
+
+
+class Speed(_EnumUnit):
+    m_per_s = Length.m / Time.s

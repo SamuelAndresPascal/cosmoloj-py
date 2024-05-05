@@ -20,6 +20,7 @@ lint:unit_simple:
     - pylint --rcfile=../pylintrc test/test.py
     - pylint --rcfile=../pylintrc test/unit_simple_test.py
     - pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
+    - pylint --rcfile=../pylintrc test/unit_simple_built_in_test.py
 
 mkdocs:unit_simple:
   stage: doc
@@ -29,7 +30,7 @@ mkdocs:unit_simple:
     - pip install . # to compile the API docstrings with mkdocstrings
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - echo $'\n**Version '$VERSION'**' >> docs/about.md
-    - echo $'\nDocumentation generated at '$(date -u +"%D %T")' UTC' >> docs/about.md
+    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> docs/about.md
     - mkdocs build
     - zip -r site.zip site/
     - scp site.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/unit_simple

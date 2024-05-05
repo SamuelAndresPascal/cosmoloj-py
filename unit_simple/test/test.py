@@ -1,8 +1,8 @@
 """test module for Simple Unit"""
 
 import unittest
-from unit_simple import unit_simple as su
-from unit_simple.unit_simple import Metric as pm
+import unit_simple as su
+from unit_simple import Metric as pm
 
 
 class TestSimpleUnit(unittest.TestCase):

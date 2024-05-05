@@ -9,7 +9,7 @@ A transformed unit can be built from another unity by multiplying or dividing th
 first operand *must* be the unit and the second one *must* be the number.
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()  # metre
 km = m * 1000  # kilometre: overloads m.scale_multiply(1000)
@@ -20,7 +20,7 @@ Scale offset can also be built using arithmetic operators overloading. It can be
 Celsius degree from Kelvin:
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()  # Kelvin
 c = k + 273.15  # Celsius degree: overloads k.shift(273.15) 
@@ -32,7 +32,7 @@ f = c * 5 / 9 - 32  # Fahrenheit degree: overloads c.scale_multiply(5).scale_div
 Derived units defined from a single unit can be obtained raising a unit to a scalar power. 
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()  # metre
 m2 = m ** 2  # square metre: overloads DerivedUnit(m.factor(2))
@@ -44,7 +44,7 @@ hz = s ** -1  # Hertz: overloads DerivedUnit(s.factor(-1)
 Invert a unit can be obtained by simply use the overloading of the homonym python bitwise operator:
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 s = su.FundamentalUnit()  # second
 hz = ~s  # Hertz: overloads DerivedUnit(s.factor(-1)
@@ -53,7 +53,7 @@ hz = ~s  # Hertz: overloads DerivedUnit(s.factor(-1)
 Units derived from multiple units use the common arithmetic operators for multiplication and division. 
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
@@ -80,7 +80,7 @@ Converters can also be built from units using operator overloading. The right sh
 intuitive way to instantiate a unit converter from a source unit (left) to a target unit (right):
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()  # Kelvin
 c = k + 273.15  # Celsius degree
@@ -92,7 +92,7 @@ print(k_to_c.convert(3))
 Note the inverse converter can be obtained directly from the homonym overloaded bitwise operator:
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()  # Kelvin
 c = k + 273.15  # Celsius degree
@@ -113,7 +113,7 @@ The overloaded bitwise left shift operator is an alternative way to obtain the i
 like the right shift does for the direct one, it instantiates a new converter.
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()  # Kelvin
 c = k + 273.15  # Celsius degree
@@ -136,7 +136,7 @@ be used like conversion functions.
 
 
 ```py
-import unit_simple.unit_simple as su
+import unit_simple as su
 
 k = su.FundamentalUnit()  # Kelvin
 c = k + 273.15  # Celsius degree

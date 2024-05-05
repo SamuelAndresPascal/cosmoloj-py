@@ -3,6 +3,7 @@ nav:
   - Specification: specification.md
   - Standard: standard.md
   - Operators: operators.md
+  - Built-in: built-in.md
   - API: api.md
   - About: about.md
 theme: mkdocs  # readthedocs
