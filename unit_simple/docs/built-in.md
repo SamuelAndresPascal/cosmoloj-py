@@ -13,8 +13,8 @@ Built-in most fundamental units can be accessed from the `Si` enum.
 from unit_simple import Si
 
 # no need to define the metre as a fundamental unit as it is already defined as a built-in unit
-km = Si.m * 1000  
-cm = Si.m / 100
+km = Si.M * 1000  
+cm = Si.M / 100
 ```
 
 Other ones are available through a set of dimensional enums.
@@ -40,15 +40,15 @@ implicitly used by the units you.
 ```py
 from unit_simple import Si
 
-m2 = Si.m ** 2
-hz = ~Si.s
+m2 = Si.M ** 2
+hz = ~Si.S
 
-g = Si.kg / 1000
-ton = Si.kg * 1000
+g = Si.KG / 1000
+ton = Si.KG * 1000
 
-g_per_m2 = g / Si.m ** 2
+g_per_m2 = g / Si.M ** 2
 
-km = Si.m * 1000
+km = Si.M * 1000
 
 ton_per_km2 = ton * ~km ** 2
 ```
