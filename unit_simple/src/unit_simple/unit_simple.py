@@ -163,10 +163,7 @@ class Factor:
 
     def power(self) -> float:
         """puissance du facteur"""
-        if self._denominator == 1.:
-            return self._numerator
-        else:
-            return self._numerator / self._denominator
+        return self._numerator / self._denominator
 
     def __mul__(self, other):
         return DerivedUnit(self, other)
@@ -332,71 +329,100 @@ class _EnumUnit(Unit, Enum):
 
     def __init__(self, value):
         super().__init__()
+        self.enum_value = value
 
     def dim(self):
-        return self.value.dim() if isinstance(self.value, _EnumUnit) else self.value
+        return self.enum_value.dim() if isinstance(self.enum_value, _EnumUnit) else self.enum_value
 
     def to_base(self):
         return self.dim().to_base()
 
 
 class Si(_EnumUnit):
-    s = FundamentalUnit()
-    m = FundamentalUnit()
-    _g = FundamentalUnit()
-    kg = Metric.KILO(_g)
+    """
+    Si unit set.
+    """
+
+    S = FundamentalUnit()
+    M = FundamentalUnit()
+    _G = FundamentalUnit()
+    KG = Metric.KILO(_G)
     A = FundamentalUnit()
     K = FundamentalUnit()
-    mol = FundamentalUnit()
-    cd = FundamentalUnit()
+    MOL = FundamentalUnit()
+    CD = FundamentalUnit()
 
 
 class Force(_EnumUnit):
-    N = Si.kg * Si.m / Si.s ** 2
+    """Force unit set"""
+
+    N = Si.KG * Si.M / Si.S ** 2
 
 
 class Charge(_EnumUnit):
-    C = Si.A * Si.s
+    """Charge unit set"""
+
+    C = Si.A * Si.S
 
 
 class Voltage(_EnumUnit):
-    V = Si.kg * Si.m ** 2 * Si.s ** -3 * ~Si.A
+    """Voltage unit set"""
+
+    V = Si.KG * Si.M ** 2 * Si.S ** -3 * ~Si.A
 
 
 class Energy(_EnumUnit):
-    J = Si.kg * Si.m ** 2 * Si.s ** -2
+    """Energy unit set"""
+
+    J = Si.KG * Si.M ** 2 * Si.S ** -2
 
 
 class Angle(_EnumUnit):
-    rad = Si.m / Si.m
-    degree = rad * math.pi / 180
+    """Angle unit set"""
+
+    RAD = Si.M / Si.M
+    DEGREE = RAD * math.pi / 180
 
 
 class SolidAngle(_EnumUnit):
-    sr = Si.m * Si.m / (Si.m * Si.m)
+    """Solid angle unit set"""
+
+    SR = Si.M * Si.M / (Si.M * Si.M)
 
 
 class Time(_EnumUnit):
-    s = Si.s
+    """Time unit set"""
+
+    S = Si.S
 
 
 class Frequency(_EnumUnit):
-    Hz = ~Si.s
+    """Frequency unit set"""
+
+    HZ = ~Si.S
 
 
 class Length(_EnumUnit):
-    m = Si.m
+    """Length unit set"""
+
+    M = Si.M
 
 
 class Surface(_EnumUnit):
-    m2 = Si.m * Si.m
+    """Surface unit set"""
+
+    M2 = Si.M * Si.M
 
 
 class Volume(_EnumUnit):
-    m3 = Si.m * Surface.m2
+    """Volume unit set"""
+
+    M3 = Si.M * Surface.M2
 
 
 class Temperature(_EnumUnit):
+    """Thermodynamic temperature unit set"""
+
     K = Si.K
     C = K + 273.15
     R = K * 5 / 9
@@ -404,21 +430,30 @@ class Temperature(_EnumUnit):
 
 
 class Mass(_EnumUnit):
-    g = Si.kg / 1000
-    kg = Si.kg
+    """Mass unit set"""
+
+    G = Si.KG / 1000
+    KG = Si.KG
 
 
 class Current(_EnumUnit):
+    """Electric current unit set"""
+
     A = Si.A
 
 
 class Substance(_EnumUnit):
-    mol = Si.mol
+    """Amount of substance unit set"""
+
+    MOL = Si.MOL
 
 
 class Intensity(_EnumUnit):
-    cd = Si.cd
+    """Luminous intensity unit set"""
+    CD = Si.CD
 
 
 class Speed(_EnumUnit):
-    m_per_s = Length.m / Time.s
+    """Linear speed unit set"""
+
+    M_PER_S = Length.M / Time.S

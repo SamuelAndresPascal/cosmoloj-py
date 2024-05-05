@@ -9,8 +9,8 @@ from unit_simple import Si, Surface, Temperature
 def test_transformed():
     """test transformed units"""
 
-    k_metre = pm.KILO(Si.m)
-    c_metre = pm.CENTI(Si.m)
+    k_metre = pm.KILO(Si.M)
+    c_metre = pm.CENTI(Si.M)
     cm_to_km = c_metre >> k_metre
 
     assert cm_to_km(3.) == pytest.approx(expected=.00003, rel=1e-10)
@@ -20,8 +20,8 @@ def test_transformed():
 def test_derived():
     """test derived units"""
 
-    km2 = Surface.m2 * 1000 ** 2
-    cm2 = Surface.m2 / 100 ** 2
+    km2 = Surface.M2 * 1000 ** 2
+    cm2 = Surface.M2 / 100 ** 2
     km2_to_cm2 = km2 >> cm2
 
     assert km2_to_cm2(3.) == pytest.approx(expected=30000000000., rel=1e-10)
@@ -31,12 +31,12 @@ def test_derived():
 def test_combined_dimension_derived():
     """test derived units with combined dimensions"""
 
-    gram = Si.kg / 1000
-    ton = Si.kg * 1000
-    g_per_m2 = gram / Si.m ** 2
-    k_metre = Si.m * 1000
+    gram = Si.KG / 1000
+    ton = Si.KG * 1000
+    g_per_m2 = gram / Si.M ** 2
+    k_metre = Si.M * 1000
     ton_per_km2 = ton * ~k_metre ** 2
-    c_metre = Si.m / 100
+    c_metre = Si.M / 100
     ton_per_cm2 = ton / c_metre ** 2
     g_per_m2_to_ton_per_km2 = g_per_m2 >> ton_per_km2
     g_per_m2_to_ton_per_cm2 = ton_per_cm2 << g_per_m2
@@ -61,8 +61,8 @@ def test_temperatures():
 
     # en combinaison avec d'autres unites, les conversions d'unites de temperatures doivent
     # devenir lineaires
-    c_per_m = Temperature.C / Si.m
-    k_per_m = Temperature.K / Si.m
+    c_per_m = Temperature.C / Si.M
+    k_per_m = Temperature.K / Si.M
     k_per_m_to_c_per_m = k_per_m >> c_per_m
 
     assert k_per_m_to_c_per_m(3.) == pytest.approx(expected=3., rel=1e-10)
@@ -72,10 +72,10 @@ def test_temperatures():
 def test_speed():
     """test non decimal conversions"""
 
-    k_metre = Si.m * 1000.
-    hour = Si.s * 3600.
+    k_metre = Si.M * 1000.
+    hour = Si.M * 3600.
 
-    metre_per_second = Si.m / Si.s
+    metre_per_second = Si.M / Si.M
     kmh = k_metre / hour
 
     ms_to_kmh = metre_per_second >> kmh
@@ -113,5 +113,6 @@ def test_temperatures_additional():
 
 
 def test_angle():
+    """test 0-dimensional angle definitions"""
 
-    assert (Angle.rad >> Angle.degree)(math.pi / 2) == 90
+    assert (Angle.RAD >> Angle.DEGREE)(math.pi / 2) == 90
