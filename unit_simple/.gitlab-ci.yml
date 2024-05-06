@@ -61,15 +61,15 @@ test:unit_simple:
       junit: unit_simple/report.xml
     expire_in: 2 days
 
-python-support-version:unit_simple:
-  stage: python-support-version
+python-version-support:unit_simple:
+  stage: python-version-support
   rules:
     - if: $CI_COMMIT_TAG
       when: never
     - when: always
   script:
     - cd unit_simple
-    - source resources/check_py_support.sh
+    - . resources/check_py_support.sh
 
 demo:unit_simple:
   stage: demo
