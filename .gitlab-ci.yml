@@ -28,6 +28,7 @@ stages:
   - lint
   - doc
   - test
+  - python-version-support
   - coverage
   - demo
   - pypi-package

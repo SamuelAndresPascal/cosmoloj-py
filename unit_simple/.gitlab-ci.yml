@@ -4,8 +4,6 @@ lint:unit_simple:
     - if: $CI_COMMIT_TAG
       when: never
     - when: always
-  variables:
-    PYTHONPATH: .
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -46,8 +44,6 @@ test:unit_simple:
     - if: $CI_COMMIT_TAG
       when: never
     - when: always
-  variables:
-    PYTHONPATH: unit_simple
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -64,6 +60,16 @@ test:unit_simple:
     reports:
       junit: unit_simple/report.xml
     expire_in: 2 days
+
+python-support-version:unit_simple:
+  stage: python-support-version
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  script:
+    - cd unit_simple
+    - . resources/check_py_support.sh
 
 demo:unit_simple:
   stage: demo
