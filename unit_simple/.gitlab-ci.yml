@@ -69,7 +69,7 @@ python-support-version:unit_simple:
     - when: always
   script:
     - cd unit_simple
-    - . resources/check_py_support.sh
+    - source resources/check_py_support.sh
 
 demo:unit_simple:
   stage: demo
