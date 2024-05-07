@@ -3,5 +3,5 @@ do
     echo "====== TEST PYTHON VERSION SUPPORT 3.$PYTHON_VERSION ======"
     echo "====== TEST PYTHON VERSION SUPPORT 3.$PYTHON_VERSION ======"
     echo "====== TEST PYTHON VERSION SUPPORT 3.$PYTHON_VERSION ======"
-    . resources/check_py_version.sh "3.$PYTHON_VERSION"
+    . resources/check_py_version.sh "3.$PYTHON_VERSION" || exit 1
 done
