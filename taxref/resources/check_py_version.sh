@@ -3,7 +3,7 @@ PYTHON_VERSION=$1
 python --version
 conda --version
 
+conda install pandas python-dotenv -y
 pip install .
 conda install pytest -y
 pytest
-python demo.py

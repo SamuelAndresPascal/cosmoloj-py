@@ -43,6 +43,18 @@ test:taxref:
       junit: taxref/report.xml
     expire_in: 2 days
 
+python-version-support:taxref:
+  stage: python-version-support
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  variables:
+    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+  script:
+    - cd taxref
+    - . resources/check_py_support.sh
+
 pypi-package:taxref:pypi:
   stage: pypi-package
   rules:
@@ -126,6 +138,7 @@ conda-package:taxref:
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
     - grayskull pypi -o $DIST_DIR $PACKAGE
+    - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD

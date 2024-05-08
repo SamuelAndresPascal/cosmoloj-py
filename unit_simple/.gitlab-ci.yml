@@ -68,7 +68,7 @@ python-version-support:unit_simple:
       when: never
     - when: always
   variables:
-    PYTHONNOUSERSITE: 1 # shortcuts sytem python libs installed in ~/.local/lib/python3.x/site-packages
+    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
     - cd unit_simple
     - . resources/check_py_support.sh
@@ -168,6 +168,7 @@ conda-package:unit_simple:
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
     - grayskull pypi -o $DIST_DIR $PACKAGE
+    - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD

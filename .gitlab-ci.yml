@@ -5,6 +5,7 @@ default:
     - python --version
     - conda --version
     - which python
+    - which conda
     - conda init bash
     - conda env list
     - conda list cosmoloj_py
