@@ -38,7 +38,7 @@ m = su.FundamentalUnit()  # metre
 m2 = m ** 2  # square metre: overloads DerivedUnit(m.factor(2))
 
 s = su.FundamentalUnit()  # second
-hz = s ** -1  # Hertz: overloads DerivedUnit(s.factor(-1)
+hz = s ** -1  # Hertz: overloads DerivedUnit(s.factor(-1))
 ```
 
 Invert a unit can be obtained by simply use the overloading of the homonym python bitwise operator:
@@ -47,7 +47,7 @@ Invert a unit can be obtained by simply use the overloading of the homonym pytho
 import unit_simple as su
 
 s = su.FundamentalUnit()  # second
-hz = ~s  # Hertz: overloads DerivedUnit(s.factor(-1)
+hz = ~s  # Hertz: overloads DerivedUnit(s.factor(-1))
 ```
 
 Units derived from multiple units use the common arithmetic operators for multiplication and division. 
@@ -61,7 +61,7 @@ g = kg / 1000  # gram is a transformed unit since the second operand is a scalar
 ton = kg * 1000  # ton is a transformed unit since the second operant is a scalar
 
 # g_per_m2 is a derived unit since both operands (g and m ** 2) are units
-# overloads DeriveUnit(g, DerivedUnit(m.factor(2)))
+# overloads DerivedUnit(g, DerivedUnit(m.factor(2)))
 g_per_m2 = g / m ** 2
 
 km = m * 1000  # km is a transformed unit since the second operand is a scalar
@@ -70,7 +70,7 @@ km = m * 1000  # km is a transformed unit since the second operand is a scalar
 # overloads DerivedUnit(ton, DerivedUnit(DerivedUnit(km.factor(-1).factor(2))))
 # the equivalent definition :
 # ton_per_km2 = ton * km ** -2
-# would have more efficiently overload DerivedUnit(ton, DerivedUnit(km.factor(-2)) 
+# would have more efficiently overload DerivedUnit(ton, DerivedUnit(km.factor(-2)))
 ton_per_km2 = ton * ~km ** 2
 ```
 
