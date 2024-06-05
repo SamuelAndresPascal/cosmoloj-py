@@ -10,7 +10,9 @@ class Foo:
 
 
 foo = Foo("bar")
-print(foo.bar)
+assert foo.bar == "bar"
+
+assert Foo("toto").bar == "toto"
 
 assert deserialize(Foo, {"bar": "bar"}) == Foo("bar")
 assert deserialize(Mapping[str, Collection[Foo]], {"key": [{"bar": "42"}]}) == {

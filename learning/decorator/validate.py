@@ -12,17 +12,9 @@ def validate(fun=None):
     return validate_instance
 
 
-def autovalidate(c: type):
-    def inner(*args, **kwargs):
-        instance = c(*args, **kwargs)
-        instance.validate()
-        return instance
-    return inner
-
-
 def checker(person):
     assert person.name == 'Samuel' or person.name == 'Sam'
-    print('rien')
+    print('check person')
 
 
 @validate(checker)
@@ -32,20 +24,8 @@ class Person:
     age: int
 
 
-@autovalidate
-@dataclass(frozen=True)
-class Person2:
-    name: str
-    age: int
-
-    def validate(self):
-        assert self.name == 'Samuel' or self.name == 'Sam'
-
-
 toto = Person('Samuel', 41)
 print(toto)
 tata = Person(name='Sam', age=14)
 print(tata)
 print(type(toto))
-
-tutu = Person2(name='Sam', age=14)
