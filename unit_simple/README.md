@@ -1,5 +1,7 @@
 # Simple Unit (Python implementation)
 
+![example workflow](https://github.com/SamuelAndresPascal/cosmoloj-py/actions/workflows/unit_simple.yml/badge.svg)
+
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_date.svg)](https://anaconda.org/cosmoloj/unit_simple)
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit_simple/badges/latest_release_relative_date.svg)](https://anaconda.org/cosmoloj/unit_simple)
