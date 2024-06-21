@@ -18,6 +18,8 @@ jobs:
           python-version: 3.11
           auto-activate-base: false
       - run: cd unit_simple
+      - run: pwd
+      - run: ls -l
       - run: conda install -y pylint
       # install deps for pylint to find
       - run: conda install -y pytest
