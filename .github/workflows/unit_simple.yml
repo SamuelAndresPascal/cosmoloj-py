@@ -10,20 +10,11 @@ jobs:
   build__unit_simple:
     runs-on: ubuntu-latest
     steps:
-      - run: conda --version
-      - run: python --version
-      - run: which conda
-      - run: which python
-      - name: "checkout repository"
-        uses: actions/checkout@master
-      - name: "create environment"
-        run: conda create -n cosmoloj_py python=3.11 -y
-      - run: conda init
-      - run: conda activate cosmoloj_py
-      - run: conda --version
-      - run: python --version
-      - run: which conda
-      - run: which python
-#      - name: "build unit_simple"
-#        working-directory: ./unit_simple
-#        run: cargo build
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: unit_simple/environment.yml
+          python-version: 3.11
+          auto-activate-base: false
+      - run: cd unit_simple
