@@ -1,0 +1,19 @@
+name: unit_simple
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build__unit_simple:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "print stack"
+        run: conda --version
+      - name: "checkout repository"
+        uses: actions/checkout@master
+#      - name: "build unit_simple"
+#        working-directory: ./unit_simple
+#        run: cargo build
