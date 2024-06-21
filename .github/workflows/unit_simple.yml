@@ -10,10 +10,18 @@ jobs:
   build__unit_simple:
     runs-on: ubuntu-latest
     steps:
-      - name: "print stack"
-        run: conda --version
+      - run: conda --version
+      - run: python --version
+      - run: which conda
+      - run: which python
       - name: "checkout repository"
         uses: actions/checkout@master
+      - name: "create environment"
+        run: conda create -n cosmoloj_py python=3.11 -y
+      - run: conda --version
+      - run: python --version
+      - run: which conda
+      - run: which python
 #      - name: "build unit_simple"
 #        working-directory: ./unit_simple
 #        run: cargo build
