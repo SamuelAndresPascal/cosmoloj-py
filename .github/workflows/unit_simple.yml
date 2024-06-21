@@ -16,9 +16,9 @@ jobs:
       - run: which python
       - name: "checkout repository"
         uses: actions/checkout@master
-      - run: conda init
       - name: "create environment"
         run: conda create -n cosmoloj_py python=3.11 -y
+      - run: conda init
       - run: conda activate cosmoloj_py
       - run: conda --version
       - run: python --version
