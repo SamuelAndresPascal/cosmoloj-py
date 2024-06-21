@@ -17,7 +17,7 @@ jobs:
           environment-file: unit_simple/environment.yml
           python-version: 3.11
           auto-activate-base: false
-      - run: cd unit_simple
+      - run: cd unit_simple ; ls -l
       - run: pwd
       - run: ls -l
       - run: conda install -y pylint
