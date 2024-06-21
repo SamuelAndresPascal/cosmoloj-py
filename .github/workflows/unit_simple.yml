@@ -18,3 +18,22 @@ jobs:
           python-version: 3.11
           auto-activate-base: false
       - run: cd unit_simple
+      - run: conda install -y pylint
+      # install deps for pylint to find
+      - run: conda install -y pytest
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - run: pip install .
+      - run: |
+          pylint --rcfile=../pylintrc src
+          pylint --rcfile=../pylintrc demo.py
+          pylint --rcfile=../pylintrc test/test.py
+          pylint --rcfile=../pylintrc test/unit_simple_test.py
+          pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
+          pylint --rcfile=../pylintrc test/unit_simple_built_in_test.py
+      - run: conda install -y pytest-cov
+      - run: cd ..
+      - run: pytest --cov=unit_simple --junitxml=unit_simple/report.xml --cov-append unit_simple
+      - run: python unit_simple/test/test.py
