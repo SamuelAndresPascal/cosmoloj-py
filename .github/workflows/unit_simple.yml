@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '30 5 * * 0'
 
 jobs:
   lint__unit_simple:
