@@ -288,7 +288,7 @@ print(acre_to_m2.convert(15))
 print(acre_to_m2.inverse().convert(15))
 ```
 
-In reality, derived units does not simply *combine* units but *multiplies* unit factors.
+In reality, derived units do not simply *combine* units but *multiplies* unit factors.
 
 A unit factor is nothing more than a unit raised to a rational power. Each unit can easily build factor of itself by 
 calling the dedicated method `factor`. Hence, the previous example should have explicitly made appear factors if it had
