@@ -29,8 +29,8 @@ jobs:
           conda --version
           python --version
           conda list
-      - run: |
-          cd unit_simple
+      - working-directory: unit_simple
+        run: |
           pip install .
           pylint --rcfile=../pylintrc src
           pylint --rcfile=../pylintrc demo.py
@@ -56,9 +56,8 @@ jobs:
           conda --version
           python --version
           conda list
-      - run: |
-          cd unit_simple
-          pip install .
+      - working-directory: unit_simple
+        run: pip install .
       - run: conda install -y pytest-cov
       - run: pytest --cov=unit_simple --junitxml=unit_simple/report.xml --cov-append unit_simple
       - run: python unit_simple/test/test.py
