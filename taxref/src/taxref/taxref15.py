@@ -9,7 +9,7 @@ from taxref.taxref14 import Taxref14, Taxref14_tuple
 
 class Taxref15(Enum):
     """
-    Taxref 11 specification.
+    Taxref 15 specification.
     """
     REGNE = auto()
     PHYLUM = auto()

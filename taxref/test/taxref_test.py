@@ -11,6 +11,8 @@ from taxref.taxref12 import Taxref12, to_taxref12_tuple
 from taxref.taxref13 import Taxref13, to_taxref13_tuple
 from taxref.taxref14 import Taxref14, to_taxref14_tuple
 from taxref.taxref15 import Taxref15, to_taxref15_tuple
+from taxref.taxref16 import Taxref16, to_taxref16_tuple
+from taxref.taxref17 import Taxref17, to_taxref17_tuple
 from taxref.taxref_common import pdReadCts
 from taxref.taxref11 import Taxref11, to_taxref11_tuple
 
@@ -30,7 +32,11 @@ load_dotenv()
     (Taxref14, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v14_2020', 'TAXREFv14.txt'), to_taxref14_tuple,
      40, 630298),
     (Taxref15, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v15_2021', 'TAXREFv15.txt'), to_taxref15_tuple,
-     41, 657609)
+     41, 657609),
+    (Taxref16, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v16_2022', 'TAXREFv16.txt'), to_taxref16_tuple,
+     41, 670946),
+    (Taxref17, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v17_2024', 'TAXREFv17.txt'), to_taxref17_tuple,
+     41, 691281)
 ])
 def test_taxref(enum, path: Path, to_tuple, exp_col_len: int, exp_row_len: int):
     """test metric prefixes units"""
