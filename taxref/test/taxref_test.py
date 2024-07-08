@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 import pandas as pd
 
 from taxref.taxref10 import Taxref10, to_taxref10_tuple
+from taxref.taxref12 import Taxref12, to_taxref12_tuple
+from taxref.taxref13 import Taxref13, to_taxref13_tuple
+from taxref.taxref14 import Taxref14, to_taxref14_tuple
+from taxref.taxref15 import Taxref15, to_taxref15_tuple
 from taxref.taxref_common import pdReadCts
 from taxref.taxref11 import Taxref11, to_taxref11_tuple
 
@@ -18,12 +22,20 @@ load_dotenv()
     (Taxref10, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v10_0', 'TAXREFv10.0.txt'), to_taxref10_tuple,
      38, 509148),
     (Taxref11, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v11', 'TAXREFv11.txt'), to_taxref11_tuple,
-     40, 550843)
+     40, 550843),
+    (Taxref12, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v12', 'TAXREFv12.txt'), to_taxref12_tuple,
+     40, 570623),
+    (Taxref13, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v13_2019', 'TAXREFv13.txt'), to_taxref13_tuple,
+     40, 595373),
+    (Taxref14, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v14_2020', 'TAXREFv14.txt'), to_taxref14_tuple,
+     40, 630298),
+    (Taxref15, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v15_2021', 'TAXREFv15.txt'), to_taxref15_tuple,
+     41, 657609)
 ])
 def test_taxref(enum, path: Path, to_tuple, exp_col_len: int, exp_row_len: int):
     """test metric prefixes units"""
 
-    #assert len(enum) == exp_col_len
+    assert len(enum) == exp_col_len
 
     df = pd.read_csv(
         filepath_or_buffer=path,
