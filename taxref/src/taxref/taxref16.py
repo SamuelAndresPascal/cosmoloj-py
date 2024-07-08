@@ -2,7 +2,6 @@
 
 from pandas.core.indexing import _LocIndexer
 
-from taxref.taxref13 import Taxref13, Taxref13_tuple
 from taxref.taxref15 import Taxref15, Taxref15_tuple
 
 Taxref16 = Taxref15

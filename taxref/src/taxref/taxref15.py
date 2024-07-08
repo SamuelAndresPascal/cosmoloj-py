@@ -4,8 +4,6 @@ from enum import Enum, auto
 
 from pandas.core.indexing import _LocIndexer
 
-from taxref.taxref14 import Taxref14, Taxref14_tuple
-
 
 class Taxref15(Enum):
     """
