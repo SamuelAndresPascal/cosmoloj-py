@@ -25,11 +25,6 @@ classifiers = [
 ]
 keywords = ["units", "converter", "unit converter", "measure", "units of measurement"]
 
-[tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
-]
-
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/unit_simple"
 "Documentation" = "http://cosmoloj.com/mkdocs/unit_simple/master"
