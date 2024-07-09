@@ -1,5 +1,6 @@
 """test module for Taxref"""
 import os
+from dataclasses import dataclass
 from pathlib import Path
 
 import pytest
@@ -21,40 +22,46 @@ from taxref.taxref11 import Taxref11, to_taxref11_tuple
 load_dotenv()
 
 
-@pytest.mark.parametrize("enum,path,constants,to_tuple,exp_col_len,exp_row_len", [
+@dataclass(frozen=True)
+class Expected:
+    col_len: int
+    row_len: int
+
+
+@pytest.mark.parametrize("enum,path,constants,to_tuple,exp", [
     (Taxref3, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v3_0', 'TAXREFv30.txt'), IGNORE,
-     to_taxref3_tuple, 29, 261213),
+     to_taxref3_tuple, Expected(29, 261213)),
     (Taxref4, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v4_0', 'TAXREFv40.txt'), STRICT,
-     to_taxref4_tuple, 32, 315225),
+     to_taxref4_tuple, Expected(32, 315225)),
     (Taxref5, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v5_0', 'TAXREFv50.txt'), IGNORE,
-     to_taxref5_tuple, 32, 337858),
+     to_taxref5_tuple, Expected(32, 337858)),
     (Taxref7, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v7_0', 'TAXREFv70.txt'), IGNORE,
-     to_taxref7_tuple, 34, 407137),
+     to_taxref7_tuple, Expected(34, 407137)),
     (Taxref8, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v8_0', 'TAXREFv80.txt'), IGNORE,
-     to_taxref8_tuple, 35, 452106),
+     to_taxref8_tuple, Expected(35, 452106)),
     (Taxref9, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v9_0', 'TAXREFv90.txt'), STRICT,
-     to_taxref9_tuple, 36, 485189),
+     to_taxref9_tuple, Expected(36, 485189)),
     (Taxref10, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v10_0', 'TAXREFv10.0.txt'), STRICT,
-     to_taxref10_tuple, 38, 509148),
+     to_taxref10_tuple, Expected(38, 509148)),
     (Taxref11, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v11', 'TAXREFv11.txt'), STRICT,
-     to_taxref11_tuple, 40, 550843),
+     to_taxref11_tuple, Expected(40, 550843)),
     (Taxref11, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_INPN_v12', 'TAXREFv12.txt'), STRICT,
-     to_taxref11_tuple, 40, 570623),
+     to_taxref11_tuple, Expected(40, 570623)),
     (Taxref11, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v13_2019', 'TAXREFv13.txt'), STRICT,
-     to_taxref11_tuple, 40, 595373),
+     to_taxref11_tuple, Expected(40, 595373)),
     (Taxref11, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v14_2020', 'TAXREFv14.txt'), STRICT,
-     to_taxref11_tuple, 40, 630298),
+     to_taxref11_tuple, Expected(40, 630298)),
     (Taxref15, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v15_2021', 'TAXREFv15.txt'), STRICT,
-     to_taxref15_tuple, 41, 657609),
+     to_taxref15_tuple, Expected(41, 657609)),
     (Taxref15, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v16_2022', 'TAXREFv16.txt'), STRICT,
-     to_taxref15_tuple, 41, 670946),
+     to_taxref15_tuple, Expected(41, 670946)),
     (Taxref15, Path(os.getenv('BIOLOJ'), 'taxref', 'TAXREF_v17_2024', 'TAXREFv17.txt'), STRICT,
-     to_taxref15_tuple, 41, 691281)
+     to_taxref15_tuple, Expected(41, 691281))
 ])
-def test_taxref(enum, path: Path, to_tuple, constants: PdReadCts, exp_col_len: int, exp_row_len: int):
+def test_taxref(enum, path: Path, to_tuple, constants: PdReadCts, exp: Expected):
     """test metric prefixes units"""
 
-    assert len(enum) == exp_col_len
+    assert len(enum) == exp.col_len
 
     df = pd.read_csv(
         filepath_or_buffer=path,
@@ -65,7 +72,7 @@ def test_taxref(enum, path: Path, to_tuple, constants: PdReadCts, exp_col_len: i
         dtype=constants.dtype,
         na_filter=constants.na_filter)
 
-    assert len(df) == exp_row_len
+    assert len(df) == exp.row_len
     assert df.index.name == enum.CD_NOM.name
 
     single = df.loc['183718']
