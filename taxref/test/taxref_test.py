@@ -24,6 +24,7 @@ load_dotenv()
 
 @dataclass(frozen=True)
 class Expected:
+    """Expected data for a given taxref version."""
     col_len: int
     row_len: int
 
