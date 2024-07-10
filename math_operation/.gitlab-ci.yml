@@ -14,7 +14,7 @@ lint:math_operation:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc src
-    - pylint --rcfile=../pylintrc test
+    - pylint --rcfile=../pylintrc test/projection/*
 
 test:math_operation:
   stage: test

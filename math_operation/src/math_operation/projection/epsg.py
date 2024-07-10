@@ -1,10 +1,15 @@
+"""The EPSG projection definitions."""
+
 from math import log, tan, pi, atan, exp
 
 from math_operation.operation import InversibleProjection
-from math_operation.surface import Ellipsoid, Surface
+from math_operation.surface import Surface
 
 
 class Epsg1024(InversibleProjection):
+    """EPSG::1024
+    Popular Visualisation Pseudo-Mercator ("Web Mercator")
+    """
 
     _PHI: int = 0
     _LAMBDA: int = 1
@@ -13,7 +18,7 @@ class Epsg1024(InversibleProjection):
 
     def __init__(self, ellipsoid: Surface, lambda0: float, fe: float, fn: float):
         self._ellipsoid = ellipsoid
-        self._a = ellipsoid.a() if type(ellipsoid) is Ellipsoid else ellipsoid.r()
+        self._a = ellipsoid.semi_major_axis()
         self._lambda0 = lambda0
         self._fe = fe
         self._fn = fn
