@@ -4,6 +4,8 @@ The module define the surface types in usage in geomatics and geodesy.
 
 
 from enum import Enum, auto
+from typing import override
+
 from math import sqrt
 
 
@@ -50,6 +52,7 @@ class Ellipsoid(Surface):
         """The semi-major axis value."""
         return self._a
 
+    @override
     def semi_major_axis(self) -> float:
         return self.a()
 
@@ -78,6 +81,7 @@ class Spheroid(Surface):
         """
         return self._r
 
+    @override
     def semi_major_axis(self) -> float:
         return self.r()
 

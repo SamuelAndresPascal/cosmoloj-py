@@ -1,4 +1,5 @@
 """The operation hierachy model."""
+from typing import override
 
 from math_operation.surface import Surface
 
@@ -59,6 +60,7 @@ class AutoInverse(InvertibleOperation):
     """An auto-inverse operation is a proxy-utilitary class that allows to automatically define the inverse operation
     from the current invertible operation."""
 
+    @override
     def inverse_operation(self) -> Operation:
         return _AnonymAutoInverse(self)
 
@@ -68,12 +70,15 @@ class _AnonymAutoInverse(AutoInverse):
     def __init__(self, parent: AutoInverse):
         self._parent = parent
 
+    @override
     def inverse(self, i):
         return self._parent.compute(i)
 
+    @override
     def compute(self, i):
         return self._parent.inverse(i)
 
+    @override
     def inverse_operation(self) -> Operation:
         return self._parent
 
