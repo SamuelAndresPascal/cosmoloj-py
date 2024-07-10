@@ -7,6 +7,8 @@ lint:math_operation:
   script:
     - cd math_operation
     - conda env create --force --file environment.yml
+    # install deps
+    - conda install -y numpy
     # install tool
     - conda install -y pylint
     # install deps for pylint to find
@@ -25,6 +27,7 @@ test:math_operation:
   script:
     - cd math_operation
     - conda env create --force --file environment.yml
+    - conda install -y numpy
     - conda install -y pytest-cov
     - pip install .
     - cd ..
