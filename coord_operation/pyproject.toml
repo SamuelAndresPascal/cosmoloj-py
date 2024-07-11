@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "math_operation"
+name = "coord_operation"
 version = "0.0.0"
 authors = [
   { name="Samuel Andrés", email="samuel.andres@yahoo.fr" },
