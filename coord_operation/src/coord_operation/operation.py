@@ -1,7 +1,7 @@
 """The operation hierachy model."""
 from typing import override
 
-from math_operation.surface import Surface
+from coord_operation.surface import Surface
 
 
 class Operation:

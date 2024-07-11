@@ -2,8 +2,8 @@
 
 from math import log, tan, pi, atan, exp
 
-from math_operation.operation import InversibleProjection
-from math_operation.surface import Surface
+from coord_operation.operation import InversibleProjection
+from coord_operation.surface import Surface
 
 
 class Epsg1024(InversibleProjection):
