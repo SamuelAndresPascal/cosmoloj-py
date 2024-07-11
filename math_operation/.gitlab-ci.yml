@@ -1,0 +1,138 @@
+lint:math_operation:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    # install deps
+    - conda install -y numpy
+    # install tool
+    - conda install -y pylint
+    # install deps for pylint to find
+    - conda install -y pytest
+    - conda list
+    - pip install .
+    - pylint --rcfile=../pylintrc src
+    - pylint --rcfile=../pylintrc test/projection/*
+
+test:math_operation:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    - conda install -y numpy
+    - conda install -y pytest-cov
+    - pip install .
+    - cd ..
+    - pytest --cov=math_operation --junitxml=math_operation/report.xml --cov-append math_operation
+  artifacts:
+    when: always
+    paths:
+      - .coverage
+      - math_operation/report.xml
+    reports:
+      junit: math_operation/report.xml
+    expire_in: 2 days
+
+pypi-package:math_operation:pypi:
+  stage: pypi-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^math_operation-/
+      when: always
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    - rm -rf dist/
+    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/math_operation\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
+    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
+    - cat pyproject.toml
+    - cp ../LICENSE.md .
+    - pip install .
+    - conda install -c conda-forge -y build
+    - python -m build
+    - ls -l $DIST_DIR
+    - conda uninstall -y build
+  artifacts:
+    paths:
+      - math_operation/dist/*
+
+pypi-publish:math_operation:test_pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^math_operation-/
+      when: manual
+    - when: never
+  dependencies:
+    - pypi-package:math_operation:pypi
+  when: manual
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    - conda install -y --update-deps twine
+    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
+    - conda uninstall -y twine
+  environment:
+    name: test pypi math operation
+    url: https://test.pypi.org/project/math_operation/
+
+pypi-publish:math_operation:pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^math_operation-/
+      when: manual
+    - when: never
+  dependencies:
+    - pypi-package:math_operation:pypi
+  when: manual
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    - conda install -y --update-deps twine
+    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
+    - conda uninstall -y twine
+  environment:
+    name: pypi math operation
+    url: https://pypi.org/project/math_operation/
+
+conda-package:math_operation:
+  stage: conda-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^math_operation-/
+      when: manual
+    - when: never
+  variables:
+    DIST_DIR: conda_dist
+    PACKAGE: math_operation
+  when: manual
+  script:
+    - cd math_operation
+    - conda env create --force --file environment.yml
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2)
+    - rm -rf $DIST_DIR/
+    - mkdir $DIST_DIR
+    - conda install -c conda-forge grayskull
+    - grayskull pypi -o $DIST_DIR $PACKAGE
+    - cat $DIST_DIR/$PACKAGE/meta.yaml
+    - conda build $DIST_DIR/$PACKAGE
+    - anaconda logout
+    - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
+    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
+    - anaconda logout
+  artifacts:
+    paths:
+      - math_operation/$DIST_DIR/*
+  environment:
+    name: anaconda math operation
+    url: https://anaconda.org/cosmoloj/math_operation/
