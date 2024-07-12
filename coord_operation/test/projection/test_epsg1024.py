@@ -1,4 +1,4 @@
-"""test module for EPSG projections"""
+"""test module for EPSG 1024 projections"""
 
 import pytest
 

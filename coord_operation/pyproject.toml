@@ -26,6 +26,4 @@ classifiers = [
 keywords = ["epsg", "geomatics", "cartography", "geodesy", "projection", "mathematics"]
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/unit_simple"
-"Documentation" = "http://cosmoloj.com/mkdocs/unit_simple/master"
-"Specification" = "http://cosmoloj.com/su"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/coord_operation"
