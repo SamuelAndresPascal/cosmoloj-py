@@ -61,26 +61,26 @@ class AutoInverse(InvertibleOperation):
     from the current invertible operation."""
 
     @override
-    def inverse_operation(self) -> Operation:
-        return _AnonymAutoInverse(self)
+    def inverse_operation(self) -> InvertibleOperation:
+        return _AnonymAutoInverse(direct=self)
 
 
 class _AnonymAutoInverse(AutoInverse):
 
-    def __init__(self, parent: AutoInverse):
-        self._parent = parent
+    def __init__(self, direct: AutoInverse):
+        self._direct = direct
 
     @override
     def inverse(self, i):
-        return self._parent.compute(i)
+        return self._direct.compute(i)
 
     @override
     def compute(self, i):
-        return self._parent.inverse(i)
+        return self._direct.inverse(i)
 
     @override
-    def inverse_operation(self) -> Operation:
-        return self._parent
+    def inverse_operation(self) -> InvertibleOperation:
+        return self._direct
 
 
 class Projection(Conversion):

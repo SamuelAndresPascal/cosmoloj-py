@@ -1,4 +1,4 @@
-# Math Operation (Cartography and Geodesy formulas)
+# Coord Operation (Cartography and Geodesy formulas)
 
 [![example workflow](https://github.com/SamuelAndresPascal/cosmoloj-py/actions/workflows/unit_simple.yml/badge.svg)](https://github.com/SamuelAndresPascal/cosmoloj-py/actions)
 
