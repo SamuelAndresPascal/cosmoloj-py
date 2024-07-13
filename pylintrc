@@ -4,3 +4,5 @@ max-args=6
 
 [DESIGN]
 min-public-methods=1
+max-attributes=100
+max-public-methods=100
