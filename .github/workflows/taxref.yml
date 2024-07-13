@@ -1,0 +1,63 @@
+name: taxref
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 5 * * 0'
+
+jobs:
+
+  lint__taxref:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: taxref/environment.yml
+          python-version: 3.11
+          auto-activate-base: false
+      - run: conda install -y pandas python-dotenv
+      - run: conda install -y pylint
+      # install deps for pylint to find
+      - run: conda install -y pytest
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: taxref
+        run: |
+          pip install .
+          pylint --rcfile=pylintrc src
+          pylint --rcfile=../pylintrc test/test.py
+          pylint --rcfile=../pylintrc test/taxref_test.py
+
+  test__taxref:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: taxref/environment.yml
+          python-version: 3.11
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: taxref
+        run: pip install .
+      - run: conda install -y pandas python-dotenv
+      - run: conda install -y pytest-cov
+      - run: pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
+      - run: python taxref/test/test.py

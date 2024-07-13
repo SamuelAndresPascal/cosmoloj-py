@@ -1,0 +1,61 @@
+name: coord_operation
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 5 * * 0'
+
+jobs:
+
+  lint__coord_operation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: coord_operation/environment.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: conda install -y numpy
+      - run: conda install -y pylint
+      # install deps for pylint to find
+      - run: conda install -y pytest
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: coord_operation
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc src
+          pylint --rcfile=../pylintrc test/projection/*
+
+  test__coord_operation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: coord_operation/environment.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: coord_operation
+        run: pip install .
+      - run: conda install -y numpy
+      - run: conda install -y pytest-cov
+      - run: pytest --cov=coord_operation --junitxml=coord_operation/report.xml --cov-append coord_operation
