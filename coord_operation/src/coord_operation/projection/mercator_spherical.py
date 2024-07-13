@@ -10,12 +10,12 @@ from typing import override
 
 from math import cos
 
-from coord_operation.operation import InversibleProjection
+from coord_operation.operation import InvertibleProjection
 from coord_operation.projection import map_projections
 from coord_operation.surface import Spheroid
 
 
-class MercatorSpherical(InversibleProjection):
+class MercatorSpherical(InvertibleProjection[Spheroid]):
     """The mercator spherical projection as defined in Map Projections."""
 
     _LATITUDE: int = 0

@@ -6,3 +6,6 @@ max-args=6
 min-public-methods=1
 max-attributes=100
 max-public-methods=100
+
+[MESSAGES CONTROL]
+disable=undefined-variable

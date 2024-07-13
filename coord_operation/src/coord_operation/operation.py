@@ -43,14 +43,14 @@ class InvertibleOperation(Operation):
         return self.inverse_operation()
 
 
-class Conversion(Operation):
+class Conversion[S: Surface](Operation):
     """EPSG definition:
 
     A coordinate operation that changes coordinates in a source coordinate reference system to coordinates in a target
     coordinate reference system in which both coordinate reference systems are based on the same datum.
     """
 
-    def get_surface(self) -> Surface:
+    def get_surface(self) -> S:
         """
         Returns (Surface): the reference surface
         """
@@ -83,11 +83,11 @@ class _AnonymAutoInverse(AutoInverse):
         return self._direct
 
 
-class Projection(Conversion):
+class Projection[S: Surface](Conversion[S]):
     """EPSG definition:
     Coordinate conversion from an ellipsoidal coordinate system to a plane."""
 
 
-class InversibleProjection(Projection, AutoInverse):
-    """A projection which can be inverted to compute the ellipsoidal coordinate system coordiantes from the projected
+class InvertibleProjection[S: Surface](Projection[S], AutoInverse):
+    """A projection which can be inverted to compute the ellipsoidal coordinate system coordinates from the projected
     ones."""
