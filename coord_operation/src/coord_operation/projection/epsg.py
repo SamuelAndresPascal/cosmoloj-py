@@ -138,6 +138,7 @@ class Epsg1027(InvertibleProjection[Spheroid]):
 
 
 class Epsg1028(InvertibleProjection[Ellipsoid]):
+    """Abstract EPSG::1028 projection."""
 
     _PHI: int = 0
     _LAMBDA: int = 1
@@ -210,7 +211,7 @@ class Epsg1028(InvertibleProjection[Ellipsoid]):
 
 
 class Epsg1028Series(Epsg1028):
-    """EPSG::1028 implementation using series"""
+    """EPSG::1028 implementation using series."""
 
     def __init__(self, ellipsoid: Ellipsoid, phi1: float, lambda0: float, fe: float, fn: float):
         super().__init__(ellipsoid, phi1, lambda0, fe, fn)
@@ -261,7 +262,7 @@ class Epsg1028Series(Epsg1028):
 
 
 class Epsg1028Integration2dKind(Epsg1028):
-    """EPSG::1028 implementation using elliptic integral of the 2d kind"""
+    """EPSG::1028 implementation using elliptic integral of the 2d kind."""
 
     @override
     def m(self, phi: float) -> float:
@@ -273,7 +274,7 @@ class Epsg1028Integration2dKind(Epsg1028):
 
 
 class Epsg1028Integration3rdKind(Epsg1028):
-    """EPSG::1028 implementation using elliptic integral of the 3rd kind"""
+    """EPSG::1028 implementation using elliptic integral of the 3rd kind."""
 
     @override
     def m(self, phi: float) -> float:
