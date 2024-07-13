@@ -1,5 +1,7 @@
 # Taxref
 
+[![example workflow](https://github.com/SamuelAndresPascal/cosmoloj-py/actions/workflows/taxref.yml/badge.svg)](https://github.com/SamuelAndresPascal/cosmoloj-py/actions)
+
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/taxref/badges/version.svg)](https://anaconda.org/cosmoloj/taxref)
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/taxref/badges/latest_release_date.svg)](https://anaconda.org/cosmoloj/taxref)
 [![Anaconda-Server Badge](https://anaconda.org/cosmoloj/taxref/badges/latest_release_relative_date.svg)](https://anaconda.org/cosmoloj/taxref)
