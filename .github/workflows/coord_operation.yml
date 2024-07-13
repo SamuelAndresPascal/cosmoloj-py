@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  lint__coord_operation:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,7 +37,7 @@ jobs:
           pylint --rcfile=../pylintrc src
           pylint --rcfile=../pylintrc test/projection/*
 
-  test__coord_operation:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:

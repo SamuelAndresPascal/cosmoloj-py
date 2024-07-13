@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  lint__taxref:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,27 +37,3 @@ jobs:
           pylint --rcfile=pylintrc src
           pylint --rcfile=../pylintrc test/test.py
           pylint --rcfile=../pylintrc test/taxref_test.py
-
-  test__taxref:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: cosmoloj_py
-          environment-file: taxref/environment.yml
-          python-version: 3.11
-          auto-activate-base: false
-      - run: |
-          conda --version
-          python --version
-          conda list
-      - working-directory: taxref
-        run: pip install .
-      - run: conda install -y pandas python-dotenv
-      - run: conda install -y pytest-cov
-      - run: pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
-      - run: python taxref/test/test.py

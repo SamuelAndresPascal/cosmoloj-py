@@ -9,7 +9,7 @@ on:
     - cron: '30 5 * * 0'
 
 jobs:
-  lint__unit_simple:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,7 +39,7 @@ jobs:
           pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
           pylint --rcfile=../pylintrc test/unit_simple_built_in_test.py
 
-  test__unit_simple:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
