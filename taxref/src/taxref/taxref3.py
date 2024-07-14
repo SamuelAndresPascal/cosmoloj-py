@@ -3,8 +3,6 @@
 from collections import namedtuple
 from enum import Enum, auto
 
-from pandas.core.indexing import _LocIndexer
-
 
 class Taxref3(Enum):
     """
@@ -44,7 +42,7 @@ class Taxref3(Enum):
 Taxref3_tuple = namedtuple('Taxref3_tuple', [v.name.lower() for v in Taxref3])
 
 
-def to_taxref3_tuple(single: _LocIndexer) -> Taxref3_tuple:
+def to_taxref3_tuple(single) -> Taxref3_tuple:
     """
     Builds a namedtuple from a panda row.
     """

@@ -19,9 +19,9 @@ conda install pandas
 ## Variables d'environnement
 
 ```
-BIOLOJ=/path/to/.bioloj/root/
+BIOLOJ=/path/to/.bioloj/
 ```
 
 ## Arborescence dans `.bioloj`
 
-* `taxref/TAXREF_INPN_v11` : fichiers taxref v11
+* Pra exemple: `taxref/TAXREF_INPN_v11` : fichiers taxref v11

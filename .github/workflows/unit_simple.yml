@@ -23,8 +23,6 @@ jobs:
           python-version: 3.11
           auto-activate-base: false
       - run: conda install -y pylint
-      # install deps for pylint to find
-      - run: conda install -y pytest
       - run: |
           conda --version
           python --version
@@ -34,6 +32,7 @@ jobs:
           pip install .
           pylint --rcfile=../pylintrc src
           pylint --rcfile=../pylintrc demo.py
+          conda install -y pytest
           pylint --rcfile=../pylintrc test/test.py
           pylint --rcfile=../pylintrc test/unit_simple_test.py
           pylint --rcfile=../pylintrc test/unit_simple_operator_test.py

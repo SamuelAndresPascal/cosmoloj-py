@@ -23,10 +23,7 @@ jobs:
           environment-file: coord_operation/environment.yml
           python-version: 3.12
           auto-activate-base: false
-      - run: conda install -y numpy
       - run: conda install -y pylint
-      # install deps for pylint to find
-      - run: conda install -y pytest
       - run: |
           conda --version
           python --version
@@ -35,6 +32,8 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
+          conda install -y pytest
+          conda install -y numpy
           pylint --rcfile=../pylintrc test/projection/*
 
   test:

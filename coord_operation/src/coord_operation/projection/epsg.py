@@ -20,12 +20,16 @@ class Epsg1024(InvertibleProjection[Surface]):
     _EASTING: int = 0
     _NORTHING: int = 1
 
-    def __init__(self, ellipsoid: Surface, lambda0: float, fe: float, fn: float):
-        self._ellipsoid = ellipsoid
-        self._a = ellipsoid.semi_major_axis()
+    def __init__(self, surface: Surface, lambda0: float, fe: float, fn: float):
+        self._surface = surface
+        self._a = surface.semi_major_axis()
         self._lambda0 = lambda0
         self._fe = fe
         self._fn = fn
+
+    @override
+    def get_surface(self) -> Surface:
+        return self._surface
 
     @override
     def compute(self, i):
@@ -89,6 +93,10 @@ class Epsg1027(InvertibleProjection[Spheroid]):
         self._lambda0 = lambda0
         self._fe = fe
         self._fn = fn
+
+    @override
+    def get_surface(self) -> Spheroid:
+        return self._spheroid
 
     @override
     def compute(self, i):
@@ -167,7 +175,7 @@ class Epsg1028(InvertibleProjection[Ellipsoid]):
         self._n = (1. - sqrt(1. - e2)) / (1. + sqrt(1. - e2))
 
         n2 = self._n ** 2
-        self._f1 = (3. / 2. + n2 * (-27. / 32. + n2 * (269. / 512. - n2 * 6607 / 24576)))
+        self._f1 = 3. / 2. + n2 * (-27. / 32. + n2 * (269. / 512. - n2 * 6607 / 24576))
         self._f2 = 21. / 16. + n2 * (-55. / 32. + n2 * 6759. / 4096.)
         self._f3 = 151. / 96. + n2 * (-417. / 128 + n2 * 87963. / 20480.)
         self._f4 = 1097. / 512. - n2 * 15543. / 2560.
@@ -176,16 +184,16 @@ class Epsg1028(InvertibleProjection[Ellipsoid]):
         self._f7 = 6845701. / 860160.
 
     @override
-    def compute(self, i):
-        return self._fe + self._nu1 * cos(self._phi1) * (i[Epsg1028._LAMBDA] - self._lambda0), \
-            self._fn + self.m(i[Epsg1028._PHI])
-
-    @override
     def get_surface(self) -> Ellipsoid:
         return self._ellipsoid
 
     def m(self, phi: float) -> float:
         """m"""
+
+    @override
+    def compute(self, i):
+        return self._fe + self._nu1 * cos(self._phi1) * (i[Epsg1028._LAMBDA] - self._lambda0), \
+            self._fn + self.m(i[Epsg1028._PHI])
 
     @override
     def inverse(self, i):
@@ -266,7 +274,7 @@ class Epsg1028Integration2dKind(Epsg1028):
 
     @override
     def m(self, phi: float) -> float:
-        return self._a * (sum_function(lambda phi: sqrt(1. - self._e2 * sin(phi) * sin(phi)),
+        return self._a * (sum_function(lambda p: sqrt(1. - self._e2 * sin(p) * sin(p)),
                                        start=0.,
                                        end=phi,
                                        parts=floor(4. * degrees(phi)) + 1)
@@ -278,7 +286,7 @@ class Epsg1028Integration3rdKind(Epsg1028):
 
     @override
     def m(self, phi: float) -> float:
-        return self._a * (1 - self._e2) * (sum_function(lambda phi: pow(1. - self._e2 * sin(phi) * sin(phi), -3. / 2.),
+        return self._a * (1 - self._e2) * (sum_function(lambda p: pow(1. - self._e2 * sin(p) * sin(p), -3. / 2.),
                                                         start=0.,
                                                         end=phi,
                                                         parts=floor(50. * degrees(phi)) + 1))

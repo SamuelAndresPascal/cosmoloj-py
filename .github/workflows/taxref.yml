@@ -23,10 +23,8 @@ jobs:
           environment-file: taxref/environment.yml
           python-version: 3.11
           auto-activate-base: false
-      - run: conda install -y pandas python-dotenv
-      - run: conda install -y pylint
       # install deps for pylint to find
-      - run: conda install -y pytest
+      - run: conda install -y pylint
       - run: |
           conda --version
           python --version
@@ -35,5 +33,7 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=pylintrc src
+          conda install -y pytest
+          conda install -y pandas python-dotenv
           pylint --rcfile=../pylintrc test/test.py
           pylint --rcfile=../pylintrc test/taxref_test.py

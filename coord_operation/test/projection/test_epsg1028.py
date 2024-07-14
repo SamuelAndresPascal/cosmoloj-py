@@ -43,7 +43,7 @@ PHI = 0.959931086
 LAMBDA = 0.174532925
 EASTING = 1113194.91
 NORTHING_2DKIND = 6097230.3131
-# test avec l'intégrale du troisième type (on ne trouve pas exactement la même valeur pour northing
+# test avec l'intégrale du troisième type (on ne trouve pas exactement la même valeur pour northing)
 NORTHING_3RDKIND = 6097230.30
 # test avec la série (la valeur pour northing n'est pas tout à fait identique sans qu'on puisse trouver d'erreur
 # dans la série)

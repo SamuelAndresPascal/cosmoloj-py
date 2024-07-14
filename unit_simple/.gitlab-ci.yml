@@ -9,12 +9,12 @@ lint:unit_simple:
     - conda env create --force --file environment.yml
     # install tool
     - conda install -y pylint
-    # install deps for pylint to find
-    - conda install -y pytest
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc src
     - pylint --rcfile=../pylintrc demo.py
+    # install deps for pylint to find
+    - conda install -y pytest
     - pylint --rcfile=../pylintrc test/test.py
     - pylint --rcfile=../pylintrc test/unit_simple_test.py
     - pylint --rcfile=../pylintrc test/unit_simple_operator_test.py

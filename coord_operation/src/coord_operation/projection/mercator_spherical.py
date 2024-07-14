@@ -31,6 +31,10 @@ class MercatorSpherical(InvertibleProjection[Spheroid]):
         self._lambda0 = lambda0
 
     @override
+    def get_surface(self) -> Spheroid:
+        return self._spheroid
+
+    @override
     def compute(self, i):
         return map_projections.x_7_1(self._r, self._cos_phi1, self._lambda0, i[MercatorSpherical._LONGITUDE]), \
                map_projections.y_7_2(self._r, self._cos_phi1, i[MercatorSpherical._LATITUDE])

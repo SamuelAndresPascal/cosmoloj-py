@@ -7,15 +7,15 @@ lint:coord_operation:
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
-    # install deps
-    - conda install -y numpy
     # install tool
     - conda install -y pylint
-    # install deps for pylint to find
-    - conda install -y pytest
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc src
+    # install deps for pylint to find
+    - conda install -y pytest
+    # install deps
+    - conda install -y numpy
     - pylint --rcfile=../pylintrc test/projection/*
 
 test:coord_operation:

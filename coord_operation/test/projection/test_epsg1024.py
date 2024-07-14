@@ -17,7 +17,7 @@ NORTHING = 2800000.00
 @pytest.fixture(name="epsg_1024")
 def epsg_1024_fixture() -> Epsg1024:
     """test fixture for EPSG::1024 tests"""
-    return Epsg1024(ellipsoid=Spheroid.of_radius(r=6378137.0), lambda0=0.0, fe=0.00, fn=0.00)
+    return Epsg1024(surface=Spheroid.of_radius(r=6378137.0), lambda0=0.0, fe=0.00, fn=0.00)
 
 
 def test_1024_forward(epsg_1024):

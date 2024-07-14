@@ -7,15 +7,15 @@ lint:taxref:
   script:
     - cd taxref
     - conda env create --force --file environment.yml
-    # install deps
-    - conda install -y pandas python-dotenv
     # install tool
     - conda install -y pylint
-    # install deps for pylint to find
-    - conda install -y pytest
     - conda list
     - pip install .
     - pylint --rcfile=pylintrc src
+    # install deps for pylint to find
+    - conda install -y pytest
+    # install deps
+    - conda install -y pandas python-dotenv
     - pylint --rcfile=../pylintrc test/test.py
     - pylint --rcfile=../pylintrc test/taxref_test.py
 
