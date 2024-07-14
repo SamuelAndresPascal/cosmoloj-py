@@ -395,7 +395,7 @@ class Epsg9819a(InvertibleProjection[Ellipsoid]):
         i_t = self._compute_inv_t(i_xp, i_yp)
         i_d = self._compute_inv_d(i_xp, i_yp)
         i_u = self._compute_inv_u(i_t, i_d)
-        return self.__phi(i_u), self.__lambda(i_t, i_d, i_u)
+        return self._compute_phi(i_u), self._compute_lambda(i_t, i_d, i_u)
 
     def _compute_a(self) -> float:
         return self._a * sqrt(1. - self._e2) / (1. - self._e2 * sin(self._phic) ** 2)
@@ -438,10 +438,10 @@ class Epsg9819a(InvertibleProjection[Ellipsoid]):
     def _compute_r0(self) -> float:
         return self._kp * self._coef_a / tan(self._phip)
 
-    def __lambda(self, i_t: float, i_d: float, i_u: float) -> float:
+    def _compute_lambda(self, i_t: float, i_d: float, i_u: float) -> float:
         return self._lambda0 - self._compute_inv_v(i_t, i_d, i_u) / self._coef_b
 
-    def __phi(self, i_u: float) -> float:
+    def _compute_phi(self, i_u: float) -> float:
         phi = i_u
 
         while True:
@@ -518,6 +518,131 @@ class Epsg1041b(Epsg1041a):
     """EPSG:1041
 
     Krovak (North Orientated)
+    """
+    @override
+    def _compute_d(self, u: float, v: float, t: float) -> float:
+        return Epsg9819b.compute_d(u, v, t, self._alphac)
+
+
+class Epsg1042a(Epsg9819a):
+    """EPSG::1042
+
+    Krovak Modified
+    """
+
+    _SOUTHING = 0
+    _WESTING = 1
+
+    def __init__(self, ellipsoid: Ellipsoid,
+                 phic: float, lambda0: float, alphac: float, phip: float, kp: float, ef: float, nf: float,
+                 x0: float, y0: float,
+                 c1: float, c2: float, c3: float, c4: float, c5: float,
+                 c6: float, c7: float, c8: float, c9: float, c10: float):
+        super().__init__(ellipsoid, phic, lambda0, alphac, phip, kp, ef, nf)
+        self._x0 = x0
+        self._y0 = y0
+        self._c1 = c1
+        self._c2 = c2
+        self._c3 = c3
+        self._c4 = c4
+        self._c5 = c5
+        self._c6 = c6
+        self._c7 = c7
+        self._c8 = c8
+        self._c9 = c9
+        self._c10 = c10
+
+    @override
+    def compute(self, i):
+        u = self._compute_u(i[Epsg9819a._PHI])
+        v = self._compute_v(i[Epsg9819a._LAMBDA])
+        t = self._compute_t(u, v)
+        r = self._r(u, v, t)
+        theta = self._theta(u, v, t)
+        xp = r * cos(theta)
+        yp = r * sin(theta)
+        xr = xp - self._x0
+        yr = yp - self._y0
+        return xp - self._dx(xr, yr) + self._fn, yp - self._dy(xr, yr) + self._fe
+
+    @override
+    def inverse(self, i):
+        i_xp = self._inv_xp(i)
+        i_yp = self._inv_yp(i)
+        i_t = self._compute_inv_t(i_xp, i_yp)
+        i_d = self._compute_inv_d(i_xp, i_yp)
+        i_u = self._compute_inv_u(i_t, i_d)
+        return self._compute_phi(i_u), self._compute_lambda(i_t, i_d, i_u)
+
+    def _dx(self, x: float, y: float) -> float:
+        x2 = x ** 2
+        y2 = y ** 2
+
+        return (self._c1
+                + self._c3 * x
+                - self._c4 * y
+                - 2. * self._c6 * x * y
+                + self._c5 * (x2 - y2)
+                + self._c7 * x * (x2 - 3. * y2)
+                - self._c8 * y * (3. * x2 - y2)
+                + 4. * self._c9 * x * y * (x2 - y2)
+                + self._c10 * (x2 * x2 + y2 * y2 - 6. * x2 * y2))
+
+    def _dy(self, x: float, y: float) -> float:
+        x2 = x ** 2
+        y2 = y ** 2
+        return (self._c2
+                + self._c3 * y
+                + self._c4 * x
+                + 2. * self._c5 * x * y
+                + self._c6 * (x2 - y2)
+                + self._c8 * x * (x2 - 3. * y2)
+                + self._c7 * y * (3. * x2 - y2)
+                - 4. * self._c10 * x * y * (x2 - y2)
+                + self._c9 * (x2 * x2 + y2 * y2 - 6. * x2 * y2))
+
+    def _inv_xp(self, i) -> float:
+        xrp = i[Epsg1042a._SOUTHING] - self._fn - self._x0
+        yrp = i[Epsg1042a._WESTING] - self._fe - self._y0
+        return i[Epsg1042a._SOUTHING] - self._fn + self._dx(xrp, yrp)
+
+    def _inv_yp(self, i) -> float:
+        xrp = i[Epsg1042a._SOUTHING] - self._fn - self._x0
+        yrp = i[Epsg1042a._WESTING] - self._fe - self._y0
+        return i[Epsg1042a._WESTING] - self._fe + self._dy(xrp, yrp)
+
+
+class Epsg1042b(Epsg1042a):
+    """EPSG::1042
+
+    Krovak Modified
+    """
+
+    @override
+    def _compute_d(self, u: float, v: float, t: float) -> float:
+        return Epsg9819b.compute_d(u, v, t, self._alphac)
+
+
+class Epsg1043a(Epsg1042a):
+    """EPSG:1043
+
+    Krovak Modified (North Orientated)
+    """
+
+    @override
+    def compute(self, i):
+        output = super().compute(i)
+        return -output[Epsg1042a._WESTING], -output[Epsg1042a._SOUTHING]
+
+    @override
+    def inverse(self, i):
+        return super().inverse([-i[Epsg1042a._WESTING], -i[Epsg1042a._SOUTHING]])
+
+
+class Epsg1043b(Epsg1043a):
+    """EPSG:1043
+
+    Krovak Modified (North Orientated)
     """
     @override
     def _compute_d(self, u: float, v: float, t: float) -> float:
