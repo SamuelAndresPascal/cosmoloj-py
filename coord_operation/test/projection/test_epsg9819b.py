@@ -4,7 +4,7 @@ import pytest
 
 import numpy as np
 
-from coord_operation.projection.epsg import Epsg9819a
+from coord_operation.projection.epsg import Epsg9819b
 from coord_operation.surface import Ellipsoid
 
 
@@ -26,9 +26,9 @@ WESTING = 568990.997
 
 
 @pytest.fixture(name="epsg_9819")
-def epsg_9819_fixture() -> Epsg9819a:
+def epsg_9819_fixture() -> Epsg9819b:
     """test fixture for EPSG::9819 tests"""
-    return Epsg9819a(Ellipsoid.of_eccentricity(a=A, eccentricity=E),
+    return Epsg9819b(Ellipsoid.of_eccentricity(a=A, eccentricity=E),
                      phic=PHIC, lambda0=LAMBDA0, alphac=ALPHAC, phip=PHIP, kp=KP, fe=EF, fn=NF)
 
 

@@ -480,3 +480,45 @@ class Epsg9819a(InvertibleProjection[Ellipsoid]):
 
     def _compute_inv_v(self, i_t: float, i_d: float, i_u: float) -> float:
         return asin(cos(i_t) * sin(i_d) / cos(i_u))
+
+
+class Epsg9819b(Epsg9819a):
+    """EPSG:9819
+
+    Krovak
+    """
+
+    @override
+    def _compute_d(self, u: float, v: float, t: float) -> float:
+        return Epsg9819b.compute_d(u, v, t, self._alphac)
+
+    @staticmethod
+    def compute_d(u: float, v: float, t: float, alphac: float):
+        """Calcul du coefficient D pour des longitudes excédant l'intervalle -90;+90."""
+        return atan2(cos(u) * sin(v) / cos(t), (cos(alphac) * sin(t) - sin(u)) / sin(alphac) / cos(t))
+
+
+class Epsg1041a(Epsg9819a):
+    """EPSG:1041
+
+    Krovak (North Orientated)
+    """
+
+    @override
+    def compute(self, i):
+        output = super().compute(i)
+        return -output[Epsg9819a._NORTHING], -output[Epsg9819a._EASTING]
+
+    @override
+    def inverse(self, i):
+        return super().inverse([-i[Epsg9819a._NORTHING], -i[Epsg9819a._EASTING]])
+
+
+class Epsg1041b(Epsg1041a):
+    """EPSG:1041
+
+    Krovak (North Orientated)
+    """
+    @override
+    def _compute_d(self, u: float, v: float, t: float) -> float:
+        return Epsg9819b.compute_d(u, v, t, self._alphac)
