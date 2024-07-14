@@ -10,12 +10,6 @@
 
 [![PyPI repository Badge](https://badge.fury.io/py/taxref.svg)](https://badge.fury.io/py/taxref)
 
-## Dépendances
-
-```bash
-conda install pandas
-```
-
 ## Variables d'environnement
 
 ```
@@ -24,4 +18,4 @@ BIOLOJ=/path/to/.bioloj/
 
 ## Arborescence dans `.bioloj`
 
-* Pra exemple: `taxref/TAXREF_INPN_v11` : fichiers taxref v11
+* Par exemple: `taxref/TAXREF_INPN_v11` : fichiers taxref v11

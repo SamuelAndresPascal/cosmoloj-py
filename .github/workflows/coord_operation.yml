@@ -34,7 +34,7 @@ jobs:
           pylint --rcfile=../pylintrc src
           conda install -y pytest
           conda install -y numpy
-          pylint --rcfile=../pylintrc test/projection/*
+          pylint --rcfile=../pylintrc-test test/projection/*
 
   test:
     runs-on: ubuntu-latest

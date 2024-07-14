@@ -290,3 +290,193 @@ class Epsg1028Integration3rdKind(Epsg1028):
                                                         start=0.,
                                                         end=phi,
                                                         parts=floor(50. * degrees(phi)) + 1))
+
+
+class Epsg1029(InvertibleProjection[Surface]):
+    """EPSG::1029
+
+    Equidistant Cylindrical (Spherical)
+
+    See method code 1028 for ellipsoidal development. If the latitude of natural origin is at the equator, also known as
+    Plate Carrée. See also Pseudo Plate Carree, method code 9825.
+    """
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+
+    def __init__(self, surface: Surface, phi1: float, lambda0: float, fe: float, fn: float):
+        self._surface = surface
+        self._phi1 = phi1
+        self._lambda0 = lambda0
+        self._fe = fe
+        self._fn = fn
+
+        if isinstance(surface, Spheroid):
+            self._r = surface.r()
+        elif isinstance(surface, Ellipsoid):
+            self._r = surface.rc(phi1)
+        else:
+            raise ValueError
+
+    @override
+    def compute(self, i):
+        return (self._fe + self._r * (i[Epsg1029._LAMBDA] - self._lambda0) * cos(self._phi1),
+                self._fn + self._r * i[Epsg1029._PHI])
+
+    @override
+    def inverse(self, i):
+        return ((i[Epsg1029._NORTHING] - self._fn) / self._r,
+                self._lambda0 + (i[Epsg1029._EASTING] - self._fe) / self._r / cos(self._phi1))
+
+    @override
+    def get_surface(self):
+        return self._surface
+
+
+class Epsg9819a(InvertibleProjection[Ellipsoid]):
+    """EPSG:9819
+
+    Krovak
+    """
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+    _PRECISION = 1e-12
+
+    def __init__(self,
+                 ellipsoid: Ellipsoid,
+                 phic: float,
+                 lambda0: float,
+                 alphac: float,
+                 phip: float,
+                 kp: float,
+                 fe: float,
+                 fn: float):
+        self._ellipsoid = ellipsoid
+        self._a = ellipsoid.a()
+        self._e = ellipsoid.e()
+        self._phic = phic
+        self._lambda0 = lambda0
+        self._alphac = alphac
+        self._phip = phip
+        self._kp = kp
+        self._fe = fe
+        self._fn = fn
+
+        self._e2 = self._e ** 2
+        self._coef_a = self._compute_a()
+        self._coef_b = self._compute_b()
+        self._g0 = self._compute_g0()
+        self._t0 = self._compute_t0()
+        self._n = self._compute_n()
+        self._r0 = self._compute_r0()
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    @override
+    def compute(self, i):
+        u = self._compute_u(i[Epsg9819a._PHI])
+        v = self._compute_v(i[Epsg9819a._LAMBDA])
+        t = self._compute_t(u, v)
+        r = self._r(u, v, t)
+        theta = self._theta(u, v, t)
+        return r * cos(theta) + self._fn, r * sin(theta) + self._fe
+
+    @override
+    def inverse(self, i):
+        i_xp = self._compute_inv_xp(i[Epsg9819a._EASTING])
+        i_yp = self._compute_inv_yp(i[Epsg9819a._NORTHING])
+        i_t = self._compute_inv_t(i_xp, i_yp)
+        i_d = self._compute_inv_d(i_xp, i_yp)
+        i_u = self._compute_inv_u(i_t, i_d)
+        return self.__phi(i_u), self.__lambda(i_t, i_d, i_u)
+
+    def _compute_a(self) -> float:
+        return self._a * sqrt(1. - self._e2) / (1. - self._e2 * sin(self._phic) ** 2)
+
+    def _compute_b(self) -> float:
+        return sqrt(1. + self._e2 * cos(self._phic) ** 4 / (1 - self._e2))
+
+    def _compute_u(self, f: float) -> float:
+        esinf = self._e * sin(f)
+        return 2. * (atan2(self._t0 * pow(tan(f / 2. + pi / 4.), self._coef_b),
+                           pow((1. + esinf) / (1. - esinf), self._e * self._coef_b / 2.)) - pi / 4.)
+
+    def _compute_v(self, l: float) -> float:
+        return self._coef_b * (self._lambda0 - l)
+
+    def _compute_t(self, u: float, v: float) -> float:
+        return asin(cos(self._alphac) * sin(u) + sin(self._alphac) * cos(u) * cos(v))
+
+    def _compute_d(self, u: float, v: float, t: float) -> float:
+        return asin(cos(u) * sin(v) / cos(t))
+
+    def _theta(self, u: float, v: float, t: float) -> float:
+        return self._n * self._compute_d(u, v, t)
+
+    def _r(self, u: float, v: float, t: float) -> float:
+        return self._r0 * pow(tan(pi / 4. + self._phip / 2.) / tan(t / 2. + pi / 4.), self._n)
+
+    def _compute_g0(self) -> float:
+        return asin(sin(self._phic) / self._coef_b)
+
+    def _compute_t0(self) -> float:
+        sinphic = sin(self._phic)
+        return tan(pi / 4. + self._g0 / 2.) \
+            * pow((1. + self._e * sinphic) / (1. - self._e * sinphic), self._e * self._coef_b / 2.) \
+            / pow(tan(pi / 4. + self._phic / 2.), self._coef_b)
+
+    def _compute_n(self) -> float:
+        return sin(self._phip)
+
+    def _compute_r0(self) -> float:
+        return self._kp * self._coef_a / tan(self._phip)
+
+    def __lambda(self, i_t: float, i_d: float, i_u: float) -> float:
+        return self._lambda0 - self._compute_inv_v(i_t, i_d, i_u) / self._coef_b
+
+    def __phi(self, i_u: float) -> float:
+        phi = i_u
+
+        while True:
+            tmp = self.___phi(i_u, phi)
+            if abs(tmp - phi) > Epsg9819a._PRECISION:
+                phi = tmp
+            else:
+                return tmp
+
+    def ___phi(self, i_u: float, phi: float) -> float:
+        esinphi = self._e * sin(phi)
+        return 2 * (atan(pow(tan(i_u / 2. + pi / 4.) / self._t0, 1. / self._coef_b)
+                * pow((1. + esinphi) / (1. - esinphi), self._e / 2.)) - pi / 4.)
+
+    def _compute_inv_xp(self, southing: float) -> float:
+        return southing - self._fn
+
+    def _compute_inv_yp(self, westing: float) -> float:
+        return westing - self._fe
+
+    def _compute_inv_r(self, i_xp: float, i_yp: float) -> float:
+        return sqrt(i_xp ** 2 + i_yp ** 2)
+
+    def _compute_inv_theta(self, i_xp: float, i_yp: float) -> float:
+        return atan2(i_yp, i_xp)
+
+    def _compute_inv_d(self, i_xp: float, i_yp: float) -> float:
+        return self._compute_inv_theta(i_xp, i_yp) / sin(self._phip)
+
+    def _compute_inv_t(self, i_xp: float, i_yp: float) -> float:
+        return 2. * (atan(pow(self._r0 / self._compute_inv_r(i_xp, i_yp),
+                              1. / self._n) * tan(pi / 4. + self._phip / 2.)) - pi / 4.)
+
+    def _compute_inv_u(self, i_t: float, i_d: float) -> float:
+        return asin(cos(self._alphac) * sin(i_t) - sin(self._alphac) * cos(i_t) *  cos(i_d))
+
+    def _compute_inv_v(self, i_t: float, i_d: float, i_u: float) -> float:
+        return asin(cos(i_t) * sin(i_d) / cos(i_u))

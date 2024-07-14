@@ -1,6 +1,6 @@
 [FORMAT]
 max-line-length=120
-max-args=6
+max-args=9
 
 [DESIGN]
 min-public-methods=1
@@ -8,4 +8,4 @@ max-attributes=100
 max-public-methods=100
 
 [MESSAGES CONTROL]
-disable=undefined-variable
+disable=undefined-variable,unused-argument
