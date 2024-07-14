@@ -16,7 +16,7 @@ lint:coord_operation:
     - conda install -y pytest
     # install deps
     - conda install -y numpy
-    - pylint --rcfile=../pylintrc test/projection/*
+    - pylint --rcfile=../pylintrc-test test/projection/*
 
 test:coord_operation:
   stage: test
