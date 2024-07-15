@@ -647,3 +647,56 @@ class Epsg1043b(Epsg1043a):
     @override
     def _compute_d(self, u: float, v: float, t: float) -> float:
         return Epsg9819b.compute_d(u, v, t, self._alphac)
+
+
+class Epsg1044(InvertibleProjection[Ellipsoid]):
+    """Mercator variant C"""
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+
+    def __init__(self, ellipsoid: Ellipsoid, phi1: float, lambda0: float, phif: float, ef: float, nf: float):
+        self._ellipsoid = ellipsoid
+        self._a = ellipsoid.a()
+        self._e = ellipsoid.e()
+        self._phi1 = abs(phi1)
+        self._lambda0 = lambda0
+        self._phif = phif
+        self._ef = ef
+        self._nf = nf
+        self._e2 = self._e ** 2
+        self._k0 = self._compute_k0()
+        self._m = self._a * self._k0 * log(tan(pi / 4. + phif / 2.) * self._esinphi(phif))
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    def _compute_k0(self):
+        return cos(self._phi1) / sqrt((1. - self._e2 * sin(self._phi1) * sin(self._phi1)))
+
+    def _esinphi(self, phi: float) -> float:
+        sinphi = sin(phi)
+        return pow((1. - self._e * sinphi) / (1. + self._e * sinphi), self._e / 2.)
+
+    @override
+    def compute(self, i):
+        phi = i[Epsg1044._PHI]
+        return self._ef + self._a * self._k0 * (i[Epsg1044._LAMBDA] - self._lambda0), \
+            self._nf - self._m + self._a * self._k0 * log(tan(pi / 4. + phi / 2.) * self._esinphi(phi))
+
+    @override
+    def inverse(self, i):
+        return self._phi(i[Epsg1044._NORTHING]), \
+            (i[Epsg1044._EASTING] - self._ef) / (self._a * self._k0) + self._lambda0
+
+    def _phi(self, northing: float) -> float:
+        t = exp((self._nf - self._m - northing) / (self._a * self._k0))
+        chi = pi / 2. - 2. * atan(t)
+        e2 = self._e2
+        return chi + e2 * ((.5 + e2 * (5. / 24. + e2 * (1. / 12. + 13. * e2 / 360.))) * sin(2. * chi)
+                + e2 * ((7. / 48. + e2 * (29. / 240. + e2 * 811. / 11520.)) * sin(4. * chi)
+                + e2 * ((7. / 120. + e2 * 81. / 1120.) * sin(6. * chi)
+                + e2 * 4279. / 161280. * sin(8. * chi))))
