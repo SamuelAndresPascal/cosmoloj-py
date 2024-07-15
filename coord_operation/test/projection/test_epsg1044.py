@@ -16,7 +16,7 @@ NORTHING = 1351950.22
 
 @pytest.fixture(name="epsg_1044")
 def epsg_1044_fixture() -> Epsg1044:
-    """test fixture for EPSG::1026 tests"""
+    """test fixture for EPSG::1044 tests"""
     return Epsg1044(Ellipsoid.of_eccentricity(a=6378245.0, eccentricity=0.08181333), phi1=0.73303829,
                     lambda0=0.89011792, phif=0.73303829, ef=0.00, nf=0.00)
 

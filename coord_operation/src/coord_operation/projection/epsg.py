@@ -689,14 +689,125 @@ class Epsg1044(InvertibleProjection[Ellipsoid]):
 
     @override
     def inverse(self, i):
-        return self._phi(i[Epsg1044._NORTHING]), \
+        return self.__phi(i[Epsg1044._NORTHING]), \
             (i[Epsg1044._EASTING] - self._ef) / (self._a * self._k0) + self._lambda0
 
-    def _phi(self, northing: float) -> float:
+    def __phi(self, northing: float) -> float:
         t = exp((self._nf - self._m - northing) / (self._a * self._k0))
         chi = pi / 2. - 2. * atan(t)
         e2 = self._e2
         return chi + e2 * ((.5 + e2 * (5. / 24. + e2 * (1. / 12. + 13. * e2 / 360.))) * sin(2. * chi)
-                + e2 * ((7. / 48. + e2 * (29. / 240. + e2 * 811. / 11520.)) * sin(4. * chi)
-                + e2 * ((7. / 120. + e2 * 81. / 1120.) * sin(6. * chi)
-                + e2 * 4279. / 161280. * sin(8. * chi))))
+                           + e2 * ((7. / 48. + e2 * (29. / 240. + e2 * 811. / 11520.)) * sin(4. * chi)
+                                   + e2 * ((7. / 120. + e2 * 81. / 1120.) * sin(6. * chi)
+                                           + e2 * 4279. / 161280. * sin(8. * chi))))
+
+
+class Epsg1051(InvertibleProjection[Ellipsoid]):
+    """Lambert Conic Conformal (2SP Michigan)"""
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+
+    _PRECISION = 1e-12
+
+    def __init__(self,
+                 ellipsoid: Ellipsoid,
+                 phif: float,
+                 lambdaf: float,
+                 phi1: float,
+                 phi2: float,
+                 ef: float,
+                 nf: float,
+                 k: float):
+        self._ellipsoid = ellipsoid
+        self._a = ellipsoid.a()
+        self._e = ellipsoid.e()
+        self._phif = phif
+        self._lambdaf = lambdaf
+        self._phi1 = phi1
+        self._phi2 = phi2
+        self._ef = ef
+        self._nf = nf
+        self._k = k
+        self._m1 = self._compute_m(phi1)
+        self._m2 = self._compute_m(phi2)
+        self._t1 = self._compute_t(phi1)
+        self._t2 = self._compute_t(phi2)
+        self._n = self._compute_n()
+        self._f = self._compute_f()
+        self._rf = self._compute_r(phif)
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    @override
+    def compute(self, i):
+        p = i[Epsg1051._PHI]
+        l = i[Epsg1051._LAMBDA]
+        return self._compute_easting(p, l), self._compute_northing(p, l)
+
+    @override
+    def inverse(self, i):
+        easting = i[Epsg1051._EASTING]
+        northing = i[Epsg1051._NORTHING]
+        return self._compute_phi(easting, northing), self._compute_lambda(easting, northing)
+
+    def _compute_easting(self, p: float, l: float) -> float:
+        return self._ef + self._compute_r(p) * sin(self._theta(l))
+
+    def _compute_northing(self, p: float, l: float) -> float:
+        return self._nf + self._rf - self._compute_r(p) * cos(self._theta(l))
+
+    def _compute_m(self, p: float) -> float:
+        sinphi = sin(p)
+        return cos(p) / sqrt(1. - self._e * self._e * sinphi * sinphi)
+
+    def _compute_t(self, p: float) -> float:
+        esinphi = self._e * sin(p)
+        return tan(pi / 4. - p / 2.) / pow((1. - esinphi) / (1. + esinphi), self._e / 2.)
+
+    def _compute_n(self) -> float:
+        return (log(self._m1) - log(self._m2)) / (log(self._t1) - log(self._t2))
+
+    def _compute_f(self) -> float:
+        return self._m1 / (self._n * pow(self._t1, self._n))
+
+    def _compute_r(self, p: float) -> float:
+        t = self._compute_t(p)
+        return self._a * self._k * self._f * pow(t, self._n) if t > 0. else 0.
+
+    def _theta(self, l: float) -> float:
+        return self._n * (l - self._lambdaf)
+
+    def _compute_lambda(self, easting: float, northing: float) -> float:
+        return self._inv_theta(easting, northing) / self._n + self._lambdaf
+
+    def _compute_phi(self, easting: float, northing: float) -> float:
+        phi = self._inv_t(easting, northing)
+
+        while True:
+            tmp = self.___phi(easting, northing, phi)
+            if abs(tmp - phi) > Epsg1051._PRECISION:
+                phi = tmp
+            else:
+                return tmp
+
+    def ___phi(self, easting: float, northing: float, phi: float) -> float:
+        return (pi / 2.
+                - 2. * atan(self._inv_t(easting, northing)
+                            * pow((1. - self._e * sin(phi)) / (1 + self._e * sin(phi)), self._e / 2.)))
+
+    def _inv_theta(self, easting: float, northing: float) -> float:
+        return atan2(easting - self._ef, self._rf - (northing - self._nf))
+
+    def _inv_t(self, easting: float, northing: float) -> float:
+        return pow(self._inv_r(easting, northing) / (self._a * self._k * self._f), 1. / self._n)
+
+    def _inv_r(self, easting: float, northing: float) -> float:
+        rel_easting = easting - self._ef
+        rel_northing = self._rf - (northing - self._nf)
+        result = sqrt(rel_easting * rel_easting + rel_northing * rel_northing)
+        return result if self._n > 0. else -result
