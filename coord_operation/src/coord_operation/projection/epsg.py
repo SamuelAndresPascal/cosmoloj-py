@@ -847,7 +847,6 @@ class Epsg1052(InvertibleProjection[Ellipsoid]):
         return self._fe + self._coef_a * nu * cosphi * l, \
             self._fn + coef_g * self._rho0 * ((phi - self._phi0) + (self._coef_b * l * l * nu * nu * cosphi * cosphi))
 
-
     @override
     def get_surface(self) -> Ellipsoid:
         return self._ellipsoid
@@ -857,3 +856,99 @@ class Epsg1052(InvertibleProjection[Ellipsoid]):
         de = (i[Epsg1052._EASTING] - self._fe) / self._coef_c
         phi = self._phi0 + (i[Epsg1052._NORTHING] - self._fn) / self._coef_d - self._coef_b * de * de
         return phi, self._lambda0 + de / (self._ellipsoid.nu(phi) * cos(phi))
+
+
+class Epsg9801(InvertibleProjection[Ellipsoid]):
+    """Lambert Conic Conformal (1SP)"""
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+    _PRECISION = 1e-12
+
+    def __init__(self, ellipsoid: Ellipsoid, phi0: float, lambda0: float, k0: float, fe: float, fn: float):
+        self._ellipsoid = ellipsoid
+        self._a = ellipsoid.a()
+        self._e = ellipsoid.e()
+        self._phi0 = phi0
+        self._lambda0 = lambda0
+        self._k0 = k0
+        self._fe = fe
+        self._fn = fn
+        self._n = self._compute_n()
+        self._f = self._compute_f()
+        self._r0 = self._compute_r(phi0)
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    @override
+    def compute(self, i):
+        phi = i[Epsg9801._PHI]
+        l = i[Epsg9801._LAMBDA]
+        return self._compute_easting(phi, l), self._compute_northing(phi, l)
+
+    @override
+    def inverse(self, i):
+        easting = i[Epsg9801._EASTING]
+        northing = i[Epsg9801._NORTHING]
+        return self._compute_phi(easting, northing), self._compute_lambda(easting, northing)
+
+    def _compute_easting(self, phi: float, l: float):
+        return self._fe + self._compute_r(phi) * sin(self._compute_theta(l))
+
+    def _compute_northing(self, phi: float, l: float):
+        return self._fn + self._r0 - self._compute_r(phi) * cos(self._compute_theta(l))
+
+    def _compute_m(self, phi: float):
+        sinphi = sin(phi)
+        return cos(phi) / sqrt(1. - self._e * self._e * sinphi * sinphi)
+
+    def _compute_t(self, phi: float):
+        esinphi = self._e * sin(phi)
+        return tan(pi / 4. - phi / 2.) / pow((1. - esinphi) / (1. + esinphi), self._e / 2.)
+
+    def _compute_n(self):
+        return sin(self._phi0)
+
+    def _compute_f(self):
+        return self._compute_m(self._phi0) / (self._n * pow(self._compute_t(self._phi0), self._n))
+
+    def _compute_r(self, phi: float):
+        t = self._compute_t(phi)
+        return self._a * self._f * pow(t, self._n) * self._k0 if t > 0. else 0.
+
+    def _compute_theta(self, l: float):
+        return self._n * (l - self._lambda0)
+
+    def _compute_lambda(self, easting: float, northing: float):
+        return self._compute_inv_theta(easting, northing) / self._n + self._lambda0
+
+    def _compute_phi(self, easting: float, northing: float):
+        phi = self._compute_inv_t(easting, northing)
+
+        while True:
+            tmp = self.__compute_phi(easting, northing, phi)
+            if abs(tmp - phi) > Epsg9801._PRECISION:
+                phi = tmp
+            else:
+                return tmp
+
+    def __compute_phi(self, easting: float, northing: float, phi: float):
+        return pi / 2. - 2. * atan(
+                self._compute_inv_t(easting, northing) * pow((1. - self._e * sin(phi)) / (1 + self._e * sin(phi)),
+                                                             self._e / 2.))
+
+    def _compute_inv_theta(self, easting: float, northing: float):
+        return atan2(easting - self._fe, self._r0 - (northing - self._fn))
+
+    def _compute_inv_t(self, easting: float, northing: float):
+        return pow(self._compute_inv_r(easting, northing) / (self._a * self._f), 1. / self._n)
+
+    def _compute_inv_r(self, easting: float, northing: float):
+        rel_easting = easting - self._fe
+        rel_northing = self._r0 - (northing - self._fn)
+        result = sqrt(rel_easting ** 2 + rel_northing ** 2)
+        return result if self._n > 0. else -result
