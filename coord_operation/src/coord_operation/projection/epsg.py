@@ -811,3 +811,49 @@ class Epsg1051(InvertibleProjection[Ellipsoid]):
         rel_northing = self._rf - (northing - self._nf)
         result = sqrt(rel_easting * rel_easting + rel_northing * rel_northing)
         return result if self._n > 0. else -result
+
+
+class Epsg1052(InvertibleProjection[Ellipsoid]):
+    """Colombia Urban"""
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+
+    def __init__(self, ellipsoid: Ellipsoid, phi0: float, lambda0: float, h0: float, fe: float, fn: float):
+        self._ellipsoid = ellipsoid
+        self._e2 = ellipsoid.e2()
+        self._h0 = h0
+        self._fe = fe
+        self._fn = fn
+        self._phi0 = phi0
+        self._lambda0 = lambda0
+        self._nu0 = ellipsoid.nu(phi0)
+        self._coef_a = 1. + h0 / self._nu0
+        self._rho0 = ellipsoid.rho(phi0)
+        self._coef_b = tan(phi0) / (2. * self._rho0 * self._nu0)
+        self._coef_c = 1. + h0 / ellipsoid.a()
+        self._coef_d = self._rho0 * (1. + h0 / (ellipsoid.a() * (1. - self._e2)))
+
+    def compute(self, i):
+        phi = i[Epsg1052._PHI]
+        l = i[Epsg1052._LAMBDA] - self._lambda0
+        phim = (self._phi0 + phi) / 2.
+        rhom = self._ellipsoid.rho(phim)
+        nu = self._ellipsoid.nu(phi)
+        coef_g = 1 + self._h0 / rhom
+        cosphi = cos(phi)
+        return self._fe + self._coef_a * nu * cosphi * l, \
+            self._fn + coef_g * self._rho0 * ((phi - self._phi0) + (self._coef_b * l * l * nu * nu * cosphi * cosphi))
+
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    @override
+    def inverse(self, i):
+        de = (i[Epsg1052._EASTING] - self._fe) / self._coef_c
+        phi = self._phi0 + (i[Epsg1052._NORTHING] - self._fn) / self._coef_d - self._coef_b * de * de
+        return phi, self._lambda0 + de / (self._ellipsoid.nu(phi) * cos(phi))
