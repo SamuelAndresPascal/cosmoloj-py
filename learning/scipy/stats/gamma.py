@@ -18,6 +18,5 @@ x = np.linspace(stats.gamma.ppf(0.01, a=a, loc=0.3, scale=2), stats.gamma.ppf(0.
 ax.plot(x, stats.gamma.pdf(x, a=a, loc=0.3, scale=2), '-', lw=2, label='expon pdf', color='blue')
 ax.plot(x, stats.gamma.cdf(x, a=a, loc=0.3, scale=2), '--', lw=2, label='expon cdf', color='blue')
 print(stats.gamma.stats(moments='mvsk', a=a, loc=0.3, scale=2))
-#ax.plot(x, norm.ppf(x), 'r-', lw=5, alpha=0.6, label='norm cdf')
 
 plt.show()
