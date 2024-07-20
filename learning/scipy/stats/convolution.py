@@ -4,24 +4,42 @@ import scipy.stats as stats
 from scipy import signal
 from scipy.ndimage import shift
 
-delta = 1 / (24 * 60)  # assuming the target frequency unit to be the day, require one prob per "minute"
-period = 5
-big_grid = np.arange(-50, 50, delta)
+MINUTES_IN_DAY = 24 * 60
+WEIGHT = 1 / MINUTES_IN_DAY  # assuming the target freq. unit to be the day, require one prob to have a "minute" weight
+PERIOD = 7 * MINUTES_IN_DAY  # period in days converted to minutes for shifting curves purpose
+TARGET_NB = 11
 
-dist1 = stats.norm(scale=0.5)
+COMB = np.arange(start=-100, stop=100, step=WEIGHT)
+ASYMPTOTE = COMB.copy()
+ASYMPTOTE.fill(1 / PERIOD)
 
-pmf1 = dist1.pdf(big_grid) * delta
+DISTRIBUTION_0 = stats.norm(scale=0.75)
 
-target_nb = 11
-convolutions = [pmf1]
+# get pdf + discretisation to pmf
+PMF_0 = DISTRIBUTION_0.pdf(COMB) * WEIGHT
 
-for i in range(1, target_nb):
-    convolutions.append(signal.fftconvolve(convolutions[i - 1], pmf1, mode='same'))
-    print("Sum of convoluted pmf: " + str(sum(convolutions[i])))
+distributions = [PMF_0]
 
-for i, _ in enumerate(convolutions):
-    convolutions[i] = shift(convolutions[i] / delta, period / delta * i)
+for i in range(1, TARGET_NB):
+    distributions.append(signal.convolve(distributions[i - 1], PMF_0, mode='same'))
+    print("Sum of convoluted pmf: " + str(sum(distributions[i])))
 
-plt.plot(big_grid, sum(convolutions), label='total')
-plt.legend(loc='best'), plt.suptitle('PDFs')
+
+# to pdf values ("undiscretisation")
+for distribution in distributions:
+    distribution = distribution / WEIGHT
+
+for i, c in enumerate(distributions):
+    plt.plot(COMB, c, label=f'{i}')
+
+for i, _ in enumerate(distributions):
+    distributions[i] = shift(distributions[i], PERIOD * i)
+
+for i, c in enumerate(distributions):
+    plt.plot(COMB, c, label=f'cycle {i}')
+
+plt.plot(COMB, ASYMPTOTE, label="constant prob")
+plt.plot(COMB, sum(distributions), label='total prob')
+plt.legend(loc='best')
+plt.suptitle('shifted convolution series')
 plt.show()
