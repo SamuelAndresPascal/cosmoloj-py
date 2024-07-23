@@ -14,11 +14,12 @@
 * [Operator overloading usage](#operator-overloading-usage)
 * [Documentation](#documentation)
 
-
+This package is the Python Reference Implementation (RI) of the Simple Unit specification. Nevertheless, it also
+contains some extensions to the specification standard.
 
 ## Standard usage
 
-The Simple Unit Python implementation standard usage refers to method and classes defined in the Simple Unit specification.
+The standard usage refers to methods and classes defined in the Simple Unit specification.
 
 Usage of transformed units:
 

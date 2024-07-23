@@ -14,7 +14,8 @@
 * [Utilisation avec surcharge des opérateurs](#Utilisation-avec-surcharge-des-opérateurs)
 * [Documentation](#documentation)
 
-
+Ce paquet contient l'implémentation de référence en Python de la spécification Simple Unit. Toutefois, il contient
+aussi certaines extensions à l'implémentation du standard de la spécification.
 
 ## Utilisation standard
 
