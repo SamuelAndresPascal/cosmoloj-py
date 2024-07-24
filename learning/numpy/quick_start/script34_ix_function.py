@@ -27,13 +27,13 @@ print(a[3] + b[2] * c[4])
 
 def ufunc_reduce(ufct, *vectors):
 
-   vs = np.ix_(*vectors)
-   r = ufct.identity
+    vs = np.ix_(*vectors)
+    r = ufct.identity
 
-   for v in vs:
-       r = ufct(r, v)
+    for v in vs:
+        r = ufct(r, v)
 
-   return r
+    return r
 
 
 print(ufunc_reduce(np.add, a, b, c))
