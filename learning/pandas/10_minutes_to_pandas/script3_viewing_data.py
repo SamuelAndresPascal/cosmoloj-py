@@ -3,15 +3,29 @@ import pandas as pd
 
 dates = pd.date_range(start="20130101", periods=6)
 
-print(dates)
-
 df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list("ABCD"))
 
-print(df)
-print(type(df))
+print(df.head())
 
-print(df.A)
-print(type(df.A))
+print(df.tail(n=3))
+
+print(df.index)
+
+print(df.columns)
+
+print(df.to_numpy())
+
+print(df.describe())
+
+print(df.T)
+
+print(df.T.index)
+
+print(df.T.columns)
+
+print(df.sort_index(axis=1, ascending=False))
+
+print(df.sort_values(by="B"))
 
 
 df2 = pd.DataFrame(
@@ -24,11 +38,6 @@ df2 = pd.DataFrame(
         "F": "foo"
     }
 )
-
-print(df2)
-print(type(df2))
-
 print(df2.dtypes)
 
-print(df2.A)
-print(type(df2.A))
+print(df2.to_numpy())
