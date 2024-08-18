@@ -3,7 +3,7 @@ lint:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -24,10 +24,9 @@ mkdocs:unit_simple:
   stage: doc
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit_simple-/
-      when: always
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   script:
     - cd unit_simple
     - conda install -c conda-forge mkdocs=1.6 mkdocstrings mkdocstrings-python -y
@@ -49,7 +48,7 @@ test:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -72,7 +71,7 @@ python-version-support:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   variables:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
@@ -84,7 +83,7 @@ demo:unit_simple:
   rules:
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -95,10 +94,9 @@ pypi-package:unit_simple:pypi:
   stage: pypi-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit_simple-/
-      when: always
     - if: $CI_COMMIT_TAG
       when: never
-    - when: always
+    - when: on_success
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -126,7 +124,6 @@ pypi-publish:unit_simple:test_pypi:
     - when: never
   dependencies:
     - pypi-package:unit_simple:pypi
-  when: manual
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -145,7 +142,6 @@ pypi-publish:unit_simple:pypi:
     - when: never
   dependencies:
     - pypi-package:unit_simple:pypi
-  when: manual
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -165,7 +161,6 @@ conda-package:unit_simple:
   variables:
     DIST_DIR: conda_dist
     PACKAGE: unit_simple
-  when: manual
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
