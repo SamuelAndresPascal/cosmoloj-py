@@ -1,0 +1,1 @@
+from pkg import pk1, pk2
