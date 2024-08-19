@@ -1,9 +1,7 @@
 lint:taxref:
   stage: lint
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
     - conda env create --force --file environment.yml
@@ -22,9 +20,7 @@ lint:taxref:
 test:taxref:
   stage: test
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
     - conda env create --force --file environment.yml
@@ -46,9 +42,7 @@ test:taxref:
 python-version-support:taxref:
   stage: python-version-support
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG == null
   variables:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
@@ -58,10 +52,7 @@ python-version-support:taxref:
 pypi-package:taxref:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^taxref-/
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG =~ /^taxref-/ || $CI_COMMIT_TAG == null
   script:
     - cd taxref
     - conda env create --force --file environment.yml

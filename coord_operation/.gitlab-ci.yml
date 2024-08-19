@@ -1,9 +1,7 @@
 lint:coord_operation:
   stage: lint
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG == null
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
@@ -21,9 +19,7 @@ lint:coord_operation:
 test:coord_operation:
   stage: test
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG == null
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
@@ -44,10 +40,7 @@ test:coord_operation:
 pypi-package:coord_operation:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord_operation-/
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
+    - if: $CI_COMMIT_TAG =~ /^coord_operation-/ || $CI_COMMIT_TAG == null
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
