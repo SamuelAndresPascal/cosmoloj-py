@@ -40,14 +40,14 @@ test:coord_operation:
 pypi-package:coord_operation:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord_operation-/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_TAG =~ /^coord-operation-/ || $CI_COMMIT_TAG == null
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
-    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/coord_operation\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/coord-operation\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
     - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
@@ -63,8 +63,7 @@ pypi-package:coord_operation:pypi:
 pypi-publish:coord_operation:test_pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord_operation-/
-      when: manual
+    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
     - when: never
   dependencies:
     - pypi-package:coord_operation:pypi
@@ -76,12 +75,12 @@ pypi-publish:coord_operation:test_pypi:
     - conda uninstall -y twine
   environment:
     name: test pypi math operation
-    url: https://test.pypi.org/project/coord_operation/
+    url: https://test.pypi.org/project/coord-operation/
 
 pypi-publish:coord_operation:pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord_operation-/
+    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
       when: manual
     - when: never
   dependencies:
@@ -94,17 +93,17 @@ pypi-publish:coord_operation:pypi:
     - conda uninstall -y twine
   environment:
     name: pypi math operation
-    url: https://pypi.org/project/coord_operation/
+    url: https://pypi.org/project/coord-operation/
 
 conda-package:coord_operation:
   stage: conda-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord_operation-/
+    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
       when: manual
     - when: never
   variables:
     DIST_DIR: conda_dist
-    PACKAGE: coord_operation
+    PACKAGE: coord-operation
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
@@ -124,4 +123,4 @@ conda-package:coord_operation:
       - coord_operation/$DIST_DIR/*
   environment:
     name: anaconda math operation
-    url: https://anaconda.org/cosmoloj/coord_operation/
+    url: https://anaconda.org/cosmoloj/coord-operation/
