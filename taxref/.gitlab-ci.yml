@@ -127,7 +127,7 @@ conda-package:taxref:
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
-    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
+    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE_$VERSION-py_0.tar.bz2
     - anaconda logout
   artifacts:
     paths:
