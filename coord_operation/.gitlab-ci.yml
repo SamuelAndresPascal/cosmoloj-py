@@ -40,7 +40,7 @@ test:coord_operation:
 pypi-package:coord_operation:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation-/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_TAG =~ /^coord-operation_/ || $CI_COMMIT_TAG == null
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
@@ -63,7 +63,7 @@ pypi-package:coord_operation:pypi:
 pypi-publish:coord_operation:test_pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
+    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
     - when: never
   dependencies:
     - pypi-package:coord_operation:pypi
@@ -80,7 +80,7 @@ pypi-publish:coord_operation:test_pypi:
 pypi-publish:coord_operation:pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
+    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
     - when: never
   dependencies:
     - pypi-package:coord_operation:pypi
@@ -97,7 +97,7 @@ pypi-publish:coord_operation:pypi:
 conda-package:coord_operation:
   stage: conda-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation-/
+    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
       when: manual
     - when: never
   variables:

@@ -21,7 +21,7 @@ lint:unit_simple:
 mkdocs:unit_simple:
   stage: doc
   rules:
-    - if: $CI_COMMIT_TAG =~ /^unit-simple-/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_TAG =~ /^unit-simple_/ || $CI_COMMIT_TAG == null
   script:
     - cd unit_simple
     - conda install -c conda-forge mkdocs=1.6 mkdocstrings mkdocstrings-python -y
@@ -83,7 +83,7 @@ demo:unit_simple:
 pypi-package:unit_simple:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^unit-simple-/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_TAG =~ /^unit-simple_/ || $CI_COMMIT_TAG == null
   script:
     - cd unit_simple
     - conda env create --force --file environment.yml
@@ -106,7 +106,7 @@ pypi-package:unit_simple:pypi:
 pypi-publish:unit_simple:test_pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^unit-simple-/
+    - if: $CI_COMMIT_TAG =~ /^unit-simple_/
     - when: never
   dependencies:
     - pypi-package:unit_simple:pypi
@@ -123,7 +123,7 @@ pypi-publish:unit_simple:test_pypi:
 pypi-publish:unit_simple:pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^unit-simple-/
+    - if: $CI_COMMIT_TAG =~ /^unit-simple_/
     - when: never
   dependencies:
     - pypi-package:unit_simple:pypi
@@ -140,7 +140,7 @@ pypi-publish:unit_simple:pypi:
 conda-package:unit_simple:
   stage: conda-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^unit-simple-/
+    - if: $CI_COMMIT_TAG =~ /^unit-simple_/
       when: manual
     - when: never
   variables:
