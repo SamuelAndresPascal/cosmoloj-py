@@ -106,7 +106,7 @@ conda-package:coord_operation:
   script:
     - cd coord_operation
     - conda env create --force --file environment.yml
-    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'-' -f 2)
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
