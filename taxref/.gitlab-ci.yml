@@ -64,10 +64,10 @@ pypi-package:taxref:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - conda install -y build
+    - pip install build
     - python -m build
     - ls -l $DIST_DIR
-    - conda uninstall -y build
+    - pip uninstall -y build
   artifacts:
     paths:
       - taxref/$DIST_DIR/*
@@ -76,6 +76,7 @@ pypi-publish:taxref:test_pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
+      when: manual
     - when: never
   dependencies:
     - pypi-package:taxref:pypi
@@ -93,6 +94,7 @@ pypi-publish:taxref:pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
+      when: manual
     - when: never
   dependencies:
     - pypi-package:taxref:pypi
