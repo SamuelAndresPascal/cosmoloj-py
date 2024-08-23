@@ -52,7 +52,7 @@ pypi-package:coord_operation:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - pip build
+    - pip install build
     - python -m build
     - ls -l $DIST_DIR
     - pip uninstall -y build
