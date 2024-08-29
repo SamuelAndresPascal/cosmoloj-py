@@ -1,5 +1,5 @@
 """
-unit_simple module initializer in order to import unit_simple instead of unit_simple.unit_simple
+unit-simple module initializer in order to import unit-simple instead of unit-simple.unit-simple
 """
 
 from unit_simple.unit_simple import Factor, Unit, FundamentalUnit, DerivedUnit, TransformedUnit, UnitConverter, \

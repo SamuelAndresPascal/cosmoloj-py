@@ -1,4 +1,4 @@
-name: coord_operation
+name: coord-operation
 run-name: ${{ github.actor }}
 
 on:
@@ -20,7 +20,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: coord_operation/environment.yml
+          environment-file: coord-operation/environment.yml
           python-version: 3.12
           auto-activate-base: false
       - run: conda install -y pylint
@@ -28,7 +28,7 @@ jobs:
           conda --version
           python --version
           conda list
-      - working-directory: coord_operation
+      - working-directory: coord-operation
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
@@ -46,15 +46,15 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: coord_operation/environment.yml
+          environment-file: coord-operation/environment.yml
           python-version: 3.12
           auto-activate-base: false
       - run: |
           conda --version
           python --version
           conda list
-      - working-directory: coord_operation
+      - working-directory: coord-operation
         run: pip install .
       - run: conda install -y numpy
       - run: conda install -y pytest-cov
-      - run: pytest --cov=coord_operation --junitxml=coord_operation/report.xml --cov-append coord_operation
+      - run: pytest --cov=coord-operation --junitxml=coord-operation/report.xml --cov-append coord-operation

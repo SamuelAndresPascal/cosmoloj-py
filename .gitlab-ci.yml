@@ -38,9 +38,9 @@ stages:
   - sonar
 
 include:
-  - local: 'unit_simple/.gitlab-ci.yml'
+  - local: 'unit-simple/.gitlab-ci.yml'
   - local: 'taxref/.gitlab-ci.yml'
-  - local: 'coord_operation/.gitlab-ci.yml'
+  - local: 'coord-operation/.gitlab-ci.yml'
 
 coverage:
   stage: coverage
