@@ -4,6 +4,9 @@ import polars as pl
 import time
 import pandas as pd
 
+# source:
+# https://stackoverflow.com/questions/75167963/polars-slower-than-numpy
+
 # Download the text file
 text = requests.get("https://files.rcsb.org/download/3w32.pdb").text
 
