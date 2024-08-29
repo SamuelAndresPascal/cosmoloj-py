@@ -1,4 +1,4 @@
-lint:unit_simple:
+lint:unit-simple:
   stage: lint
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -18,7 +18,7 @@ lint:unit_simple:
     - pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
     - pylint --rcfile=../pylintrc test/unit_simple_built_in_test.py
 
-mkdocs:unit_simple:
+mkdocs:unit-simple:
   stage: doc
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit-simple_/ || $CI_COMMIT_TAG == null
@@ -39,7 +39,7 @@ mkdocs:unit_simple:
     name: documentation
     url: https://cosmoloj.com/mkdocs/unit-simple/master
 
-test:unit_simple:
+test:unit-simple:
   stage: test
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -60,7 +60,7 @@ test:unit_simple:
       junit: unit-simple/report.xml
     expire_in: 2 days
 
-python-version-support:unit_simple:
+python-version-support:unit-simple:
   stage: python-version-support
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -70,7 +70,7 @@ python-version-support:unit_simple:
     - cd unit-simple
     - . resources/check_py_support.sh
 
-demo:unit_simple:
+demo:unit-simple:
   stage: demo
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -80,7 +80,7 @@ demo:unit_simple:
     - pip install .
     - python demo.py
 
-pypi-package:unit_simple:pypi:
+pypi-package:unit-simple:pypi:
   stage: pypi-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit-simple_/ || $CI_COMMIT_TAG == null
@@ -103,7 +103,7 @@ pypi-package:unit_simple:pypi:
     paths:
       - unit-simple/dist/*
 
-pypi-publish:unit_simple:test_pypi:
+pypi-publish:unit-simple:test_pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit-simple_/
@@ -121,7 +121,7 @@ pypi-publish:unit_simple:test_pypi:
     name: test pypi simple unit
     url: https://test.pypi.org/project/unit-simple/
 
-pypi-publish:unit_simple:pypi:
+pypi-publish:unit-simple:pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit-simple_/
@@ -139,7 +139,7 @@ pypi-publish:unit_simple:pypi:
     name: pypi simple unit
     url: https://pypi.org/project/unit-simple/
 
-conda-package:unit_simple:
+conda-package:unit-simple:
   stage: conda-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^unit-simple_/

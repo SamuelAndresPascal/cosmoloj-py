@@ -1,4 +1,4 @@
-lint:coord_operation:
+lint:coord-operation:
   stage: lint
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -16,7 +16,7 @@ lint:coord_operation:
     - conda install -y numpy
     - pylint --rcfile=../pylintrc-test test/projection/*
 
-test:coord_operation:
+test:coord-operation:
   stage: test
   rules:
     - if: $CI_COMMIT_TAG == null
@@ -37,7 +37,7 @@ test:coord_operation:
       junit: coord-operation/report.xml
     expire_in: 2 days
 
-pypi-package:coord_operation:pypi:
+pypi-package:coord-operation:pypi:
   stage: pypi-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^coord-operation_/ || $CI_COMMIT_TAG == null
@@ -60,7 +60,7 @@ pypi-package:coord_operation:pypi:
     paths:
       - coord-operation/dist/*
 
-pypi-publish:coord_operation:test_pypi:
+pypi-publish:coord-operation:test_pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^coord-operation_/
@@ -78,7 +78,7 @@ pypi-publish:coord_operation:test_pypi:
     name: test pypi math operation
     url: https://test.pypi.org/project/coord-operation/
 
-pypi-publish:coord_operation:pypi:
+pypi-publish:coord-operation:pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^coord-operation_/
@@ -96,7 +96,7 @@ pypi-publish:coord_operation:pypi:
     name: pypi math operation
     url: https://pypi.org/project/coord-operation/
 
-conda-package:coord_operation:
+conda-package:coord-operation:
   stage: conda-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^coord-operation_/
