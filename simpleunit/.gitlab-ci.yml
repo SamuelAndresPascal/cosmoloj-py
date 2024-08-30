@@ -155,12 +155,12 @@ conda-package:simpleunit:
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
     - conda install -c conda-forge grayskull
-    - grayskull pypi -o $DIST_DIR "$PACKAGE"
+    - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
-    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE_$VERSION-py_0.tar.bz2
+    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
     - anaconda logout
   artifacts:
     paths:
