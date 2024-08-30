@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "unit-simple"
+name = "simpleunit"
 version = "0.0.0"
 authors = [
   { name="Samuel Andrés", email="samuel.andres@yahoo.fr" },
@@ -26,6 +26,6 @@ classifiers = [
 keywords = ["units", "converter", "unit converter", "measure", "units of measurement"]
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/unit_simple"
-"Documentation" = "http://cosmoloj.com/mkdocs/unit_simple/master"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/simpleunit"
+"Documentation" = "http://cosmoloj.com/mkdocs/simpleunit/master"
 "Specification" = "http://cosmoloj.com/su"

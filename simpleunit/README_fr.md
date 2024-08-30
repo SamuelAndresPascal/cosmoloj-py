@@ -2,13 +2,13 @@
 
 [![example workflow](https://github.com/SamuelAndresPascal/cosmoloj-py/actions/workflows/unit_simple.yml/badge.svg)](https://github.com/SamuelAndresPascal/cosmoloj-py/actions)
 
-[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit-simple/badges/version.svg)](https://anaconda.org/cosmoloj/unit-simple)
-[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit-simple/badges/latest_release_date.svg)](https://anaconda.org/cosmoloj/unit-simple)
-[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit-simple/badges/latest_release_relative_date.svg)](https://anaconda.org/cosmoloj/unit-simple)
-[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit-simple/badges/platforms.svg)](https://anaconda.org/cosmoloj/unit-simple)
-[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/unit-simple/badges/license.svg)](https://anaconda.org/cosmoloj/unit-simple)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/simpleunit/badges/version.svg)](https://anaconda.org/cosmoloj/simpleunit)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/simpleunit/badges/latest_release_date.svg)](https://anaconda.org/cosmoloj/simpleunit)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/simpleunit/badges/latest_release_relative_date.svg)](https://anaconda.org/cosmoloj/simpleunit)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/simpleunit/badges/platforms.svg)](https://anaconda.org/cosmoloj/simpleunit)
+[![Anaconda-Server Badge](https://anaconda.org/cosmoloj/simpleunit/badges/license.svg)](https://anaconda.org/cosmoloj/simpleunit)
 
-[![PyPI repository Badge](https://badge.fury.io/py/unit-simple.svg)](https://badge.fury.io/py/unit-simple)
+[![PyPI repository Badge](https://badge.fury.io/py/simpleunit.svg)](https://badge.fury.io/py/simpleunit)
 
 * [Utilisation standard](#Utilisation-standard)
 * [Utilisation avec surcharge des opérateurs](#Utilisation-avec-surcharge-des-opérateurs)
@@ -228,6 +228,6 @@ msToKmh(100.) # 360
 
 ## Documentation
 
-[Latest release](https://cosmoloj.com/mkdocs/unit-simple/latest/)
+[Latest release](https://cosmoloj.com/mkdocs/simpleunit/latest/)
 
-[Trunk](https://cosmoloj.com/mkdocs/unit-simple/master/)
+[Trunk](https://cosmoloj.com/mkdocs/simpleunit/master/)

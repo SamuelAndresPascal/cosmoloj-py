@@ -1,4 +1,4 @@
-name: unit-simple
+name: simpleunit
 run-name: ${{ github.actor }}
 
 on:
@@ -19,7 +19,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: unit-simple/environment.yml
+          environment-file: simpleunit/environment.yml
           python-version: 3.11
           auto-activate-base: false
       - run: conda install -y pylint
@@ -27,7 +27,7 @@ jobs:
           conda --version
           python --version
           conda list
-      - working-directory: unit-simple
+      - working-directory: simpleunit
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
@@ -48,15 +48,15 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: unit-simple/environment.yml
+          environment-file: simpleunit/environment.yml
           python-version: 3.11
           auto-activate-base: false
       - run: |
           conda --version
           python --version
           conda list
-      - working-directory: unit-simple
+      - working-directory: simpleunit
         run: pip install .
       - run: conda install -y pytest-cov
-      - run: pytest --cov=unit-simple --junitxml=unit-simple/report.xml --cov-append unit-simple
-      - run: python unit-simple/test/test.py
+      - run: pytest --cov=simpleunit --junitxml=simpleunit/report.xml --cov-append simpleunit
+      - run: python simpleunit/test/test.py

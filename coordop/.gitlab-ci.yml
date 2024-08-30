@@ -1,9 +1,9 @@
-lint:coord-operation:
+lint:coordop:
   stage: lint
   rules:
     - if: $CI_COMMIT_TAG == null
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     # install tool
     - conda install -y pylint
@@ -16,38 +16,38 @@ lint:coord-operation:
     - conda install -y numpy
     - pylint --rcfile=../pylintrc-test test/projection/*
 
-test:coord-operation:
+test:coordop:
   stage: test
   rules:
     - if: $CI_COMMIT_TAG == null
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     - conda install -y numpy
     - conda install -y pytest-cov
     - pip install .
     - cd ..
-    - pytest --cov=coord-operation --junitxml=coord-operation/report.xml --cov-append coord-operation
+    - pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
   artifacts:
     when: always
     paths:
       - .coverage
-      - coord-operation/report.xml
+      - coordop/report.xml
     reports:
-      junit: coord-operation/report.xml
+      junit: coordop/report.xml
     expire_in: 2 days
 
-pypi-package:coord-operation:pypi:
+pypi-package:coordop:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation_/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_TAG =~ /^coordop_/ || $CI_COMMIT_TAG == null
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
-    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/coord-operation\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/coordop\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
     - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
     - cat pyproject.toml
     - cp ../LICENSE.md .
@@ -58,55 +58,55 @@ pypi-package:coord-operation:pypi:
     - pip uninstall -y build
   artifacts:
     paths:
-      - coord-operation/dist/*
+      - coordop/dist/*
 
-pypi-publish:coord-operation:test_pypi:
+pypi-publish:coordop:test_pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
       when: manual
     - when: never
   dependencies:
-    - pypi-package:coord-operation:pypi
+    - pypi-package:coordop:pypi
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
     - conda uninstall -y twine
   environment:
     name: test pypi math operation
-    url: https://test.pypi.org/project/coord-operation/
+    url: https://test.pypi.org/project/coordop/
 
-pypi-publish:coord-operation:pypi:
+pypi-publish:coordop:pypi:
   stage: pypi-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
       when: manual
     - when: never
   dependencies:
-    - pypi-package:coord-operation:pypi
+    - pypi-package:coordop:pypi
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
     - conda uninstall -y twine
   environment:
     name: pypi math operation
-    url: https://pypi.org/project/coord-operation/
+    url: https://pypi.org/project/coordop/
 
-conda-package:coord-operation:
+conda-package:coordop:
   stage: conda-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^coord-operation_/
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
       when: manual
     - when: never
   variables:
     DIST_DIR: conda_dist
-    PACKAGE: coord-operation
+    PACKAGE: coordop
   script:
-    - cd coord-operation
+    - cd coordop
     - conda env create --force --file environment.yml
     - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
@@ -121,7 +121,7 @@ conda-package:coord-operation:
     - anaconda logout
   artifacts:
     paths:
-      - coord-operation/$DIST_DIR/*
+      - coordop/$DIST_DIR/*
   environment:
     name: anaconda math operation
-    url: https://anaconda.org/cosmoloj/coord-operation/
+    url: https://anaconda.org/cosmoloj/coordop/

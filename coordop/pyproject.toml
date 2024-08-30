@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "coord-operation"
+name = "coordop"
 version = "0.0.0"
 authors = [
   { name="Samuel Andrés", email="samuel.andres@yahoo.fr" },
@@ -26,4 +26,4 @@ classifiers = [
 keywords = ["epsg", "geomatics", "cartography", "geodesy", "projection", "mathematics"]
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/coord_operation"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/coordop"

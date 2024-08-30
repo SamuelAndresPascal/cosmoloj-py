@@ -1,6 +1,6 @@
 # Cosmoloj-py
 
-* [Implémentation de Simple Unit en Python](unit-simple)
+* [Implémentation de Simple Unit en Python](simpleunit)
 * [Utilitaires TAXREF](taxref)
-* [Opérations de conversion, de transformation et de projection géodésiques et cartographiques](coord-operation)
+* [Opérations de conversion, de transformation et de projection géodésiques et cartographiques](coordop)
 

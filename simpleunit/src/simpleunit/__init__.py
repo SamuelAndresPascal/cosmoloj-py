@@ -1,8 +1,7 @@
 """
-unit-simple module initializer in order to import unit-simple instead of unit-simple.unit-simple
+simpleunit module initializer in order to import simpleunit instead of simpleunit.simpleunit
 """
-
-from unit_simple.unit_simple import Factor, Unit, FundamentalUnit, DerivedUnit, TransformedUnit, UnitConverter, \
+from simpleunit.unit_simple import Factor, Unit, FundamentalUnit, DerivedUnit, TransformedUnit, UnitConverter, \
                                      UnitConverters, Metric, Time, Length, Surface, Temperature, Intensity, Current, \
                                      Mass, Angle, SolidAngle, Speed, Volume, Frequency, Substance, Force, Energy, \
                                      Charge, Voltage, Si
