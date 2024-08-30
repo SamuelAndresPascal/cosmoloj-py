@@ -4,9 +4,9 @@ import pytest
 
 import numpy as np
 
-from coord_operation.projection.epsg import Epsg1028Integration2dKind, Epsg1028Integration3rdKind, Epsg1028, \
+from coordop.projection.epsg import Epsg1028Integration2dKind, Epsg1028Integration3rdKind, Epsg1028, \
     Epsg1028Series
-from coord_operation.surface import Ellipsoid
+from coordop.surface import Ellipsoid
 
 
 @pytest.fixture(name="epsg_1028_2dkind")

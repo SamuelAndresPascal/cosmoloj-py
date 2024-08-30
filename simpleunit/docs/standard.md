@@ -18,9 +18,9 @@ minimal set of units related to some dimensions from which all other units will 
 A fundamental unit can be created in a very simple way by calling the FundamentalUnit constructor:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-m = su.FundamentalUnit() # define metre unit
+m = FundamentalUnit() # define metre unit
 ```
 
 !!! danger
@@ -28,16 +28,16 @@ m = su.FundamentalUnit() # define metre unit
     the unit does not theoretically depend on the same so-called "system of units".
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-m = su.FundamentalUnit() # define metre unit
+m = FundamentalUnit() # define metre unit
 
 # don't define kilometre as fundamental unit since it can be defined from the metre !
-km = su.FundamentalUnit()
+km = FundamentalUnit()
 
 # don't define yard as fundamental unit since it can be defined from the metre,
 # even if the system of units is theoretically different !
-yard = su.FundamentalUnit() 
+yard = FundamentalUnit() 
 ```
 
 So, what is the right way to define all other units? 
@@ -48,18 +48,18 @@ The first case to define non-fundamental units is to proceed by a transformation
 way to define the kilometre and the yard from the metre.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, TransformedUnit, UnitConverter
 
-m = su.FundamentalUnit()
+m = FundamentalUnit()
 
 # kilometre is defined as a multiple of the metre fundamental unit
-km = su.TransformedUnit(to_reference=su.UnitConverter(scale=1000), reference=m)
+km = TransformedUnit(to_reference=UnitConverter(scale=1000), reference=m)
 
 # centimetre is defined as a fraction of the metre fundamental unit
-cm = su.TransformedUnit(to_reference=su.UnitConverter(scale=1/100), reference=m)
+cm = TransformedUnit(to_reference=UnitConverter(scale=1/100), reference=m)
 
 # inch is defined as a multiple of the centimetre, which is a transformed unit itself
-inch = su.TransformedUnit(to_reference=su.UnitConverter(scale=2.54), reference=cm)
+inch = TransformedUnit(to_reference=UnitConverter(scale=2.54), reference=cm)
 ```
 
 Transformed units allow to define units from other units. This mechanism will allow Simple Unit RI to build unit 
@@ -69,9 +69,9 @@ To define a transformed unit using the constructor is boilerplate. *Simple Unit*
 multiple and fractional units in a simpler way.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-m = su.FundamentalUnit()
+m = FundamentalUnit()
 
 # kilometre is defined as a multiple of the metre fundamental unit
 km = m.scale_multiply(1000)
@@ -96,9 +96,9 @@ To build a converter from a unit to another, don't concern about combining formu
 using unit definitions.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-m = su.FundamentalUnit()
+m = FundamentalUnit()
 
 # unit definitions
 km = m.scale_multiply(1000)
@@ -145,10 +145,10 @@ A large part of units are transformed one to another using linear operations. Ne
 is affine. The most familiar example of affine transforms between units relates to temperature scales.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, TransformedUnit, UnitConverter
 
-k = su.FundamentalUnit()
-c = su.TransformedUnit(to_reference=su.UnitConverter(scale=1, translation=273.15), reference=k)
+k = FundamentalUnit()
+c = TransformedUnit(to_reference=UnitConverter(scale=1, translation=273.15), reference=k)
 k_to_c = k.get_converter_to(c)
 
 print(k_to_c.convert(0))
@@ -159,9 +159,9 @@ To avoid boilerplate call to the `TransformedUnit` constructor, the *Simple Unit
 build transformed units from an affine transform in the particular case of an unchanged scale.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 c = k.shift(273.15)
 k_to_c = k.get_converter_to(c)
 
@@ -176,12 +176,12 @@ Let's examine the different ways to address this case.
 The first one, consists in trying to represent the affine conversion in a single synthetic way:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, TransformedUnit, UnitConverter
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 
 # standard academic solution : call the constructor
-f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9, translation=459.67 * 5 / 9), reference=k)
+f = TransformedUnit(to_reference=UnitConverter(scale=5/9, translation=459.67 * 5 / 9), reference=k)
 
 k_to_f = k.get_converter_to(f)
 
@@ -194,14 +194,14 @@ This naive solution is boilerplate. Furthermore, the formula is very obscure whi
 To reduce the risk, it is possible to explicitly split the conversion:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, TransformedUnit, UnitConverter
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 
 # standard academic solution using explicit converter concatenation
-f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9)
-                                      .concatenate(su.UnitConverter(scale=1, translation=459.67)),
-                       reference=k)
+f = TransformedUnit(to_reference=UnitConverter(scale=5/9)
+                                 .concatenate(UnitConverter(scale=1, translation=459.67)),
+                    reference=k)
 
 k_to_f = k.get_converter_to(f)
 
@@ -216,9 +216,9 @@ So, it could be much better to simply use the standard unit methods to create an
 definition. The intermediate unit can be implicitly added to the unit graph:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 
 # standard concise solution : the call of scale_multiply creates an intermediary anonym unit in the unit graph
 # formally, this intermediate unit is the rankine
@@ -233,9 +233,9 @@ print(k_to_f.inverse().convert(0))
 If it makes sense, explicitly declaring the intermediate unit can be the most transparent way to proceed:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 
 # standard explicit solution : define rankine unit first
 rankine = k.scale_multiply(5/9)
@@ -262,10 +262,10 @@ In first approximation, a derived unit can be seen as a combination of units. Fo
 metre from the metre:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-m2 = su.DerivedUnit(m, m)
+m = FundamentalUnit()
+m2 = DerivedUnit(m, m)
 ```
 
 Hence, derived units can define units related to new dimensions without having to define new fundamental units.
@@ -275,12 +275,12 @@ For now, square meters are useless since it is nonsense to define a converter be
 Let's define a converter between square meters and imperial acres:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-m2 = su.DerivedUnit(m, m)
+m = FundamentalUnit()
+m2 = DerivedUnit(m, m)
 chain = m.scale_multiply(20.1168)
-ch2 = su.DerivedUnit(chain, chain)  # define the square chain
+ch2 = DerivedUnit(chain, chain)  # define the square chain
 acre = ch2.scale_multiply(10)
 
 acre_to_m2 = acre.get_converter_to(m2)
@@ -295,12 +295,12 @@ calling the dedicated method `factor`. Hence, the previous example should have e
 been written as follows:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-m2 = su.DerivedUnit(m.factor(2))
+m = FundamentalUnit()
+m2 = DerivedUnit(m.factor(2))
 chain = m.scale_multiply(20.1168)
-ch2 = su.DerivedUnit(chain.factor(2))  # define the square chain
+ch2 = DerivedUnit(chain.factor(2))  # define the square chain
 acre = ch2.scale_multiply(10)
 
 acre_to_m2 = acre.get_converter_to(m2)
@@ -314,12 +314,12 @@ print(acre_to_m2.inverse().convert(15))
     equivalent to:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-m2 = su.DerivedUnit(m.factor(1), m.factor(1))
+m = FundamentalUnit()
+m2 = DerivedUnit(m.factor(1), m.factor(1))
 chain = m.scale_multiply(20.1168)
-ch2 = su.DerivedUnit(chain.factor(1), chain.factor(1))  # define the square chain
+ch2 = DerivedUnit(chain.factor(1), chain.factor(1))  # define the square chain
 acre = ch2.scale_multiply(10)
 
 acre_to_m2 = acre.get_converter_to(m2)
@@ -335,12 +335,12 @@ print(acre_to_m2.inverse().convert(15))
     Both following codes are incorrect:
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
+m = FundamentalUnit()
 m2 = m.factor(2)  # m2 is not a unit but a simple factor !!
 chain = m.scale_multiply(20.1168)
-ch2 = su.DerivedUnit(chain.factor(2))  # define the square chain
+ch2 = DerivedUnit(chain.factor(2))  # define the square chain
 acre = ch2.scale_multiply(10)
 
 acre_to_m2 = acre.get_converter_to(m2)  # error since m2 is not a unit !
@@ -349,10 +349,10 @@ print(acre_to_m2.inverse().convert(15))
 ```
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-m2 = su.DerivedUnit(m.factor(2))
+m = FundamentalUnit()
+m2 = DerivedUnit(m.factor(2))
 chain = m.scale_multiply(20.1168)
 ch2 = chain.factor(2)  # ch2 is not a unit but a simple factor !!
 acre = ch2.scale_multiply(10)  # error since ch2 is not a unit !
@@ -365,14 +365,14 @@ print(acre_to_m2.inverse().convert(15))
 Converters between derived units are still transitive and invertible.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
+m = FundamentalUnit()
 km = m.scale_multiply(1000)
 
-km2 = su.DerivedUnit(km.factor(2))
+km2 = DerivedUnit(km.factor(2))
 cm = m.scale_divide(100)
-cm2 = su.DerivedUnit(cm.factor(2))
+cm2 = DerivedUnit(cm.factor(2))
 km2_to_cm2 = km2.get_converter_to(cm2)
 
 print(km2_to_cm2.convert(3))
@@ -382,17 +382,17 @@ print(km2_to_cm2.inverse().convert(30000000000))
 Derived units allow to build units by multiplying factors of distinct dimensions. 
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-m = su.FundamentalUnit()
-kg = su.FundamentalUnit()
+m = FundamentalUnit()
+kg = FundamentalUnit()
 g = kg.scale_divide(1000)
 ton = kg.scale_multiply(1000)
-g_per_m2 = su.DerivedUnit(g, m.factor(-2))
+g_per_m2 = DerivedUnit(g, m.factor(-2))
 km = m.scale_multiply(1000)
-ton_per_km2 = su.DerivedUnit(ton, km.factor(-2))
+ton_per_km2 = DerivedUnit(ton, km.factor(-2))
 cm = m.scale_divide(100)
-ton_per_cm2 = su.DerivedUnit(ton, cm.factor(-2))
+ton_per_cm2 = DerivedUnit(ton, cm.factor(-2))
 g_per_m2_to_ton_per_km2 = g_per_m2.get_converter_to(ton_per_km2)
 g_per_m2_to_ton_per_cm2 = g_per_m2.get_converter_to(ton_per_cm2)
 
@@ -409,9 +409,9 @@ Temperatures are very specific. They are often related one to another by non-lin
 non-linear part is supposed to disappear when the temperature is combined with other units.
 
 ```py
-import unit_simple as su
+from simpleunit import FundamentalUnit, DerivedUnit
 
-k = su.FundamentalUnit()
+k = FundamentalUnit()
 c = k.shift(273.15)
 k_to_c = k.get_converter_to(c)
 
@@ -419,9 +419,9 @@ print(k_to_c.convert(0))
 print(k_to_c.inverse().convert(0))
 
 # combined with other units, temperatures only keep their linear conversion part
-m = su.FundamentalUnit()
-c_per_m = su.DerivedUnit(c, m.factor(-1))
-k_per_m = su.DerivedUnit(k, m.factor(-1))
+m = FundamentalUnit()
+c_per_m = DerivedUnit(c, m.factor(-1))
+k_per_m = DerivedUnit(k, m.factor(-1))
 k_per_m_to_c_per_m = k_per_m.get_converter_to(c_per_m)
 
 print(k_per_m_to_c_per_m.convert(3))

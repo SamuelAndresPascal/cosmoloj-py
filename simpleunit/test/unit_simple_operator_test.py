@@ -1,8 +1,8 @@
 """test module for Simple Unit"""
 
 import pytest
-import unit_simple as su
-from unit_simple import Metric as pm
+import simpleunit as su
+from simpleunit import Metric as pm
 
 
 def test_metric_prefix():

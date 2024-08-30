@@ -5,8 +5,8 @@ import pytest
 
 import numpy as np
 
-from coord_operation.projection.epsg import Epsg1027
-from coord_operation.surface import Spheroid
+from coordop.projection.epsg import Epsg1027
+from coordop.surface import Spheroid
 
 
 @pytest.fixture(name="epsg_1027")

@@ -13,7 +13,7 @@ class UnitConverter:
 
         Do not use the inverse constructor parameter since it is internally computed.
 
-        >>> import unit_simple as su
+        >>> import simpleunit as su
         >>>
         >>> unit_converter = su.UnitConverter(scale=2.0, offset=1.2)
         >>> print(unit_converter.convert(2))
@@ -22,7 +22,7 @@ class UnitConverter:
 
         Unit converters are used to build a transformed unit from a reference unit.
 
-        >>> import unit_simple as su
+        >>> import simpleunit as su
         >>>
         >>> k = su.FundamentalUnit()
         >>> f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9)
@@ -31,7 +31,7 @@ class UnitConverter:
 
         Most of the time, unit converters are not directly instancitated.
 
-        >>> import unit_simple as su
+        >>> import simpleunit as su
         >>>
         >>> unit_converter = su.UnitConverter(scale=2.0, offset=1.2)
         >>> inverse_converter = unit_converter.inverse()
@@ -42,7 +42,7 @@ class UnitConverter:
         Most of the transformed units are only built from scaling or translation affine transforms and can be
         instantiated using the built-in Unit methods.
 
-        >>> import unit_simple as su
+        >>> import simpleunit as su
         >>>
         >>> m = su.FundamentalUnit()
         >>> km = m.scale_multiply(1000)

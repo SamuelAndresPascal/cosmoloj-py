@@ -4,10 +4,10 @@ from typing import override
 
 from math import log, tan, pi, atan, exp, sqrt, sin, cos, asin, atan2, degrees, floor
 
-from coord_operation.math_util.integral import sum_function
-from coord_operation.operation import InvertibleProjection
-from coord_operation.projection.mercator_spherical import MercatorSpherical
-from coord_operation.surface import Surface, Spheroid, Ellipsoid
+from coordop.util.integral import sum_function
+from coordop.operation import InvertibleProjection
+from coordop.projection.mercator_spherical import MercatorSpherical
+from coordop.surface import Surface, Spheroid, Ellipsoid
 
 
 class Epsg1024(InvertibleProjection[Surface]):

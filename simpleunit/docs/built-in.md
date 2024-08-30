@@ -10,7 +10,7 @@ To make the library more friendly for simple usages, this implementation supplie
 Built-in most fundamental units can be accessed from the `Si` enum.
 
 ```py
-from unit_simple import Si
+from simpleunit import Si
 
 # no need to define the metre as a fundamental unit as it is already defined as a built-in unit
 km = Si.M * 1000  
@@ -20,8 +20,7 @@ cm = Si.M / 100
 Other ones are available through a set of dimensional enums.
 
 ```py
-import unit_simple
-from unit_simple import Temperature
+from simpleunit import Temperature, FundamentalUnit
 
 # no need to define the metre as a fundamental unit as it is already defined as a built-in unit
 # Celsius degree and Fahrenheit degree are also already defined, so the 
@@ -30,7 +29,7 @@ f = c * 5 / 9 - 32  # Fahrenheit degree already defined among build-in units, bu
 
 # DO NOT DEFINE A NEW FUNDAMENTAL UNIT FOR TEMPERATURES SINCE ANOTHER ONE IS IMPLICITLY USED BY THE BUILT-IN Kelvin
 # that could be implied in a conversion with this rankine unit !!!!!
-rankine = unit_simple.FundamentalUnit()  # incorrect (dangerous)
+rankine = FundamentalUnit()  # incorrect (dangerous)
 ```
 
 Built-in units can be used as custom ones to build transformed and derived units. No matters if derived or transformed
@@ -38,7 +37,7 @@ units are already present among the built-in units, but keep in mind to not dupl
 implicitly used by the units you.
 
 ```py
-from unit_simple import Si
+from simpleunit import Si
 
 m2 = Si.M ** 2
 hz = ~Si.S

@@ -4,8 +4,8 @@ import pytest
 
 import numpy as np
 
-from coord_operation.projection.epsg import Epsg1041a
-from coord_operation.surface import Ellipsoid
+from coordop.projection.epsg import Epsg1041a
+from coordop.surface import Ellipsoid
 
 
 A = 6377397.155

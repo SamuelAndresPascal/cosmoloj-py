@@ -10,9 +10,9 @@ from typing import override
 
 from math import cos
 
-from coord_operation.operation import InvertibleProjection
-from coord_operation.projection import map_projections
-from coord_operation.surface import Spheroid
+from coordop.operation import InvertibleProjection
+from coordop.projection import map_projections
+from coordop.surface import Spheroid
 
 
 class MercatorSpherical(InvertibleProjection[Spheroid]):

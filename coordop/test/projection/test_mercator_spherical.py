@@ -4,8 +4,8 @@ from math import radians
 
 import pytest
 
-from coord_operation.projection.mercator_spherical import MercatorSpherical
-from coord_operation.surface import Spheroid
+from coordop.projection.mercator_spherical import MercatorSpherical
+from coordop.surface import Spheroid
 
 
 _RADIUS: float = 1.0

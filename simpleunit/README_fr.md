@@ -24,7 +24,7 @@ L'utilisation standard se réfère aux méthodes implémentant la spécification
 Utilisation des unités transformées :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000)
@@ -38,7 +38,7 @@ cmToKm.inverse().convert(0.00003) # 3
 Utilisation des unités dérivées :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000)
@@ -55,7 +55,7 @@ km2Tocm2.inverse().convert(30000000000) # 3
 Utilisation des unités dérivées en combinant les dimensions :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
@@ -82,7 +82,7 @@ gPerM2ToTonPerCm2.inverse().convert(3e-10) # 3
 Utilisation des températures (conversions affines et linéaires) :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 k = su.FundamentalUnit()
 c = k.shift(273.15)
@@ -104,7 +104,7 @@ kPerMToCPerM.inverse().convert(3) # 3
 Utilisation des conversions non décimales :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m.scale_multiply(1000.)
@@ -129,7 +129,7 @@ alternative aux méthodes standards.
 Utilisation des unités transformées :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m * 1000
@@ -143,7 +143,7 @@ cmToKm(3) # 0.00003
 Utilisation des unités dérivées :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m * 1000
@@ -160,7 +160,7 @@ km2Tocm2(3) # 30000000000
 Utilisation des unités dérivées en combinant les dimensions :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 kg = su.FundamentalUnit()
@@ -187,7 +187,7 @@ gPerM2ToTonPerCm2.scale() # 1e-10
 Utilisation des températures (conversions affines et linéaires) :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 k = su.FundamentalUnit()
 c = k + 273.15
@@ -209,7 +209,7 @@ kPerMToCPerM(3) # 3
 Utilisation des conversions non décimales :
 
 ```py
-import unit_simple as su
+import simpleunit as su
 
 m = su.FundamentalUnit()
 km = m * 1000.

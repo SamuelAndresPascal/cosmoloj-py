@@ -5,8 +5,8 @@ import pytest
 import numpy as np
 
 
-from coord_operation.projection.epsg import Epsg1026
-from coord_operation.surface import Spheroid
+from coordop.projection.epsg import Epsg1026
+from coordop.surface import Spheroid
 
 PHI = 0.425542460
 LAMBDA = -1.751147016

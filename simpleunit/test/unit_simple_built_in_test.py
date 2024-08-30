@@ -2,8 +2,8 @@
 import math
 
 import pytest
-from unit_simple import Metric as pm, Angle
-from unit_simple import Si, Surface, Temperature
+from simpleunit import Metric as pm, Angle
+from simpleunit import Si, Surface, Temperature
 
 
 def test_transformed():

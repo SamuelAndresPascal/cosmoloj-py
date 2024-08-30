@@ -4,8 +4,8 @@ import pytest
 
 import numpy as np
 
-from coord_operation.projection.epsg import Epsg1029
-from coord_operation.surface import Ellipsoid
+from coordop.projection.epsg import Epsg1029
+from coordop.surface import Ellipsoid
 
 PHI = 0.959931086
 LAMBDA = 0.174532925
