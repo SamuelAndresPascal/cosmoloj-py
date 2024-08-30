@@ -4,7 +4,7 @@ lint:taxref:
     - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     # install tool
     - conda install -y pylint
     - conda list
@@ -23,7 +23,7 @@ test:taxref:
     - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     - conda install -y pandas python-dotenv
     - conda install -y pytest-cov
     - pip install .
@@ -55,7 +55,7 @@ pypi-package:taxref:pypi:
     - if: $CI_COMMIT_TAG =~ /^taxref_/ || $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
@@ -82,7 +82,7 @@ pypi-publish:taxref:test_pypi:
     - pypi-package:taxref:pypi
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
     - conda uninstall -y twine
@@ -100,7 +100,7 @@ pypi-publish:taxref:pypi:
     - pypi-package:taxref:pypi
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     - conda install -y --update-deps twine
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
     - conda uninstall -y twine
@@ -119,7 +119,7 @@ conda-package:taxref:
     PACKAGE: taxref
   script:
     - cd taxref
-    - conda env create --force --file environment.yml
+    - conda env create --yes --file environment.yml
     - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
