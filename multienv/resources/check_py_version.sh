@@ -3,6 +3,7 @@ PYTHON_VERSION=$1
 python --version
 conda --version
 
+conda install pyyaml -y
 pip install .
 conda install pytest -y
 pytest
