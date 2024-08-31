@@ -27,3 +27,13 @@ l4 = [i for i in range(1, 4)]
 print(l4)
 print(l4[0])
 print(type(l4))
+
+if None:
+    print("none is true")
+else:
+    print("none is false")
+
+if []:
+    print("empty list is true")
+else:
+    print("empty list is false")

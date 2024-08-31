@@ -8,12 +8,13 @@ from dataclasses import dataclass
 from enum import Enum
 
 import yaml
-from packaging.markers import default_environment
 
 LOG = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class Dependency:
+    """Representation of dependency features."""
+
     id: str
     version: str | None
     environments: list[str] | None
@@ -22,6 +23,8 @@ class Dependency:
 
     @staticmethod
     def from_dict(source: dict):
+        """Builds a Dependency from a configuration dict."""
+
         return Dependency(
             id=source['id'],
             version=str(source['version']) if 'version' in source else None,
@@ -32,18 +35,55 @@ class Dependency:
 
 @dataclass(frozen=True)
 class Configuration:
-    handlers: list[str, dict]
+    """Representation of pyenvs configuration content."""
+
+    formatters: list[dict, str]
+    """Each formatter either can be a single character string of one of supported formatters or a key/value pair with 
+    the key referencing to the formatter name and the value referencing to its specific configuration."""
+
     environments: list[str] | None
+    """A reference list of the environments referenced by dependencies. If the list is provided, dependencies 
+    referencing an unknown environment raise an error. If the list is not provided, it is inferred from the dependency
+    environments. If an empty list is provided, no dependency is supposed to reference any specific environment."""
+
     dependencies: list[Dependency]
+    """The list of the dependencies."""
 
     @staticmethod
     def from_dict(source: dict):
+        """Builds a Configuration from a configuration dict."""
         return Configuration(
-            handlers=source['configuration']['handlers'],
+            formatters=source['configuration']['formatters'],
             environments=source['environments'] if 'environments' in source else None,
             dependencies=[Dependency.from_dict(d) for d in source['dependencies']]
         )
 
+@dataclass(frozen=True)
+class CondaConfiguration:
+    """The specific conda configuration model."""
+
+    default_environment: bool
+    prefix: str
+    encoding: str
+
+    @staticmethod
+    def from_configuration(formatter: dict | str):
+        """Builds a conda configuration object form a dict or a default one form a string"""
+        if isinstance(formatter, str):
+            return _DEFAULT_CONDA_CONFIGURATION
+
+        return CondaConfiguration(
+            default_environment=formatter['default_environment'] if 'default_environment' in formatter
+            else _DEFAULT_CONDA_CONFIGURATION.default_environment,
+            prefix=formatter['prefix'] if 'prefix' in formatter else _DEFAULT_CONDA_CONFIGURATION.prefix,
+            encoding=formatter['encoding'] if 'encoding' in formatter else _DEFAULT_CONDA_CONFIGURATION.encoding
+        )
+
+_DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
+    default_environment=True,
+    prefix='environment',
+    encoding='utf-8'
+)
 
 def _info(ns: Namespace):
     """info
@@ -53,7 +93,8 @@ def _info(ns: Namespace):
     print(ns)
 
 
-def conda_formatter(d: Dependency) -> str:
+def _conda_dep_formatter(d: Dependency) -> str:
+    """Formats a dependency to a conda dependency string."""
     result : str = d.id
     if d.version is not None:
         result += '=' + d.version
@@ -61,57 +102,60 @@ def conda_formatter(d: Dependency) -> str:
             result += d.sha
     return result
 
-def conda_handler(configuration: Configuration):
 
-    handler_configuration = Handlers.CONDA.handler_configuration(configuration)
-    print(handler_configuration)
-    default_environment = 'default_environment' not in handler_configuration or handler_configuration['default_environment']
-    prefix = handler_configuration['prefix'] if 'prefix' in handler_configuration else 'environment'
+def conda_writer(configuration: Configuration):
+    """Writes a configuration as conda configuration environment files."""
+
+    formatter_configuration: CondaConfiguration = Formatters.CONDA.get_formatter_configuration(configuration)
 
     # default environment includes all dependencies
-    if default_environment:
-        ed = []
-        for d in configuration.dependencies:
-            ed.append(conda_formatter(d))
+    if formatter_configuration.default_environment:
 
-        output = {}
-        output['dependencies'] = ed
-        with open(f'{prefix}_.yml', "w") as o:
-            yaml.dump(output, o)
+        output = {
+            'name': 'default',
+            'dependencies': [_conda_dep_formatter(d) for d in configuration.dependencies]
+        }
+        with open(f'{formatter_configuration.prefix}_.yml', "w", encoding=formatter_configuration.encoding) as o:
+            yaml.dump(output, o, sort_keys=False)
 
-    if configuration.environments:
-        for e in configuration.environments:
-            ed = []
-            for d in configuration.dependencies:
-                if d.environments is None or e in d.environments:
-                    ed.append(conda_formatter(d))
+    if configuration.environments is None:
+        return
 
-            output = {}
-            output['dependencies'] = ed
-            with open(f'{prefix}_{e}.yml', "w") as o:
-                yaml.dump(output, o)
+    for e in configuration.environments:
+
+        output = {
+            'name': e,
+            'dependencies': [_conda_dep_formatter(d) for d in configuration.dependencies
+                             if d.environments is None or e in d.environments]
+        }
+        with open(f'{formatter_configuration.prefix}_{e}.yml', "w", encoding=formatter_configuration.encoding) as o:
+            yaml.dump(output, o, sort_keys=False)
 
 @dataclass
-class _HandlerValue:
+class _FormatterValue[C]:
     name: str
-    handler: Callable[[Configuration], None]
+    write: Callable[[Configuration], None]
+    configuration: Callable[[dict | str], C]
 
 
-class Handlers(Enum):
-    CONDA = _HandlerValue(name='conda', handler=conda_handler)
+class Formatters(Enum):
+    """The enumeration of the supported formatters."""
+    CONDA = _FormatterValue[CondaConfiguration](name='conda',
+                                                write=conda_writer,
+                                                configuration=CondaConfiguration.from_configuration)
 
-    def test(self, handler: dict | str) -> bool:
-        for h in Handlers:
-            if (isinstance(handler, str) and self.value.name == handler
-                    or isinstance(handler, dict) and self.value.name in handler):
-                return True
-        return False
+    def test(self, formatter: dict | str) -> bool:
+        """Checks if a formatter configuration dict refers to the current Formatter value."""
+        return (isinstance(formatter, str) and self.value.name == formatter
+                or isinstance(formatter, dict) and self.value.name in formatter)
 
-
-    def handler_configuration(self, configuration: Configuration) -> dict | None:
-        for h in configuration.handlers:
-            if isinstance(h, dict) and self.value.name in h:
-                return h[self.value.name]
+    def get_formatter_configuration(self, configuration: Configuration):
+        """Builds a specific formatter configuration from the main configuration related to the current Formatter value.
+        """
+        for formatter in configuration.formatters:
+            if self.test(formatter):
+                return self.value.configuration(formatter)
+        raise ValueError
 
 
 def _config(ns: Namespace):
@@ -122,15 +166,15 @@ def _config(ns: Namespace):
     extension = ns.file.split('.')[-1]
 
     if extension in ['yml']:
-        with open(ns.file) as s:
+        with open(ns.file, encoding=ns.encoding) as s:
             content = yaml.safe_load(s)
             print(content)
             configuration = Configuration.from_dict(content)
 
-            for req_handler in configuration.handlers:
-                for supported_handler in Handlers:
-                    if supported_handler.test(req_handler):
-                        supported_handler.value.handler(configuration)
+            for req_formatter in configuration.formatters:
+                for supported_formatter in Formatters:
+                    if supported_formatter.test(req_formatter):
+                        supported_formatter.value.write(configuration)
 
 
     else:
@@ -154,6 +198,10 @@ def _config_parser() -> ArgumentParser:
                                nargs='?',
                                help="path to the configuration file",
                                default="multienv.yml")
+    parser_config.add_argument('--encoding',
+                               nargs='?',
+                               help='the configuration file encoding (default to utf-8)',
+                               default='utf-8')
 
     return parser
 

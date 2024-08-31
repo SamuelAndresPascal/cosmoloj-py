@@ -1,7 +1,8 @@
 configuration:
-  handlers:
+  formatters:
     - conda:
         default_environment: false
+        prefix: tutu
 
 environments:
   - lint
