@@ -12,6 +12,8 @@ lint:multienv:
     - pylint --rcfile=../pylintrc src
     # install deps for pylint to find
     - conda install -y pytest
+    # install deps
+    - conda install -y pyyaml
     - pylint --rcfile=../pylintrc test/test_pyenvs.py
 
 test:multienv:
@@ -21,6 +23,8 @@ test:multienv:
   script:
     - cd multienv
     - conda env create --yes --file environment.yml
+    # install deps
+    - conda install -y pyyaml
     - conda install -y pytest-cov
     - pip install .
     - cd ..

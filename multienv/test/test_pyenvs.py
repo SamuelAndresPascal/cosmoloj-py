@@ -14,17 +14,10 @@ def test_config_default():
     """test config command without supplying file"""
 
     parser = _config_parser()
-    assert parser.parse_args(['config']) == Namespace(CMD='config', file='multienv.json')
-
-    n = Namespace(CMD='config', file='multienv.json')
-    print(n)
-    print(vars(n))
-    print(n.CMD)
-    print(n.file)
-    print(vars(parser.parse_args(['config'])))
+    assert parser.parse_args(['config']) == Namespace(CMD='config', file='multienv.yml')
 
 def test_config_custom():
     """test config command supplying a custom file"""
 
     parser = _config_parser()
-    assert parser.parse_args(['config', 'myenvs.json']) == Namespace(CMD='config', file='myenvs.json')
+    assert parser.parse_args(['config', 'myenvs.yml']) == Namespace(CMD='config', file='myenvs.yml')
