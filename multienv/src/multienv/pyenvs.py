@@ -69,14 +69,17 @@ class CondaConfiguration:
     @staticmethod
     def from_configuration(formatter: dict | str):
         """Builds a conda configuration object form a dict or a default one form a string"""
+
         if isinstance(formatter, str):
             return _DEFAULT_CONDA_CONFIGURATION
 
+        body = formatter[Formatters.CONDA.value.name]
+
         return CondaConfiguration(
-            default_environment=formatter['default_environment'] if 'default_environment' in formatter
+            default_environment=body['default_environment'] if 'default_environment' in body
             else _DEFAULT_CONDA_CONFIGURATION.default_environment,
-            prefix=formatter['prefix'] if 'prefix' in formatter else _DEFAULT_CONDA_CONFIGURATION.prefix,
-            encoding=formatter['encoding'] if 'encoding' in formatter else _DEFAULT_CONDA_CONFIGURATION.encoding
+            prefix=body['prefix'] if 'prefix' in body else _DEFAULT_CONDA_CONFIGURATION.prefix,
+            encoding=body['encoding'] if 'encoding' in body else _DEFAULT_CONDA_CONFIGURATION.encoding
         )
 
 _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
@@ -89,8 +92,6 @@ def _info(ns: Namespace):
     """info
     """
     LOG.info("info")
-    print("print info")
-    print(ns)
 
 
 def _conda_dep_formatter(d: Dependency) -> str:
@@ -168,7 +169,6 @@ def _config(ns: Namespace):
     if extension in ['yml']:
         with open(ns.file, encoding=ns.encoding) as s:
             content = yaml.safe_load(s)
-            print(content)
             configuration = Configuration.from_dict(content)
 
             for req_formatter in configuration.formatters:
@@ -179,9 +179,6 @@ def _config(ns: Namespace):
 
     else:
         raise ValueError(f'unsupported configuration format {extension}')
-
-    print("print config")
-    print(ns)
 
 
 def _config_parser() -> ArgumentParser:
