@@ -2,7 +2,10 @@ configuration:
   formatters:
     - conda:
         default_environment: false
-        prefix: tutu
+        file_pattern: tutu
+        channels:
+          - default
+          - cosmoloj
 
 environments:
   - lint
