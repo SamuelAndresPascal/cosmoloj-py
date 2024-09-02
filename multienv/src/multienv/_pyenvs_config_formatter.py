@@ -19,7 +19,8 @@ class CondaConfiguration:
     default_environment: bool
     file_pattern: str
     encoding: str
-    channels: list[str]
+    channels: list[str] | None
+    pip: list[str] | None
 
     @staticmethod
     def from_configuration(formatter: dict | str):
@@ -35,14 +36,16 @@ class CondaConfiguration:
             else _DEFAULT_CONDA_CONFIGURATION.default_environment,
             file_pattern=body['file_pattern'] if 'file_pattern' in body else _DEFAULT_CONDA_CONFIGURATION.file_pattern,
             encoding=body['encoding'] if 'encoding' in body else _DEFAULT_CONDA_CONFIGURATION.encoding,
-            channels=body['channels'] if 'channels' in body else _DEFAULT_CONDA_CONFIGURATION.channels
+            channels=body['channels'] if 'channels' in body else _DEFAULT_CONDA_CONFIGURATION.channels,
+            pip=body['pip'] if 'pip' in body else _DEFAULT_CONDA_CONFIGURATION.pip
         )
 
 _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
     default_environment=True,
     file_pattern='environment',
     encoding='utf-8',
-    channels=['default']
+    channels=None,
+    pip=None
 )
 
 def conda_writer(configuration: Configuration):
@@ -55,6 +58,7 @@ def conda_writer(configuration: Configuration):
 
         env = CondaEnvironment.from_configuration(name='default',
                                                   channels=formatter_configuration.channels,
+                                                  pip=formatter_configuration.pip,
                                                   configuration=configuration)
         env.write(file_pattern=formatter_configuration.file_pattern,
                   environment="_",
@@ -67,6 +71,7 @@ def conda_writer(configuration: Configuration):
 
         env = CondaEnvironment.from_dependencies(name=e,
                                                  channels=formatter_configuration.channels,
+                                                 pip=formatter_configuration.pip,
                                                  dependencies=[d for d in configuration.dependencies
                                                                if d.environments is None or e in d.environments])
         env.write(file_pattern=formatter_configuration.file_pattern,
