@@ -10,7 +10,7 @@ lint:simpleunit:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc src
-    - pylint --rcfile=../pylintrc demo.py
+    - pylint --rcfile=../pylintrc demo/demo.py
     # install deps for pylint to find
     - conda install -y pytest
     - pylint --rcfile=../pylintrc test/test.py
