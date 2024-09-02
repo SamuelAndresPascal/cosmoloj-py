@@ -83,6 +83,7 @@ demo:simpleunit:
     - cd simpleunit
     - conda env create --yes --file environment.yml
     - pip install .
+    - cd demo
     - python demo.py
 
 pypi-package:simpleunit:pypi:
