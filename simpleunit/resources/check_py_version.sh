@@ -6,4 +6,4 @@ conda --version
 pip install .
 conda install pytest -y
 pytest
-python demo.py
+python demo/demo.py
