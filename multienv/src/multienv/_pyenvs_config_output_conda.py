@@ -60,5 +60,5 @@ class CondaEnvironment:
         if d.version is not None:
             result += '=' + d.version
             if d.sha is not None:
-                result += d.sha
+                result += '=' + d.sha
         return result

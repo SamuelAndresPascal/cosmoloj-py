@@ -17,6 +17,4 @@ class PipEnvironment:
         result : str = d.id
         if d.version is not None:
             result += '==' + d.version
-            if d.sha is not None:
-                result += d.sha
         return result

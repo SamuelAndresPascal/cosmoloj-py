@@ -18,6 +18,8 @@ class Dependency:
     def from_dict(source: dict):
         """Builds a Dependency from a configuration dict."""
 
+        assert 'id' in source, 'id is a mandatory dependency field'
+
         return Dependency(
             id=source['id'],
             version=str(source['version']) if 'version' in source else None,

@@ -15,6 +15,10 @@ lint:multienv:
     # install deps
     - conda install -y pyyaml
     - pylint --rcfile=../pylintrc test/test_pyenvs.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_config_formatter.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_config_input_std.py
+    - pylint --rcfile=../pylintrc-test test/test_pyenvs_config_output_conda.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_config_output_pip.py
 
 test:multienv:
   stage: test
