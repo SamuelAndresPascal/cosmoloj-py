@@ -21,14 +21,20 @@ class CondaEnvironment:
 
     def to_dict(self) -> dict:
         """Mapping to dict."""
-        dependencies: list = self.dependencies
-        if self.pip_dependencies is not None:
-            dependencies.append({'pip': self.pip_dependencies})
-        return {
-            'name': self.name,
-            'channels': self.channels,
-            'dependencies': dependencies
+
+        result = {
+            'name': self.name
         }
+
+        if self.channels:
+            result['channels'] = self.channels
+
+        dependencies: list = self.dependencies
+        if self.pip_dependencies:
+            dependencies.append({'pip': self.pip_dependencies})
+
+        result['dependencies'] = dependencies
+        return result
 
     def write(self, file_pattern: str, environment: str, encoding: str):
         """Write to yml output file."""
@@ -46,8 +52,8 @@ class CondaEnvironment:
     @staticmethod
     def from_dependencies(name: str, pip: list[str], channels: list[str], dependencies: list[Dependency]):
         """Build an environment from a dependency list."""
-        deps = [CondaEnvironment._format_dependency(d) for d in dependencies if d.id not in pip]
-        pip_deps = [PipEnvironment.format_dependency(d) for d in dependencies if d.id in pip]
+        deps = [CondaEnvironment._format_dependency(d) for d in dependencies if pip is None or d.id not in pip]
+        pip_deps = [PipEnvironment.format_dependency(d) for d in dependencies if pip is not None and d.id in pip]
         return CondaEnvironment(name=name,
                                 channels=channels,
                                 dependencies=deps,

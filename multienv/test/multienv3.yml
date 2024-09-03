@@ -1,0 +1,14 @@
+configuration:
+  formatters:
+    - conda:
+        file_pattern: toto
+
+dependencies:
+  - id: python
+    version: 3.11
+  - id: pylint
+    version: 3.2.2
+    environments: [lint]
+  - id: pytest
+    version: 7.4.4
+    environments: [test]

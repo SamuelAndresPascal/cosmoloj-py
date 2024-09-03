@@ -51,7 +51,18 @@ _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
 def conda_writer(configuration: Configuration):
     """Writes a configuration as conda configuration environment files."""
 
+    implicit_envs = list(dict.fromkeys([e for dep in configuration.dependencies if dep.environments is not None
+                                        for e in dep.environments ]))
+
+    if configuration.environments is not None  and set(configuration.environments) != set(implicit_envs):
+        raise ValueError(
+            f'if defined, environment list {configuration.environments} should match '
+            f'the implicit environment dependency set {implicit_envs}')
+
+    environments = implicit_envs if configuration.environments is None else configuration.environments
+
     formatter_configuration: CondaConfiguration = Formatters.CONDA.get_formatter_configuration(configuration)
+
 
     # default environment includes all dependencies
     if formatter_configuration.default_environment:
@@ -64,10 +75,7 @@ def conda_writer(configuration: Configuration):
                   environment="_",
                   encoding=formatter_configuration.encoding)
 
-    if configuration.environments is None:
-        return
-
-    for e in configuration.environments:
+    for e in environments:
 
         env = CondaEnvironment.from_dependencies(name=e,
                                                  channels=formatter_configuration.channels,

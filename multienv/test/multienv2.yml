@@ -1,24 +1,18 @@
 configuration:
   formatters:
     - conda:
-        default_environment: false
+        file_pattern: tata
 
 environments:
   - lint
   - test
-  - multienv
 
 dependencies:
   - id: python
-    version: 3.12
-  - id: pyyaml
-    version: 6.0.1
+    version: 3.11
   - id: pylint
     version: 3.2.2
     environments: [lint]
   - id: pytest
     version: 7.4.4
     environments: [test]
-  - id: multienv
-    version: 0.0.2
-    environments: [multienv]
