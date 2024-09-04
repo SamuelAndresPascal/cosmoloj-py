@@ -1,3 +1,3 @@
 # About
 
-This is the documentation of the Simple Unit Python Reference Implementation provided by Cosmoloj.com.
+This is the documentation of the Multienv tool provided by Cosmoloj.com.
