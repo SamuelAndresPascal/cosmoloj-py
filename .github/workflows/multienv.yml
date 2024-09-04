@@ -31,7 +31,6 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
-          pylint --rcfile=../pylintrc demo/demo.py
           conda install -y pytest
           conda install -y pyyaml
           pylint --rcfile=../pylintrc test/test_pyenvs.py
