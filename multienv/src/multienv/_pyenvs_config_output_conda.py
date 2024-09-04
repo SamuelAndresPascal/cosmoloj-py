@@ -4,6 +4,7 @@ General Conda formatter output definitions.
 """
 
 from dataclasses import dataclass
+from pathlib import Path
 
 import yaml
 
@@ -36,9 +37,9 @@ class CondaEnvironment:
         result['dependencies'] = dependencies
         return result
 
-    def write(self, file_pattern: str, environment: str, encoding: str):
+    def write(self, path: Path, encoding: str):
         """Write to yml output file."""
-        with open(f'{file_pattern}{environment}.yml', "w", encoding=encoding) as o:
+        with open(path, "w", encoding=encoding) as o:
             yaml.dump(self.to_dict(), o, sort_keys=False)
 
     @staticmethod

@@ -4,6 +4,8 @@ pyenvs command entrypoint
 import logging
 
 from argparse import ArgumentParser, Namespace
+from pathlib import Path
+
 import yaml
 
 from multienv._pyenvs_config_formatter import Configuration, Formatters
@@ -23,16 +25,19 @@ def _config(ns: Namespace):
     LOG.info("config")
 
     extension = ns.file.split('.')[-1]
+    output_dir = Path(Path.cwd(), ns.output)
 
     if extension in ['yml']:
+        LOG.info('open configuration file %s', ns.file)
         with open(ns.file, encoding=ns.encoding) as s:
             content = yaml.safe_load(s)
             configuration = Configuration.from_dict(content)
 
+            LOG.debug('open configuration file content: %s', configuration)
             for req_formatter in configuration.formatters:
                 for supported_formatter in Formatters:
                     if supported_formatter.test(req_formatter):
-                        supported_formatter.value.write(configuration)
+                        supported_formatter.value.write(configuration, output_dir)
 
 
     else:
@@ -57,6 +62,10 @@ def _create_parser() -> ArgumentParser:
                                nargs='?',
                                help='the configuration file encoding (default to utf-8)',
                                default='utf-8')
+    parser_config.add_argument('--output',
+                               nargs='?',
+                               help='the environment file output directory',
+                               default='.')
 
     return parser
 

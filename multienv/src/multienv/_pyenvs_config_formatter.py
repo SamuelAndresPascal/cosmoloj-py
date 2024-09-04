@@ -7,6 +7,7 @@ Supported formatters:
 
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 from typing import Callable
 
 from multienv._pyenvs_config_input_std import Configuration
@@ -48,7 +49,7 @@ _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
     pip=None
 )
 
-def conda_writer(configuration: Configuration):
+def conda_writer(configuration: Configuration, output_dir: Path):
     """Writes a configuration as conda configuration environment files."""
 
     implicit_envs = list(dict.fromkeys([e for dep in configuration.dependencies if dep.environments is not None
@@ -71,8 +72,7 @@ def conda_writer(configuration: Configuration):
                                                   channels=formatter_configuration.channels,
                                                   pip=formatter_configuration.pip,
                                                   configuration=configuration)
-        env.write(file_pattern=formatter_configuration.file_pattern,
-                  environment="_",
+        env.write(path=Path(output_dir, f'{formatter_configuration.file_pattern}_.yml'),
                   encoding=formatter_configuration.encoding)
 
     for e in environments:
@@ -82,14 +82,13 @@ def conda_writer(configuration: Configuration):
                                                  pip=formatter_configuration.pip,
                                                  dependencies=[d for d in configuration.dependencies
                                                                if d.environments is None or e in d.environments])
-        env.write(file_pattern=formatter_configuration.file_pattern,
-                  environment=f"_{e}",
+        env.write(path=Path(output_dir, f'{formatter_configuration.file_pattern}_{e}.yml'),
                   encoding=formatter_configuration.encoding)
 
 @dataclass(frozen=True)
 class _FormatterValue[C]:
     name: str
-    write: Callable[[Configuration], None]
+    write: Callable[[Configuration, Path], None]
     configuration: Callable[[dict | str], C]
 
 
