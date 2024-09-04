@@ -1,0 +1,63 @@
+name: multienv
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 5 * * 0'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: multienv/environment.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: conda install -y pylint
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: multienv
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc src
+          pylint --rcfile=../pylintrc demo/demo.py
+          conda install -y pytest
+          conda install -y pyyaml
+          pylint --rcfile=../pylintrc test/test_pyenvs.py
+          pylint --rcfile=../pylintrc test/test_pyenvs_config_formatter.py
+          pylint --rcfile=../pylintrc test/test_pyenvs_config_input_std.py
+          pylint --rcfile=../pylintrc-test test/test_pyenvs_config_output_conda.py
+          pylint --rcfile=../pylintrc test/test_pyenvs_config_output_pip.py
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: multienv/environment.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: multienv
+        run: pip install .
+      - run: conda install -y pytest-cov
+      - run: pytest --cov=multienv --junitxml=multienv/report.xml --cov-append multienv

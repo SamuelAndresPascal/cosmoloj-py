@@ -30,4 +30,5 @@ dependencies= [
 pyenvs = "multienv.pyenvs:entrypoint"
 
 [project.urls]
-"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/dependencies_meta"
+"Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/multienv"
+"Documentation" = "http://cosmoloj.com/mkdocs/multienv/master"

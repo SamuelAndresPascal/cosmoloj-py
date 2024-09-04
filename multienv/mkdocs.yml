@@ -1,0 +1,34 @@
+site_name: Simple Unit (Python RI)
+repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
+edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/multienv/docs
+site_description: Multienv documentation site
+site_author: Samuel Andrés
+
+strict: true
+
+nav:
+  - About: about.md
+
+not_in_nav: |
+  /index.md
+
+theme: mkdocs  # readthedocs
+
+plugins:
+  - search
+  - mkdocstrings
+
+markdown_extensions:
+  - admonition
+  - toc
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn

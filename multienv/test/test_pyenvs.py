@@ -26,7 +26,7 @@ def test_config_args_default():
     """test config command without supplying file"""
 
     parser = _create_parser()
-    assert parser.parse_args(['config']) == Namespace(CMD='config', file='multienv.yml', encoding='utf-8', output='.')
+    assert parser.parse_args(['config']) == Namespace(CMD='config', file='../demo/multienv.yml', encoding='utf-8', output='.')
 
 def test_config_args_custom():
     """test config command supplying a custom file"""
