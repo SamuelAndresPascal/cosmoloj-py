@@ -26,6 +26,7 @@ mkdocs:multienv:
     - if: $CI_COMMIT_TAG =~ /^multienv_/ || $CI_COMMIT_TAG == null
   script:
     - cd multienv
+    - conda env create --yes --file environment.yml
     - conda install -c conda-forge mkdocs=1.6 mkdocstrings mkdocstrings-python -y
     - pip install . # to compile the API docstrings with mkdocstrings
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
