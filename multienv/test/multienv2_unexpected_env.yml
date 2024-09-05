@@ -1,6 +1,7 @@
 configuration:
   formatters:
     - conda:
+        default_environment: default
         file_pattern: unexpected_env
 
 environments:

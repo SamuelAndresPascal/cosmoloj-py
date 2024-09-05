@@ -1,7 +1,6 @@
 configuration:
   formatters:
     - conda:
-        default_environment: false
         file_pattern: pip
         channels:
           - default

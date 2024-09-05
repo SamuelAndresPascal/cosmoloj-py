@@ -17,7 +17,8 @@ from multienv._pyenvs_config_output_conda import CondaEnvironment
 class CondaConfiguration:
     """The specific conda configuration model."""
 
-    default_environment: bool
+    default_environment: str | None
+    strict_environment: str | None
     file_pattern: str
     encoding: str
     channels: list[str] | None
@@ -35,6 +36,8 @@ class CondaConfiguration:
         return CondaConfiguration(
             default_environment=body['default_environment'] if 'default_environment' in body
             else _DEFAULT_CONDA_CONFIGURATION.default_environment,
+            strict_environment=body['strict_environment'] if 'strict_environment' in body
+            else _DEFAULT_CONDA_CONFIGURATION.strict_environment,
             file_pattern=body['file_pattern'] if 'file_pattern' in body else _DEFAULT_CONDA_CONFIGURATION.file_pattern,
             encoding=body['encoding'] if 'encoding' in body else _DEFAULT_CONDA_CONFIGURATION.encoding,
             channels=body['channels'] if 'channels' in body else _DEFAULT_CONDA_CONFIGURATION.channels,
@@ -42,48 +45,62 @@ class CondaConfiguration:
         )
 
 _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
-    default_environment=True,
+    default_environment=None,
+    strict_environment=None,
     file_pattern='environment',
     encoding='utf-8',
     channels=None,
     pip=None
 )
 
-def conda_writer(configuration: Configuration, output_dir: Path):
+def conda_writer(conf: Configuration, output_dir: Path):
     """Writes a configuration as conda configuration environment files."""
 
-    implicit_envs = list(dict.fromkeys([e for dep in configuration.dependencies if dep.environments is not None
-                                        for e in dep.environments ]))
+    implicit_envs = list(dict.fromkeys([e for dep in conf.dependencies if dep.environments is not None
+                                        for e in dep.environments]))
 
-    if configuration.environments is not None  and set(configuration.environments) != set(implicit_envs):
+    if conf.environments is not None  and set(conf.environments) != set(implicit_envs):
         raise ValueError(
-            f'if defined, environment list {configuration.environments} should match '
+            f'if defined, environment list {conf.environments} should match '
             f'the implicit environment dependency set {implicit_envs}')
 
-    environments = implicit_envs if configuration.environments is None else configuration.environments
+    environments = implicit_envs if conf.environments is None else conf.environments
 
-    formatter_configuration: CondaConfiguration = Formatters.CONDA.get_formatter_configuration(configuration)
+    formatter_conf: CondaConfiguration = Formatters.CONDA.get_formatter_configuration(conf)
 
 
     # default environment includes all dependencies
-    if formatter_configuration.default_environment:
+    if formatter_conf.default_environment:
 
-        env = CondaEnvironment.from_configuration(name='default',
-                                                  channels=formatter_configuration.channels,
-                                                  pip=formatter_configuration.pip,
-                                                  configuration=configuration)
-        env.write(path=Path(output_dir, f'{formatter_configuration.file_pattern}_.yml'),
-                  encoding=formatter_configuration.encoding)
+        env = CondaEnvironment.from_configuration(name=formatter_conf.default_environment,
+                                                  channels=formatter_conf.channels,
+                                                  pip=formatter_conf.pip,
+                                                  configuration=conf)
+        env.write(path=Path(output_dir,
+                            f'{formatter_conf.file_pattern}_{formatter_conf.default_environment}.yml'),
+                  encoding=formatter_conf.encoding)
+
+    # strict environment excludes all dependencies specific to an environment
+    if formatter_conf.strict_environment:
+
+        env = CondaEnvironment.from_dependencies(name=formatter_conf.strict_environment,
+                                                 channels=formatter_conf.channels,
+                                                 pip=formatter_conf.pip,
+                                                 dependencies=[d for d in conf.dependencies if not d.environments])
+        env.write(path=Path(output_dir,
+                            f'{formatter_conf.file_pattern}_{formatter_conf.strict_environment}.yml'),
+                  encoding=formatter_conf.encoding)
 
     for e in environments:
 
         env = CondaEnvironment.from_dependencies(name=e,
-                                                 channels=formatter_configuration.channels,
-                                                 pip=formatter_configuration.pip,
-                                                 dependencies=[d for d in configuration.dependencies
+                                                 channels=formatter_conf.channels,
+                                                 pip=formatter_conf.pip,
+                                                 dependencies=[d for d in conf.dependencies
                                                                if d.environments is None or e in d.environments])
-        env.write(path=Path(output_dir, f'{formatter_configuration.file_pattern}_{e}.yml'),
-                  encoding=formatter_configuration.encoding)
+        env.write(path=Path(output_dir, f'{formatter_conf.file_pattern}_{e}.yml'),
+                  encoding=formatter_conf.encoding)
+
 
 @dataclass(frozen=True)
 class _FormatterValue[C]:

@@ -57,7 +57,7 @@ def test_config_without_default_env():
         }
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_output_file('tutu_.yml'), encoding='utf-8') as s:
+        with open(_output_file('tutu_default.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2
@@ -83,7 +83,7 @@ def test_config_without_channels():
             'dependencies': ['python=3.11', 'pytest=7.4.4']
         }
 
-    with open(_output_file('tata_.yml'), encoding='utf-8') as s:
+    with open(_output_file('tata_default.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == {
             'name': 'default',
@@ -110,7 +110,7 @@ def test_config_without_environments():
             'dependencies': ['python=3.11', 'pytest=7.4.4']
         }
 
-    with open(_output_file('toto_.yml'), encoding='utf-8') as s:
+    with open(_output_file('toto_default.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == {
             'name': 'default',
@@ -142,7 +142,7 @@ def test_config_with_lacking_env_content():
     assert e.value.args[1] == "No such file or directory"
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_output_file('lacking_env_.yml'), encoding='utf-8') as s:
+        with open(_output_file('lacking_env_default.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2
@@ -173,7 +173,7 @@ def test_config_with_unexpected_env_content():
     assert e.value.args[1] == "No such file or directory"
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_output_file('unexpected_lacking_env_.yml'), encoding='utf-8') as s:
+        with open(_output_file('unexpected_lacking_env_default.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2
@@ -227,7 +227,7 @@ def test_config_with_pip_dependencies():
         }
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_output_file('pip_.yml'), encoding='utf-8') as s:
+        with open(_output_file('pip_default.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2
