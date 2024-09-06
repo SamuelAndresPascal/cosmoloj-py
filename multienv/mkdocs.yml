@@ -7,6 +7,9 @@ site_author: Samuel Andrés
 strict: true
 
 nav:
+  - pyenvs:
+      - pyenvs: pyenvs.md
+      - dependencies: pyenvs_dependencies.md
   - API: api.md
   - About: about.md
 
