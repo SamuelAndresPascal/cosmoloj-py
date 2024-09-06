@@ -25,17 +25,19 @@ conda install multienv -c cosmoloj
 `pyenvs` is a tool of python configuration file management.
 
 ```text
-usage: pyenvs [-h] {info,config} ...
+usage: pyenvs [-h] {info,dependencies,deps} ...
 
 Multi environment management.
 
 positional arguments:
-  {info,config}  available commands
-    info         get general info
-    config       generates environment configurations
+  {info,dependencies,deps}
+                        available commands
+    info                get general info
+    dependencies (deps)
+                        generates environment configurations
 
 options:
-  -h, --help     show this help message and exit
+  -h, --help            show this help message and exit
 ```
 
 ### Pyenvs config
