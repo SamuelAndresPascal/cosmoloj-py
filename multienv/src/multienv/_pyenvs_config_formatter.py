@@ -12,6 +12,9 @@ from typing import Callable
 
 from multienv._pyenvs_config_input_std import Configuration
 from multienv._pyenvs_config_output_conda import CondaEnvironment
+from numpy.ma.setup import configuration
+from yaml import serialize
+
 
 @dataclass(frozen=True)
 class CondaConfiguration:
@@ -53,12 +56,10 @@ _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
     pip=None
 )
 
-def conda_writer(conf: Configuration, output_dir: Path):
+def _conda_mapper(conf: Configuration, formatter_conf: CondaConfiguration) -> list[CondaEnvironment]:
     """Writes a configuration as conda configuration environment files."""
 
     environments = conf.effective_environments()
-
-    formatter_conf: CondaConfiguration = Formatters.CONDA.get_formatter_configuration(conf)
 
     envs: list[CondaEnvironment] = []
 
@@ -77,39 +78,52 @@ def conda_writer(conf: Configuration, output_dir: Path):
                                                        dependencies=conf.strict_dependencies()))
 
     for e in environments:
-
         envs.append(CondaEnvironment.from_dependencies(name=e,
                                                        channels=formatter_conf.channels,
                                                        pip=formatter_conf.pip,
                                                        dependencies=conf.env_dependencies(e)))
 
+    return envs
+
+def _conda_writer(envs: list[CondaEnvironment], formatter_conf: CondaConfiguration, output_dir: Path):
+    """Writes a configuration as conda configuration environment files."""
     for env in envs:
         env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}.yml'),
                  encoding=formatter_conf.encoding)
 
 
 @dataclass(frozen=True)
-class _FormatterValue[C]:
+class _FormatterValue[C, O]:
     name: str
-    write: Callable[[Configuration, Path], None]
+    to_environments: Callable[[Configuration, C], list[O]]
+    serialize: Callable[[list[O], C, Path], None]
     configuration: Callable[[dict | str], C]
-
 
 class Formatters(Enum):
     """The enumeration of the supported formatters."""
-    CONDA = _FormatterValue[CondaConfiguration](name='conda',
-                                                write=conda_writer,
-                                                configuration=CondaConfiguration.from_configuration)
+    CONDA = _FormatterValue[CondaConfiguration, CondaEnvironment](name='conda',
+                                                                  to_environments=_conda_mapper,
+                                                                  serialize=_conda_writer,
+                                                                  configuration=CondaConfiguration.from_configuration)
 
     def test(self, formatter: dict | str) -> bool:
         """Checks if a formatter configuration dict refers to the current Formatter value."""
         return (isinstance(formatter, str) and self.value.name == formatter
                 or isinstance(formatter, dict) and self.value.name in formatter)
 
-    def get_formatter_configuration(self, configuration: Configuration):
+    def _get_formatter_configuration(self, configuration: Configuration):
         """Builds a specific formatter configuration from the main configuration related to the current Formatter value.
         """
         for formatter in configuration.formatters:
             if self.test(formatter):
                 return self.value.configuration(formatter)
         raise ValueError
+
+    def build(self, conf: Configuration):
+        frmtter_conf = self._get_formatter_configuration(conf)
+        return self.value.to_environments(conf, frmtter_conf)
+
+    def write(self, conf: Configuration, output_dir: Path):
+        frmtter_conf = self._get_formatter_configuration(conf)
+        envs = self.value.to_environments(conf, frmtter_conf)
+        return self.value.serialize(envs, frmtter_conf, output_dir)

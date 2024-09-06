@@ -214,7 +214,6 @@ def test_config_with_pip_dependencies():
 
     with open(_output_file('pip_multienv.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
-        print(content)
         assert content == {
             'name': 'multienv',
             'channels': ['default', 'cosmoloj'],

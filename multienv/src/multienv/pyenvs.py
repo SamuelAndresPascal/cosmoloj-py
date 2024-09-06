@@ -39,17 +39,11 @@ def _config(ns: Namespace):
             for req_formatter in configuration.formatters:
                 for supported_formatter in Formatters:
                     if supported_formatter.test(req_formatter):
-                        supported_formatter.value.write(configuration, output_dir)
+                        supported_formatter.write(configuration, output_dir)
 
 
     else:
         raise ValueError(f'unsupported configuration format {extension}')
-
-def config(conf: Configuration, formatter: Formatters) -> list[CondaEnvironment]:
-    """Maps a configuration to an environment list."""
-    environments = conf.effective_environments()
-
-    frmter_conf = formatter.get_formatter_configuration(conf)
 
 
 def _create_parser() -> ArgumentParser:
@@ -76,6 +70,9 @@ def _create_parser() -> ArgumentParser:
                                default='.')
 
     return parser
+
+def config(configuration: Configuration, formatter: Formatters) -> list:
+    return formatter.build(configuration)
 
 
 def entrypoint():
