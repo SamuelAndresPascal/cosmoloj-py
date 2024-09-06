@@ -12,8 +12,6 @@ from typing import Callable
 
 from multienv._pyenvs_config_input_std import Configuration
 from multienv._pyenvs_config_output_conda import CondaEnvironment
-from numpy.ma.setup import configuration
-from yaml import serialize
 
 
 @dataclass(frozen=True)
@@ -120,10 +118,13 @@ class Formatters(Enum):
         raise ValueError
 
     def build(self, conf: Configuration):
+        """Build the list of the environments using the given configuration."""
         frmtter_conf = self._get_formatter_configuration(conf)
         return self.value.to_environments(conf, frmtter_conf)
 
     def write(self, conf: Configuration, output_dir: Path):
+        """Build the list of the environments using the given configuration and writes them to the given output folder.
+        """
         frmtter_conf = self._get_formatter_configuration(conf)
         envs = self.value.to_environments(conf, frmtter_conf)
         return self.value.serialize(envs, frmtter_conf, output_dir)

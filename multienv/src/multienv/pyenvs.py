@@ -8,8 +8,7 @@ from pathlib import Path
 
 import yaml
 
-from multienv._pyenvs_config_formatter import Formatters, CondaConfiguration
-from multienv._pyenvs_config_output_conda import CondaEnvironment
+from multienv._pyenvs_config_formatter import Formatters
 from multienv._pyenvs_config_input_std import Configuration
 
 LOG = logging.getLogger(__name__)
@@ -72,6 +71,7 @@ def _create_parser() -> ArgumentParser:
     return parser
 
 def config(configuration: Configuration, formatter: Formatters) -> list:
+    """Builds the environment set mapping the configuration using the given formatter."""
     return formatter.build(configuration)
 
 
