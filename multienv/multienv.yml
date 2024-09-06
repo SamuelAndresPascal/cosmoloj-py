@@ -5,7 +5,6 @@ configuration:
         channels:
           - default
           - conda-forge
-          - cosmoloj
         pip:
           - build
 

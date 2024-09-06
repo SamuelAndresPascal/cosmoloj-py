@@ -4,6 +4,7 @@ pyenvs command entrypoint
 import logging
 
 from argparse import ArgumentParser, Namespace
+from encodings.aliases import aliases
 from pathlib import Path
 
 import yaml
@@ -20,10 +21,10 @@ def _info(ns: Namespace):
     LOG.info("info")
 
 
-def _config(ns: Namespace):
+def _dependencies(ns: Namespace):
     """config
     """
-    LOG.info("config")
+    LOG.info("dependencies")
 
     extension = ns.file.split('.')[-1]
     output_dir = Path(Path.cwd(), ns.output)
@@ -54,7 +55,9 @@ def _create_parser() -> ArgumentParser:
 
     subparsers.add_parser('info', help='get general info')
 
-    parser_config = subparsers.add_parser('config', help='generates environment configurations')
+    parser_config = subparsers.add_parser(name='dependencies',
+                                          help='generates environment configurations',
+                                          aliases=['deps'])
     parser_config.add_argument('file',
                                nargs='?',
                                help="path to the configuration file",
@@ -80,7 +83,7 @@ def entrypoint():
 
     commands = {
         'info': _info,
-        'config': _config
+        'dependencies': _dependencies
     }
 
     ns: Namespace = _create_parser().parse_args()

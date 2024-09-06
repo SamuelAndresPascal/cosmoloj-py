@@ -25,9 +25,7 @@ dependencies:
   - id: pytest
     version: 7.4.4
     environments: [test, lint_test]
-  - id: pandas
-    environments: [test, lint_test]
-  - id: python-dotenv
+  - id: numpy
     environments: [test, lint_test]
   - id: pytest-cov
     environments: [test]

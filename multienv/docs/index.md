@@ -42,7 +42,7 @@ options:
 
 
 ```text
-usage: pyenvs config [-h] [--encoding [ENCODING]] [--output [OUTPUT]] [file]
+usage: pyenvs dependencies [-h] [--encoding [ENCODING]] [--output [OUTPUT]] [file]
 
 positional arguments:
   file                  path to the configuration file
@@ -55,7 +55,7 @@ options:
 ```
 
 
-The `pyenvs config` command parameterizes environment/requirement files by environments.
+The `pyenvs dependencies` command parameterizes environment/requirement files by environments.
 
 For instance, suppose you have to maintain a python program using `multienv` as a dependency.
 
@@ -115,8 +115,8 @@ conda env create -n pylint_pytest -f environment_pytest.yml
 ```
 
 Both ways to proceed implies maintaining a coherent set of dependency versions in several places, either in command line
-arguments or in environment files. The purpose of `pyenvs config` is to manage a coherent dependency version set in a 
-single configuration files from which generating all the specific environment files.
+arguments or in environment files. The purpose of `pyenvs dependencies` is to manage a coherent dependency version set 
+in a single configuration files from which generating all the specific environment files.
 
 The configuration mapping the previous environment definitions is specified in a single `multienv.yml` file. 
 `multienv.yml` is the default configuration file name, located by default in the current working directory.
@@ -141,7 +141,7 @@ dependencies:
 Running:
 
 ```bash
-pyenvs config
+pyenvs dependencies
 ```
 
 Generates three environment files. The `strict` environment only includes the dependencies without specific environment.
@@ -200,7 +200,7 @@ dependencies:
     environments: [test]
 ```
 
-Using this updated environment file would have produced one more `environemnt_default.yml` conda environment file:
+Using this updated configuration file would have produced one more `environment_default.yml` conda environment file:
 
 ```yml
 name: default

@@ -2,6 +2,5 @@ name: strict
 channels:
 - default
 - conda-forge
-- cosmoloj
 dependencies:
 - python=3.12
