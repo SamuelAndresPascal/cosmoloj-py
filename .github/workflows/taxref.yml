@@ -20,11 +20,9 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: taxref/environment.yml
+          environment-file: taxref/environment_lint.yml
           python-version: 3.11
           auto-activate-base: false
-      # install deps for pylint to find
-      - run: conda install -y pylint
       - run: |
           conda --version
           python --version
@@ -33,7 +31,26 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=pylintrc src
-          conda install -y pytest
-          conda install -y pandas python-dotenv
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: taxref/environment_lint_test.yml
+          python-version: 3.11
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: taxref
+        run: |
+          pip install .
           pylint --rcfile=../pylintrc test/test.py
           pylint --rcfile=../pylintrc test/taxref_test.py

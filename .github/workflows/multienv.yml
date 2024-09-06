@@ -19,10 +19,9 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: multienv/environment.yml
+          environment-file: multienv/environment_lint.yml
           python-version: 3.12
           auto-activate-base: false
-      - run: conda install -y pylint
       - run: |
           conda --version
           python --version
@@ -31,8 +30,27 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
-          conda install -y pytest
-          conda install -y pyyaml
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: multienv/environment_lint_test.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: multienv
+        run: |
+          pip install .
           pylint --rcfile=../pylintrc test/test_pyenvs.py
           pylint --rcfile=../pylintrc test/test_pyenvs_config_formatter.py
           pylint --rcfile=../pylintrc test/test_pyenvs_config_input_std.py
@@ -49,7 +67,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: multienv/environment.yml
+          environment-file: multienv/environment_test.yml
           python-version: 3.12
           auto-activate-base: false
       - run: |
@@ -58,5 +76,4 @@ jobs:
           conda list
       - working-directory: multienv
         run: pip install .
-      - run: conda install -y pytest-cov
       - run: pytest --cov=multienv --junitxml=multienv/report.xml --cov-append multienv

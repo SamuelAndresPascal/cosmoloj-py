@@ -19,10 +19,9 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: simpleunit/environment.yml
+          environment-file: simpleunit/environment_lint.yml
           python-version: 3.11
           auto-activate-base: false
-      - run: conda install -y pylint
       - run: |
           conda --version
           python --version
@@ -32,7 +31,27 @@ jobs:
           pip install .
           pylint --rcfile=../pylintrc src
           pylint --rcfile=../pylintrc demo/demo.py
-          conda install -y pytest
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: cosmoloj_py
+          environment-file: simpleunit/environment_lint_test.yml
+          python-version: 3.11
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: simpleunit
+        run: |
+          pip install .
           pylint --rcfile=../pylintrc test/test.py
           pylint --rcfile=../pylintrc test/unit_simple_test.py
           pylint --rcfile=../pylintrc test/unit_simple_operator_test.py
@@ -48,7 +67,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: cosmoloj_py
-          environment-file: simpleunit/environment.yml
+          environment-file: simpleunit/environment_test.yml
           python-version: 3.11
           auto-activate-base: false
       - run: |
@@ -57,6 +76,5 @@ jobs:
           conda list
       - working-directory: simpleunit
         run: pip install .
-      - run: conda install -y pytest-cov
       - run: pytest --cov=simpleunit --junitxml=simpleunit/report.xml --cov-append simpleunit
       - run: python simpleunit/test/test.py
