@@ -20,7 +20,7 @@ jobs:
         with:
           activate-environment: lint
           environment-file: simpleunit/environment_lint.yml
-          python-version: 3.11
+          python-version: 3.12
           auto-activate-base: false
       - run: |
           conda --version
@@ -43,7 +43,7 @@ jobs:
         with:
           activate-environment: lint_test
           environment-file: simpleunit/environment_lint_test.yml
-          python-version: 3.11
+          python-version: 3.12
           auto-activate-base: false
       - run: |
           conda --version
@@ -68,7 +68,7 @@ jobs:
         with:
           activate-environment: test
           environment-file: simpleunit/environment_test.yml
-          python-version: 3.11
+          python-version: 3.12
           auto-activate-base: false
       - run: |
           conda --version
