@@ -32,7 +32,7 @@ class Dependency:
 class Configuration:
     """Representation of pyenvs configuration content."""
 
-    formatters: list[dict, str]
+    formatters: list[dict | str]
     """Each formatter either can be a single character string of one of supported formatters or a key/value pair with 
     the key referencing to the formatter name and the value referencing to its specific configuration."""
 

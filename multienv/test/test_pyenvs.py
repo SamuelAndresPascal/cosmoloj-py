@@ -5,7 +5,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from multienv.pyenvs import _create_parser, _dependencies
+from multienv.pyenvs import _create_parser, _dependencies, dependencies
+from multienv._pyenvs_config_input_std import Configuration, Dependency
+from multienv._pyenvs_config_formatter import Formatters
+
 
 def _input_file(file: str) -> str:
     """Les fichiers d'entrée se trouvent à côté des scripts de test."""
@@ -122,7 +125,10 @@ def test_config_with_lacking_env_content():
     """test config call without an expected env in list"""
 
     with pytest.raises(ValueError) as e:
-        _dependencies(Namespace(CMD='deps', file=_input_file('multienv2_lacking_env.yml'), encoding='utf-8', output='.'))
+        _dependencies(Namespace(CMD='deps',
+                                file=_input_file('multienv2_lacking_env.yml'),
+                                encoding='utf-8',
+                                output='.'))
 
     assert e.value.args[0] == ("if defined, environment list ['lint'] should match "
                                "the implicit environment dependency set ['lint', 'test']")
@@ -234,3 +240,20 @@ def test_config_with_pip_dependencies():
 
     assert e.value.args[0] == 2
     assert e.value.args[1] == "No such file or directory"
+
+def test_api():
+    """test api"""
+    conf = Configuration(formatters=[{'conda': {'strict_environment': 'strict'}}],
+                         environments=None,
+                         dependencies=[Dependency(id='multienv',
+                                                  version=None,
+                                                  environments=None,
+                                                  sha=None,
+                                                  source=None)])
+
+    deps = dependencies(conf, Formatters.CONDA)
+    assert len(deps) == 1
+    assert deps[0].to_dict() == {
+        'name': 'strict',
+        'dependencies': ['multienv']
+    }
