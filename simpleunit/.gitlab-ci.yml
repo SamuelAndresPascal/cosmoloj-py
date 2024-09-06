@@ -118,7 +118,6 @@ pypi-package:simpleunit:pypi:
     - pip install .
     - python -m build
     - ls -l $DIST_DIR
-    - pip uninstall -y build
   artifacts:
     paths:
       - simpleunit/dist/*
