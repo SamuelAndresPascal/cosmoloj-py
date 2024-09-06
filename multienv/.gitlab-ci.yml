@@ -96,8 +96,8 @@ pypi-package:multienv:pypi:
     - if: $CI_COMMIT_TAG =~ /^multienv_/ || $CI_COMMIT_TAG == null
   script:
     - cd multienv
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
+    - conda env create --yes --file environment_pypi_pkg.yml
+    - conda activate pypi_pkg
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
@@ -106,10 +106,8 @@ pypi-package:multienv:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - pip install build
     - python -m build
     - ls -l $DIST_DIR
-    - pip uninstall -y build
   artifacts:
     paths:
       - multienv/dist/*
@@ -124,11 +122,9 @@ pypi-publish:multienv:test_pypi:
     - pypi-package:multienv:pypi
   script:
     - cd multienv
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
-    - conda install -y --update-deps twine
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
-    - conda uninstall -y twine
   environment:
     name: test pypi multienv
     url: https://test.pypi.org/project/multienv/
@@ -143,11 +139,9 @@ pypi-publish:multienv:pypi:
     - pypi-package:multienv:pypi
   script:
     - cd multienv
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
-    - conda install -y --update-deps twine
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
-    - conda uninstall -y twine
   environment:
     name: pypi multienv
     url: https://pypi.org/project/multienv/
@@ -163,12 +157,12 @@ conda-package:multienv:
     PACKAGE: multienv
   script:
     - cd multienv
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
+    - conda env create --yes --file environment_conda_publish.yml
+    - conda activate conda_publish
+    - conda list
     - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
-    - conda install -c conda-forge grayskull
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build $DIST_DIR/$PACKAGE
