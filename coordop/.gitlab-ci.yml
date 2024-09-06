@@ -114,6 +114,8 @@ conda-package:coordop:
   script:
     - cd coordop
     - conda env create --yes --file environment_conda_publish.yml
+    - conda activate conda_publish
+    - conda list
     - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
