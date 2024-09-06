@@ -8,7 +8,9 @@ from pathlib import Path
 
 import yaml
 
-from multienv._pyenvs_config_formatter import Configuration, Formatters
+from multienv._pyenvs_config_formatter import Formatters, CondaConfiguration
+from multienv._pyenvs_config_output_conda import CondaEnvironment
+from multienv._pyenvs_config_input_std import Configuration
 
 LOG = logging.getLogger(__name__)
 
@@ -42,6 +44,12 @@ def _config(ns: Namespace):
 
     else:
         raise ValueError(f'unsupported configuration format {extension}')
+
+def config(conf: Configuration, formatter: Formatters) -> list[CondaEnvironment]:
+    """Maps a configuration to an environment list."""
+    environments = conf.effective_environments()
+
+    frmter_conf = formatter.get_formatter_configuration(conf)
 
 
 def _create_parser() -> ArgumentParser:

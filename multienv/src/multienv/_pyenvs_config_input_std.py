@@ -52,3 +52,32 @@ class Configuration:
             environments=source['environments'] if 'environments' in source else None,
             dependencies=[Dependency.from_dict(d) for d in source['dependencies']]
         )
+
+    def strict_dependencies(self) -> list[Dependency]:
+        """Returns only the strict dependencies which are ones not specifying any environment."""
+        return [d for d in self.dependencies if not d.environments]
+
+    def env_dependencies(self, environment: str) -> list[Dependency]:
+        """Returns all the specified environment dependencies which are strict ones and ones refering to the given
+        environment."""
+        return [d for d in self.dependencies if not d.environments or environment in d.environments]
+
+    def _implicit_environments(self) -> list[str]:
+        """Computes implicit environments which are ones contained in dependency environment lists."""
+        return list(dict.fromkeys([e for dep in self.dependencies if dep.environments for e in dep.environments]))
+
+    def effective_environments(self) -> list[str]:
+        """Checks environments and computes effective ones.
+
+        1. Computes the effective environements.
+        2. If a global environment list is provided, cheks its maps the implicit environment set.
+        3. Returns the environment list if supplied, or default, the implicit environment list.
+        """
+        implicit_envs = self._implicit_environments()
+
+        if self.environments is not None and set(self.environments) != set(implicit_envs):
+            raise ValueError(
+                f'if defined, environment list {self.environments} should match '
+                f'the implicit environment dependency set {implicit_envs}')
+
+        return implicit_envs if self.environments is None else self.environments

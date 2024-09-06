@@ -37,7 +37,7 @@ class CondaEnvironment:
         result['dependencies'] = dependencies
         return result
 
-    def write(self, path: Path, encoding: str):
+    def dump(self, path: Path, encoding: str):
         """Write to yml output file."""
         with open(path, "w", encoding=encoding) as o:
             yaml.dump(self.to_dict(), o, sort_keys=False)

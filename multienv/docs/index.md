@@ -1,5 +1,9 @@
 # Multienv
 
+* [Requirements Installation](#requirements-installation)
+* [Pyenvs](#pyenvs)
+  - [Pyenvs config](#pyenvs-config)
+
 ## Requirements Installation
 
 `multienv` requires `python>=12` and uses `pyyaml`.
@@ -18,9 +22,9 @@ conda install multienv -c cosmoloj
 
 ## Pyenvs
 
-`Pyenvs` is a tool of python configuration file management.
+`pyenvs` is a tool of python configuration file management.
 
-```
+```text
 usage: pyenvs [-h] {info,config} ...
 
 Multi environment management.
@@ -37,7 +41,7 @@ options:
 ### Pyenvs config
 
 
-```
+```text
 usage: pyenvs config [-h] [--encoding [ENCODING]] [--output [OUTPUT]] [file]
 
 positional arguments:
@@ -167,7 +171,8 @@ dependencies:
 
 The ```environment_test.yml``` conda environment file:
 
-```ymlname: test
+```yml
+name: test
 dependencies:
 - python=3.12
 - pytest=7.4.4
