@@ -18,6 +18,8 @@ lint_test:multienv:
     - cd multienv
     - conda env create --yes --file environment_lint_test.yml
     - conda activate lint_test
+    - conda list
+    - pip install .
     - pylint --rcfile=../pylintrc test/test_pyenvs.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_config_formatter.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_config_input_std.py
