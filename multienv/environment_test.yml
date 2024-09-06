@@ -1,0 +1,10 @@
+name: test
+channels:
+- default
+- conda-forge
+- cosmoloj
+dependencies:
+- python=3.12
+- pyyaml=6.0.1=py312h5eee18b_0
+- pytest=7.4.4
+- pytest-cov
