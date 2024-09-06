@@ -5,5 +5,4 @@ channels:
 - cosmoloj
 dependencies:
 - python=3.12
-- pyyaml=6.0.1=py312h5eee18b_0
 - pylint=3.2.2

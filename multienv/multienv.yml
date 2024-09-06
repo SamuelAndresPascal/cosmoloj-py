@@ -21,9 +21,6 @@ environments:
 dependencies:
   - id: python
     version: '3.12'
-  - id: pyyaml
-    version: 6.0.1
-    sha: py312h5eee18b_0
   - id: pylint
     version: 3.2.2
     environments: [lint, lint_test]
