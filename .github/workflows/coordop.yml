@@ -19,11 +19,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: cosmoloj_py
-          environment-file: coordop/environment.yml
+          activate-environment: lint
+          environment-file: coordop/environment_lint.yml
           python-version: 3.12
           auto-activate-base: false
-      - run: conda install -y pylint
       - run: |
           conda --version
           python --version
@@ -32,8 +31,27 @@ jobs:
         run: |
           pip install .
           pylint --rcfile=../pylintrc src
-          conda install -y pytest
-          conda install -y numpy
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: lint_test
+          environment-file: coordop/environment_lint_test.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: coordop
+        run: |
+          pip install .
           pylint --rcfile=../pylintrc-test test/projection/*
 
   test:
@@ -45,8 +63,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: cosmoloj_py
-          environment-file: coordop/environment.yml
+          activate-environment: test
+          environment-file: coordop/environment_test.yml
           python-version: 3.12
           auto-activate-base: false
       - run: |
@@ -55,6 +73,4 @@ jobs:
           conda list
       - working-directory: coordop
         run: pip install .
-      - run: conda install -y numpy
-      - run: conda install -y pytest-cov
       - run: pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop

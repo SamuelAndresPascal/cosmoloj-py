@@ -4,7 +4,6 @@ pyenvs command entrypoint
 import logging
 
 from argparse import ArgumentParser, Namespace
-from encodings.aliases import aliases
 from pathlib import Path
 
 import yaml
@@ -73,7 +72,7 @@ def _create_parser() -> ArgumentParser:
 
     return parser
 
-def config(configuration: Configuration, formatter: Formatters) -> list:
+def dependencies(configuration: Configuration, formatter: Formatters) -> list:
     """Builds the environment set mapping the configuration using the given formatter."""
     return formatter.build(configuration)
 
