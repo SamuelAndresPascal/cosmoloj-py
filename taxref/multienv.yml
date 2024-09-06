@@ -1,0 +1,41 @@
+configuration:
+  formatters:
+    - conda:
+        strict_environment: strict
+        channels:
+          - default
+          - conda-forge
+          - cosmoloj
+        pip:
+          - build
+
+environments:
+  - lint
+  - test
+  - lint_test
+  - pypi_pkg
+  - pypi_publish
+  - conda_publish
+
+dependencies:
+  - id: python
+    version: '3.12'
+  - id: pylint
+    version: 3.2.2
+    environments: [lint, lint_test]
+  - id: pytest
+    version: 7.4.4
+    environments: [test, lint_test]
+  - id: pandas
+    environments: [test, lint_test]
+  - id: python-dotenv
+    environments: [test, lint_test]
+  - id: pytest-cov
+    environments: [test]
+  - id: build
+    version: 1.2.1
+    environments: [pypi_pkg]
+  - id: twine
+    environments: [pypi_publish]
+  - id: grayskull
+    environments: [conda_publish]

@@ -4,16 +4,22 @@ lint:taxref:
     - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
-    # install tool
-    - conda install -y pylint
+    - conda env create --yes --file environment_lint.yml
+    - conda activate lint
     - conda list
     - pip install .
     - pylint --rcfile=pylintrc src
-    # install deps for pylint to find
-    - conda install -y pytest
-    # install deps
-    - conda install -y pandas python-dotenv
+
+lint_test:taxref:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  script:
+    - cd taxref
+    - conda env create --yes --file environment_lint_test.yml
+    - conda activate lint_test
+    - conda list
+    - pip install .
     - pylint --rcfile=../pylintrc test/test.py
     - pylint --rcfile=../pylintrc test/taxref_test.py
 
@@ -23,9 +29,9 @@ test:taxref:
     - if: $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
-    - conda install -y pandas python-dotenv
-    - conda install -y pytest-cov
+    - conda env create --yes --file environment_test.yml
+    - conda activate test
+    - conda list
     - pip install .
     - cd ..
     - pytest --cov=taxref --junitxml=taxref/report.xml --cov-append taxref
@@ -60,7 +66,9 @@ pypi-package:taxref:pypi:
     - if: $CI_COMMIT_TAG =~ /^taxref_/ || $CI_COMMIT_TAG == null
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
+    - conda env create --yes --file environment_pypi_pkg.yml
+    - conda activate pypi_pkg
+    - conda list
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
@@ -69,10 +77,8 @@ pypi-package:taxref:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - pip install build
     - python -m build
     - ls -l $DIST_DIR
-    - pip uninstall -y build
   artifacts:
     paths:
       - taxref/$DIST_DIR/*
@@ -87,10 +93,10 @@ pypi-publish:taxref:test_pypi:
     - pypi-package:taxref:pypi
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
-    - conda install -y --update-deps twine
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
     - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
-    - conda uninstall -y twine
   environment:
     name: test pypi taxref
     url: https://test.pypi.org/project/taxref/
@@ -105,10 +111,10 @@ pypi-publish:taxref:pypi:
     - pypi-package:taxref:pypi
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
-    - conda install -y --update-deps twine
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
     - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
-    - conda uninstall -y twine
   environment:
     name: pypi taxref
     url: https://pypi.org/project/taxref/
@@ -124,11 +130,12 @@ conda-package:taxref:
     PACKAGE: taxref
   script:
     - cd taxref
-    - conda env create --yes --file environment.yml
+    - conda env create --yes --file environment_conda_publish.yml
+    - conda activate conda_publish
+    - conda list
     - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
-    - conda install -c conda-forge grayskull
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build $DIST_DIR/$PACKAGE
