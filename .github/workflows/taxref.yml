@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: cosmoloj_py
+          activate-environment: lint
           environment-file: taxref/environment_lint.yml
           python-version: 3.11
           auto-activate-base: false
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: cosmoloj_py
+          activate-environment: lint_test
           environment-file: taxref/environment_lint_test.yml
           python-version: 3.11
           auto-activate-base: false
