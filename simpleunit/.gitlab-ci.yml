@@ -126,7 +126,6 @@ pypi-publish:simpleunit:test_pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^simpleunit_/
-      when: manual
     - when: never
   dependencies:
     - pypi-package:simpleunit:pypi
@@ -144,7 +143,6 @@ pypi-publish:simpleunit:pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^simpleunit_/
-      when: manual
     - when: never
   dependencies:
     - pypi-package:simpleunit:pypi
@@ -162,7 +160,8 @@ conda-package:simpleunit:
   stage: conda-package
   rules:
     - if: $CI_COMMIT_TAG =~ /^simpleunit_/
-      when: manual
+      when: delayed
+      start_in: 5 minutes
     - when: never
   variables:
     DIST_DIR: conda_dist
@@ -177,7 +176,7 @@ conda-package:simpleunit:
     - mkdir $DIST_DIR
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
-    - conda build $DIST_DIR/$PACKAGE
+    - conda build --numpy=2.0 $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
     - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
