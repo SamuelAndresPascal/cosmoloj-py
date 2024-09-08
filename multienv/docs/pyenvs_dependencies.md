@@ -78,8 +78,8 @@ Both ways to proceed implies maintaining a coherent set of dependency versions i
 arguments or in environment files. The purpose of `pyenvs dependencies` is to manage a coherent dependency version set 
 in a single configuration files from which generating all the specific environment files.
 
-The configuration mapping the previous environment definitions is specified in a single `multienv.yml` file. 
-`multienv.yml` is the default configuration file name, located by default in the current working directory.
+The configuration mapping the previous environment definitions is specified in a single `pyenvs-deps.yml` file. 
+`pyenvs-deps.yml` is the default configuration file name, located by default in the current working directory.
 
 ```yml
 configuration:

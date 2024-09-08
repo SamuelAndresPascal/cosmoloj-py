@@ -60,7 +60,7 @@ def _create_parser() -> ArgumentParser:
     parser_config.add_argument('file',
                                nargs='?',
                                help="path to the configuration file",
-                               default="multienv.yml")
+                               default="pyenvs-deps.yml")
     parser_config.add_argument('--encoding',
                                nargs='?',
                                help='the configuration file encoding (default to utf-8)',
