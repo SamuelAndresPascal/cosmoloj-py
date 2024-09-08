@@ -21,10 +21,10 @@ lint_test:multienv:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc test/test_pyenvs.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_config_formatter.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_config_input_std.py
-    - pylint --rcfile=../pylintrc-test test/test_pyenvs_config_output_conda.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_config_output_pip.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_formatter.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_input_std.py
+    - pylint --rcfile=../pylintrc-test test/test_pyenvs_deps_output_conda.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_output_pip.py
 
 mkdocs:multienv:
   stage: doc
