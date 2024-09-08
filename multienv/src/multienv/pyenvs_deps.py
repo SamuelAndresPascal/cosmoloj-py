@@ -8,8 +8,8 @@ from argparse import  Namespace
 
 import yaml
 
-from multienv._pyenvs_config_formatter import Formatters
-from multienv._pyenvs_config_input_std import Configuration
+from multienv._pyenvs_deps_formatter import Formatters
+from multienv._pyenvs_deps_input_std import Configuration
 
 LOG = logging.getLogger(__name__)
 

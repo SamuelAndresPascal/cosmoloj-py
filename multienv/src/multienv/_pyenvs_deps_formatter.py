@@ -10,8 +10,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable
 
-from multienv._pyenvs_config_input_std import Configuration
-from multienv._pyenvs_config_output_conda import CondaEnvironment
+from multienv._pyenvs_deps_input_std import Configuration
+from multienv._pyenvs_deps_output_conda import CondaEnvironment
 
 
 @dataclass(frozen=True)

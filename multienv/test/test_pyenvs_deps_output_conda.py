@@ -1,7 +1,7 @@
 """Test module for pyenv conda environment output."""
 
-from multienv._pyenvs_config_output_conda import CondaEnvironment
-from multienv._pyenvs_config_input_std import Dependency
+from multienv._pyenvs_deps_output_conda import CondaEnvironment
+from multienv._pyenvs_deps_input_std import Dependency
 
 def test_to_dict():
     """Test dict representation of conda environment output."""

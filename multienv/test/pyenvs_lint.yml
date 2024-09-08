@@ -1,0 +1,40 @@
+environments:
+  - src
+  - test
+
+sections:
+  - name: 'FORMAT'
+    rules:
+      - key: max-line-length
+        value: 120
+      - key: max-args
+        value: 9
+        environments: src
+  - name: 'MESSAGES CONTROL'
+    rules:
+      - key: disable
+        value: 'protected-access,duplicate-code'
+        environments: test
+      - key: disable
+        value: 'undefined-variable,unused-argument'
+        environments: src
+  - name: 'DESIGN'
+    rules:
+      - key: min-public-methods
+        value: 1
+        environments: src
+      - key: max-args
+        value: 30
+        environments: src
+      - key: max-locals
+        value: 30
+        environments: src
+      - key: max-attributes
+        value: 100
+        environments: src
+      - key: max-public-methods
+        value: 100
+        environments: src
+      - key: max-parents
+        value: 10
+        environments: src

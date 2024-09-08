@@ -27,21 +27,36 @@ def _create_parser() -> ArgumentParser:
 
     subparsers.add_parser('info', help='get general info')
 
-    parser_config = subparsers.add_parser(name='dependencies',
-                                          help='generates environment configurations',
-                                          aliases=['deps'])
-    parser_config.add_argument('file',
-                               nargs='?',
-                               help="path to the configuration file",
-                               default="pyenvs-deps.yml")
-    parser_config.add_argument('--encoding',
-                               nargs='?',
-                               help='the configuration file encoding (default to utf-8)',
-                               default='utf-8')
-    parser_config.add_argument('--output',
-                               nargs='?',
-                               help='the environment file output directory',
-                               default='.')
+    parser_deps = subparsers.add_parser(name='dependencies',
+                                        help='generates environment configurations',
+                                        aliases=['deps'])
+    parser_deps.add_argument('file',
+                             nargs='?',
+                             help="path to the configuration file",
+                             default="pyenvs-deps.yml")
+    parser_deps.add_argument('--encoding',
+                             nargs='?',
+                             help='the configuration file encoding (default to utf-8)',
+                             default='utf-8')
+    parser_deps.add_argument('--output',
+                             nargs='?',
+                             help='the environment file output directory',
+                             default='.')
+
+    parser_lint = subparsers.add_parser(name='lint',
+                                        help='generates environment configurations')
+    parser_lint.add_argument('file',
+                             nargs='?',
+                             help="path to the configuration file",
+                             default="pyenvs-lint.yml")
+    parser_lint.add_argument('--encoding',
+                             nargs='?',
+                             help='the configuration file encoding (default to utf-8)',
+                             default='utf-8')
+    parser_lint.add_argument('--output',
+                             nargs='?',
+                             help='the linter configuration file output directory',
+                             default='.')
 
     return parser
 

@@ -2,9 +2,9 @@
 
 import pytest
 
-from multienv._pyenvs_config_input_std import Dependency
+from multienv._pyenvs_deps_input_std import Dependency
 
-def test_dependency_from_dict_classic():
+def test_deps_from_dict_classic():
     """Test dependency loading from dict."""
 
     i = {
@@ -22,7 +22,7 @@ def test_dependency_from_dict_classic():
     assert d.source is None
 
 
-def test_dependency_from_dict_single_id():
+def test_deps_from_dict_single_id():
     """Test dependency loading from dict."""
 
     i = {
@@ -38,7 +38,7 @@ def test_dependency_from_dict_single_id():
     assert d.source is None
 
 
-def test_dependency_from_dict_without_id():
+def test_deps_from_dict_without_id():
     """Test dependency loading from dict."""
 
     i = {

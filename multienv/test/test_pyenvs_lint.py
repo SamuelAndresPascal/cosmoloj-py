@@ -1,4 +1,4 @@
-"""Test module for pyenvs dependencies"""
+"""Test module for pyenvs"""
 from argparse import Namespace
 from pathlib import Path
 
@@ -19,11 +19,10 @@ def _output_file(file: str) -> str:
     """Les fichiers de sortie sont générés relativement à l'endroit où la commande est exécutée."""
     return str(Path(Path.cwd(), file))
 
-
-def test_dependencies_without_default_env():
+def test_lint_without_default_env():
     """test config call without default env"""
 
-    _dependencies(Namespace(CMD='deps', file=_input_file('multienv1.yml'), encoding='utf-8', output='.'))
+    _dependencies(Namespace(CMD='lint', file=_input_file('multienv1.yml'), encoding='utf-8', output='.'))
 
     with open(_output_file('tutu_lint.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -49,10 +48,10 @@ def test_dependencies_without_default_env():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_dependencies_without_channels():
+def test_lint_without_channels():
     """test config call without channels"""
 
-    _dependencies(Namespace(CMD='deps', file=_input_file('multienv2.yml'), encoding='utf-8', output='.'))
+    _dependencies(Namespace(CMD='lint', file=_input_file('multienv2.yml'), encoding='utf-8', output='.'))
 
     with open(_output_file('tata_lint.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -76,10 +75,10 @@ def test_dependencies_without_channels():
         }
 
 
-def test_dependencies_without_environments():
+def test_lint_without_environments():
     """test config call without environment list"""
 
-    _dependencies(Namespace(CMD='deps', file=_input_file('multienv3.yml'), encoding='utf-8', output='.'))
+    _dependencies(Namespace(CMD='lint', file=_input_file('multienv3.yml'), encoding='utf-8', output='.'))
 
     with open(_output_file('toto_lint.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -103,11 +102,11 @@ def test_dependencies_without_environments():
         }
 
 
-def test_dependencies_with_lacking_env_content():
+def test_lint_with_lacking_env_content():
     """test config call without an expected env in list"""
 
     with pytest.raises(ValueError) as e:
-        _dependencies(Namespace(CMD='deps',
+        _dependencies(Namespace(CMD='lint',
                                 file=_input_file('multienv2_lacking_env.yml'),
                                 encoding='utf-8',
                                 output='.'))
@@ -137,11 +136,11 @@ def test_dependencies_with_lacking_env_content():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_dependencies_with_unexpected_env_content():
+def test_lint_with_unexpected_env_content():
     """test config call with an unexpected env in list"""
 
     with pytest.raises(ValueError) as e:
-        _dependencies(Namespace(CMD='deps',
+        _dependencies(Namespace(CMD='lint',
                                 file=_input_file('multienv2_unexpected_env.yml'),
                                 encoding='utf-8',
                                 output='.'))
@@ -171,10 +170,10 @@ def test_dependencies_with_unexpected_env_content():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_dependencies_with_pip_dependencies():
+def test_lint_with_pip_dependencies():
     """test config call with pip dependencies"""
 
-    _dependencies(Namespace(CMD='deps', file=_input_file('multienv_pip.yml'), encoding='utf-8', output='.'))
+    _dependencies(Namespace(CMD='lint', file=_input_file('multienv_pip.yml'), encoding='utf-8', output='.'))
 
     with open(_output_file('pip_lint.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)

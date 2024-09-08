@@ -5,7 +5,7 @@ General Pip formatter output definitions.
 
 from dataclasses import dataclass
 
-from multienv._pyenvs_config_input_std import Dependency
+from multienv._pyenvs_deps_input_std import Dependency
 
 @dataclass(frozen=True)
 class PipEnvironment:

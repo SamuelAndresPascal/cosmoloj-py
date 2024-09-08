@@ -8,8 +8,8 @@ from pathlib import Path
 
 import yaml
 
-from multienv._pyenvs_config_input_std import Dependency, Configuration
-from multienv._pyenvs_config_output_pip import PipEnvironment
+from multienv._pyenvs_deps_input_std import Dependency, Configuration
+from multienv._pyenvs_deps_output_pip import PipEnvironment
 
 @dataclass(frozen=True)
 class CondaEnvironment:
