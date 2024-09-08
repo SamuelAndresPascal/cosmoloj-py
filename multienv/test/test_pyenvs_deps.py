@@ -5,7 +5,9 @@ from pathlib import Path
 import pytest
 import yaml
 
-from multienv.pyenvs import _create_parser, _dependencies, dependencies
+
+from multienv.pyenvs import _create_parser
+from multienv.pyenvs_deps import _dependencies, dependencies
 from multienv._pyenvs_config_input_std import Configuration, Dependency
 from multienv._pyenvs_config_formatter import Formatters
 

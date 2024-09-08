@@ -4,12 +4,8 @@ pyenvs command entrypoint
 import logging
 
 from argparse import ArgumentParser, Namespace
-from pathlib import Path
 
-import yaml
-
-from multienv._pyenvs_config_formatter import Formatters
-from multienv._pyenvs_config_input_std import Configuration
+from multienv.pyenvs_deps import _dependencies
 
 LOG = logging.getLogger(__name__)
 
@@ -20,29 +16,6 @@ def _info(ns: Namespace):
     LOG.info("info")
 
 
-def _dependencies(ns: Namespace):
-    """config
-    """
-    LOG.info("dependencies")
-
-    extension = ns.file.split('.')[-1]
-    output_dir = Path(Path.cwd(), ns.output)
-
-    if extension in ['yml']:
-        LOG.info('open configuration file %s', ns.file)
-        with open(ns.file, encoding=ns.encoding) as s:
-            content = yaml.safe_load(s)
-            configuration = Configuration.from_dict(content)
-
-            LOG.debug('open configuration file content: %s', configuration)
-            for req_formatter in configuration.formatters:
-                for supported_formatter in Formatters:
-                    if supported_formatter.test(req_formatter):
-                        supported_formatter.write(configuration, output_dir)
-
-
-    else:
-        raise ValueError(f'unsupported configuration format {extension}')
 
 
 def _create_parser() -> ArgumentParser:
@@ -71,10 +44,6 @@ def _create_parser() -> ArgumentParser:
                                default='.')
 
     return parser
-
-def dependencies(configuration: Configuration, formatter: Formatters) -> list:
-    """Builds the environment set mapping the configuration using the given formatter."""
-    return formatter.build(configuration)
 
 
 def entrypoint():
