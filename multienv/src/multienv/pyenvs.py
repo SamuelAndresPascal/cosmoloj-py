@@ -51,7 +51,8 @@ def entrypoint():
 
     commands = {
         'info': _info,
-        'dependencies': _dependencies
+        'dependencies': _dependencies,
+        'deps': _dependencies
     }
 
     ns: Namespace = _create_parser().parse_args()

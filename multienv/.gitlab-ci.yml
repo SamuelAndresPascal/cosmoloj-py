@@ -20,6 +20,8 @@ lint_test:multienv:
     - conda activate lint_test
     - conda list
     - pip install .
+    - pylint --rcfile=../pylintrc test/test_pyenvs.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_info.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps_formatter.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps_input_std.py

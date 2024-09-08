@@ -1,4 +1,4 @@
-"""Test module for pyenvs"""
+"""Test module for pyenvs dependencies"""
 from argparse import Namespace
 from pathlib import Path
 
@@ -6,7 +6,6 @@ import pytest
 import yaml
 
 
-from multienv.pyenvs import _create_parser
 from multienv.pyenvs_deps import _dependencies, dependencies
 from multienv._pyenvs_config_input_std import Configuration, Dependency
 from multienv._pyenvs_config_formatter import Formatters
@@ -20,27 +19,8 @@ def _output_file(file: str) -> str:
     """Les fichiers de sortie sont générés relativement à l'endroit où la commande est exécutée."""
     return str(Path(Path.cwd(), file))
 
-def test_info_args():
-    """test info command"""
 
-    parser = _create_parser()
-    assert parser.parse_args(['info']) == Namespace(CMD='info')
-
-
-def test_config_args_default():
-    """test config command without supplying file"""
-
-    parser = _create_parser()
-    assert parser.parse_args(['deps']) == Namespace(CMD='deps', file='pyenvs-deps.yml', encoding='utf-8', output='.')
-
-def test_config_args_custom():
-    """test config command supplying a custom file"""
-
-    parser = _create_parser()
-    assert (parser.parse_args(['deps', 'myenvs.yml'])
-            == Namespace(CMD='deps', file='myenvs.yml', encoding='utf-8', output='.'))
-
-def test_config_without_default_env():
+def test_dependencies_without_default_env():
     """test config call without default env"""
 
     _dependencies(Namespace(CMD='deps', file=_input_file('multienv1.yml'), encoding='utf-8', output='.'))
@@ -69,7 +49,7 @@ def test_config_without_default_env():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_config_without_channels():
+def test_dependencies_without_channels():
     """test config call without channels"""
 
     _dependencies(Namespace(CMD='deps', file=_input_file('multienv2.yml'), encoding='utf-8', output='.'))
@@ -96,7 +76,7 @@ def test_config_without_channels():
         }
 
 
-def test_config_without_environments():
+def test_dependencies_without_environments():
     """test config call without environment list"""
 
     _dependencies(Namespace(CMD='deps', file=_input_file('multienv3.yml'), encoding='utf-8', output='.'))
@@ -123,7 +103,7 @@ def test_config_without_environments():
         }
 
 
-def test_config_with_lacking_env_content():
+def test_dependencies_with_lacking_env_content():
     """test config call without an expected env in list"""
 
     with pytest.raises(ValueError) as e:
@@ -157,7 +137,7 @@ def test_config_with_lacking_env_content():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_config_with_unexpected_env_content():
+def test_dependencies_with_unexpected_env_content():
     """test config call with an unexpected env in list"""
 
     with pytest.raises(ValueError) as e:
@@ -191,7 +171,7 @@ def test_config_with_unexpected_env_content():
     assert e.value.args[1] == "No such file or directory"
 
 
-def test_config_with_pip_dependencies():
+def test_dependencies_with_pip_dependencies():
     """test config call with pip dependencies"""
 
     _dependencies(Namespace(CMD='deps', file=_input_file('multienv_pip.yml'), encoding='utf-8', output='.'))
