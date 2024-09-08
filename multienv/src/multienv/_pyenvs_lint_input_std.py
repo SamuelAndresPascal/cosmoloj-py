@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Rule:
+    """Representation of pyenvs lint rule content."""
     key: str
     value: str
     environments: list[str]
@@ -25,6 +26,7 @@ class Rule:
 
 @dataclass(frozen=True)
 class Section:
+    """Representation of pyenvs lint section content."""
     name: str
     rules: list[Rule]
 
@@ -42,7 +44,7 @@ class Section:
 
 @dataclass(frozen=True)
 class Configuration:
-    """Representation of pyenvs configuration content."""
+    """Representation of pyenvs lint configuration content."""
 
     formatters: list[dict | str]
     """Each formatter either can be a single character string of one of supported formatters or a key/value pair with 
