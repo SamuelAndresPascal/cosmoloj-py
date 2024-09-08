@@ -1,4 +1,4 @@
-"""Pyenvs config:
+"""Pyenvs depencencies:
 Formatter definitions.
 
 Supported formatters:
@@ -84,7 +84,7 @@ def _conda_mapper(conf: Configuration, formatter_conf: CondaConfiguration) -> li
     return envs
 
 def _conda_writer(envs: list[CondaEnvironment], formatter_conf: CondaConfiguration, output_dir: Path):
-    """Writes a configuration as conda configuration environment files."""
+    """Writes a configuration as conda configuration environment file."""
     for env in envs:
         env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}.yml'),
                  encoding=formatter_conf.encoding)

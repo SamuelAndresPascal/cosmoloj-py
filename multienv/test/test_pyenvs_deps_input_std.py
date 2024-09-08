@@ -1,4 +1,4 @@
-"""Test module for pyenv config input."""
+"""Test module for pyenv deps input."""
 
 import pytest
 

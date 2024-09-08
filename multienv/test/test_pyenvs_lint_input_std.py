@@ -1,4 +1,4 @@
-"""Test module for pyenv config input."""
+"""Test module for pyenv lint input."""
 
 import pytest
 
@@ -8,7 +8,9 @@ def test_lint_configuration_from_dict_classic():
     """Test configuration loading from dict."""
 
     i = {
-        'formatters': 'pylint',
+        'configuration': {
+            'formatters': 'pylint',
+        },
         'environments': ['multienv', 'test'],
         'sections':[
             {

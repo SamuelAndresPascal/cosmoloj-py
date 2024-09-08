@@ -23,11 +23,14 @@ lint_test:multienv:
     - pylint --rcfile=../pylintrc test/test_pyenvs.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_info.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_lint.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps_formatter.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps_input_std.py
     - pylint --rcfile=../pylintrc-test test/test_pyenvs_deps_output_conda.py
     - pylint --rcfile=../pylintrc test/test_pyenvs_deps_output_pip.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_lint.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_lint_input_std.py
+    - pylint --rcfile=../pylintrc test/test_pyenvs_lint_formatter.py
+    - pylint --rcfile=../pylintrc-test test/test_pyenvs_lint_output_pylint.py
 
 mkdocs:multienv:
   stage: doc

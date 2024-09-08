@@ -1,11 +1,11 @@
-"""Test module for pyenv config formatters."""
+"""Test module for pyenv deps formatters."""
 
 
-from multienv._pyenvs_deps_formatter import Formatters
+from multienv._pyenvs_lint_formatter import Formatters
 
 def test_formatter_test():
     """Test formatter detection."""
 
-    assert Formatters.CONDA.test('conda')
-    assert not Formatters.CONDA.test('pip')
-    assert Formatters.CONDA.test({'conda': {}})
+    assert Formatters.PYLINT.test('pylint')
+    assert not Formatters.PYLINT.test('pip')
+    assert Formatters.PYLINT.test({'pylint': {}})

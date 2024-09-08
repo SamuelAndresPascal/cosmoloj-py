@@ -1,5 +1,5 @@
 """
-Pyenv config:
+Pyenv dependencies:
 General Pip formatter output definitions.
 """
 

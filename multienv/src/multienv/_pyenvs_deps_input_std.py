@@ -58,7 +58,7 @@ class Configuration:
         return [d for d in self.dependencies if not d.environments]
 
     def env_dependencies(self, environment: str) -> list[Dependency]:
-        """Returns all the specified environment dependencies which are strict ones and ones refering to the given
+        """Returns all the specified environment dependencies which are strict ones and ones referring to the given
         environment."""
         return [d for d in self.dependencies if not d.environments or environment in d.environments]
 
@@ -69,7 +69,7 @@ class Configuration:
     def effective_environments(self) -> list[str]:
         """Checks environments and computes effective ones.
 
-        1. Computes the effective environements.
+        1. Computes the effective environments.
         2. If a global environment list is provided, cheks its maps the implicit environment set.
         3. Returns the environment list if supplied, or default, the implicit environment list.
         """

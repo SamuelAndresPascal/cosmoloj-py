@@ -6,6 +6,7 @@ import pytest
 import yaml
 
 
+from multienv.pyenvs_lint import _lint
 from multienv.pyenvs_deps import _dependencies, dependencies
 from multienv._pyenvs_deps_input_std import Configuration, Dependency
 from multienv._pyenvs_deps_formatter import Formatters
@@ -22,7 +23,7 @@ def _output_file(file: str) -> str:
 def test_lint_without_default_env():
     """test config call without default env"""
 
-    _dependencies(Namespace(CMD='lint', file=_input_file('multienv1.yml'), encoding='utf-8', output='.'))
+    _lint(Namespace(CMD='lint', file=_input_file('pyenvs_lint.yml'), encoding='utf-8', output='.'))
 
     with open(_output_file('tutu_lint.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
