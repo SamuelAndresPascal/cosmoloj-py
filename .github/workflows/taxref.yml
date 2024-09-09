@@ -30,7 +30,7 @@ jobs:
       - working-directory: taxref
         run: |
           pip install .
-          pylint --rcfile=pylintrc src
+          pylint --rcfile=pylintrc_src src
 
   lint-test:
     runs-on: ubuntu-latest
@@ -52,5 +52,5 @@ jobs:
       - working-directory: taxref
         run: |
           pip install .
-          pylint --rcfile=../pylintrc test/test.py
-          pylint --rcfile=../pylintrc test/taxref_test.py
+          pylint --rcfile=../pylintrc_src test/test.py
+          pylint --rcfile=../pylintrc_src test/taxref_test.py

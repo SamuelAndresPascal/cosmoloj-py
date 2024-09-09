@@ -8,7 +8,7 @@ lint:multienv:
     - conda activate lint
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc src
+    - pylint --rcfile=../pylintrc_multienv-src src
 
 lint_test:multienv:
   stage: lint
@@ -20,17 +20,17 @@ lint_test:multienv:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc test/test_pyenvs.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_info.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_deps.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_formatter.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_input_std.py
-    - pylint --rcfile=../pylintrc-test test/test_pyenvs_deps_output_conda.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_deps_output_pip.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_lint.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_lint_input_std.py
-    - pylint --rcfile=../pylintrc test/test_pyenvs_lint_formatter.py
-    - pylint --rcfile=../pylintrc-test test/test_pyenvs_lint_output_pylint.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_info.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_deps.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_deps_formatter.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_deps_input_std.py
+    - pylint --rcfile=../pylintrc_test test/test_pyenvs_deps_output_conda.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_deps_output_pip.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_lint.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_lint_input_std.py
+    - pylint --rcfile=../pylintrc_src test/test_pyenvs_lint_formatter.py
+    - pylint --rcfile=../pylintrc_test test/test_pyenvs_lint_output_pylint.py
 
 mkdocs:multienv:
   stage: doc

@@ -30,7 +30,7 @@ jobs:
       - working-directory: coordop
         run: |
           pip install .
-          pylint --rcfile=../pylintrc src
+          pylint --rcfile=../pylintrc_src src
 
   lint-test:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
       - working-directory: coordop
         run: |
           pip install .
-          pylint --rcfile=../pylintrc-test test/projection/*
+          pylint --rcfile=../pylintrc_test test/projection/*
 
   test:
     runs-on: ubuntu-latest

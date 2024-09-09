@@ -8,7 +8,7 @@ lint:coordop:
     - conda activate lint
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc src
+    - pylint --rcfile=../pylintrc_src src
 
 lint_test:coordop:
   stage: lint
@@ -20,7 +20,7 @@ lint_test:coordop:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc-test test/projection/*
+    - pylint --rcfile=../pylintrc_test test/projection/*
 
 test:coordop:
   stage: test

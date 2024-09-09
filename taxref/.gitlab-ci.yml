@@ -8,7 +8,7 @@ lint:taxref:
     - conda activate lint
     - conda list
     - pip install .
-    - pylint --rcfile=pylintrc src
+    - pylint --rcfile=pylintrc_src src
 
 lint_test:taxref:
   stage: lint
@@ -20,8 +20,8 @@ lint_test:taxref:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc test/test.py
-    - pylint --rcfile=../pylintrc test/taxref_test.py
+    - pylint --rcfile=../pylintrc_src test/test.py
+    - pylint --rcfile=../pylintrc_src test/taxref_test.py
 
 test:taxref:
   stage: test

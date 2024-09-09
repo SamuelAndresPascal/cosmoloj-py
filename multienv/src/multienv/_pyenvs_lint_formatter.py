@@ -71,7 +71,7 @@ def _pylint_mapper(conf: Configuration, formatter_conf: PylintConfiguration) -> 
 def _pylint_writer(envs: list[Pylintrc], formatter_conf: PylintConfiguration, output_dir: Path):
     """Writes a configuration as pylintrc configuration environment files."""
     for env in envs:
-        env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}.yml'),
+        env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}'),
                  encoding=formatter_conf.encoding)
 
 

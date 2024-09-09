@@ -6,6 +6,7 @@ import logging
 from argparse import ArgumentParser, Namespace
 
 from multienv.pyenvs_deps import _dependencies
+from multienv.pyenvs_lint import _lint
 
 LOG = logging.getLogger(__name__)
 
@@ -67,7 +68,8 @@ def entrypoint():
     commands = {
         'info': _info,
         'dependencies': _dependencies,
-        'deps': _dependencies
+        'deps': _dependencies,
+        'lint': _lint
     }
 
     ns: Namespace = _create_parser().parse_args()
