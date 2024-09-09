@@ -1,0 +1,54 @@
+configuration:
+  formatters:
+    - pylint
+
+environments:
+  - multienv-src
+  - taxref-src
+  - src
+  - test
+
+sections:
+  - name: 'FORMAT'
+    rules:
+      - key: max-line-length
+        value: 120
+      - key: max-args
+        value: 9
+        environments: [src, multienv-src]
+  - name: 'SIMILARITIES'
+    rules:
+      - key: min-similarity-lines
+        value: 100
+        environments: [taxref-src]
+  - name: 'DESIGN'
+    rules:
+      - key: min-public-methods
+        value: 1
+        environments: [src, multienv-src]
+      - key: max-args
+        value: 30
+        environments: [src, multienv-src]
+      - key: max-locals
+        value: 30
+        environments: [src, multienv-src]
+      - key: max-attributes
+        value: 100
+        environments: [src, multienv-src]
+      - key: max-public-methods
+        value: 100
+        environments: [src, multienv-src]
+      - key: max-parents
+        value: 10
+        environments: [src, multienv-src]
+  - name: 'MESSAGES CONTROL'
+    rules:
+      - key: disable
+        value: 'protected-access,duplicate-code'
+        environments: [test]
+      - key: disable
+        value: 'undefined-variable,unused-argument'
+        environments: [src]
+      - key: disable
+        value: 'undefined-variable,unused-argument,duplicate-code'
+        environments: [multienv-src]
