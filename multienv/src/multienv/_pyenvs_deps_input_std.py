@@ -70,7 +70,7 @@ class Configuration:
         """Checks environments and computes effective ones.
 
         1. Computes the effective environments.
-        2. If a global environment list is provided, cheks its maps the implicit environment set.
+        2. If a global environment list is provided, checks its maps the implicit environment set.
         3. Returns the environment list if supplied, or default, the implicit environment list.
         """
         implicit_envs = self._implicit_environments()

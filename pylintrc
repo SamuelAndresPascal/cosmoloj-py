@@ -11,4 +11,4 @@ max-public-methods=100
 max-parents=10
 
 [MESSAGES CONTROL]
-disable=undefined-variable,unused-argument
+disable=undefined-variable,unused-argument,duplicate-code
