@@ -43,10 +43,12 @@ class Section:
         )
 
     def environment_rules(self, environment: str):
+        """Get a new section containing only rules for the given environment."""
         return Section(name=self.name,
                        rules=[r for r in self.rules if not r.environments or environment in r.environments])
 
     def strict_rules(self):
+        """Get a new section containing only the strict rules."""
         return Section(name=self.name,
                        rules=[r for r in self.rules if not r.environments])
 

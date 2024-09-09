@@ -48,6 +48,147 @@ def test_lint_configuration_from_dict_classic():
     assert r.value == '120'
     assert r.environments == ['multienv', 'test']
 
+
+def test_lint_configuration_strict_rules():
+    """Test configuration strict rules."""
+
+    i = {
+        'configuration': {
+            'formatters': 'pylint',
+        },
+        'environments': ['multienv', 'test'],
+        'sections':[
+            {
+            'name': 'FORMAT',
+            'rules':[
+                {
+                'key': 'max-line-length',
+                'value': '120',
+                'environments': ['multienv', 'test']
+                }
+            ]
+            }
+        ]
+    }
+
+    c = Configuration.from_dict(i)
+
+    r = c.strict_rules()
+    assert len(r) == 0
+
+
+def test_lint_configuration_strict_rules_2():
+    """Test configuration strict rules."""
+
+    i = {
+        'configuration': {
+            'formatters': 'pylint',
+        },
+        'environments': ['multienv', 'test'],
+        'sections':[
+            {
+            'name': 'FORMAT',
+            'rules':[
+                {
+                'key': 'max-line-length',
+                'value': '120',
+                'environments': ['multienv', 'test']
+                }
+            ]
+            },
+            {
+            'name': 'DESIGN',
+            'rules':[
+                {
+                'key': 'min-public-methods',
+                'value': '1'
+                }
+            ]
+            }
+        ]
+    }
+
+    c = Configuration.from_dict(i)
+
+    r = c.strict_rules()
+    assert len(r) == 1
+
+
+def test_lint_configuration_env_rules():
+    """Test configuration strict rules."""
+
+    i = {
+        'configuration': {
+            'formatters': 'pylint',
+        },
+        'environments': ['multienv', 'test'],
+        'sections':[
+            {
+            'name': 'FORMAT',
+            'rules':[
+                {
+                'key': 'max-line-length',
+                'value': '120',
+                'environments': ['multienv', 'test']
+                }
+            ]
+            },
+            {
+            'name': 'DESIGN',
+            'rules':[
+                {
+                'key': 'min-public-methods',
+                'value': '1',
+                'environments': ['test']
+                }
+            ]
+            }
+        ]
+    }
+
+    c = Configuration.from_dict(i)
+
+    r = c.env_rules('test')
+    assert len(r) == 2
+
+
+def test_lint_configuration_env_rules_2():
+    """Test configuration strict rules."""
+
+    i = {
+        'configuration': {
+            'formatters': 'pylint',
+        },
+        'environments': ['multienv', 'test'],
+        'sections':[
+            {
+            'name': 'FORMAT',
+            'rules':[
+                {
+                'key': 'max-line-length',
+                'value': '120',
+                'environments': ['multienv', 'test']
+                }
+            ]
+            },
+            {
+            'name': 'DESIGN',
+            'rules':[
+                {
+                'key': 'min-public-methods',
+                'value': '1',
+                'environments': ['test']
+                }
+            ]
+            }
+        ]
+    }
+
+    c = Configuration.from_dict(i)
+
+    r = c.env_rules('multienv')
+    assert len(r) == 1
+
 def test_lint_section_from_dict_classic():
     """Test section loading from dict."""
 

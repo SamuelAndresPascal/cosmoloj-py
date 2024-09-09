@@ -16,7 +16,7 @@ class Pylintrc:
 
     def dump(self, path: Path, encoding: str):
         """Write to yml output file."""
-        with open(path, 'a', encoding=encoding) as pylintrc:
+        with open(path, 'w', encoding=encoding) as pylintrc:
             for l in self.format():
                 pylintrc.write(l)
 

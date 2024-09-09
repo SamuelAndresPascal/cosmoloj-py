@@ -16,7 +16,7 @@ class CondaEnvironment:
     """Conda environment file definition."""
 
     name: str
-    channels: list[str]
+    channels: list[str] | None
     dependencies: list[str]
     pip_dependencies: list[str] | None
 
@@ -43,7 +43,7 @@ class CondaEnvironment:
             yaml.dump(self.to_dict(), o, sort_keys=False)
 
     @staticmethod
-    def from_configuration(name: str, pip: list[str], channels: list[str], configuration: Configuration):
+    def from_configuration(name: str, pip: list[str] | None, channels: list[str] | None, configuration: Configuration):
         """Build an environment from a standard configuration."""
         return CondaEnvironment.from_dependencies(name=name,
                                                   pip=pip,
@@ -51,7 +51,7 @@ class CondaEnvironment:
                                                   dependencies=configuration.dependencies)
 
     @staticmethod
-    def from_dependencies(name: str, pip: list[str], channels: list[str], dependencies: list[Dependency]):
+    def from_dependencies(name: str, pip: list[str] | None, channels: list[str] | None, dependencies: list[Dependency]):
         """Build an environment from a dependency list."""
         deps = [CondaEnvironment._format_dependency(d) for d in dependencies if pip is None or d.id not in pip]
         pip_deps = [PipEnvironment.format_dependency(d) for d in dependencies if pip is not None and d.id in pip]
