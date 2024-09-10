@@ -29,7 +29,7 @@ def _create_parser() -> ArgumentParser:
     subparsers.add_parser('info', help='get general info')
 
     parser_deps = subparsers.add_parser(name='dependencies',
-                                        help='generates environment configurations',
+                                        help='generates dependency management files',
                                         aliases=['deps'])
     parser_deps.add_argument('file',
                              nargs='?',
@@ -41,11 +41,11 @@ def _create_parser() -> ArgumentParser:
                              default='utf-8')
     parser_deps.add_argument('--output',
                              nargs='?',
-                             help='the environment file output directory',
+                             help='the dependency management file output directory',
                              default='.')
 
     parser_lint = subparsers.add_parser(name='lint',
-                                        help='generates environment configurations')
+                                        help='generates linter files')
     parser_lint.add_argument('file',
                              nargs='?',
                              help="path to the configuration file",

@@ -10,6 +10,7 @@ nav:
   - pyenvs:
       - pyenvs: pyenvs.md
       - dependencies: pyenvs_dependencies.md
+      - lint: pyenvs_lint.md
   - API: api.md
   - About: about.md
 

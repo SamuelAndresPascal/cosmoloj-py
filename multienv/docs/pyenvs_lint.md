@@ -1,3 +1,57 @@
+# Pyenvs lint
+
+* [Purpose](#purpose)
+* [Example](#example)
+
+```text
+usage: pyenvs lint [-h] [--encoding [ENCODING]] [--output [OUTPUT]] [file]
+
+positional arguments:
+  file                  path to the configuration file
+
+options:
+  -h, --help            show this help message and exit
+  --encoding [ENCODING]
+                        the configuration file encoding (default to utf-8)
+  --output [OUTPUT]     the linter configuration file output directory
+```
+
+## Purpose
+
+The `pyenvs lint` command parameterizes linter configuration files by environments.
+
+It is useful to factorize some linter rules and to make other ones specific to certain contexts (tests, modules etc.)
+
+A common rule could be set in a `pylintrc_strict` file:
+
+```editorconfig
+[FORMAT]
+max-line-length=120
+```
+
+While some specific modules would require to customize more rules in a `pylintrc_mymodule` file:
+
+```editorconfig
+[FORMAT]
+max-line-length=120
+
+[SIMILARITIES]
+min-similarity-lines=100
+```
+
+And specific contexts would require to apply other specific adjustments (`pylintrc_test`):
+
+```editorconfig
+[FORMAT]
+max-line-length=120
+
+[MESSAGES CONTROL]
+disable=protected-access,duplicate-code
+```
+
+# Example
+
+```yml
 configuration:
   formatters:
     - pylint:
@@ -53,3 +107,4 @@ sections:
       - key: disable
         value: 'undefined-variable,unused-argument,duplicate-code'
         environments: [multienv-src]
+```
