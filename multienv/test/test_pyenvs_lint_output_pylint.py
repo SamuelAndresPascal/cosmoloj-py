@@ -1,7 +1,7 @@
 """Test module for pyenv pylint environment output."""
 
-from multienv._pyenvs_lint_output_pylint import Pylintrc
-from multienv._pyenvs_lint_input_std import Section, Rule
+from multienv.pyenvs_lint_output_pylint import Pylintrc
+from multienv.pyenvs_lint_input_std import Section, Rule
 
 
 def test_format_dependency():

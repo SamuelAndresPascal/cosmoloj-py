@@ -2,7 +2,7 @@
 
 import pytest
 
-from multienv._pyenvs_lint_input_std import Rule, Section, Configuration
+from multienv.pyenvs_lint_input_std import Rule, Section, Configuration
 
 def test_lint_configuration_from_dict_classic():
     """Test configuration loading from dict."""

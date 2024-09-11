@@ -1,7 +1,7 @@
 """Test module for pyenv lint formatters."""
 
 
-from multienv._pyenvs_deps_formatter import Formatters
+from multienv.pyenvs_deps_formatter import Formatters
 
 def test_formatter_test():
     """Test formatter detection."""

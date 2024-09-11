@@ -2,7 +2,7 @@
 
 import pytest
 
-from multienv._pyenvs_deps_input_std import Dependency, Configuration
+from multienv.pyenvs_deps_input_std import Dependency, Configuration
 
 
 def test_deps_configuration_from_dict_classic():

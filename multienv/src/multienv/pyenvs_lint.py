@@ -8,8 +8,8 @@ from argparse import  Namespace
 
 import yaml
 
-from multienv._pyenvs_lint_formatter import Formatters
-from multienv._pyenvs_lint_input_std import Configuration
+from multienv.pyenvs_lint_formatter import Formatters
+from multienv.pyenvs_lint_input_std import Configuration
 
 LOG = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ def _lint(ns: Namespace):
 
     if extension in ['yml']:
         LOG.info('open configuration file %s', ns.file)
-        with open(ns.file, encoding=ns.encoding) as s:
+        with open(file=ns.file, mode='r', encoding=ns.encoding) as s:
             content = yaml.safe_load(s)
             configuration = Configuration.from_dict(content)
 

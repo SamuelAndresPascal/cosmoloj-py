@@ -6,7 +6,7 @@ General Pylint formatter output definitions.
 from dataclasses import dataclass
 from pathlib import Path
 
-from multienv._pyenvs_lint_input_std import Section, Configuration
+from multienv.pyenvs_lint_input_std import Section, Configuration
 
 @dataclass(frozen=True)
 class Pylintrc:

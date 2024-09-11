@@ -14,7 +14,7 @@ LOG = logging.getLogger(__name__)
 def _info(ns: Namespace):
     """info
     """
-    LOG.info("info")
+    LOG.info("info %s", ns)
 
 
 

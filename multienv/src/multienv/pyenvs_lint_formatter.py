@@ -10,12 +10,12 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable
 
-from multienv._pyenvs_lint_input_std import Configuration
-from multienv._pyenvs_lint_output_pylint import Pylintrc
+from multienv.pyenvs_lint_input_std import Configuration
+from multienv.pyenvs_lint_output_pylint import Pylintrc
 
 
 @dataclass(frozen=True)
-class PylintConfiguration:
+class _PylintConfiguration:
     """The specific Pylint configuration model."""
 
     default_environment: str | None
@@ -32,7 +32,7 @@ class PylintConfiguration:
 
         body = formatter[Formatters.PYLINT.value.name]
 
-        return PylintConfiguration(
+        return _PylintConfiguration(
             default_environment=body['default_environment'] if 'default_environment' in body
             else _DEFAULT_PYLINT_CONFIGURATION.default_environment,
             strict_environment=body['strict_environment'] if 'strict_environment' in body
@@ -41,14 +41,14 @@ class PylintConfiguration:
             encoding=body['encoding'] if 'encoding' in body else _DEFAULT_PYLINT_CONFIGURATION.encoding
         )
 
-_DEFAULT_PYLINT_CONFIGURATION = PylintConfiguration(
+_DEFAULT_PYLINT_CONFIGURATION = _PylintConfiguration(
     default_environment=None,
     strict_environment=None,
     file_pattern='pylintrc',
     encoding='utf-8'
 )
 
-def _pylint_mapper(conf: Configuration, formatter_conf: PylintConfiguration) -> list[Pylintrc]:
+def _pylint_mapper(conf: Configuration, formatter_conf: _PylintConfiguration) -> list[Pylintrc]:
     """Writes a configuration as pylintrc file."""
 
     environments = conf.effective_environments()
@@ -68,7 +68,7 @@ def _pylint_mapper(conf: Configuration, formatter_conf: PylintConfiguration) -> 
 
     return envs
 
-def _pylint_writer(envs: list[Pylintrc], formatter_conf: PylintConfiguration, output_dir: Path):
+def _pylint_writer(envs: list[Pylintrc], formatter_conf: _PylintConfiguration, output_dir: Path):
     """Writes a configuration as pylintrc configuration environment files."""
     for env in envs:
         env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}'),
@@ -84,10 +84,10 @@ class _FormatterValue[C, O]:
 
 class Formatters(Enum):
     """The enumeration of the supported formatters."""
-    PYLINT = _FormatterValue[PylintConfiguration, Pylintrc](name='pylint',
-                                                            to_environments=_pylint_mapper,
-                                                            serialize=_pylint_writer,
-                                                            configuration=PylintConfiguration.from_configuration)
+    PYLINT = _FormatterValue[_PylintConfiguration, Pylintrc](name='pylint',
+                                                             to_environments=_pylint_mapper,
+                                                             serialize=_pylint_writer,
+                                                             configuration=_PylintConfiguration.from_configuration)
 
     def test(self, formatter: dict | str) -> bool:
         """Checks if a formatter configuration dict refers to the current Formatter value."""

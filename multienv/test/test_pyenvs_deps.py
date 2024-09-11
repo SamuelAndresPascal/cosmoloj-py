@@ -7,8 +7,8 @@ import yaml
 
 
 from multienv.pyenvs_deps import _dependencies, dependencies
-from multienv._pyenvs_deps_input_std import Configuration, Dependency
-from multienv._pyenvs_deps_formatter import Formatters
+from multienv.pyenvs_deps_input_std import Configuration, Dependency
+from multienv.pyenvs_deps_formatter import Formatters
 
 
 def _input_file(file: str) -> str:

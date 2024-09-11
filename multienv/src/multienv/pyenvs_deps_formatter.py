@@ -10,12 +10,12 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable
 
-from multienv._pyenvs_deps_input_std import Configuration
-from multienv._pyenvs_deps_output_conda import CondaEnvironment
+from multienv.pyenvs_deps_input_std import Configuration
+from multienv.pyenvs_deps_output_conda import CondaEnvironment
 
 
 @dataclass(frozen=True)
-class CondaConfiguration:
+class _CondaConfiguration:
     """The specific conda configuration model."""
 
     default_environment: str | None
@@ -34,7 +34,7 @@ class CondaConfiguration:
 
         body = formatter[Formatters.CONDA.value.name]
 
-        return CondaConfiguration(
+        return _CondaConfiguration(
             default_environment=body['default_environment'] if 'default_environment' in body
             else _DEFAULT_CONDA_CONFIGURATION.default_environment,
             strict_environment=body['strict_environment'] if 'strict_environment' in body
@@ -45,7 +45,7 @@ class CondaConfiguration:
             pip=body['pip'] if 'pip' in body else _DEFAULT_CONDA_CONFIGURATION.pip
         )
 
-_DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
+_DEFAULT_CONDA_CONFIGURATION = _CondaConfiguration(
     default_environment=None,
     strict_environment=None,
     file_pattern='environment',
@@ -54,7 +54,7 @@ _DEFAULT_CONDA_CONFIGURATION = CondaConfiguration(
     pip=None
 )
 
-def _conda_mapper(conf: Configuration, formatter_conf: CondaConfiguration) -> list[CondaEnvironment]:
+def _conda_mapper(conf: Configuration, formatter_conf: _CondaConfiguration) -> list[CondaEnvironment]:
     """Writes a configuration as conda configuration environment files."""
 
     environments = conf.effective_environments()
@@ -83,7 +83,7 @@ def _conda_mapper(conf: Configuration, formatter_conf: CondaConfiguration) -> li
 
     return envs
 
-def _conda_writer(envs: list[CondaEnvironment], formatter_conf: CondaConfiguration, output_dir: Path):
+def _conda_writer(envs: list[CondaEnvironment], formatter_conf: _CondaConfiguration, output_dir: Path):
     """Writes a configuration as conda configuration environment file."""
     for env in envs:
         env.dump(path=Path(output_dir, f'{formatter_conf.file_pattern}_{env.name}.yml'),
@@ -99,10 +99,10 @@ class _FormatterValue[C, O]:
 
 class Formatters(Enum):
     """The enumeration of the supported formatters."""
-    CONDA = _FormatterValue[CondaConfiguration, CondaEnvironment](name='conda',
-                                                                  to_environments=_conda_mapper,
-                                                                  serialize=_conda_writer,
-                                                                  configuration=CondaConfiguration.from_configuration)
+    CONDA = _FormatterValue[_CondaConfiguration, CondaEnvironment](name='conda',
+                                                                   to_environments=_conda_mapper,
+                                                                   serialize=_conda_writer,
+                                                                   configuration=_CondaConfiguration.from_configuration)
 
     def test(self, formatter: dict | str) -> bool:
         """Checks if a formatter configuration dict refers to the current Formatter value."""
