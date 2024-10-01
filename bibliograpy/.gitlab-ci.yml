@@ -20,7 +20,7 @@ lint_test:bibliograpy:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc_strict test/test_pyenvs.py
+    - pylint --rcfile=../pylintrc_strict test/test_bibliograpy.py
 
 mkdocs:bibliograpy:
   stage: doc
