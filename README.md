@@ -4,4 +4,5 @@
 * [Utilitaires TAXREF](taxref)
 * [Opérations de conversion, de transformation et de projection géodésiques et cartographiques](coordop)
 * [Définition factorisée d'environnements multiples](multienv)
+* [Décoration de code par des références bibliographiques](bibliograpy)
 

@@ -42,6 +42,7 @@ include:
   - local: 'taxref/.gitlab-ci.yml'
   - local: 'coordop/.gitlab-ci.yml'
   - local: 'multienv/.gitlab-ci.yml'
+  - local: 'bibliograpy/.gitlab-ci.yml'
 
 coverage:
   stage: coverage
