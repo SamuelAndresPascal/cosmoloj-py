@@ -1,0 +1,179 @@
+lint:bibliograpy:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_lint.yml
+    - conda activate lint
+    - conda list
+    - pip install .
+    - pylint --rcfile=../pylintrc_strict src
+
+lint_test:bibliograpy:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_lint_test.yml
+    - conda activate lint_test
+    - conda list
+    - pip install .
+    - pylint --rcfile=../pylintrc_strict test/test_pyenvs.py
+
+mkdocs:bibliograpy:
+  stage: doc
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/ || $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_doc.yml
+    - conda activate doc
+    - conda list
+    - pip install . # to compile the API docstrings with mkdocstrings
+    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
+    - echo $'\n**Version '$VERSION'**' >> docs/about.md
+    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> docs/about.md
+    - mkdocs build
+    - zip -r site.zip site/
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy"
+    - scp site.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy ; rm -rf $VERSION ; unzip site.zip ; mv site $VERSION ; rm site.zip"
+    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy ; rm latest ; ln -s $VERSION latest" ; fi
+  environment:
+    name: documentation
+    url: https://cosmoloj.com/mkdocs/bibliograpy/master
+
+test:bibliograpy:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_test.yml
+    - conda activate test
+    - conda list
+    - pip install .
+    - cd ..
+    - pytest --cov=bibliograpy --junitxml=bibliograpy/report.xml --cov-append bibliograpy
+  artifacts:
+    when: always
+    paths:
+      - .coverage
+      - bibliograpy/report.xml
+    reports:
+      junit: bibliograpy/report.xml
+    expire_in: 2 days
+
+python-version-support:bibliograpy:
+  stage: python-version-support
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  variables:
+    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+  script:
+    - cd bibliograpy
+    - . resources/check_py_version.sh 3.12 || exit 1
+
+demo:bibliograpy:
+  stage: demo
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_strict.yml
+    - conda activate strict
+    - conda list
+    - pip install .
+    - cd demo
+    - . demo.sh
+
+pypi-package:bibliograpy:pypi:
+  stage: pypi-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/ || $CI_COMMIT_TAG == null
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_pypi_pkg.yml
+    - conda activate pypi_pkg
+    - conda list
+    - rm -rf dist/
+    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/bibliograpy\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
+    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
+    - cat pyproject.toml
+    - cp ../LICENSE.md .
+    - pip install .
+    - python -m build
+    - ls -l $DIST_DIR
+  artifacts:
+    paths:
+      - bibliograpy/dist/*
+
+pypi-publish:bibliograpy:test_pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
+    - when: never
+  dependencies:
+    - pypi-package:bibliograpy:pypi
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
+    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
+  environment:
+    name: test pypi bibliograpy
+    url: https://test.pypi.org/project/bibliograpy/
+
+pypi-publish:bibliograpy:pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
+    - when: never
+  dependencies:
+    - pypi-package:bibliograpy:pypi
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
+    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
+  environment:
+    name: pypi bibliograpy
+    url: https://pypi.org/project/bibliograpy/
+
+conda-package:bibliograpy:
+  stage: conda-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
+      when: delayed
+      start_in: 5 minutes
+    - when: never
+  variables:
+    DIST_DIR: conda_dist
+    PACKAGE: bibliograpy
+  script:
+    - cd bibliograpy
+    - conda env create --yes --file environment_conda_publish.yml
+    - conda activate conda_publish
+    - conda list
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
+    - rm -rf $DIST_DIR/
+    - mkdir $DIST_DIR
+    - grayskull pypi -o $DIST_DIR $PACKAGE
+    - cat $DIST_DIR/$PACKAGE/meta.yaml
+    - conda build --numpy=2.0 $DIST_DIR/$PACKAGE
+    - anaconda logout
+    - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
+    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
+    - anaconda logout
+  artifacts:
+    paths:
+      - bibliograpy/$DIST_DIR/*
+  environment:
+    name: anaconda bibliograpy
+    url: https://anaconda.org/cosmoloj/bibliograpy/

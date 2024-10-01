@@ -1,0 +1,7 @@
+name: lint
+channels:
+- default
+- conda-forge
+dependencies:
+- python=3.12
+- pylint=3.2.2

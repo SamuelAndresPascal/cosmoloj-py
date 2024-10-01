@@ -1,0 +1,9 @@
+name: doc
+channels:
+- default
+- conda-forge
+dependencies:
+- python=3.12
+- mkdocs=1.6
+- mkdocstrings
+- mkdocstrings-python
