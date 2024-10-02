@@ -27,7 +27,7 @@ dependencies= [
 ]
 
 [project.scripts]
-pyenvs = "bibliograpy.pyenvs:entrypoint"
+bibliograpy = "bibliograpy.bibliograpy:entrypoint"
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/bibliograpy"
