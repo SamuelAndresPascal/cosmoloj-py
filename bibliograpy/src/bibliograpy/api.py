@@ -4,13 +4,9 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
-
-class ReferenceType:
-    def __call__(self, *args, **kwargs):
-        raise NotImplementedError
-
 @dataclass(frozen=True, repr=False)
 class Reference:
+    """A bibliography reference"""
     type: Callable
     key: str
     title: str
@@ -21,15 +17,13 @@ class Reference:
 
 def institution():
     """d"""
-    pass
 
 def tech_report():
     """e"""
-    pass
-
 
 
 def reference(ref: Reference):
+    """The reference decorator."""
     def internal(obj):
         obj.__doc__ += "\n\nBibliography:\n\n" + str(ref)
         return obj
