@@ -19,7 +19,7 @@ def _info(ns: Namespace):
 def _create_parser() -> ArgumentParser:
 
     # parse argument line
-    parser = ArgumentParser(description='Multi environment management.')
+    parser = ArgumentParser(description='Bibliography management.')
 
     subparsers = parser.add_subparsers(dest='CMD', help='available commands')
 
