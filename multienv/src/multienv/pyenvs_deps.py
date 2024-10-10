@@ -28,7 +28,7 @@ def _dependencies(ns: Namespace):
     LOG.info('open configuration file %s', ns.file)
     with open(ns.file, encoding=ns.encoding) as s:
 
-        if extension == 'yml':
+        if extension in ['yml', 'yaml']:
             content = yaml.safe_load(s)
         elif extension == 'json':
             content = json.load(s)
