@@ -11,8 +11,18 @@ class Reference:
     key: str
     title: str
 
-    def __repr__(self):
+    def to_source_bib(self):
+        return f"{self.key.upper()} = {type(self).__name__}(key='{self.key}', title='{self.title}')"
+
+    def to_pydoc(self):
         return f"{self.title} [{self.key}]"
+
+    @classmethod
+    def from_dict(cls, source: dict):
+        """Builds a Configuration from a configuration dict."""
+        return cls(
+            key=source['key'],
+            title=source['title'])
 
 @dataclass(frozen=True, repr=False)
 class Institution(Reference):
@@ -29,12 +39,12 @@ class ReferenceBuilder:
 
     @staticmethod
     def _default_lambda(refs: list[Reference]) -> str:
-        if len(refs)==1:
-            return f"\n\nBibliography: {refs[0]}\n"
+        if len(refs) == 1:
+            return f"\n\nBibliography: {refs[0].to_pydoc()}\n"
         else:
             result = "\n\nBibliography:\n\n"
             for r in refs:
-                result += f"* {r}\n"
+                result += f"* {r.to_pydoc()}\n"
             return result
 
     @staticmethod
