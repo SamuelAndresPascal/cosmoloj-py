@@ -1,7 +1,7 @@
 """
 pyenvs dependencies module
 """
-
+import json
 import logging
 from pathlib import Path
 from argparse import  Namespace
@@ -25,18 +25,20 @@ def _dependencies(ns: Namespace):
     extension = ns.file.split('.')[-1]
     output_dir = Path(Path.cwd(), ns.output)
 
-    if extension in ['yml']:
-        LOG.info('open configuration file %s', ns.file)
-        with open(ns.file, encoding=ns.encoding) as s:
+    LOG.info('open configuration file %s', ns.file)
+    with open(ns.file, encoding=ns.encoding) as s:
+
+        if extension == 'yml':
             content = yaml.safe_load(s)
-            configuration = Configuration.from_dict(content)
+        elif extension == 'json':
+            content = json.load(s)
+        else:
+            raise ValueError(f'unsupported configuration format {extension}')
 
-            LOG.debug('open configuration file content: %s', configuration)
-            for req_formatter in configuration.formatters:
-                for supported_formatter in Formatters:
-                    if supported_formatter.test(req_formatter):
-                        supported_formatter.write(configuration, output_dir)
+        configuration = Configuration.from_dict(content)
 
-
-    else:
-        raise ValueError(f'unsupported configuration format {extension}')
+        LOG.debug('open configuration file content: %s', configuration)
+        for req_formatter in configuration.formatters:
+            for supported_formatter in Formatters:
+                if supported_formatter.test(req_formatter):
+                    supported_formatter.write(configuration, output_dir)
