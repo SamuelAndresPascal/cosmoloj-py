@@ -40,6 +40,10 @@ def _create_parser() -> ArgumentParser:
                              nargs='?',
                              help='the source bibliograpy file output directory',
                              default='.')
+    process.add_argument('--output-file',
+                             nargs='?',
+                             help='the source bibliograpy output file name',
+                             default='bibliography.py')
 
     return parser
 
