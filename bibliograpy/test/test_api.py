@@ -1,7 +1,7 @@
 """Test module for bibliograpy"""
 import pydoc
 
-from bibliograpy.api import reference, Institution, TechReport
+from bibliograpy.api import reference, Institution, TechReport, Reference, ReferenceBuilder
 
 IAU = Institution(key="iau", title="International Astronomic Union")
 
@@ -56,6 +56,36 @@ t\bta\bat\bta\ba()
     ma doc avec plusieurs références en varargs
 
     Bibliography:
+
+    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    * International Astronomic Union [iau]
+""")
+
+def test_custom_reference_builder():
+
+    def custom_wrapper(refs: list[Reference]) -> str:
+        if len(refs) == 1:
+            return f"\n\nBibliographie: {refs[0].to_pydoc()}\n"
+        else:
+            result = "\n\nBibliographie:\n\n"
+            for r in refs:
+                result += f"* {r.to_pydoc()}\n"
+            return result
+
+    ref = ReferenceBuilder(reference_wrapper=custom_wrapper)
+
+    @ref(IAU_2006_B1, IAU)
+    def tatafr():
+        """ma doc avec plusieurs références en varargs"""
+
+
+    assert (pydoc.render_doc(tatafr) ==
+"""Python Library Documentation: function tatafr in module test_api
+
+t\bta\bat\bta\baf\bfr\br()
+    ma doc avec plusieurs références en varargs
+
+    Bibliographie:
 
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     * International Astronomic Union [iau]
