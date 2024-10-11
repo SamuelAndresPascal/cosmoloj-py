@@ -31,7 +31,7 @@ class Institution(Reference):
 @dataclass(frozen=True, repr=False)
 class TechReport(Reference):
     """A reference to a tech report."""
-    institution: Institution | None
+    institution: Institution | None = None
 
 @dataclass(frozen=True)
 class ReferenceBuilder:
