@@ -3,7 +3,7 @@ import pydoc
 
 from bibliograpy.api import reference, Institution, TechReport, Reference, ReferenceBuilder
 
-IAU = Institution(key="iau", title="International Astronomic Union")
+IAU = Institution(key="iau", title="International Astronomical Union")
 
 IAU_2006_B1 = TechReport(
     key="iau_2006_b1",
@@ -41,7 +41,7 @@ t\bti\bit\bti\bi()
     Bibliography:
 
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
-    * International Astronomic Union [iau]
+    * International Astronomical Union [iau]
 """)
 
     @reference(IAU_2006_B1, IAU)
@@ -58,7 +58,7 @@ t\bta\bat\bta\ba()
     Bibliography:
 
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
-    * International Astronomic Union [iau]
+    * International Astronomical Union [iau]
 """)
 
 def test_custom_reference_builder():
@@ -88,5 +88,5 @@ t\bta\bat\bta\baf\bfr\br()
     Bibliographie:
 
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
-    * International Astronomic Union [iau]
+    * International Astronomical Union [iau]
 """)

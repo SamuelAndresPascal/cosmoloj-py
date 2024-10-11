@@ -1,0 +1,6 @@
+- type: institution
+  key: nasa
+  title: NASA
+- type: institution
+  key: iau
+  title: International Astronomical Union
