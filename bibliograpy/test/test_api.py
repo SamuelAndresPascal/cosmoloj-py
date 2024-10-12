@@ -1,4 +1,5 @@
 """Test module for bibliograpy"""
+import sys
 import pydoc
 
 from bibliograpy.api import reference, Institution, TechReport, Reference, ReferenceBuilder
@@ -17,13 +18,22 @@ def test_dependencies_args_default():
     def toto():
         """ma doc"""
 
-
-    assert (pydoc.render_doc(toto) ==
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(toto) ==
 """Python Library Documentation: function toto in module test_api
 
 t\bto\bot\bto\bo()
     ma doc
 
+    Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+""")
+    else:
+        assert (pydoc.render_doc(toto) ==
+"""Python Library Documentation: function toto in module test_api
+
+t\bto\bot\bto\bo()
+    ma doc
+    
     Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
 """)
 
@@ -32,7 +42,8 @@ t\bto\bot\bto\bo()
         """ma doc avec plusieurs références"""
 
 
-    assert (pydoc.render_doc(titi) ==
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(titi) ==
 """Python Library Documentation: function titi in module test_api
 
 t\bti\bit\bti\bi()
@@ -43,13 +54,26 @@ t\bti\bit\bti\bi()
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     * International Astronomical Union [iau]
 """)
+    else:
+        assert (pydoc.render_doc(titi) ==
+"""Python Library Documentation: function titi in module test_api
+
+t\bti\bit\bti\bi()
+    ma doc avec plusieurs références
+    
+    Bibliography:
+    
+    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    * International Astronomical Union [iau]
+""")
 
     @reference(IAU_2006_B1, IAU)
     def tata():
         """ma doc avec plusieurs références en varargs"""
 
 
-    assert (pydoc.render_doc(tata) ==
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(tata) ==
 """Python Library Documentation: function tata in module test_api
 
 t\bta\bat\bta\ba()
@@ -57,6 +81,18 @@ t\bta\bat\bta\ba()
 
     Bibliography:
 
+    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    * International Astronomical Union [iau]
+""")
+    else:
+        assert (pydoc.render_doc(tata) ==
+"""Python Library Documentation: function tata in module test_api
+
+t\bta\bat\bta\ba()
+    ma doc avec plusieurs références en varargs
+    
+    Bibliography:
+    
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     * International Astronomical Union [iau]
 """)
@@ -79,7 +115,8 @@ def test_custom_reference_builder():
         """ma doc avec plusieurs références en varargs"""
 
 
-    assert (pydoc.render_doc(tatafr) ==
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(tatafr) ==
 """Python Library Documentation: function tatafr in module test_api
 
 t\bta\bat\bta\baf\bfr\br()
@@ -87,6 +124,18 @@ t\bta\bat\bta\baf\bfr\br()
 
     Bibliographie:
 
+    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    * International Astronomical Union [iau]
+""")
+    else:
+        assert (pydoc.render_doc(tatafr) ==
+"""Python Library Documentation: function tatafr in module test_api
+
+t\bta\bat\bta\baf\bfr\br()
+    ma doc avec plusieurs références en varargs
+    
+    Bibliographie:
+    
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     * International Astronomical Union [iau]
 """)

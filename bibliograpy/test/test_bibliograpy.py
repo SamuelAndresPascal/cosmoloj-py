@@ -3,6 +3,7 @@
 from argparse import Namespace
 from pathlib import Path
 import pydoc
+import sys
 
 import yaml
 
@@ -57,7 +58,8 @@ def test_process_yml_to_py():
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
-    assert (pydoc.render_doc(bib_ref_foo) ==
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(bib_ref_foo) ==
 """Python Library Documentation: function bib_ref_foo in module test_bibliograpy
 
 b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
@@ -65,6 +67,18 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
 
     Bibliography:
 
+    * International Astronomical Union [iau]
+    * NASA [nasa]
+""")
+    else:
+        assert (pydoc.render_doc(bib_ref_foo) ==
+"""Python Library Documentation: function bib_ref_foo in module test_bibliograpy
+
+b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
+    ma doc avec plusieurs références en varargs
+    
+    Bibliography:
+    
     * International Astronomical Union [iau]
     * NASA [nasa]
 """)
