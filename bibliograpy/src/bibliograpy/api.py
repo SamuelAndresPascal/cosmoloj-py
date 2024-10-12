@@ -12,9 +12,11 @@ class Reference:
     title: str
 
     def to_source_bib(self):
+        """Serialization of the reference in processed python code."""
         return f"{self.key.upper()} = {type(self).__name__}(key='{self.key}', title='{self.title}')"
 
     def to_pydoc(self):
+        """Serialization of the reference in docstring."""
         return f"{self.title} [{self.key}]"
 
     @classmethod
@@ -35,20 +37,24 @@ class TechReport(Reference):
 
 @dataclass(frozen=True)
 class ReferenceBuilder:
+    """A builder of reference decorators."""
+
     reference_wrapper: Callable[[list[Reference]], str]
 
     @staticmethod
     def _default_lambda(refs: list[Reference]) -> str:
+
         if len(refs) == 1:
             return f"\n\nBibliography: {refs[0].to_pydoc()}\n"
-        else:
-            result = "\n\nBibliography:\n\n"
-            for r in refs:
-                result += f"* {r.to_pydoc()}\n"
-            return result
+
+        result = "\n\nBibliography:\n\n"
+        for r in refs:
+            result += f"* {r.to_pydoc()}\n"
+        return result
 
     @staticmethod
     def default():
+        """The default reference decorator"""
         return ReferenceBuilder(reference_wrapper=ReferenceBuilder._default_lambda)
 
     def __call__(self, *refs):

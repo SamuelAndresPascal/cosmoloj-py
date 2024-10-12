@@ -4,6 +4,7 @@ configuration:
         strict_environment: strict
 
 environments:
+  - bibliograpy-test
   - multienv-src
   - taxref-src
   - src
@@ -53,3 +54,6 @@ sections:
       - key: disable
         value: 'undefined-variable,unused-argument,duplicate-code'
         environments: [multienv-src]
+      - key: disable
+        value: 'import-error,import-outside-toplevel'
+        environments: [bibliograpy-test]
