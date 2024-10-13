@@ -136,5 +136,5 @@ class TechReport(Reference):
 
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class TechReport(Reference):
+class Unpublished(Reference):
     """a work that has not yet been officially published"""
