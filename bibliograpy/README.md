@@ -13,12 +13,13 @@ Bibliography management to decorate source code.
 [![PyPI repository Badge](https://badge.fury.io/py/bibliograpy.svg)](https://badge.fury.io/py/bibliograpy)
 
 
+* [API](#api)
+* [Preprocessing tool](#preprocessing-tool)
 * [Documentation](#documentation)
 
 
-## Documentation
 
-### API
+## API
 
 The Bibliograpy API allows to manage bibliographic centralized references using decorators.
 
@@ -55,7 +56,7 @@ First, to use a bibliographic reference defined once and for all, centralized an
 
 Second, to implicitly add to the documentation of the decorated entity a bibliographical section.
 
-```py
+```
 import bibliography_client
 
 >>> help(my_function)
@@ -67,7 +68,40 @@ my_function()
     Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
 ```
 
-### Preprocessing
+## Preprocessing tool
+
+Bibliograpy allows generating a source code bibliograpy from a resource bibliography file.
+
+Bibliograpy process supports bibliography files in yaml format. Each bibliographic entry contains three fields. 
+The `type` field only supports the `misc` value. The `key` fields represents the bibliographic entry unique key (id).
+The `title` field represents the readable form or the entry. For instance:
+
+```yml
+- type: misc
+  key: nasa
+  title: NASA
+- type: misc
+  key: iau
+  title: International Astronomical Union
+```
+
+This bibliography file can be preprocessend by the `bibliograpy process` tool.
+
+```
+bibliograpy process
+```
+
+This preprocessing produces the corresponding bibliographic references that can be used as
+bibliograpy decorator arguments.
+
+```py
+from bibliograpy.api import Misc
+
+NASA = Misc(key='nasa', title='NASA')
+IAU = Misc(key='iau', title='International Astronomical Union')
+```
+
+## Documentation
 
 [Latest release](https://cosmoloj.com/mkdocs/bibliograpy/latest/)
 

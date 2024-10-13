@@ -6,6 +6,12 @@ site_author: Samuel Andrés
 
 strict: true
 
+nav:
+  - bibliograpy:
+      - process: bibliograpy_process.md
+  - API: api.md
+  - About: about.md
+
 not_in_nav: |
   /index.md
 

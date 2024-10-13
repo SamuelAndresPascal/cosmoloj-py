@@ -38,7 +38,7 @@ def _process(ns: Namespace):
                 o.write('\n')
                 for ref in content:
                     ref_type = ref['type']
-                    if ref_type == 'institution':
+                    if ref_type:
                         o.write(f'{Misc.from_dict(ref).to_source_bib()}\n')
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)
