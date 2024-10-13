@@ -8,6 +8,7 @@ strict: true
 
 nav:
   - bibliograpy:
+      - bibliograpy: bibliograpy.md
       - process: bibliograpy_process.md
   - API: api.md
   - About: about.md
