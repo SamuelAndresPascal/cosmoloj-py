@@ -8,7 +8,7 @@ from pathlib import Path
 
 import yaml
 
-from bibliograpy.api import Institution
+from bibliograpy.api import Misc
 
 LOG = logging.getLogger(__name__)
 
@@ -34,11 +34,11 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             if out_extension == 'py':
-                o.write('from bibliograpy.api import Institution\n')
+                o.write('from bibliograpy.api import Misc\n')
                 o.write('\n')
                 for ref in content:
                     ref_type = ref['type']
                     if ref_type == 'institution':
-                        o.write(f'{Institution.from_dict(ref).to_source_bib()}\n')
+                        o.write(f'{Misc.from_dict(ref).to_source_bib()}\n')
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)

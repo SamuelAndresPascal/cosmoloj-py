@@ -26,14 +26,6 @@ class Reference:
             key=source['key'],
             title=source['title'])
 
-@dataclass(frozen=True, repr=False)
-class Institution(Reference):
-    """A reference to an institution."""
-
-@dataclass(frozen=True, repr=False)
-class TechReport(Reference):
-    """A reference to a tech report."""
-    institution: Institution | None = None
 
 @dataclass(frozen=True)
 class ReferenceBuilder:
@@ -74,3 +66,75 @@ class ReferenceBuilder:
         return internal
 
 reference = ReferenceBuilder.default()
+
+_bibtex_com = reference(Reference(key='bibtex_com', title='www.bibtex.com'))
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Article(Reference):
+    """any article published in a periodical like a journal article or magazine article"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Book(Reference):
+    """a book"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Booklet(Reference):
+    """like a book but without a designated publisher"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Conference(Reference):
+    """a conference paper"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Inbook(Reference):
+    """a section or chapter in a book"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Incollection(Reference):
+    """an article in a collection"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Inproceedings(Reference):
+    """a conference paper (same as the conference entry type)"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Manual(Reference):
+    """a technical manual"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Masterthesis(Reference):
+    """a Masters thesis"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Misc(Reference):
+    """used if nothing else fits"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Phdthesis(Reference):
+    """a PhD thesis"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Proceedings(Reference):
+    """the whole conference proceedings"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class TechReport(Reference):
+    """a technical report, government report or white paper"""
+
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class TechReport(Reference):
+    """a work that has not yet been officially published"""

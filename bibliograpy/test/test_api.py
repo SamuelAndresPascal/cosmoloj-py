@@ -2,14 +2,13 @@
 import sys
 import pydoc
 
-from bibliograpy.api import reference, Institution, TechReport, Reference, ReferenceBuilder
+from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
 
-IAU = Institution(key="iau", title="International Astronomical Union")
+IAU = Misc(key="iau", title="International Astronomical Union")
 
 IAU_2006_B1 = TechReport(
     key="iau_2006_b1",
-    title="Adoption of the P03 Precession Theory and Definition of the Ecliptic",
-    institution=IAU)
+    title="Adoption of the P03 Precession Theory and Definition of the Ecliptic")
 
 def test_dependencies_args_default():
     """test deps command without supplying file"""
