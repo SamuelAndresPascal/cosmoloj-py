@@ -8,7 +8,9 @@ lint:bibliograpy:
     - conda activate lint
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc_strict src
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
+    - pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api.py
 
 lint_test:bibliograpy:
   stage: lint
@@ -21,6 +23,7 @@ lint_test:bibliograpy:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_bibliograpy.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api.py
 
 mkdocs:bibliograpy:
   stage: doc

@@ -37,7 +37,7 @@ def _process(ns: Namespace):
                 o.write('from bibliograpy.api import Misc\n')
                 o.write('\n')
                 for ref in content:
-                    ref_type = ref['type']
+                    ref_type = ref['entry_type']
                     if ref_type:
                         o.write(f'{Misc.from_dict(ref).to_source_bib()}\n')
             elif out_extension in ['yml', 'yaml']:

@@ -1,75 +1,75 @@
 [
     {
-        "type": "institution",
-        "key": "ogc",
+        "entry_type": "institution",
+        "cite_key": "ogc",
         "title": "Open Geospatial Consortium"
 
     },
     {
-        "type": "institution",
-        "key": "iogp",
+        "entry_type": "institution",
+        "cite_key": "iogp",
         "title": "International Association of Oil & Gas Producers"
     },
     {
-        "type": "journal",
-        "key": "zeitschrift_fur_vermessungswesen",
+        "entry_type": "journal",
+        "cite_key": "zeitschrift_fur_vermessungswesen",
         "title": "Zeitschrift für Vermessungswesen",
         "issn": "0044-3689"
     },
     {
-        "type": "techreport",
-        "key": "tga",
+        "entry_type": "techreport",
+        "cite_key": "tga",
         "kind": "document",
         "title": "TGA File Format",
         "url": "http://tfc.duke.free.fr/coding/tga_specs.pdf"
     },
     {
-        "type": "book",
+        "entry_type": "book",
         "format": "bibtex",
-        "key": "real_time_collision_detection",
+        "cite_key": "real_time_collision_detection",
         "title": "Real-Time Collision Detection",
         "editor": "Sony Computer Entertainment America, CRC Press",
         "year": 2004
     },
     {
-        "type": "book",
+        "entry_type": "book",
         "format": "bibtex",
-        "key": "map_projections",
+        "cite_key": "map_projections",
         "title": "Map Projections - A Working Manual",
         "editor": "UNITED STATES GOVERNMENT PRINTING OFFICE, WASHINGTON",
         "url": "https://pubs.usgs.gov/pp/1395/report.pdf",
         "year": 1987
     },
     {
-        "type": "techreport",
-        "key": "sf_access_part_1_v1_2_1",
+        "entry_type": "techreport",
+        "cite_key": "sf_access_part_1_v1_2_1",
         "kind": "standard",
         "title": "OpenGIS Implementation Standard for Geographic information - Simple Feature Access - Part 1: Common architecture",
         "year": 2011,
         "number": "OGC 06-103r4",
         "version": "1.2.1",
         "institution": {
-            "type": "reference",
-            "key": "ogc"
+            "entry_type": "reference",
+            "cite_key": "ogc"
         },
         "url": "http://portal.opengeospatial.org/files/?artifact_id=25355"
     },
     {
-        "type": "techreport",
-        "key": "iogp_guidance_note_7_2_2019",
+        "entry_type": "techreport",
+        "cite_key": "iogp_guidance_note_7_2_2019",
         "kind": "document",
         "title": "Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations including Formulas",
         "institution": {
-            "type": "reference",
-            "key": "iogp"
+            "entry_type": "reference",
+            "cite_key": "iogp"
         },
         "year": 2019,
         "url": "https://www.iogp.org/wp-content/uploads/2019/09/373-07-02.pdf",
         "number": "373-7-2"
     },
     {
-        "type": "techreport",
-        "key": "cts_revision_v1_0",
+        "entry_type": "techreport",
+        "cite_key": "cts_revision_v1_0",
         "kind": "standard",
         "title": "Coordinate Transformation Services",
         "year": 2001,
@@ -78,14 +78,14 @@
         "number": "OGC 01-009",
         "version": "1.00",
         "institution": {
-            "type": "reference",
-            "key": "ogc"
+            "entry_type": "reference",
+            "cite_key": "ogc"
         },
         "url": "https://portal.ogc.org/files/?artifact_id=999"
     },
     {
-        "type": "techreport",
-        "key": "wkt_crs_v1_0",
+        "entry_type": "techreport",
+        "cite_key": "wkt_crs_v1_0",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2015,
@@ -94,14 +94,14 @@
         "number": "OGC 12-063r5",
         "version": "1.0",
         "institution": {
-            "type": "reference",
-            "key": "ogc"
+            "entry_type": "reference",
+            "cite_key": "ogc"
         },
         "url": "http://docs.opengeospatial.org/is/12-063r5/12-063r5.html"
     },
     {
-        "type": "techreport",
-        "key": "wkt_crs_v2_1",
+        "entry_type": "techreport",
+        "cite_key": "wkt_crs_v2_1",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2023,
@@ -110,19 +110,19 @@
         "number": "OGC 18-010r11",
         "version": "2.1.11",
         "institution": {
-            "type": "reference",
-            "key": "ogc"
+            "entry_type": "reference",
+            "cite_key": "ogc"
         },
         "url": "https://docs.ogc.org/is/18-010r11/18-010r11.pdf"
     },
     {
-        "type": "article",
+        "entry_type": "article",
         "format": "bibtex",
-        "key": "joachim_boljen_2003",
+        "cite_key": "joachim_boljen_2003",
         "title": "Bezugssystemumstellung DHDN90 ETRS89 in Schleswig-Holstein",
         "journal": {
-            "type": "reference",
-            "key" : "zeitschrift_fur_vermessungswesen"
+            "entry_type": "reference",
+            "cite_key": "zeitschrift_fur_vermessungswesen"
         },
         "year": 2003,
         "volume": "128",
@@ -130,13 +130,13 @@
         "url": "https://geodaesie.info/system/files/privat/zfv_2003_4_Boljen.pdf"
     },
     {
-        "type": "article",
+        "entry_type": "article",
         "format": "bibtex",
-        "key": "joachim_boljen_2004",
+        "cite_key": "joachim_boljen_2004",
         "title": "Zur geometrischen Interpretation und direkten Bestimmung von Formfunktionen",
         "journal": {
-            "type": "reference",
-            "key" : "zeitschrift_fur_vermessungswesen"
+            "entry_type": "reference",
+            "cite_key": "zeitschrift_fur_vermessungswesen"
         },
         "year": 2004,
         "volume": "129",

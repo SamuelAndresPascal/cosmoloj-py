@@ -34,12 +34,12 @@ def test_process_yml_to_yml():
     with open(_input_file('tutu_bib.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == [{
-            'type': 'institution',
-            'key': 'nasa',
+            'entry_type': 'institution',
+            'cite_key': 'nasa',
             'title': 'NASA'
         },{
-            'type': 'institution',
-            'key': 'iau',
+            'entry_type': 'institution',
+            'cite_key': 'iau',
             'title': 'International Astronomical Union'
         }]
 

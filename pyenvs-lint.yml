@@ -4,6 +4,7 @@ configuration:
         strict_environment: strict
 
 environments:
+  - bibliograpy-src-api
   - bibliograpy-test
   - multienv-src
   - taxref-src
@@ -57,3 +58,6 @@ sections:
       - key: disable
         value: 'import-error,import-outside-toplevel'
         environments: [bibliograpy-test]
+      - key: disable
+        value: 'too-many-instance-attributes,too-many-arguments,too-many-locals,redefined-builtin'
+        environments: [bibliograpy-src-api]
