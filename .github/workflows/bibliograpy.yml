@@ -1,4 +1,4 @@
-name: multienv
+name: bibliograpy
 run-name: ${{ github.actor }}
 
 on:
