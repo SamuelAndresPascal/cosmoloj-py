@@ -31,9 +31,18 @@ decorators.
 
 from bibliograpy.api import TechReport
 
-IAU_2006_B1 = TechReport(
-    key="iau_2006_b1",
-    title="Adoption of the P03 Precession Theory and Definition of the Ecliptic")
+IAU_2006_B1 = TechReport.standard(
+    cite_key='iau_2006_b1',
+    address=None,
+    annote=None,
+    author='',
+    institution='iau',
+    month=None,
+    note=None,
+    number=None,
+    title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+    type=None,
+    year=2006)
 ```
 
 ```py
@@ -77,11 +86,11 @@ The `type` field only supports the `misc` value. The `key` fields represents the
 The `title` field represents the readable form or the entry. For instance:
 
 ```yml
-- type: misc
-  key: nasa
+- entry_type: misc
+  cite_key: nasa
   title: NASA
-- type: misc
-  key: iau
+- entry_type: misc
+  cite_key: iau
   title: International Astronomical Union
 ```
 
@@ -97,8 +106,62 @@ bibliograpy decorator arguments.
 ```py
 from bibliograpy.api import Misc
 
-NASA = Misc(key='nasa', title='NASA')
-IAU = Misc(key='iau', title='International Astronomical Union')
+
+NASA = Misc(cite_key='nasa',
+            address=None,
+            annote=None,
+            author=None,
+            booktitle=None,
+            chapter=None,
+            edition=None,
+            editor=None,
+            howpublished=None,
+            institution=None,
+            journal=None,
+            month=None,
+            note=None,
+            number=None,
+            organization=None,
+            pages=None,
+            publisher=None,
+            school=None,
+            series=None,
+            title='NASA',
+            type=None,
+            volume=None,
+            year=None,
+            doi=None,
+            issn=None,
+            isbn=None,
+            url=None)
+
+IAU = Misc(cite_key='iau',
+           address=None,
+           annote=None,
+           author=None,
+           booktitle=None,
+           chapter=None,
+           edition=None,
+           editor=None,
+           howpublished=None,
+           institution=None,
+           journal=None,
+           month=None,
+           note=None,
+           number=None,
+           organization=None,
+           pages=None,
+           publisher=None,
+           school=None,
+           series=None,
+           title='International Astronomical Union',
+           type=None,
+           volume=None,
+           year=None,
+           doi=None,
+           issn=None,
+           isbn=None,
+           url=None)
 ```
 
 ## Documentation
