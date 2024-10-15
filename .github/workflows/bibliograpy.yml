@@ -1,0 +1,78 @@
+name: multienv
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 5 * * 0'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: lint
+          environment-file: bibliograpy/environment_lint.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: bibliograpy
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
+          pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api.py
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: lint_test
+          environment-file: bibliograpy/environment_lint_test.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: bibliograpy
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_bibliograpy.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_api.py
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          environment-file: bibliograpy/environment_test.yml
+          python-version: 3.12
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: bibliograpy
+        run: pip install .
+      - run: pytest --cov=bibliograpy --junitxml=bibliograpy/report.xml --cov-append bibliograpy
