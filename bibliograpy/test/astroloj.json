@@ -223,6 +223,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "espenak_meeus_2006",
+        "author": "",
         "kind": "document",
         "title": "Five Millennium Canon of Solar Eclipses: –1999 to +3000 (2000 BCE to 3000 CE)",
         "institution": {
@@ -236,6 +237,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "kozai_1973",
+        "author": "",
         "kind": "report",
         "title": "A new method to compute lunisolar perturbations in satellite motions",
         "institution": {
@@ -249,6 +251,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "liezke_1967",
+        "author": "",
         "kind": "report",
         "title": "Expressions for the Precession Quantities and Their Partial Derivatives",
         "institution": {
@@ -587,6 +590,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "iau_2006_b1",
+        "author": "",
         "kind": "recommendation",
         "title": "Adoption of the P03 Precession Theory and Definition of the Ecliptic",
         "year": 2006,
@@ -600,6 +604,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "iers_tn_36",
+        "author": "",
         "kind": "document",
         "title": "IERS Conventions (2010)",
         "year": 2010,
@@ -613,6 +618,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v1_0",
+        "author": "",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2015,
@@ -629,6 +635,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v2_0_6",
+        "author": "",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2019,
@@ -645,6 +652,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "fits_v4_0",
+        "author": "",
         "kind": "standard",
         "title": "Definition of the Flexible Image Transport System (FITS)",
         "year": 2016,
@@ -658,6 +666,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "wmo_codes_2_2019",
+        "author": "",
         "kind": "standard",
         "title": "Manual on Codes - International Codes, Volume I.2, Annex II to the WMO Technical Regulations: Part B – Binary Codes, Part C – Common Features to Binary and Alphanumeric Codes",
         "year": 2019,
@@ -669,6 +678,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "object_model_for_interoperable_geoprocessing",
+        "author": "",
         "kind": "specification",
         "title": "The OpenGis Abstract Specification: An Object Model for Interoperable Geoprocessing, Revision 1",
         "year": 1996,
@@ -681,6 +691,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "filter_1_1_0",
+        "author": "",
         "kind": "specification",
         "title": "OpenGIS Filter Encoding Implementation Specification",
         "year": 2005,
@@ -695,6 +706,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "csw_1_1_1",
+        "author": "",
         "kind": "specification",
         "title": "OpenGIS Catalog Services Specification",
         "year": 2002,
@@ -708,6 +720,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "geotiff_1_1",
+        "author": "",
         "kind": "standard",
         "title": "OGC GeoTIFF Standard",
         "year": 1992,
@@ -722,6 +735,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "tiff_v6",
+        "author": "",
         "kind": "document",
         "title": "TIFF Revision 6.0",
         "url": "https://www.adobe.io/open/standards/TIFF.html"
@@ -729,6 +743,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "png_v3",
+        "author": "",
         "kind": "recommendation",
         "title": "Portable Network Graphics (PNG) Specification (Third Edition)",
         "year": 2022,

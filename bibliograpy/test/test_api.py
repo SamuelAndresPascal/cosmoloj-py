@@ -5,58 +5,24 @@ import pydoc
 from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
 
 IAU = Misc.standard(cite_key='iau',
-                    annote=None,
-                    author=None,
-                    howpublished=None,
-                    month=None,
-                    note=None,
-                    title='International Astronomical Union',
-                    year=None)
+                    title='International Astronomical Union')
 
 IAU_2006_B1 = TechReport.standard(
     cite_key='iau_2006_b1',
-    address=None,
-    annote=None,
     author='',
     institution='iau',
-    month=None,
-    note=None,
-    number=None,
     title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
-    type=None,
     year=2006)
 
 def test_to_source_bib():
     """test to python source bib serialization"""
     assert (IAU_2006_B1.to_source_bib() ==
 """
-IAU_2006_B1 = TechReport(cite_key='iau_2006_b1',
-                         address=None,
-                         annote=None,
-                         author='',
-                         booktitle=None,
-                         chapter=None,
-                         edition=None,
-                         editor=None,
-                         howpublished=None,
-                         institution='iau',
-                         journal=None,
-                         month=None,
-                         note=None,
-                         number=None,
-                         organization=None,
-                         pages=None,
-                         publisher=None,
-                         school=None,
-                         series=None,
-                         title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
-                         type=None,
-                         volume=None,
-                         year=2006,
-                         doi=None,
-                         issn=None,
-                         isbn=None,
-                         url=None)""")
+IAU_2006_B1 = TechReport.standard(cite_key='iau_2006_b1',
+                                  author='',
+                                  institution='iau',
+                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+                                  year=2006)""")
 
 def test_dependencies_args_default():
     """test deps command without supplying file"""

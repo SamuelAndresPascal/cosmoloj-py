@@ -9,6 +9,7 @@ from typing import Callable
 @dataclass(frozen=True, repr=False)
 class Reference:
     """A bibliography reference."""
+
     cite_key: str
 
     address: str | None
@@ -187,7 +188,7 @@ class Reference:
     def to_source_bib(self) -> str:
         """Serialization of the reference in processed python code."""
 
-        base = f"{self.cite_key.upper()} = {type(self).__name__}("
+        base = f"{self.cite_key.upper()} = {type(self).__name__}.standard("
 
         fields = []
         for f in dataclasses.fields(type(self)):
@@ -195,7 +196,9 @@ class Reference:
 
             if isinstance(value, str):
                 fields.append(f"{f.name}='{getattr(self, f.name)}'")
-            else:
+            elif isinstance(value, dict):
+                fields.append(f"{f.name}='{getattr(self, f.name)['cite_key']}'")
+            elif value is not None:
                 fields.append(f'{f.name}={getattr(self, f.name)}')
 
         sep = ',\n'
@@ -237,6 +240,64 @@ class Reference:
                 isbn: str | None,
                 url: str | None):
         """builds a generic reference, allowing to init each field"""
+        return cls(cite_key=cite_key,
+                   address=address,
+                   annote=annote,
+                   booktitle=booktitle,
+                   author=author,
+                   chapter=chapter,
+                   edition=edition,
+                   editor=editor,
+                   howpublished=howpublished,
+                   institution=institution,
+                   journal=journal,
+                   month=month,
+                   note=note,
+                   number=number,
+                   organization=organization,
+                   pages=pages,
+                   publisher=publisher,
+                   school=school,
+                   series=series,
+                   title=title,
+                   type=type,
+                   volume=volume,
+                   year=year,
+                   doi=doi,
+                   issn=issn,
+                   isbn=isbn,
+                   url=url)
+
+    @classmethod
+    def optionals(cls,
+                cite_key: str,
+                address: str | None = None,
+                annote: str | None = None,
+                booktitle: str | None = None,
+                author: str | None = None,
+                chapter: str | None = None,
+                edition: str | None = None,
+                editor: str | None = None,
+                howpublished: str | None = None,
+                institution: str | None = None,
+                journal: str | None = None,
+                month: str | None = None,
+                note: str | None = None,
+                number: str | None = None,
+                organization: str | None = None,
+                pages: str | int | None = None,
+                publisher: str | None = None,
+                school: str | None = None,
+                series: str | None = None,
+                title: str | None = None,
+                type: str | None = None,
+                volume: str | int | None = None,
+                year: str | int | None = None,
+                doi: str | None = None,
+                issn: str | None = None,
+                isbn: str | None = None,
+                url: str | None = None):
+        """builds a reference, allowing to init each field or let it empty (only cite_key is mandatory)"""
         return cls(cite_key=cite_key,
                    address=address,
                    annote=annote,
@@ -338,98 +399,93 @@ class ReferenceBuilder:
 
 reference = ReferenceBuilder.default()
 
-_bibtex_com = reference(Reference(cite_key='bibtex_com',
-                                  address=None,
-                                  annote=None,
-                                  booktitle=None,
-                                  author=None,
-                                  chapter=None,
-                                  edition=None,
-                                  editor=None,
-                                  howpublished=None,
-                                  institution=None,
-                                  journal=None,
-                                  month=None,
-                                  note=None,
-                                  number=None,
-                                  organization=None,
-                                  pages=None,
-                                  publisher=None,
-                                  school=None,
-                                  series=None,
-                                  title='www.bibtex.com',
-                                  type=None,
-                                  volume=None,
-                                  year=None,
-                                  doi=None,
-                                  issn=None,
-                                  isbn=None,
-                                  url=None))
+_bibtex_com = reference(Reference.optionals(cite_key='bibtex_com',
+                                            title='www.bibtex.com'))
 
+_bibtex_package = reference(
+    Reference.optionals(cite_key='bibtex_package',
+                        title='CTAN Bibtex package documentation',
+                        url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf'))
+
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Article(Reference):
     """any article published in a periodical like a journal article or magazine article"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Book(Reference):
     """a book"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Booklet(Reference):
     """like a book but without a designated publisher"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Conference(Reference):
     """a conference paper"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Inbook(Reference):
     """a section or chapter in a book"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Incollection(Reference):
     """an article in a collection"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Inproceedings(Reference):
     """a conference paper (same as the conference entry type)"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Manual(Reference):
     """a technical manual"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Masterthesis(Reference):
     """a Masters thesis"""
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Misc(Reference):
-    """used if nothing else fits"""
+    """used if nothing else fits
+
+    misc Use this type when nothing else fits.
+    Required fields: none.
+    Optional fields: author, title, howpublished, month, year, note."""
 
     @staticmethod
     def standard(cite_key: str,
-                 annote: str | None,
-                 author: str | None,
-                 howpublished: str | None,
-                 month: str | None,
-                 note: str | None,
-                 title: str | None,
-                 year: str | int | None,
+                 annote: str | None = None,
+                 author: str | None = None,
+                 howpublished: str | None = None,
+                 month: str | None = None,
+                 note: str | None = None,
+                 title: str | None = None,
+                 year: str | int | None = None,
                  doi: str | None = None,
                  issn: str | None = None,
                  isbn: str | None = None,
                  url: str | None = None):
         """builds a standard misc reference"""
+
         return Misc(cite_key=cite_key,
                     address=None,
                     annote=annote,
@@ -458,33 +514,95 @@ class Misc(Reference):
                     isbn=isbn,
                     url=url)
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Phdthesis(Reference):
-    """a PhD thesis"""
+    """a PhD thesis
 
+    phdthesis A PhD thesis.
+    Required fields: author, title, school, year.
+    Optional fields: type, address, month, note."""
+
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Proceedings(Reference):
-    """the whole conference proceedings"""
+    """the whole conference proceedings
 
-@_bibtex_com
-@dataclass(frozen=True, repr=False)
-class TechReport(Reference):
-    """a technical report, government report or white paper"""
+    proceedings The proceedings of a conference.
+    Required fields: title, year.
+    Optional fields: editor, volume or number, series, address, month, organization, publisher, note."""
 
     @staticmethod
     def standard(cite_key: str,
-                 address: str | None,
-                 annote: str | None,
+                 title: str,
+                 year: str | int,
+                 annote: str | None = None,
+                 editor: str | None = None,
+                 number: str | None = None,
+                 volume: str | int | None = None,
+                 series: str | None = None,
+                 address: str | None = None,
+                 month: str | None = None,
+                 organization: str | None = None,
+                 publisher: str | None = None,
+                 note: str | None = None,
+                 doi: str | None = None,
+                 issn: str | None = None,
+                 isbn: str | None = None,
+                 url: str | None = None):
+        """builds a standard proceedings reference"""
+        return Proceedings(cite_key=cite_key,
+                           address=address,
+                           annote=annote,
+                           booktitle=None,
+                           author=None,
+                           chapter=None,
+                           edition=None,
+                           editor=editor,
+                           howpublished=None,
+                           institution=None,
+                           journal=None,
+                           month=month,
+                           note=note,
+                           number=number,
+                           organization=organization,
+                           pages=None,
+                           publisher=publisher,
+                           school=None,
+                           series=series,
+                           title=title,
+                           type=None,
+                           volume=volume,
+                           year=year,
+                           doi=doi,
+                           issn=issn,
+                           isbn=isbn,
+                           url=url)
+
+@_bibtex_package
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class TechReport(Reference):
+    """a technical report, government report or white paper
+
+    techreport A report published by a school or other institution, usually numbered within a series.
+    Required fields: author, title, institution, year.
+    Optional fields: type, number, address, month, note."""
+
+    @staticmethod
+    def standard(cite_key: str,
                  author: str,
                  institution: str,
-                 month: str | None,
-                 note: str | None,
-                 number: str | None,
                  title: str,
-                 type: str | None,
                  year: str | int,
+                 address: str | None = None,
+                 annote: str | None = None,
+                 month: str | None = None,
+                 note: str | None = None,
+                 number: str | None = None,
+                 type: str | None = None,
                  doi: str | None = None,
                  issn: str | None = None,
                  isbn: str | None = None,
@@ -518,7 +636,53 @@ class TechReport(Reference):
                    isbn=isbn,
                    url=url)
 
+@_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Unpublished(Reference):
-    """a work that has not yet been officially published"""
+    """a work that has not yet been officially published
+
+    unpublished A document having an author and title, but not formally published.
+    Required fields: author, title, note.
+    Optional fields: month, year."""
+
+    @staticmethod
+    def standard(cite_key: str,
+                 author: str,
+                 note: str,
+                 title: str,
+                 annote: str | None = None,
+                 month: str | None = None,
+                 year: str | int | None = None,
+                 doi: str | None = None,
+                 issn: str | None = None,
+                 isbn: str | None = None,
+                 url: str | None = None):
+        """builds a standard unpublished reference"""
+        return Unpublished(cite_key=cite_key,
+                   address=None,
+                   annote=annote,
+                   booktitle=None,
+                   author=author,
+                   chapter=None,
+                   edition=None,
+                   editor=None,
+                   howpublished=None,
+                   institution=None,
+                   journal=None,
+                   month=month,
+                   note=note,
+                   number=None,
+                   organization=None,
+                   pages=None,
+                   publisher=None,
+                   school=None,
+                   series=None,
+                   title=title,
+                   type=None,
+                   volume=None,
+                   year=year,
+                   doi=doi,
+                   issn=issn,
+                   isbn=isbn,
+                   url=url)

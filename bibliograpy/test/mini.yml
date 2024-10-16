@@ -1,6 +1,6 @@
-- entry_type: institution
+- entry_type: misc
   cite_key: nasa
   title: NASA
-- entry_type: institution
+- entry_type: misc
   cite_key: iau
   title: International Astronomical Union

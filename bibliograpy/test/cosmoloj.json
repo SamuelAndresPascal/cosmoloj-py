@@ -19,6 +19,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "tga",
+        "author": "",
         "kind": "document",
         "title": "TGA File Format",
         "url": "http://tfc.duke.free.fr/coding/tga_specs.pdf"
@@ -43,6 +44,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "sf_access_part_1_v1_2_1",
+        "author": "",
         "kind": "standard",
         "title": "OpenGIS Implementation Standard for Geographic information - Simple Feature Access - Part 1: Common architecture",
         "year": 2011,
@@ -57,6 +59,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "iogp_guidance_note_7_2_2019",
+        "author": "",
         "kind": "document",
         "title": "Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations including Formulas",
         "institution": {
@@ -70,6 +73,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "cts_revision_v1_0",
+        "author": "",
         "kind": "standard",
         "title": "Coordinate Transformation Services",
         "year": 2001,
@@ -86,6 +90,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v1_0",
+        "author": "",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2015,
@@ -102,6 +107,7 @@
     {
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v2_1",
+        "author": "",
         "kind": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2023,

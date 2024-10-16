@@ -34,14 +34,23 @@ def test_process_yml_to_yml():
     with open(_input_file('tutu_bib.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == [{
-            'entry_type': 'institution',
+            'entry_type': 'misc',
             'cite_key': 'nasa',
             'title': 'NASA'
         },{
-            'entry_type': 'institution',
+            'entry_type': 'misc',
             'cite_key': 'iau',
             'title': 'International Astronomical Union'
         }]
+
+def test_process_yml_to_yml_2():
+    """test process from a yml bibliography to a yml bibliography"""
+
+    _process(Namespace(CMD='process',
+                       file=_input_file('astroloj.json'),
+                       output_file=_input_file('astroloj.py'),
+                       encoding='utf-8',
+                       output='.'))
 
 def test_process_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
