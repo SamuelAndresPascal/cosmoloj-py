@@ -53,7 +53,7 @@
         "title": "University Corporation for Atmospheric Research"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "astronomy_astrophysics",
         "title": "Astronomy & Astrophysics",
         "issn": "0004-6361",
@@ -61,7 +61,7 @@
         "url": "https://www.aanda.org/"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "astronomy_astrophysics_suppl_series",
         "title": "Astronomy and Astrophysics supplement series",
         "issn": "0365-0138",
@@ -69,57 +69,57 @@
         "url": "https://aas.aanda.org/"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "bulletin_astronomique",
         "title": "Bulletin astronomique"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "the_astronomical_journal",
         "title": "The Astronomical Journal"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "astronomy_geophysics",
         "title": "Astronomy & Geophysics"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "celestial_mechanics",
         "title": "Celestial Mechanics"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "celestial_mechanics_dynamical_astronomy",
         "title": "Celestial Mechanics & Dynamical Astronomy",
         "issn": "0923-2958",
         "eIssn": "1572-9478"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "journal_geophysical_research",
         "title": "Journal of Geophysical Research",
         "issn": "0148-0227"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "journal_history_astronomy",
         "title": "Journal for the History of Astronomy",
         "issn": "0021-8286"
     },
     {
-        "entry_type": "collection",
+        "entry_type": "misc",
         "cite_key": "astronomical_almanac",
         "title": "The Astronomical Almanac"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "international_astronomical_union_colloquium",
         "title": "International Astronomical Union Colloquium",
         "issn": "0252-9211"
     },
     {
-        "entry_type": "journal",
+        "entry_type": "misc",
         "cite_key": "celestial_mechanics_and_dynamical_astronomy",
         "title": "Celestial Mechanics & Dynamical Astronomy",
         "issn": "0923-2958",
@@ -736,8 +736,10 @@
         "entry_type": "techreport",
         "cite_key": "tiff_v6",
         "author": "",
+        "institution": "",
         "kind": "document",
         "title": "TIFF Revision 6.0",
+        "year": 1992,
         "url": "https://www.adobe.io/open/standards/TIFF.html"
     },
     {

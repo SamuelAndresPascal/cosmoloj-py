@@ -5,6 +5,36 @@ import dataclasses
 from dataclasses import dataclass
 from typing import Callable
 
+@dataclass(frozen=True)
+class NonStandard:
+
+    doi: str | None = None
+    """DOI number"""
+
+    issn: str | None = None
+    """ISSN number"""
+
+    eissn: str | None = None
+    """ISSN number"""
+
+    isbn: str | None = None
+    """ISBN number"""
+
+    url: str | None = None
+    """URL of a web page"""
+
+    @staticmethod
+    def from_dict(source: dict) -> NonStandard | None:
+        """Builds a Configuration from a configuration dict."""
+        if 'doi' in source or 'issn' in source or 'eisssn' in source or 'isbn' in source or 'url' in source:
+            return NonStandard(
+                doi=source['doi'] if 'doi' in source else None,
+                issn=source['issn'] if 'issn' in source else None,
+                eissn=source['eissn'] if 'eissn' in source else None,
+                isbn=source['isbn'] if 'isbn' in source else None,
+                url=source['url'] if 'url' in source else None)
+        return None
+
 
 @dataclass(frozen=True, repr=False)
 class Reference:
@@ -172,17 +202,7 @@ class Reference:
 
     ### Non-standard
 
-    doi: str | None
-    """DOI number"""
-
-    issn: str | None
-    """ISSN number"""
-
-    isbn: str | None
-    """ISBN number"""
-
-    url: str | None
-    """URL of a web page"""
+    non_standard: NonStandard | None
 
 
     def to_source_bib(self) -> str:
@@ -235,10 +255,7 @@ class Reference:
                 type: str | None,
                 volume: str | int | None,
                 year: str | int | None,
-                doi: str | None,
-                issn: str | None,
-                isbn: str | None,
-                url: str | None):
+                non_standard: NonStandard | None) -> Reference:
         """builds a generic reference, allowing to init each field"""
         return cls(cite_key=cite_key,
                    address=address,
@@ -263,10 +280,7 @@ class Reference:
                    type=type,
                    volume=volume,
                    year=year,
-                   doi=doi,
-                   issn=issn,
-                   isbn=isbn,
-                   url=url)
+                   non_standard=non_standard)
 
     @classmethod
     def optionals(cls,
@@ -293,10 +307,7 @@ class Reference:
                 type: str | None = None,
                 volume: str | int | None = None,
                 year: str | int | None = None,
-                doi: str | None = None,
-                issn: str | None = None,
-                isbn: str | None = None,
-                url: str | None = None):
+                non_standard: NonStandard | None = None):
         """builds a reference, allowing to init each field or let it empty (only cite_key is mandatory)"""
         return cls(cite_key=cite_key,
                    address=address,
@@ -321,10 +332,7 @@ class Reference:
                    type=type,
                    volume=volume,
                    year=year,
-                   doi=doi,
-                   issn=issn,
-                   isbn=isbn,
-                   url=url)
+                   non_standard=non_standard)
 
     @classmethod
     def from_dict(cls, source: dict):
@@ -353,10 +361,7 @@ class Reference:
             type=source['type'] if 'type' in source else None,
             volume=source['volume'] if 'volume' in source else None,
             year=source['year'] if 'year' in source else None,
-            doi=source['doi'] if 'doi' in source else None,
-            issn=source['issn'] if 'issn' in source else None,
-            isbn=source['isbn'] if 'isbn' in source else None,
-            url=source['url'] if 'url' in source else None)
+            non_standard=NonStandard.from_dict(source))
 
 
 @dataclass(frozen=True)
@@ -405,7 +410,7 @@ _bibtex_com = reference(Reference.optionals(cite_key='bibtex_com',
 _bibtex_package = reference(
     Reference.optionals(cite_key='bibtex_package',
                         title='CTAN Bibtex package documentation',
-                        url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf'))
+                        non_standard=NonStandard(url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')))
 
 @_bibtex_package
 @_bibtex_com
@@ -453,13 +458,99 @@ class Inproceedings(Reference):
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Manual(Reference):
-    """a technical manual"""
+    """a technical manual
+
+    manual Technical documentation.
+    Required field: title.
+    Optional fields: author, organization, address, edition, month, year, note."""
+
+    @staticmethod
+    def standard(cite_key: str,
+                 title: str,
+                 annote: str | None = None,
+                 address: str | None = None,
+                 author: str | None = None,
+                 edition: str | None = None,
+                 month: str | None = None,
+                 note: str | None = None,
+                 organization: str | None = None,
+                 year: str | int | None = None,
+                 non_standard: NonStandard | None = None):
+
+        """builds a standard manual reference"""
+        return Manual(cite_key=cite_key,
+                            address=address,
+                            annote=annote,
+                            booktitle=None,
+                            author=author,
+                            chapter=None,
+                            edition=edition,
+                            editor=None,
+                            howpublished=None,
+                            institution=None,
+                            journal=None,
+                            month=month,
+                            note=note,
+                            number=None,
+                            organization=organization,
+                            pages=None,
+                            publisher=None,
+                            school=None,
+                            series=None,
+                            title=title,
+                            type=None,
+                            volume=None,
+                            year=year,
+                            non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Masterthesis(Reference):
-    """a Masters thesis"""
+class Mastersthesis(Reference):
+    """a Masters thesis
+
+    mastersthesis A Master’s thesis.
+    Required fields: author, title, school, year.
+    Optional fields: type, address, month, note."""
+
+    @staticmethod
+    def standard(cite_key: str,
+                 author: str,
+                 title: str,
+                 school: str,
+                 year: str | int,
+                 annote: str | None = None,
+                 address: str | None = None,
+                 month: str | None = None,
+                 note: str | None = None,
+                 type: str | None = None,
+                 non_standard: NonStandard | None = None):
+
+        """builds a standard phdthesis reference"""
+        return Mastersthesis(cite_key=cite_key,
+                             address=address,
+                             annote=annote,
+                             booktitle=None,
+                             author=author,
+                             chapter=None,
+                             edition=None,
+                             editor=None,
+                             howpublished=None,
+                             institution=None,
+                             journal=None,
+                             month=month,
+                             note=note,
+                             number=None,
+                             organization=None,
+                             pages=None,
+                             publisher=None,
+                             school=school,
+                             series=None,
+                             title=title,
+                             type=type,
+                             volume=None,
+                             year=year,
+                             non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
@@ -480,10 +571,7 @@ class Misc(Reference):
                  note: str | None = None,
                  title: str | None = None,
                  year: str | int | None = None,
-                 doi: str | None = None,
-                 issn: str | None = None,
-                 isbn: str | None = None,
-                 url: str | None = None):
+                 non_standard: NonStandard | None = None):
         """builds a standard misc reference"""
 
         return Misc(cite_key=cite_key,
@@ -509,10 +597,7 @@ class Misc(Reference):
                     type=None,
                     volume=None,
                     year=year,
-                    doi=doi,
-                    issn=issn,
-                    isbn=isbn,
-                    url=url)
+                    non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
@@ -523,6 +608,45 @@ class Phdthesis(Reference):
     phdthesis A PhD thesis.
     Required fields: author, title, school, year.
     Optional fields: type, address, month, note."""
+
+    @staticmethod
+    def standard(cite_key: str,
+                 author: str,
+                 title: str,
+                 school: str,
+                 year: str | int,
+                 annote: str | None = None,
+                 address: str | None = None,
+                 month: str | None = None,
+                 note: str | None = None,
+                 type: str | None = None,
+                 non_standard: NonStandard | None = None):
+
+        """builds a standard phdthesis reference"""
+        return Phdthesis(cite_key=cite_key,
+                         address=address,
+                         annote=annote,
+                         booktitle=None,
+                         author=author,
+                         chapter=None,
+                         edition=None,
+                         editor=None,
+                         howpublished=None,
+                         institution=None,
+                         journal=None,
+                         month=month,
+                         note=note,
+                         number=None,
+                         organization=None,
+                         pages=None,
+                         publisher=None,
+                         school=school,
+                         series=None,
+                         title=title,
+                         type=type,
+                         volume=None,
+                         year=year,
+                         non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
@@ -548,10 +672,7 @@ class Proceedings(Reference):
                  organization: str | None = None,
                  publisher: str | None = None,
                  note: str | None = None,
-                 doi: str | None = None,
-                 issn: str | None = None,
-                 isbn: str | None = None,
-                 url: str | None = None):
+                 non_standard: NonStandard | None = None):
         """builds a standard proceedings reference"""
         return Proceedings(cite_key=cite_key,
                            address=address,
@@ -576,10 +697,7 @@ class Proceedings(Reference):
                            type=None,
                            volume=volume,
                            year=year,
-                           doi=doi,
-                           issn=issn,
-                           isbn=isbn,
-                           url=url)
+                           non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
@@ -603,10 +721,7 @@ class TechReport(Reference):
                  note: str | None = None,
                  number: str | None = None,
                  type: str | None = None,
-                 doi: str | None = None,
-                 issn: str | None = None,
-                 isbn: str | None = None,
-                 url: str | None = None):
+                 non_standard: NonStandard | None = None):
         """builds a standard techreport reference"""
         return TechReport(cite_key=cite_key,
                    address=address,
@@ -631,10 +746,7 @@ class TechReport(Reference):
                    type=type,
                    volume=None,
                    year=year,
-                   doi=doi,
-                   issn=issn,
-                   isbn=isbn,
-                   url=url)
+                   non_standard=non_standard)
 
 @_bibtex_package
 @_bibtex_com
@@ -654,10 +766,7 @@ class Unpublished(Reference):
                  annote: str | None = None,
                  month: str | None = None,
                  year: str | int | None = None,
-                 doi: str | None = None,
-                 issn: str | None = None,
-                 isbn: str | None = None,
-                 url: str | None = None):
+                 non_standard: NonStandard | None = None):
         """builds a standard unpublished reference"""
         return Unpublished(cite_key=cite_key,
                    address=None,
@@ -682,7 +791,4 @@ class Unpublished(Reference):
                    type=None,
                    volume=None,
                    year=year,
-                   doi=doi,
-                   issn=issn,
-                   isbn=isbn,
-                   url=url)
+                   non_standard=non_standard)

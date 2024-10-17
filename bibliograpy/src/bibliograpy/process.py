@@ -34,7 +34,7 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             if out_extension == 'py':
-                o.write('from bibliograpy.api import Misc, TechReport, Unpublished\n')
+                o.write('from bibliograpy.api import NonStandard, Misc, TechReport, Unpublished\n')
                 o.write('\n')
                 for ref in content:
                     ref_type = ref['entry_type']
