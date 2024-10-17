@@ -5,8 +5,6 @@ import dataclasses
 from dataclasses import dataclass
 from typing import Callable
 
-from wheel.macosx_libfile import segment_command_fields_64
-
 
 @dataclass(frozen=True)
 class NonStandard:
@@ -449,11 +447,11 @@ class Inbook(Reference):
 
     def _check_standard(self):
         """Checks if standard mandatory fields are not None."""
-        if ((self.author is None and self.editor is None)
-                or self.title is None
-                or (self.chapter is None and self.pages is None)
-                or self.publisher is None
-                or self.year is None):
+        if any(f is None for f in [self.author or self.editor,
+                                   self.title,
+                                   self.chapter or self.pages,
+                                   self.publisher,
+                                   self.year]):
             raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
