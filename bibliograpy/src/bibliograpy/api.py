@@ -7,6 +7,7 @@ from typing import Callable
 
 @dataclass(frozen=True)
 class NonStandard:
+    """Non-standard bibtex bibliography reference fields."""
 
     doi: str | None = None
     """DOI number"""
@@ -200,9 +201,8 @@ class Reference:
     not used for manual
     https://www.bibtex.com/f/year-field/"""
 
-    ### Non-standard
-
     non_standard: NonStandard | None
+    """Non standard fields."""
 
 
     def to_source_bib(self) -> str:
@@ -284,30 +284,30 @@ class Reference:
 
     @classmethod
     def optionals(cls,
-                cite_key: str,
-                address: str | None = None,
-                annote: str | None = None,
-                booktitle: str | None = None,
-                author: str | None = None,
-                chapter: str | None = None,
-                edition: str | None = None,
-                editor: str | None = None,
-                howpublished: str | None = None,
-                institution: str | None = None,
-                journal: str | None = None,
-                month: str | None = None,
-                note: str | None = None,
-                number: str | None = None,
-                organization: str | None = None,
-                pages: str | int | None = None,
-                publisher: str | None = None,
-                school: str | None = None,
-                series: str | None = None,
-                title: str | None = None,
-                type: str | None = None,
-                volume: str | int | None = None,
-                year: str | int | None = None,
-                non_standard: NonStandard | None = None):
+                  cite_key: str,
+                  address: str | None = None,
+                  annote: str | None = None,
+                  booktitle: str | None = None,
+                  author: str | None = None,
+                  chapter: str | None = None,
+                  edition: str | None = None,
+                  editor: str | None = None,
+                  howpublished: str | None = None,
+                  institution: str | None = None,
+                  journal: str | None = None,
+                  month: str | None = None,
+                  note: str | None = None,
+                  number: str | None = None,
+                  organization: str | None = None,
+                  pages: str | int | None = None,
+                  publisher: str | None = None,
+                  school: str | None = None,
+                  series: str | None = None,
+                  title: str | None = None,
+                  type: str | None = None,
+                  volume: str | int | None = None,
+                  year: str | int | None = None,
+                  non_standard: NonStandard | None = None):
         """builds a reference, allowing to init each field or let it empty (only cite_key is mandatory)"""
         return cls(cite_key=cite_key,
                    address=address,
@@ -410,7 +410,9 @@ _bibtex_com = reference(Reference.optionals(cite_key='bibtex_com',
 _bibtex_package = reference(
     Reference.optionals(cite_key='bibtex_package',
                         title='CTAN Bibtex package documentation',
-                        non_standard=NonStandard(url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')))
+                        non_standard=NonStandard(
+                            url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')
+                        ))
 
 @_bibtex_package
 @_bibtex_com
