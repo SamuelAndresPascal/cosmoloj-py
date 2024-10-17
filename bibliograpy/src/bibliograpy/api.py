@@ -27,7 +27,7 @@ class NonStandard:
 
     @staticmethod
     def from_dict(source: dict) -> NonStandard | None:
-        """Builds a Configuration from a configuration dict."""
+        """Builds a non-standard reference field set from a dict."""
         if 'doi' in source or 'issn' in source or 'eisssn' in source or 'isbn' in source or 'url' in source:
             return NonStandard(
                 doi=source['doi'] if 'doi' in source else None,
@@ -36,6 +36,21 @@ class NonStandard:
                 isbn=source['isbn'] if 'isbn' in source else None,
                 url=source['url'] if 'url' in source else None)
         return None
+
+
+    def to_source_bib(self) -> str:
+        """Serialization of the non-standard reference field set in processed python code."""
+
+        base = f"{type(self).__name__}("
+
+        fields = []
+        for f in dataclasses.fields(type(self)):
+            value = getattr(self, f.name)
+
+            if value is not None:
+                fields.append(f"{f.name}='{value}'")
+
+        return f"{base}{', '.join(fields)})"
 
 
 @dataclass(frozen=True, repr=False)
@@ -229,6 +244,8 @@ class Reference:
                     fields.append(f'{f.name}="{value}"')
                 else:
                     fields.append(f"{f.name}='{value}'")
+            elif isinstance(value, NonStandard):
+                fields.append(f'{f.name}={value.to_source_bib()}')
             elif value is not None:
                 fields.append(f'{f.name}={value}')
 
@@ -305,7 +322,7 @@ class Reference:
 
     @classmethod
     def from_dict(cls, source: dict) -> Reference:
-        """Builds a Configuration from a configuration dict."""
+        """Builds a reference from a dict."""
         return cls.generic(
             cite_key=source['cite_key'],
             address=source['address'] if 'address' in source else None,
