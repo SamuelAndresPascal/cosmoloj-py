@@ -31,7 +31,7 @@ decorators.
 
 from bibliograpy.api import TechReport
 
-IAU_2006_B1 = TechReport.standard(
+IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
     author='',
     institution='iau',
@@ -100,11 +100,11 @@ bibliograpy decorator arguments.
 ```py
 from bibliograpy.api import Misc
 
-NASA = Misc.standard(cite_key='nasa',
-                     title='NASA')
+NASA = Misc.generic(cite_key='nasa',
+                    title='NASA')
 
-IAU = Misc.standard(cite_key='iau',
-                    title='International Astronomical Union')
+IAU = Misc.generic(cite_key='iau',
+                   title='International Astronomical Union')
 ```
 
 ## Documentation
