@@ -77,6 +77,9 @@ class Reference:
     not used everywhere else
     https://www.bibtex.com/f/chapter-field/"""
 
+    crossref: str | None
+    """The database key of the entry being cross referenced."""
+
     edition: str | None
     """edition number of a book
     
@@ -229,9 +232,11 @@ class Reference:
             elif value is not None:
                 fields.append(f'{f.name}={value}')
 
+        # argument indentation management
         sep = ',\n'
         for _ in range(len(base)):
             sep += ' '
+
         return f"\n{base}{sep.join(fields)})"
 
     def to_pydoc(self) -> str:
@@ -250,6 +255,7 @@ class Reference:
                 booktitle: str | None = None,
                 author: str | None = None,
                 chapter: str | None = None,
+                crossref: str | None = None,
                 edition: str | None = None,
                 editor: str | None = None,
                 howpublished: str | None = None,
@@ -275,6 +281,7 @@ class Reference:
                        booktitle=booktitle,
                        author=author,
                        chapter=chapter,
+                       crossref=crossref,
                        edition=edition,
                        editor=editor,
                        howpublished=howpublished,
@@ -306,6 +313,7 @@ class Reference:
             author=source['author'] if 'author' in source else None,
             booktitle=source['booktitle'] if 'booktitle' in source else None,
             chapter=source['chapter'] if 'chapter' in source else None,
+            crossref=source['crossref'] if 'crossref' in source else None,
             edition=source['edition'] if 'edition' in source else None,
             editor=source['editor'] if 'editor' in source else None,
             howpublished=source['howpublished'] if 'howpublished' in source else None,
@@ -333,20 +341,20 @@ class ReferenceBuilder:
     reference_wrapper: Callable[[list[Reference]], str]
 
     @staticmethod
-    def _default_lambda(refs: list[Reference]) -> str:
+    def _default_lambda(prefix: str, itemize: str, refs: list[Reference]) -> str:
 
         if len(refs) == 1:
-            return f"\n\nBibliography: {refs[0].to_pydoc()}\n"
+            return f"\n\n{prefix} {refs[0].to_pydoc()}\n"
 
-        result = "\n\nBibliography:\n\n"
+        result = f"\n\n{prefix}\n\n"
         for r in refs:
-            result += f"* {r.to_pydoc()}\n"
+            result += f"{itemize} {r.to_pydoc()}\n"
         return result
 
     @staticmethod
-    def default():
+    def default(prefix: str = 'Bibliography:', itemize: str = '*'):
         """the default reference decorator"""
-        return ReferenceBuilder(reference_wrapper=ReferenceBuilder._default_lambda)
+        return ReferenceBuilder(reference_wrapper=lambda r: ReferenceBuilder._default_lambda(prefix, itemize, r))
 
     def __call__(self, *refs):
         """The reference decorator."""
