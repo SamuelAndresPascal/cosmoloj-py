@@ -1,54 +1,54 @@
 [
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "nasa",
         "title": "NASA"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "iau",
         "title": "International Astronomical Union"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "wmo",
         "title": "World Meteorological Organization"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "iers",
         "title": "International Earth rotation and Reference systems Service"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "obspm",
         "title": "Observatoire de Paris",
         "url": "https://www.obspm.fr/"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "imcce",
         "title": "Institut de Mécanique Céleste et de Calcul des Éphémérides",
         "url": "https://www.imcce.fr/"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "ogc",
         "title": "Open Geospatial Consortium"
 
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "iso",
         "title": "ISO"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "w3c",
         "title": "World Wide Web Consortium"
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "ucar",
         "title": "University Corporation for Atmospheric Research"
     },
@@ -129,7 +129,9 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "astronomical_almanac_1997",
+        "author": "",
         "title": "The Astronomical Almanac for the year 1997",
+        "publisher": "",
         "collection": {
             "entry_type": "reference",
             "cite_key": "astronomical_almanac"
@@ -142,6 +144,7 @@
         "cite_key": "stephenson_1997",
         "title": "Historical Eclipses and Earth's Rotation",
         "editor": "Cambridge University Press",
+        "publisher": "",
         "year": 1997
     },
     {
@@ -149,6 +152,8 @@
         "format": "bibtex",
         "cite_key": "astronomical_almanac_2013",
         "title": "The Astronomical Almanac for the year 2013",
+        "author": "",
+        "publisher": "",
         "collection": {
             "entry_type": "reference",
             "cite_key": "astronomical_almanac"
@@ -160,6 +165,8 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "astronomical_almanac_2017",
+        "author": "",
+        "publisher": "",
         "title": "The Astronomical Almanac for the year 2017",
         "collection": {
             "entry_type": "reference",
@@ -172,6 +179,8 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "connaissance_des_temps_2015",
+        "author": "",
+        "publisher": "",
         "title": "Éphémérides astronomiques - Connaissance des temps",
         "year": 2015
     },
@@ -179,6 +188,7 @@
         "entry_type": "article",
         "format": "bibtex",
         "cite_key": "simon_al_2013",
+        "author": "",
         "title": "New analytical planetary theories VSOP2013 and TOP2013",
         "journal": {
             "entry_type": "reference",
@@ -192,6 +202,7 @@
         "entry_type": "article",
         "format": "bibtex",
         "cite_key": "vondrak_al_2011",
+        "author": "",
         "title": "New precession expressions, valid for long-time intervals",
         "journal": {
             "entry_type": "reference",
@@ -202,14 +213,14 @@
         "url": "https://www.aanda.org/articles/aa/pdf/2011/10/aa17274-11.pdf"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "orbital_ephemerides",
         "title": "Orbital Ephemerides of the Sun, Moon, and Planets",
         "url": "ftp://ssd.jpl.nasa.gov/pub/eph/planets/ioms/ExplSupplChap8.pdf",
         "details": "Chapitre 8, par E. Myles Standish and James G. Williams."
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "astronomical_almanac_online",
         "title": "The Astronomical Almanac online",
         "url": "http://asa.usno.navy.mil/"
@@ -217,6 +228,8 @@
     {
         "entry_type": "phdthesis",
         "cite_key": "laskar_1984",
+        "author": "",
+        "school": "",
         "title": "Théorie Générale Planétaire. Eléments orbitaux des planètes sur 1 million d’années",
         "year": 1984
     },
@@ -265,6 +278,7 @@
     {
         "entry_type": "article",
         "cite_key": "andoyer_1911",
+        "author": "",
         "title": "Les formules de la précession d'après S. Newcomb",
         "journal": {
             "entry_type": "reference",
@@ -278,6 +292,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_1974_aa30",
+        "author": "",
         "title": "Long-period terms in the solar system",
         "journal": {
             "entry_type": "reference",
@@ -291,6 +306,7 @@
     {
         "entry_type": "article",
         "cite_key": "chapron_al_1975",
+        "author": "",
         "title": "A formula for calculating higher-order perturbations in planetary problems",
         "journal": {
             "entry_type": "reference",
@@ -304,6 +320,7 @@
     {
         "entry_type": "article",
         "cite_key": "lieske_al_1977",
+        "author": "",
         "title": "Expressions for the Precession Quantities Based upon the IAU (1976) System of Astronomical Constants",
         "journal": {
             "entry_type": "reference",
@@ -317,6 +334,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_chapront_1981",
+        "author": "",
         "title": "A note on the numerical expressions for precession calculations",
         "journal": {
             "entry_type": "reference",
@@ -330,6 +348,7 @@
     {
         "entry_type": "article",
         "cite_key": "lestrade_bretagnon_1982",
+        "author": "",
         "title": "Relativistic perturbations for all the planets",
         "journal": {
             "entry_type": "reference",
@@ -343,6 +362,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_1982_aa108",
+        "author": "",
         "title": "Integration constants and mean elements for the planetary system",
         "journal": {
             "entry_type": "reference",
@@ -356,6 +376,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_1982",
+        "author": "",
         "title": "Theory for the motion of all the planets - The VSOP82 solution",
         "journal": {
             "entry_type": "reference",
@@ -369,6 +390,7 @@
     {
         "entry_type": "article",
         "cite_key": "chapront_touze_chapront_1983",
+        "author": "",
         "title": "The lunar ephemeris EPL 2000",
         "journal": {
             "entry_type": "reference",
@@ -382,6 +404,7 @@
     {
         "entry_type": "article",
         "cite_key": "laskar_1985",
+        "author": "",
         "title": "Accurate methods in general planetary theory",
         "journal": {
             "entry_type": "reference",
@@ -395,6 +418,7 @@
     {
         "entry_type": "article",
         "cite_key": "laskar_1986",
+        "author": "",
         "title": "Secular terms of classical planetary theories using the results of general theory",
         "journal": {
             "entry_type": "reference",
@@ -408,6 +432,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_francou_1988",
+        "author": "",
         "title": "Planetary theories in rectangular and spherical variables. VSOP87 solutions",
         "journal": {
             "entry_type": "reference",
@@ -421,6 +446,7 @@
     {
         "entry_type": "article",
         "cite_key": "capitaine_al_2000",
+        "author": "",
         "title": "Definition of the Celestial Ephemeris Origin and of UT1 in the International Celestial Reference Frame",
         "journal": {
             "entry_type": "reference",
@@ -434,6 +460,7 @@
     {
         "entry_type": "article",
         "cite_key": "capitaine_2000",
+        "author": "",
         "title": "Definition of the Celestial Ephemeris Pole and the Celestial Ephemeris Origin",
         "journal": {
             "entry_type": "reference",
@@ -447,6 +474,7 @@
     {
         "entry_type": "article",
         "cite_key": "capitaine_al_1986",
+        "author": "",
         "title": "A non-rotating origin on the instantaneous equator - Definition, properties and use",
         "journal": {
             "entry_type": "reference",
@@ -460,6 +488,7 @@
     },
     {
         "entry_type": "article",
+        "author": "",
         "cite_key": "kinoshita_souchay_1990",
         "title": "The Theory of the Nutation for the Rigid Earth Model at the Second Order",
         "journal": {
@@ -473,16 +502,18 @@
         "url": "https://ui.adsabs.harvard.edu/abs/1990CeMDA..48..187K/abstract"
     },
     {
-        "entry_type": "article",
+        "entry_type": "inproceedings",
         "cite_key": "bretagnon_francou_1992",
+        "author": "",
         "title": "General Theory for the Outer Planets",
-        "details": "proceedings of the 152nd Symposium of the International Astronomical Union held in Angra dos Reis, Brazil, 15-19 July, 1991",
+        "booktitle": "proceedings of the 152nd Symposium of the International Astronomical Union held in Angra dos Reis, Brazil, 15-19 July, 1991",
         "volume": "152",
         "year": 1992
     },
     {
         "entry_type": "article",
         "cite_key": "morrison_stephenson_2004",
+        "author": "",
         "title": "Historical values of the Earth's clock error ΔT and the calculation of eclipses",
         "journal": {
             "entry_type": "reference",
@@ -498,6 +529,7 @@
     {
         "entry_type": "article",
         "cite_key": "stephenson_2003",
+        "author": "",
         "title": "Historical Eclipses and Earth's Rotation",
         "journal": {
             "entry_type": "reference",
@@ -510,6 +542,7 @@
     {
         "entry_type": "article",
         "cite_key": "williams_al_1994",
+        "author": "",
         "title": "Contributions to the Earth's obliquity rate, precession, and nutation",
         "journal": {
             "entry_type": "reference",
@@ -522,7 +555,7 @@
         "url": "https://www.researchgate.net/publication/4687246_Contributions_to_the_Earth%27s_Obliquity_Rate_Precession_and_Nutation"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "syrte_obspm_fr_ftp",
         "institution": {
             "entry_type": "reference",
@@ -531,7 +564,7 @@
         "url": "ftp://syrte.obspm.fr/"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "imcce_fr_ftp",
         "institution": {
             "entry_type": "reference",
@@ -540,7 +573,7 @@
         "url": "ftp://ftp.imcce.fr/"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "hpiers_obspm_fr_http",
         "institution": {
             "entry_type": "reference",
@@ -549,7 +582,7 @@
         "url": "http://hpiers.obspm.fr/"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "hpiers_obspm_fr_ftp",
         "institution": {
             "entry_type": "reference",
@@ -560,6 +593,7 @@
     {
         "entry_type": "article",
         "cite_key": "mathews_al_2002",
+        "author": "",
         "title": "Modeling of nutation and precession: New nutation series for nonrigid Earth and insights into the Earth's interior",
         "journal": {
             "entry_type": "reference",
@@ -571,7 +605,7 @@
         "details": "https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/2001JB000390"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "mhb2000",
         "title": "MHB2000 nutation model",
         "article": {
@@ -581,7 +615,7 @@
         "url": "http://www-gpsg.mit.edu/~tah/mhb2000/"
     },
     {
-        "entry_type": "web",
+        "entry_type": "misc",
         "cite_key": "renato_2007",
         "title": "Third-Body Perturbation Using a Single Averaged Model: Application in Nonsingular Variables",
         "year": 2007,
@@ -769,6 +803,7 @@
     {
         "entry_type": "article",
         "cite_key": "fukushima_1991",
+        "author": "",
         "title": "Geodesic nutation",
         "journal": {
             "entry_type": "reference",
@@ -781,6 +816,7 @@
     {
         "entry_type": "article",
         "cite_key": "laskar_1993",
+        "author": "",
         "title": "Orbital, precessional, and insolation quantities for the Earth from -20 MYR to +10 MYR",
         "journal": {
             "entry_type": "reference",
@@ -794,6 +830,7 @@
     {
         "entry_type": "article",
         "cite_key": "simon_al_1994",
+        "author": "",
         "title": "Numerical Expressions for precession formulae and mean elements for the Moon and the planets",
         "journal": {
             "entry_type": "reference",
@@ -807,6 +844,7 @@
     {
         "entry_type": "article",
         "cite_key": "souchay_al_1999",
+        "author": "",
         "title": "Corrections and new developments in rigid earth nutation theoryIII. Final tables \\\"REN-2000\\\" including crossed-nutation and spin-orbit coupling effects",
         "journal": {
             "entry_type": "reference",
@@ -820,6 +858,7 @@
     {
         "entry_type": "article",
         "cite_key": "capitaine_al_2003",
+        "author": "",
         "title": "Expressions for IAU 2000 precession quantities",
         "journal": {
             "entry_type": "reference",
@@ -832,6 +871,7 @@
     {
         "entry_type": "article",
         "cite_key": "bretagnon_al_2003",
+        "author": "",
         "title": "Expressions for precession consistent with the IAU 2000A model",
         "subtitle": "Considerations about the ecliptic and the Earth Orientation Parameters",
         "journal": {
@@ -845,6 +885,7 @@
     {
         "entry_type": "article",
         "cite_key": "laskar_2004",
+        "author": "",
         "title": "A long-term numerical solution for the insolation quantities of the Earth",
         "journal": {
             "entry_type": "reference",
@@ -858,6 +899,7 @@
     {
         "entry_type": "article",
         "cite_key": "capitaine_al_2005",
+        "author": "",
         "title": "Improvement of the IAU 2000 precession model",
         "journal": {
             "entry_type": "reference",
@@ -871,6 +913,7 @@
     {
         "entry_type": "article",
         "cite_key": "wallace_al_2006",
+        "author": "",
         "title": "Precession-nutation procedures consistent with IAU 2006 resolutions",
         "journal": {
             "entry_type": "reference",

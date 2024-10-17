@@ -43,12 +43,21 @@ def test_process_yml_to_yml():
             'title': 'International Astronomical Union'
         }]
 
-def test_process_yml_to_yml_2():
+def test_process_yml_to_yml_astroloj():
     """test process from a yml bibliography to a yml bibliography"""
 
     _process(Namespace(CMD='process',
                        file=_input_file('astroloj.json'),
                        output_file=_input_file('astroloj.py'),
+                       encoding='utf-8',
+                       output='.'))
+
+def test_process_yml_to_yml_cosmoloj():
+    """test process from a yml bibliography to a yml bibliography"""
+
+    _process(Namespace(CMD='process',
+                       file=_input_file('cosmoloj.json'),
+                       output_file=_input_file('cosmoloj.py'),
                        encoding='utf-8',
                        output='.'))
 

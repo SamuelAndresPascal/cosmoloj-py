@@ -8,7 +8,8 @@ from pathlib import Path
 
 import yaml
 
-from bibliograpy.api import Misc, TechReport, Unpublished, Proceedings
+from bibliograpy.api import Misc, TechReport, Unpublished, Proceedings, Article, Book, Booklet, Inbook, Conference, \
+    Manual, Mastersthesis, Incollection, Inproceedings, Phdthesis
 
 LOG = logging.getLogger(__name__)
 
@@ -34,17 +35,37 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             if out_extension == 'py':
-                o.write('from bibliograpy.api import NonStandard, Misc, TechReport, Unpublished\n')
+                o.write('from bibliograpy.api import NonStandard, Article, Book, Booklet, Inbook, Incollection, Inproceedings, Conference, Manual, Mastersthesis, Misc, Phdthesis, Proceedings, TechReport, Unpublished\n')
                 o.write('\n')
                 for ref in content:
                     ref_type = ref['entry_type']
-                    if ref_type == 'misc':
+                    if ref_type == 'article':
+                        o.write(f'{Article.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'book':
+                        o.write(f'{Book.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'booklet':
+                        o.write(f'{Booklet.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'inbook':
+                        o.write(f'{Inbook.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'incollection':
+                        o.write(f'{Incollection.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'inproceedings':
+                        o.write(f'{Inproceedings.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'conference':
+                        o.write(f'{Conference.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'manual':
+                        o.write(f'{Manual.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'mastersthesis':
+                        o.write(f'{Mastersthesis.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'misc':
                         o.write(f'{Misc.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'phdthesis':
+                        o.write(f'{Phdthesis.from_dict(ref).to_source_bib()}\n')
+                    elif ref_type == 'proceedings':
+                        o.write(f'{Proceedings.from_dict(ref).to_source_bib()}\n')
                     elif ref_type == 'techreport':
                         o.write(f'{TechReport.from_dict(ref).to_source_bib()}\n')
                     elif ref_type == 'unpublished':
                         o.write(f'{Unpublished.from_dict(ref).to_source_bib()}\n')
-                    elif ref_type == 'proceedings':
-                        o.write(f'{Proceedings.from_dict(ref).to_source_bib()}\n')
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)

@@ -1,12 +1,12 @@
 [
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "ogc",
         "title": "Open Geospatial Consortium"
 
     },
     {
-        "entry_type": "institution",
+        "entry_type": "misc",
         "cite_key": "iogp",
         "title": "International Association of Oil & Gas Producers"
     },
@@ -20,6 +20,9 @@
         "entry_type": "techreport",
         "cite_key": "tga",
         "author": "",
+        "institution": "",
+        "year": 1989,
+        "month": "september",
         "kind": "document",
         "title": "TGA File Format",
         "url": "http://tfc.duke.free.fr/coding/tga_specs.pdf"
@@ -29,6 +32,7 @@
         "format": "bibtex",
         "cite_key": "real_time_collision_detection",
         "title": "Real-Time Collision Detection",
+        "publisher": "",
         "editor": "Sony Computer Entertainment America, CRC Press",
         "year": 2004
     },
@@ -38,6 +42,7 @@
         "cite_key": "map_projections",
         "title": "Map Projections - A Working Manual",
         "editor": "UNITED STATES GOVERNMENT PRINTING OFFICE, WASHINGTON",
+        "publisher": "",
         "url": "https://pubs.usgs.gov/pp/1395/report.pdf",
         "year": 1987
     },
@@ -125,6 +130,7 @@
         "entry_type": "article",
         "format": "bibtex",
         "cite_key": "joachim_boljen_2003",
+        "author": "",
         "title": "Bezugssystemumstellung DHDN90 ETRS89 in Schleswig-Holstein",
         "journal": {
             "entry_type": "reference",
@@ -139,6 +145,7 @@
         "entry_type": "article",
         "format": "bibtex",
         "cite_key": "joachim_boljen_2004",
+        "author": "",
         "title": "Zur geometrischen Interpretation und direkten Bestimmung von Formfunktionen",
         "journal": {
             "entry_type": "reference",

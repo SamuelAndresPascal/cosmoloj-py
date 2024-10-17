@@ -5,6 +5,9 @@ import dataclasses
 from dataclasses import dataclass
 from typing import Callable
 
+from wheel.macosx_libfile import segment_command_fields_64
+
+
 @dataclass(frozen=True)
 class NonStandard:
     """Non-standard bibtex bibliography reference fields."""
@@ -208,18 +211,25 @@ class Reference:
     def to_source_bib(self) -> str:
         """Serialization of the reference in processed python code."""
 
-        base = f"{self.cite_key.upper()} = {type(self).__name__}.standard("
+        base = f"{self.cite_key.upper()} = {type(self).__name__}.generic("
 
         fields = []
         for f in dataclasses.fields(type(self)):
             value = getattr(self, f.name)
 
             if isinstance(value, str):
-                fields.append(f"{f.name}='{getattr(self, f.name)}'")
+                if "'" in value:
+                    fields.append(f'{f.name}="{value}"')
+                else:
+                    fields.append(f"{f.name}='{value}'")
             elif isinstance(value, dict):
-                fields.append(f"{f.name}='{getattr(self, f.name)['cite_key']}'")
+                value = value['cite_key']
+                if "'" in value:
+                    fields.append(f'{f.name}="{value}"')
+                else:
+                    fields.append(f"{f.name}='{value}'")
             elif value is not None:
-                fields.append(f'{f.name}={getattr(self, f.name)}')
+                fields.append(f'{f.name}={value}')
 
         sep = ',\n'
         for _ in range(len(base)):
@@ -230,114 +240,68 @@ class Reference:
         """Serialization of the reference in docstring."""
         return f"{self.title} [{self.cite_key}]"
 
+    def _check_standard(self) -> None:
+        """Checks if standard mandatory fields are not None."""
+        raise NotImplementedError
+
     @classmethod
     def generic(cls,
                 cite_key: str,
-                address: str | None,
-                annote: str | None,
-                booktitle: str | None,
-                author: str | None,
-                chapter: str | None,
-                edition: str | None,
-                editor: str | None,
-                howpublished: str | None,
-                institution: str | None,
-                journal: str | None,
-                month: str | None,
-                note: str | None,
-                number: str | None,
-                organization: str | None,
-                pages: str | int | None,
-                publisher: str | None,
-                school: str | None,
-                series: str | None,
-                title: str | None,
-                type: str | None,
-                volume: str | int | None,
-                year: str | int | None,
-                non_standard: NonStandard | None) -> Reference:
+                address: str | None = None,
+                annote: str | None = None,
+                booktitle: str | None = None,
+                author: str | None = None,
+                chapter: str | None = None,
+                edition: str | None = None,
+                editor: str | None = None,
+                howpublished: str | None = None,
+                institution: str | None = None,
+                journal: str | None = None,
+                month: str | None = None,
+                note: str | None = None,
+                number: str | None = None,
+                organization: str | None = None,
+                pages: str | int | None = None,
+                publisher: str | None = None,
+                school: str | None = None,
+                series: str | None = None,
+                title: str | None = None,
+                type: str | None = None,
+                volume: str | int | None = None,
+                year: str | int | None = None,
+                non_standard: NonStandard | None = None) -> Reference:
         """builds a generic reference, allowing to init each field"""
-        return cls(cite_key=cite_key,
-                   address=address,
-                   annote=annote,
-                   booktitle=booktitle,
-                   author=author,
-                   chapter=chapter,
-                   edition=edition,
-                   editor=editor,
-                   howpublished=howpublished,
-                   institution=institution,
-                   journal=journal,
-                   month=month,
-                   note=note,
-                   number=number,
-                   organization=organization,
-                   pages=pages,
-                   publisher=publisher,
-                   school=school,
-                   series=series,
-                   title=title,
-                   type=type,
-                   volume=volume,
-                   year=year,
-                   non_standard=non_standard)
+        instance = cls(cite_key=cite_key,
+                       address=address,
+                       annote=annote,
+                       booktitle=booktitle,
+                       author=author,
+                       chapter=chapter,
+                       edition=edition,
+                       editor=editor,
+                       howpublished=howpublished,
+                       institution=institution,
+                       journal=journal,
+                       month=month,
+                       note=note,
+                       number=number,
+                       organization=organization,
+                       pages=pages,
+                       publisher=publisher,
+                       school=school,
+                       series=series,
+                       title=title,
+                       type=type,
+                       volume=volume,
+                       year=year,
+                       non_standard=non_standard)
+        instance._check_standard()
+        return instance
 
     @classmethod
-    def optionals(cls,
-                  cite_key: str,
-                  address: str | None = None,
-                  annote: str | None = None,
-                  booktitle: str | None = None,
-                  author: str | None = None,
-                  chapter: str | None = None,
-                  edition: str | None = None,
-                  editor: str | None = None,
-                  howpublished: str | None = None,
-                  institution: str | None = None,
-                  journal: str | None = None,
-                  month: str | None = None,
-                  note: str | None = None,
-                  number: str | None = None,
-                  organization: str | None = None,
-                  pages: str | int | None = None,
-                  publisher: str | None = None,
-                  school: str | None = None,
-                  series: str | None = None,
-                  title: str | None = None,
-                  type: str | None = None,
-                  volume: str | int | None = None,
-                  year: str | int | None = None,
-                  non_standard: NonStandard | None = None):
-        """builds a reference, allowing to init each field or let it empty (only cite_key is mandatory)"""
-        return cls(cite_key=cite_key,
-                   address=address,
-                   annote=annote,
-                   booktitle=booktitle,
-                   author=author,
-                   chapter=chapter,
-                   edition=edition,
-                   editor=editor,
-                   howpublished=howpublished,
-                   institution=institution,
-                   journal=journal,
-                   month=month,
-                   note=note,
-                   number=number,
-                   organization=organization,
-                   pages=pages,
-                   publisher=publisher,
-                   school=school,
-                   series=series,
-                   title=title,
-                   type=type,
-                   volume=volume,
-                   year=year,
-                   non_standard=non_standard)
-
-    @classmethod
-    def from_dict(cls, source: dict):
+    def from_dict(cls, source: dict) -> Reference:
         """Builds a Configuration from a configuration dict."""
-        return cls(
+        return cls.generic(
             cite_key=source['cite_key'],
             address=source['address'] if 'address' in source else None,
             annote=source['annote'] if 'annote' in source else None,
@@ -404,57 +368,133 @@ class ReferenceBuilder:
 
 reference = ReferenceBuilder.default()
 
-_bibtex_com = reference(Reference.optionals(cite_key='bibtex_com',
-                                            title='www.bibtex.com'))
+class _InternalReference(Reference):
+    """Internal bibliographic usage before defining standard types."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+
+_bibtex_com = reference(_InternalReference.generic(cite_key='bibtex_com',
+                                                   title='www.bibtex.com'))
 
 _bibtex_package = reference(
-    Reference.optionals(cite_key='bibtex_package',
-                        title='CTAN Bibtex package documentation',
-                        non_standard=NonStandard(
-                            url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')
-                        ))
+    _InternalReference.generic(cite_key='bibtex_package',
+                               title='CTAN Bibtex package documentation',
+                               non_standard=NonStandard(
+                           url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')
+                               ))
+
+class _MissingBibliograpyFieldError(ValueError):
+
+    def __init__(self, ref: Reference):
+        super().__init__(f'missing mandatory field for {ref.cite_key} {type(ref).__name__}')
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Article(Reference):
-    """any article published in a periodical like a journal article or magazine article"""
+    """any article published in a periodical like a journal article or magazine article
+
+    An article from a journal or magazine.
+    Required fields: author, title, journal, year.
+    Optional fields: volume, number, pages, month, note."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.journal is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Book(Reference):
-    """a book"""
+    """a book
+
+    A book with an explicit publisher.
+    Required fields: author or editor, title, publisher, year.
+    Optional fields: volume or number, series, address, edition, month, note."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if ((self.author is None and self.editor is None)
+                or self.title is None
+                or self.publisher is None
+                or self.year is None):
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Booklet(Reference):
-    """like a book but without a designated publisher"""
+    """like a book but without a designated publisher
 
-@_bibtex_package
-@_bibtex_com
-@dataclass(frozen=True, repr=False)
-class Conference(Reference):
-    """a conference paper"""
+    A work that is printed and bound, but without a named publisher or sponsoring institution.
+    Required field: title.
+    Optional fields: author, howpublished, address, month, year, note."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.title is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Inbook(Reference):
-    """a section or chapter in a book"""
+    """a section or chapter in a book
+
+    A part of a book, which may be a chapter (or section or whatever)and/or a range of pages.
+    Required fields: author or editor, title, chapter and/or pages, publisher, year.
+    Optional fields: volume or number, series, type, address, edition, month, note."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if ((self.author is None and self.editor is None)
+                or self.title is None
+                or (self.chapter is None and self.pages is None)
+                or self.publisher is None
+                or self.year is None):
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Incollection(Reference):
-    """an article in a collection"""
+    """an article in a collection
+
+    A part of a book having its own title.
+    Required fields: author, title, booktitle, publisher, year.
+    Optional fields: editor, volume or number, series, type, chapter, pages, address, edition, month, note"""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if (self.author is None
+                or self.title is None
+                or self.booktitle is None
+                or self.publisher is None
+                or self.year is None):
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
 class Inproceedings(Reference):
-    """a conference paper (same as the conference entry type)"""
+    """a conference paper (same as the conference entry type)
+
+    An article in a conference proceedings.
+    Required fields: author, title, booktitle, year.
+    Optional fields: editor, volume or number, series, pages, address, month, organization, publisher, note."""
+
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.booktitle is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
+
+@_bibtex_package
+@_bibtex_com
+@dataclass(frozen=True, repr=False)
+class Conference(Inproceedings):
+    """The same as INPROCEEDINGS, included for Scribe compatibility."""
 
 @_bibtex_package
 @_bibtex_com
@@ -466,44 +506,10 @@ class Manual(Reference):
     Required field: title.
     Optional fields: author, organization, address, edition, month, year, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 title: str,
-                 annote: str | None = None,
-                 address: str | None = None,
-                 author: str | None = None,
-                 edition: str | None = None,
-                 month: str | None = None,
-                 note: str | None = None,
-                 organization: str | None = None,
-                 year: str | int | None = None,
-                 non_standard: NonStandard | None = None):
-
-        """builds a standard manual reference"""
-        return Manual(cite_key=cite_key,
-                            address=address,
-                            annote=annote,
-                            booktitle=None,
-                            author=author,
-                            chapter=None,
-                            edition=edition,
-                            editor=None,
-                            howpublished=None,
-                            institution=None,
-                            journal=None,
-                            month=month,
-                            note=note,
-                            number=None,
-                            organization=organization,
-                            pages=None,
-                            publisher=None,
-                            school=None,
-                            series=None,
-                            title=title,
-                            type=None,
-                            volume=None,
-                            year=year,
-                            non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.title is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
@@ -515,44 +521,10 @@ class Mastersthesis(Reference):
     Required fields: author, title, school, year.
     Optional fields: type, address, month, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 author: str,
-                 title: str,
-                 school: str,
-                 year: str | int,
-                 annote: str | None = None,
-                 address: str | None = None,
-                 month: str | None = None,
-                 note: str | None = None,
-                 type: str | None = None,
-                 non_standard: NonStandard | None = None):
-
-        """builds a standard phdthesis reference"""
-        return Mastersthesis(cite_key=cite_key,
-                             address=address,
-                             annote=annote,
-                             booktitle=None,
-                             author=author,
-                             chapter=None,
-                             edition=None,
-                             editor=None,
-                             howpublished=None,
-                             institution=None,
-                             journal=None,
-                             month=month,
-                             note=note,
-                             number=None,
-                             organization=None,
-                             pages=None,
-                             publisher=None,
-                             school=school,
-                             series=None,
-                             title=title,
-                             type=type,
-                             volume=None,
-                             year=year,
-                             non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.school is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
@@ -564,42 +536,8 @@ class Misc(Reference):
     Required fields: none.
     Optional fields: author, title, howpublished, month, year, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 annote: str | None = None,
-                 author: str | None = None,
-                 howpublished: str | None = None,
-                 month: str | None = None,
-                 note: str | None = None,
-                 title: str | None = None,
-                 year: str | int | None = None,
-                 non_standard: NonStandard | None = None):
-        """builds a standard misc reference"""
-
-        return Misc(cite_key=cite_key,
-                    address=None,
-                    annote=annote,
-                    booktitle=None,
-                    author=author,
-                    chapter=None,
-                    edition=None,
-                    editor=None,
-                    howpublished=howpublished,
-                    institution=None,
-                    journal=None,
-                    month=month,
-                    note=note,
-                    number=None,
-                    organization=None,
-                    pages=None,
-                    publisher=None,
-                    school=None,
-                    series=None,
-                    title=title,
-                    type=None,
-                    volume=None,
-                    year=year,
-                    non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
 
 @_bibtex_package
 @_bibtex_com
@@ -611,44 +549,10 @@ class Phdthesis(Reference):
     Required fields: author, title, school, year.
     Optional fields: type, address, month, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 author: str,
-                 title: str,
-                 school: str,
-                 year: str | int,
-                 annote: str | None = None,
-                 address: str | None = None,
-                 month: str | None = None,
-                 note: str | None = None,
-                 type: str | None = None,
-                 non_standard: NonStandard | None = None):
-
-        """builds a standard phdthesis reference"""
-        return Phdthesis(cite_key=cite_key,
-                         address=address,
-                         annote=annote,
-                         booktitle=None,
-                         author=author,
-                         chapter=None,
-                         edition=None,
-                         editor=None,
-                         howpublished=None,
-                         institution=None,
-                         journal=None,
-                         month=month,
-                         note=note,
-                         number=None,
-                         organization=None,
-                         pages=None,
-                         publisher=None,
-                         school=school,
-                         series=None,
-                         title=title,
-                         type=type,
-                         volume=None,
-                         year=year,
-                         non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.school is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
@@ -660,46 +564,10 @@ class Proceedings(Reference):
     Required fields: title, year.
     Optional fields: editor, volume or number, series, address, month, organization, publisher, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 title: str,
-                 year: str | int,
-                 annote: str | None = None,
-                 editor: str | None = None,
-                 number: str | None = None,
-                 volume: str | int | None = None,
-                 series: str | None = None,
-                 address: str | None = None,
-                 month: str | None = None,
-                 organization: str | None = None,
-                 publisher: str | None = None,
-                 note: str | None = None,
-                 non_standard: NonStandard | None = None):
-        """builds a standard proceedings reference"""
-        return Proceedings(cite_key=cite_key,
-                           address=address,
-                           annote=annote,
-                           booktitle=None,
-                           author=None,
-                           chapter=None,
-                           edition=None,
-                           editor=editor,
-                           howpublished=None,
-                           institution=None,
-                           journal=None,
-                           month=month,
-                           note=note,
-                           number=number,
-                           organization=organization,
-                           pages=None,
-                           publisher=publisher,
-                           school=None,
-                           series=series,
-                           title=title,
-                           type=None,
-                           volume=volume,
-                           year=year,
-                           non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.title is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
@@ -711,44 +579,10 @@ class TechReport(Reference):
     Required fields: author, title, institution, year.
     Optional fields: type, number, address, month, note."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 author: str,
-                 institution: str,
-                 title: str,
-                 year: str | int,
-                 address: str | None = None,
-                 annote: str | None = None,
-                 month: str | None = None,
-                 note: str | None = None,
-                 number: str | None = None,
-                 type: str | None = None,
-                 non_standard: NonStandard | None = None):
-        """builds a standard techreport reference"""
-        return TechReport(cite_key=cite_key,
-                   address=address,
-                   annote=annote,
-                   booktitle=None,
-                   author=author,
-                   chapter=None,
-                   edition=None,
-                   editor=None,
-                   howpublished=None,
-                   institution=institution,
-                   journal=None,
-                   month=month,
-                   note=note,
-                   number=number,
-                   organization=None,
-                   pages=None,
-                   publisher=None,
-                   school=None,
-                   series=None,
-                   title=title,
-                   type=type,
-                   volume=None,
-                   year=year,
-                   non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.institution is None or self.year is None:
+            raise _MissingBibliograpyFieldError(self)
 
 @_bibtex_package
 @_bibtex_com
@@ -760,37 +594,7 @@ class Unpublished(Reference):
     Required fields: author, title, note.
     Optional fields: month, year."""
 
-    @staticmethod
-    def standard(cite_key: str,
-                 author: str,
-                 note: str,
-                 title: str,
-                 annote: str | None = None,
-                 month: str | None = None,
-                 year: str | int | None = None,
-                 non_standard: NonStandard | None = None):
-        """builds a standard unpublished reference"""
-        return Unpublished(cite_key=cite_key,
-                   address=None,
-                   annote=annote,
-                   booktitle=None,
-                   author=author,
-                   chapter=None,
-                   edition=None,
-                   editor=None,
-                   howpublished=None,
-                   institution=None,
-                   journal=None,
-                   month=month,
-                   note=note,
-                   number=None,
-                   organization=None,
-                   pages=None,
-                   publisher=None,
-                   school=None,
-                   series=None,
-                   title=title,
-                   type=None,
-                   volume=None,
-                   year=year,
-                   non_standard=non_standard)
+    def _check_standard(self):
+        """Checks if standard mandatory fields are not None."""
+        if self.author is None or self.title is None or self.note is None:
+            raise _MissingBibliograpyFieldError(self)

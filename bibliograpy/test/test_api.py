@@ -4,10 +4,10 @@ import pydoc
 
 from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
 
-IAU = Misc.standard(cite_key='iau',
-                    title='International Astronomical Union')
+IAU = Misc.generic(cite_key='iau',
+                   title='International Astronomical Union')
 
-IAU_2006_B1 = TechReport.standard(
+IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
     author='',
     institution='iau',
@@ -18,11 +18,11 @@ def test_to_source_bib():
     """test to python source bib serialization"""
     assert (IAU_2006_B1.to_source_bib() ==
 """
-IAU_2006_B1 = TechReport.standard(cite_key='iau_2006_b1',
-                                  author='',
-                                  institution='iau',
-                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
-                                  year=2006)""")
+IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
+                                 author='',
+                                 institution='iau',
+                                 title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+                                 year=2006)""")
 
 def test_dependencies_args_default():
     """test deps command without supplying file"""
