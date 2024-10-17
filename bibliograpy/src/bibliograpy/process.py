@@ -52,7 +52,7 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             if out_extension == 'py':
-                o.write('from bibliograpy.api import NonStandard, Article, Book, Booklet, Inbook, Incollection, Inproceedings, Conference, Manual, Mastersthesis, Misc, Phdthesis, Proceedings, TechReport, Unpublished\n')
+                o.write('from bibliograpy.api import *\n')
                 o.write('\n')
                 for ref in content:
                     if ref['entry_type'] in _TYPES:
