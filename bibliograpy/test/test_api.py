@@ -192,6 +192,7 @@ t\bta\bat\bta\baf\bfr\br()
 """)
 
 def test_mandatory_field():
+    """test mandatory field management"""
     with pytest.raises(ValueError) as e:
         TechReport.generic(
             cite_key='iau_2006_b1',
@@ -201,22 +202,26 @@ def test_mandatory_field():
     assert e.value.args[0] == 'missing mandatory field for iau_2006_b1 TechReport'
 
 def test_cross_reference():
+    """test cross reference hierarchy management"""
     scope = {}
     assert len(scope) == 0
 
-    IAU_ORG = Misc.generic(cite_key='iau', institution='Internation Astronomical Union', scope=scope)
+    iau_org = Misc.generic(cite_key='iau', institution='Internation Astronomical Union', author='iau', scope=scope)
     assert len(scope) == 1
     assert 'iau' in scope
-    assert scope['iau'] is IAU_ORG
+    assert scope['iau'] is iau_org
+    assert iau_org.institution == 'Internation Astronomical Union'
+    assert iau_org.author == 'iau'
 
-    IAU_AUTHOR = Misc.generic(cite_key='iau_author', author='IAU', crossref='iau', scope=scope)
+    iau_author = Misc.generic(cite_key='iau_author', author='IAU', crossref='iau', scope=scope)
     assert len(scope) == 2
     assert 'iau_author' in scope
-    assert scope['iau_author'] is IAU_AUTHOR
-    assert IAU_AUTHOR.institution is None
-    assert IAU_AUTHOR.cross_resolved().institution == 'Internation Astronomical Union'
+    assert scope['iau_author'] is iau_author
+    assert iau_author.institution is None
+    assert iau_author.author == 'IAU'
+    assert iau_author.cross_resolved().institution == 'Internation Astronomical Union'
 
-    IAU_2006 = TechReport.generic(
+    iau_2006 = TechReport.generic(
         cite_key='iau_2006_b1',
         crossref='iau_author',
         title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
@@ -224,8 +229,8 @@ def test_cross_reference():
         scope=scope)
     assert len(scope) == 3
     assert 'iau_2006_b1' in scope
-    assert scope['iau_2006_b1'] is IAU_2006
-    assert IAU_2006.institution is None
-    assert IAU_2006.cross_resolved().institution == 'Internation Astronomical Union'
-    assert IAU_2006.author is None
-    assert IAU_2006.cross_resolved().author == 'IAU'
+    assert scope['iau_2006_b1'] is iau_2006
+    assert iau_2006.institution is None
+    assert iau_2006.cross_resolved().institution == 'Internation Astronomical Union'
+    assert iau_2006.author is None
+    assert iau_2006.cross_resolved().author == 'IAU'
