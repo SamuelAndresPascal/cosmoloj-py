@@ -129,7 +129,8 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "astronomical_almanac_1997",
-        "author": "",
+        "author": "Defense Dept., Navy, Nautical Almanac Office",
+        "editor": "U.S. Government Printing Office",
         "title": "The Astronomical Almanac for the year 1997",
         "publisher": "",
         "collection": {
@@ -152,7 +153,8 @@
         "format": "bibtex",
         "cite_key": "astronomical_almanac_2013",
         "title": "The Astronomical Almanac for the year 2013",
-        "author": "",
+        "author": "Defense Dept., Navy, Nautical Almanac Office",
+        "editor": "U.S. Government Printing Office",
         "publisher": "",
         "collection": {
             "entry_type": "reference",
@@ -165,7 +167,8 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "astronomical_almanac_2017",
-        "author": "",
+        "author": "Defense Department, The Stationery Office, U S Nautical Almanac Office",
+        "editor": "U.S. Government Printing Office",
         "publisher": "",
         "title": "The Astronomical Almanac for the year 2017",
         "collection": {
@@ -179,7 +182,8 @@
         "entry_type": "book",
         "format": "bibtex",
         "cite_key": "connaissance_des_temps_2015",
-        "author": "",
+        "author": "Bureau des Longitudes",
+        "editor": "Gauthier-Villars",
         "publisher": "",
         "title": "Éphémérides astronomiques - Connaissance des temps",
         "year": 2015

@@ -5,6 +5,7 @@ import json
 import logging
 from argparse import Namespace
 from pathlib import Path
+from typing import Any
 
 import yaml
 
@@ -52,10 +53,13 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             if out_extension == 'py':
+
+                scope: dict[str, Any] = {}
+
                 o.write('from bibliograpy.api import *\n')
                 o.write('\n')
                 for ref in content:
                     if ref['entry_type'] in _TYPES:
-                        o.write(f"{_TYPES[ref['entry_type']].from_dict(ref).to_source_bib()}\n")
+                        o.write(f"{_TYPES[ref['entry_type']].from_dict(ref, scope).to_source_bib()}\n")
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)

@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import dataclasses
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Any
+import logging
 
+LOG = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class NonStandard:
@@ -28,7 +30,7 @@ class NonStandard:
     @staticmethod
     def from_dict(source: dict) -> NonStandard | None:
         """Builds a non-standard reference field set from a dict."""
-        if 'doi' in source or 'issn' in source or 'eisssn' in source or 'isbn' in source or 'url' in source:
+        if any(f in source for f in ['doi', 'issn', 'eisssn', 'isbn', 'url']):
             return NonStandard(
                 doi=source['doi'] if 'doi' in source else None,
                 issn=source['issn'] if 'issn' in source else None,
@@ -56,6 +58,10 @@ class NonStandard:
 @dataclass(frozen=True, repr=False)
 class Reference:
     """A bibliography reference."""
+
+    CITE_KEY_FIELD = 'cite_key'
+    NON_STANDARD_FIELD = 'non_standard'
+    SCOPE_FIELD = 'scope'
 
     cite_key: str
 
@@ -223,6 +229,62 @@ class Reference:
     non_standard: NonStandard | None
     """Non standard fields."""
 
+    scope: dict[str, Reference] | None
+    """Environnement de résolution des références croisées."""
+
+    def _hierarchy(self) -> list[Reference]:
+        """Calcul de la hiérarchie par références croisées."""
+        current: Reference | None = self
+
+        hierarchy: list[Reference] = [current]
+        while current is not None:
+            if current.crossref is not None and current.scope is not None and current.crossref in current.scope:
+                parent: Reference = current.scope[current.crossref]
+                hierarchy.append(parent)
+                current = parent
+            else:
+                current = None
+        return hierarchy
+
+    def cross_resolved(self) -> Reference:
+        """Calcul de la référence héritant des champs des références croisées parentes."""
+        hierarchy = self._hierarchy()
+
+        if len(hierarchy) == 1:
+            return self
+
+        resolved_standard_dict: dict[str, Any] = {}
+        for f in dataclasses.fields(type(self)):
+
+            if f.name in [Reference.NON_STANDARD_FIELD, Reference.SCOPE_FIELD]:
+                continue
+
+            for i in hierarchy:
+                v = getattr(i, f.name)
+                if v is not None:
+                    resolved_standard_dict[f.name] = v
+                    break
+
+        resolved_non_standard_dict: dict[str, Any] = {}
+        for f in dataclasses.fields(NonStandard):
+
+            for i in hierarchy:
+                if i.non_standard is not None:
+                    v = getattr(i.non_standard, f.name)
+                    if v is not None:
+                        resolved_non_standard_dict[f.name] = v
+                        break
+
+        resolved_standard_dict[Reference.NON_STANDARD_FIELD] = NonStandard.from_dict(resolved_non_standard_dict)
+
+        # il ne faut pas ajouter dans le scope cette instance résolue par références croisées car sa clef étant la même
+        # que celle de la référence explicite, les deux entreraient en conflit dans le scope
+        # seule la référence explicite doit être ajoutée au scope
+        # si on souhaite disposer des champs hérités par références croisées, il faut utiliser l'instance résolue
+        return type(self).from_dict(source=resolved_standard_dict,
+                                    scope=None)
+
+
 
     def to_source_bib(self) -> str:
         """Serialization of the reference in processed python code."""
@@ -231,6 +293,10 @@ class Reference:
 
         fields = []
         for f in dataclasses.fields(type(self)):
+
+            if Reference.SCOPE_FIELD == f.name:
+                continue
+
             value = getattr(self, f.name)
 
             if isinstance(value, str):
@@ -239,7 +305,7 @@ class Reference:
                 else:
                     fields.append(f"{f.name}='{value}'")
             elif isinstance(value, dict):
-                value = value['cite_key']
+                value = value[Reference.CITE_KEY_FIELD]
                 if "'" in value:
                     fields.append(f'{f.name}="{value}"')
                 else:
@@ -260,7 +326,7 @@ class Reference:
         """Serialization of the reference in docstring."""
         return f"{self.title} [{self.cite_key}]"
 
-    def _check_standard(self) -> None:
+    def _mandatory_values(self) -> list:
         """Checks if standard mandatory fields are not None."""
         raise NotImplementedError
 
@@ -290,7 +356,8 @@ class Reference:
                 type: str | None = None,
                 volume: str | int | None = None,
                 year: str | int | None = None,
-                non_standard: NonStandard | None = None) -> Reference:
+                non_standard: NonStandard | None = None,
+                scope: dict[str, Reference] | None = None) -> Reference:
         """builds a generic reference, allowing to init each field"""
         instance = cls(cite_key=cite_key,
                        address=address,
@@ -316,15 +383,29 @@ class Reference:
                        type=type,
                        volume=volume,
                        year=year,
-                       non_standard=non_standard)
-        instance._check_standard()
+                       non_standard=non_standard,
+                       scope=scope)
+
+        if any(f is None for f in instance._mandatory_values()):
+            if all(f is not None for f in instance.cross_resolved()._mandatory_values()):
+                LOG.info('all mandatory values resolved in scope cross references')
+            else:
+                raise ValueError(f'missing mandatory field for {instance.cite_key} {cls.__name__}')
+
+        # scope management for crossref
+        if scope is not None:
+            if cite_key in scope:
+                raise ValueError(f'{cite_key} is already present in bibliograpy scope for {scope[cite_key]}')
+
+            scope[cite_key] = instance
+
         return instance
 
     @classmethod
-    def from_dict(cls, source: dict) -> Reference:
+    def from_dict(cls, source: dict[str, Any], scope: dict[str, Reference] | None) -> Reference:
         """Builds a reference from a dict."""
         return cls.generic(
-            cite_key=source['cite_key'],
+            cite_key=source[Reference.CITE_KEY_FIELD],
             address=source['address'] if 'address' in source else None,
             annote=source['annote'] if 'annote' in source else None,
             author=source['author'] if 'author' in source else None,
@@ -348,7 +429,8 @@ class Reference:
             type=source['type'] if 'type' in source else None,
             volume=source['volume'] if 'volume' in source else None,
             year=source['year'] if 'year' in source else None,
-            non_standard=NonStandard.from_dict(source))
+            non_standard=NonStandard.from_dict(source),
+            scope=scope)
 
 
 @dataclass(frozen=True)
@@ -394,8 +476,9 @@ reference = ReferenceBuilder.default()
 class _InternalReference(Reference):
     """Internal bibliographic usage before defining standard types."""
 
-    def _check_standard(self):
+    def _mandatory_values(self):
         """Checks if standard mandatory fields are not None."""
+        return []
 
 _bibtex_com = reference(_InternalReference.generic(cite_key='bibtex_com',
                                                    title='www.bibtex.com'))
@@ -407,11 +490,6 @@ _bibtex_package = reference(
                            url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf')
                                ))
 
-class _MissingBibliograpyFieldError(ValueError):
-
-    def __init__(self, ref: Reference):
-        super().__init__(f'missing mandatory field for {ref.cite_key} {type(ref).__name__}')
-
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
@@ -422,10 +500,9 @@ class Article(Reference):
     Required fields: author, title, journal, year.
     Optional fields: volume, number, pages, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.journal is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values"""
+        return [self.author, self.title, self.journal, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -437,13 +514,9 @@ class Book(Reference):
     Required fields: author or editor, title, publisher, year.
     Optional fields: volume or number, series, address, edition, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if ((self.author is None and self.editor is None)
-                or self.title is None
-                or self.publisher is None
-                or self.year is None):
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author or self.editor, self.title, self.publisher, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -455,10 +528,9 @@ class Booklet(Reference):
     Required field: title.
     Optional fields: author, howpublished, address, month, year, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.title is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.title]
 
 @_bibtex_package
 @_bibtex_com
@@ -470,14 +542,9 @@ class Inbook(Reference):
     Required fields: author or editor, title, chapter and/or pages, publisher, year.
     Optional fields: volume or number, series, type, address, edition, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if any(f is None for f in [self.author or self.editor,
-                                   self.title,
-                                   self.chapter or self.pages,
-                                   self.publisher,
-                                   self.year]):
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author or self.editor, self.title, self.chapter or self.pages, self.publisher, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -489,14 +556,9 @@ class Incollection(Reference):
     Required fields: author, title, booktitle, publisher, year.
     Optional fields: editor, volume or number, series, type, chapter, pages, address, edition, month, note"""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if (self.author is None
-                or self.title is None
-                or self.booktitle is None
-                or self.publisher is None
-                or self.year is None):
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.booktitle, self.publisher, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -508,10 +570,9 @@ class Inproceedings(Reference):
     Required fields: author, title, booktitle, year.
     Optional fields: editor, volume or number, series, pages, address, month, organization, publisher, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.booktitle is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.booktitle, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -529,10 +590,9 @@ class Manual(Reference):
     Required field: title.
     Optional fields: author, organization, address, edition, month, year, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.title is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.title]
 
 @_bibtex_package
 @_bibtex_com
@@ -544,10 +604,9 @@ class Mastersthesis(Reference):
     Required fields: author, title, school, year.
     Optional fields: type, address, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.school is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.school, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -559,8 +618,9 @@ class Misc(Reference):
     Required fields: none.
     Optional fields: author, title, howpublished, month, year, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return []
 
 @_bibtex_package
 @_bibtex_com
@@ -572,10 +632,9 @@ class Phdthesis(Reference):
     Required fields: author, title, school, year.
     Optional fields: type, address, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.school is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.school, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -587,10 +646,9 @@ class Proceedings(Reference):
     Required fields: title, year.
     Optional fields: editor, volume or number, series, address, month, organization, publisher, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.title is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.title, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -602,10 +660,9 @@ class TechReport(Reference):
     Required fields: author, title, institution, year.
     Optional fields: type, number, address, month, note."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.institution is None or self.year is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.institution, self.year]
 
 @_bibtex_package
 @_bibtex_com
@@ -617,7 +674,6 @@ class Unpublished(Reference):
     Required fields: author, title, note.
     Optional fields: month, year."""
 
-    def _check_standard(self):
-        """Checks if standard mandatory fields are not None."""
-        if self.author is None or self.title is None or self.note is None:
-            raise _MissingBibliograpyFieldError(self)
+    def _mandatory_values(self):
+        """Returns all the mandatory values."""
+        return [self.author, self.title, self.note]

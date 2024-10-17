@@ -2,6 +2,8 @@
 import sys
 import pydoc
 
+import pytest
+
 from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
 
 IAU = Misc.generic(cite_key='iau',
@@ -188,3 +190,42 @@ t\bta\bat\bta\baf\bfr\br()
     ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     ++ International Astronomical Union [iau]
 """)
+
+def test_mandatory_field():
+    with pytest.raises(ValueError) as e:
+        TechReport.generic(
+            cite_key='iau_2006_b1',
+            author='',
+            title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+            year=2006)
+    assert e.value.args[0] == 'missing mandatory field for iau_2006_b1 TechReport'
+
+def test_cross_reference():
+    scope = {}
+    assert len(scope) == 0
+
+    IAU_ORG = Misc.generic(cite_key='iau', institution='Internation Astronomical Union', scope=scope)
+    assert len(scope) == 1
+    assert 'iau' in scope
+    assert scope['iau'] is IAU_ORG
+
+    IAU_AUTHOR = Misc.generic(cite_key='iau_author', author='IAU', crossref='iau', scope=scope)
+    assert len(scope) == 2
+    assert 'iau_author' in scope
+    assert scope['iau_author'] is IAU_AUTHOR
+    assert IAU_AUTHOR.institution is None
+    assert IAU_AUTHOR.cross_resolved().institution == 'Internation Astronomical Union'
+
+    IAU_2006 = TechReport.generic(
+        cite_key='iau_2006_b1',
+        crossref='iau_author',
+        title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+        year=2006,
+        scope=scope)
+    assert len(scope) == 3
+    assert 'iau_2006_b1' in scope
+    assert scope['iau_2006_b1'] is IAU_2006
+    assert IAU_2006.institution is None
+    assert IAU_2006.cross_resolved().institution == 'Internation Astronomical Union'
+    assert IAU_2006.author is None
+    assert IAU_2006.cross_resolved().author == 'IAU'
