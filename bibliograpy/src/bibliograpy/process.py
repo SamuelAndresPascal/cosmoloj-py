@@ -56,6 +56,6 @@ def _process(ns: Namespace):
                 o.write('\n')
                 for ref in content:
                     if ref['entry_type'] in _TYPES:
-                        o.write(f'{_TYPES[ref['entry_type']].from_dict(ref).to_source_bib()}\n')
+                        o.write(f"{_TYPES[ref['entry_type']].from_dict(ref).to_source_bib()}\n")
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)
