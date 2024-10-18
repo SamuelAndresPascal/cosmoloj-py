@@ -6,15 +6,19 @@ import pytest
 
 from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
 
+SCOPE = {}
 IAU = Misc.generic(cite_key='iau',
-                   title='International Astronomical Union')
+                   title='International Astronomical Union',
+                   institution='IAU',
+                   scope=SCOPE)
 
 IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
     author='',
-    institution='iau',
+    crossref='iau',
     title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
-    year=2006)
+    year=2006,
+    scope=SCOPE)
 
 def test_to_source_bib():
     """test to python source bib serialization"""
@@ -22,7 +26,7 @@ def test_to_source_bib():
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',
-                                 institution='iau',
+                                 crossref='iau',
                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
                                  year=2006)""")
 
@@ -115,13 +119,15 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
 def test_custom_reference_builder():
     """test custom reference builder"""
 
+    _ref_formatter = lambda r: f"{r.title} [{r.cite_key}]"
+
     def custom_wrapper(refs: list[Reference]) -> str:
         if len(refs) == 1:
-            return f"\n\nBibliographie : {refs[0].to_pydoc()}\n"
+            return f"\n\nBibliographie : {_ref_formatter(refs[0])}\n"
 
         result = "\n\nBibliographie :\n\n"
         for r in refs:
-            result += f"* {r.to_pydoc()}\n"
+            result += f"* {_ref_formatter(r)}\n"
         return result
 
     ref = ReferenceBuilder(reference_wrapper=custom_wrapper)
@@ -159,7 +165,15 @@ t\bta\bat\bta\baf\bfr\br()
 def test_parameterized_default_reference_builder():
     """test parameterized default reference builder"""
 
-    ref = ReferenceBuilder.default(prefix='Références bibliographiques :', itemize='++')
+    def _formatter(ref: Reference):
+        base = f'{ref.title} [{ref.cite_key}]'
+        if ref.crossref:
+            return base + f' -> [{ref.crossref}]'
+        return base
+
+    ref = ReferenceBuilder.default(prefix='Références bibliographiques :',
+                                   itemize='++',
+                                   reference_formatter=_formatter)
 
     @ref(IAU_2006_B1, IAU)
     def tatafr():
@@ -175,7 +189,7 @@ t\bta\bat\bta\baf\bfr\br()
 
     Références bibliographiques :
 
-    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1] -> [iau]
     ++ International Astronomical Union [iau]
 """)
     else:
@@ -187,7 +201,7 @@ t\bta\bat\bta\baf\bfr\br()
     
     Références bibliographiques :
     
-    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1] -> [iau]
     ++ International Astronomical Union [iau]
 """)
 
@@ -206,7 +220,11 @@ def test_cross_reference():
     scope = {}
     assert len(scope) == 0
 
-    iau_org = Misc.generic(cite_key='iau', institution='Internation Astronomical Union', author='iau', scope=scope)
+    iau_org = Misc.generic(cite_key='iau',
+                           institution='Internation Astronomical Union',
+                           author='iau',
+                           crossref='no_ref',
+                           scope=scope)
     assert len(scope) == 1
     assert 'iau' in scope
     assert scope['iau'] is iau_org

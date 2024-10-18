@@ -322,10 +322,6 @@ class Reference:
 
         return f"\n{base}{sep.join(fields)})"
 
-    def to_pydoc(self) -> str:
-        """Serialization of the reference in docstring."""
-        return f"{self.title} [{self.cite_key}]"
-
     def _mandatory_values(self) -> list:
         """Checks if standard mandatory fields are not None."""
         raise NotImplementedError
@@ -440,20 +436,26 @@ class ReferenceBuilder:
     reference_wrapper: Callable[[list[Reference]], str]
 
     @staticmethod
-    def _default_lambda(prefix: str, itemize: str, refs: list[Reference]) -> str:
+    def _default_lambda(prefix: str,
+                        itemizer: str,
+                        reference_formatter,
+                        refs: list[Reference]) -> str:
 
         if len(refs) == 1:
-            return f"\n\n{prefix} {refs[0].to_pydoc()}\n"
+            return f"\n\n{prefix} {reference_formatter(refs[0])}\n"
 
         result = f"\n\n{prefix}\n\n"
         for r in refs:
-            result += f"{itemize} {r.to_pydoc()}\n"
+            result += f"{itemizer} {reference_formatter(r)}\n"
         return result
 
     @staticmethod
-    def default(prefix: str = 'Bibliography:', itemize: str = '*'):
+    def default(prefix: str = 'Bibliography:',
+                itemize: str = '*',
+                reference_formatter = lambda r: f"{r.title} [{r.cite_key}]"):
         """the default reference decorator"""
-        return ReferenceBuilder(reference_wrapper=lambda r: ReferenceBuilder._default_lambda(prefix, itemize, r))
+        return ReferenceBuilder(
+            reference_wrapper=lambda r: ReferenceBuilder._default_lambda(prefix, itemize, reference_formatter, r))
 
     def __call__(self, *refs):
         """The reference decorator."""
