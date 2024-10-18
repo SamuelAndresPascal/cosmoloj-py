@@ -119,7 +119,8 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
 def test_custom_reference_builder():
     """test custom reference builder"""
 
-    _ref_formatter = lambda r: f"{r.title} [{r.cite_key}]"
+    def _ref_formatter(r: Reference) -> str:
+        return f"{r.title} [{r.cite_key}]"
 
     def custom_wrapper(refs: list[Reference]) -> str:
         if len(refs) == 1:
@@ -165,7 +166,7 @@ t\bta\bat\bta\baf\bfr\br()
 def test_parameterized_default_reference_builder():
     """test parameterized default reference builder"""
 
-    def _formatter(ref: Reference):
+    def _formatter(ref: Reference) -> str:
         base = f'{ref.title} [{ref.cite_key}]'
         if ref.crossref:
             return base + f' -> [{ref.crossref}]'
