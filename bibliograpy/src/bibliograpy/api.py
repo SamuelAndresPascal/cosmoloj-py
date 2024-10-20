@@ -62,6 +62,7 @@ class Reference:
     CITE_KEY_FIELD = 'cite_key'
     NON_STANDARD_FIELD = 'non_standard'
     SCOPE_FIELD = 'scope'
+    CROSSREF_FIELD = 'crossref'
 
     cite_key: str
 
@@ -283,13 +284,15 @@ class Reference:
         # si on souhaite disposer des champs hérités par références croisées, il faut utiliser l'instance résolue
         return type(self).from_dict(source=resolved_standard_dict,
                                     scope=None)
-
-
+    @staticmethod
+    def to_source_symbol(cite_key: str) -> str:
+        """Produces a Python symbol for the reference."""
+        return cite_key.upper()
 
     def to_source_bib(self) -> str:
         """Serialization of the reference in processed python code."""
 
-        base = f"{self.cite_key.upper()} = {type(self).__name__}.generic("
+        base = f"{Reference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
 
         fields = []
         for f in dataclasses.fields(type(self)):
@@ -299,13 +302,9 @@ class Reference:
 
             value = getattr(self, f.name)
 
-            if isinstance(value, str):
-                if "'" in value:
-                    fields.append(f'{f.name}="{value}"')
-                else:
-                    fields.append(f"{f.name}='{value}'")
-            elif isinstance(value, dict):
-                value = value[Reference.CITE_KEY_FIELD]
+            if f.name == Reference.CROSSREF_FIELD and value is not None:
+                fields.append(f"{f.name}={Reference.to_source_symbol(value)}")
+            elif isinstance(value, str):
                 if "'" in value:
                     fields.append(f'{f.name}="{value}"')
                 else:
@@ -334,7 +333,7 @@ class Reference:
                 booktitle: str | None = None,
                 author: str | None = None,
                 chapter: str | None = None,
-                crossref: str | None = None,
+                crossref: str | Reference | None = None,
                 edition: str | None = None,
                 editor: str | None = None,
                 howpublished: str | None = None,
@@ -361,7 +360,7 @@ class Reference:
                        booktitle=booktitle,
                        author=author,
                        chapter=chapter,
-                       crossref=crossref,
+                       crossref=crossref.cite_key if isinstance(crossref, Reference) else crossref,
                        edition=edition,
                        editor=editor,
                        howpublished=howpublished,

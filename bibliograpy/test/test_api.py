@@ -26,12 +26,12 @@ def test_to_source_bib():
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',
-                                 crossref='iau',
+                                 crossref=IAU,
                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
                                  year=2006)""")
 
-def test_dependencies_args_default():
-    """test deps command without supplying file"""
+def test_builtin_reference_decorator():
+    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
 
     @reference(IAU_2006_B1)
     def bib_ref():
