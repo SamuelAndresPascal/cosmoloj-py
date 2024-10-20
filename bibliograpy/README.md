@@ -139,7 +139,7 @@ Example:
         "institution": "",
         "year": 1989,
         "month": "september",
-        "kind": "document",
+        "type": "document",
         "title": "TGA File Format",
         "url": "http://tfc.duke.free.fr/coding/tga_specs.pdf"
     },
@@ -164,7 +164,7 @@ Example:
         "entry_type": "techreport",
         "cite_key": "sf_access_part_1_v1_2_1",
         "author": "",
-        "kind": "standard",
+        "type": "standard",
         "title": "OpenGIS Implementation Standard for Geographic information - Simple Feature Access - Part 1: Common architecture",
         "year": 2011,
         "number": "OGC 06-103r4",
@@ -176,7 +176,7 @@ Example:
         "entry_type": "techreport",
         "cite_key": "iogp_guidance_note_7_2_2019",
         "author": "",
-        "kind": "document",
+        "type": "document",
         "title": "Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations including Formulas",
         "crossref": "iogp",
         "year": 2019,
@@ -187,7 +187,7 @@ Example:
         "entry_type": "techreport",
         "cite_key": "cts_revision_v1_0",
         "author": "",
-        "kind": "standard",
+        "type": "standard",
         "title": "Coordinate Transformation Services",
         "year": 2001,
         "month": "January",
@@ -201,7 +201,7 @@ Example:
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v1_0",
         "author": "",
-        "kind": "standard",
+        "type": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2015,
         "month": "May",
@@ -215,7 +215,7 @@ Example:
         "entry_type": "techreport",
         "cite_key": "wkt_crs_v2_1",
         "author": "",
-        "kind": "standard",
+        "type": "standard",
         "title": "Geographic information - Well known text representation of coordinate reference systems",
         "year": 2023,
         "month": "August",
@@ -272,6 +272,7 @@ TGA = TechReport.generic(cite_key='tga',
                          institution='',
                          month='september',
                          title='TGA File Format',
+                         type='document',
                          year=1989,
                          non_standard=NonStandard(url='http://tfc.duke.free.fr/coding/tga_specs.pdf'))
 
@@ -293,6 +294,7 @@ SF_ACCESS_PART_1_V1_2_1 = TechReport.generic(cite_key='sf_access_part_1_v1_2_1',
                                              crossref=OGC,
                                              number='OGC 06-103r4',
                                              title='OpenGIS Implementation Standard for Geographic information - Simple Feature Access - Part 1: Common architecture',
+                                             type='standard',
                                              year=2011,
                                              non_standard=NonStandard(url='http://portal.opengeospatial.org/files/?artifact_id=25355'))
 
@@ -301,6 +303,7 @@ IOGP_GUIDANCE_NOTE_7_2_2019 = TechReport.generic(cite_key='iogp_guidance_note_7_
                                                  crossref=IOGP,
                                                  number='373-7-2',
                                                  title='Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations including Formulas',
+                                                 type='document',
                                                  year=2019,
                                                  non_standard=NonStandard(url='https://www.iogp.org/wp-content/uploads/2019/09/373-07-02.pdf'))
 
@@ -310,6 +313,7 @@ CTS_REVISION_V1_0 = TechReport.generic(cite_key='cts_revision_v1_0',
                                        month='January',
                                        number='OGC 01-009',
                                        title='Coordinate Transformation Services',
+                                       type='standard',
                                        year=2001,
                                        non_standard=NonStandard(url='https://portal.ogc.org/files/?artifact_id=999'))
 
@@ -319,6 +323,7 @@ WKT_CRS_V1_0 = TechReport.generic(cite_key='wkt_crs_v1_0',
                                   month='May',
                                   number='OGC 12-063r5',
                                   title='Geographic information - Well known text representation of coordinate reference systems',
+                                  type='standard',
                                   year=2015,
                                   non_standard=NonStandard(url='http://docs.opengeospatial.org/is/12-063r5/12-063r5.html'))
 
@@ -328,6 +333,7 @@ WKT_CRS_V2_1 = TechReport.generic(cite_key='wkt_crs_v2_1',
                                   month='August',
                                   number='OGC 18-010r11',
                                   title='Geographic information - Well known text representation of coordinate reference systems',
+                                  type='standard',
                                   year=2023,
                                   non_standard=NonStandard(url='https://docs.ogc.org/is/18-010r11/18-010r11.pdf'))
 
