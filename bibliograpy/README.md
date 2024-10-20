@@ -107,7 +107,7 @@ IAU = Misc.generic(cite_key='iau',
                    title='International Astronomical Union')
 ```
 
-### Cross-referencing support.
+### Cross-referencing support
 
 Example:
 
