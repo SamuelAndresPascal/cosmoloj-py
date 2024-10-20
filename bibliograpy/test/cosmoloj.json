@@ -2,18 +2,20 @@
     {
         "entry_type": "misc",
         "cite_key": "ogc",
-        "title": "Open Geospatial Consortium"
-
+        "title": "Open Geospatial Consortium",
+        "institution": "OGC"
     },
     {
         "entry_type": "misc",
         "cite_key": "iogp",
-        "title": "International Association of Oil & Gas Producers"
+        "title": "International Association of Oil & Gas Producers",
+        "institution": "IOGP"
     },
     {
         "entry_type": "misc",
         "cite_key": "zeitschrift_fur_vermessungswesen",
         "title": "Zeitschrift für Vermessungswesen",
+        "journal": "Zeitschrift für Vermessungswesen",
         "issn": "0044-3689"
     },
     {
@@ -29,7 +31,6 @@
     },
     {
         "entry_type": "book",
-        "format": "bibtex",
         "cite_key": "real_time_collision_detection",
         "title": "Real-Time Collision Detection",
         "publisher": "",
@@ -38,7 +39,6 @@
     },
     {
         "entry_type": "book",
-        "format": "bibtex",
         "cite_key": "map_projections",
         "title": "Map Projections - A Working Manual",
         "editor": "UNITED STATES GOVERNMENT PRINTING OFFICE, WASHINGTON",
@@ -55,10 +55,7 @@
         "year": 2011,
         "number": "OGC 06-103r4",
         "version": "1.2.1",
-        "institution": {
-            "entry_type": "reference",
-            "cite_key": "ogc"
-        },
+        "crossref": "ogc",
         "url": "http://portal.opengeospatial.org/files/?artifact_id=25355"
     },
     {
@@ -67,10 +64,7 @@
         "author": "",
         "kind": "document",
         "title": "Geomatics Guidance Note 7, part 2 Coordinate Conversions & Transformations including Formulas",
-        "institution": {
-            "entry_type": "reference",
-            "cite_key": "iogp"
-        },
+        "crossref": "iogp",
         "year": 2019,
         "url": "https://www.iogp.org/wp-content/uploads/2019/09/373-07-02.pdf",
         "number": "373-7-2"
@@ -86,10 +80,7 @@
         "day": 12,
         "number": "OGC 01-009",
         "version": "1.00",
-        "institution": {
-            "entry_type": "reference",
-            "cite_key": "ogc"
-        },
+        "crossref": "ogc",
         "url": "https://portal.ogc.org/files/?artifact_id=999"
     },
     {
@@ -103,10 +94,7 @@
         "day": 1,
         "number": "OGC 12-063r5",
         "version": "1.0",
-        "institution": {
-            "entry_type": "reference",
-            "cite_key": "ogc"
-        },
+        "crossref": "ogc",
         "url": "http://docs.opengeospatial.org/is/12-063r5/12-063r5.html"
     },
     {
@@ -120,22 +108,15 @@
         "day": 16,
         "number": "OGC 18-010r11",
         "version": "2.1.11",
-        "institution": {
-            "entry_type": "reference",
-            "cite_key": "ogc"
-        },
+        "crossref": "ogc",
         "url": "https://docs.ogc.org/is/18-010r11/18-010r11.pdf"
     },
     {
         "entry_type": "article",
-        "format": "bibtex",
         "cite_key": "joachim_boljen_2003",
         "author": "",
         "title": "Bezugssystemumstellung DHDN90 ETRS89 in Schleswig-Holstein",
-        "journal": {
-            "entry_type": "reference",
-            "cite_key": "zeitschrift_fur_vermessungswesen"
-        },
+        "crossref": "zeitschrift_fur_vermessungswesen",
         "year": 2003,
         "volume": "128",
         "pages": "244-250",
@@ -143,14 +124,10 @@
     },
     {
         "entry_type": "article",
-        "format": "bibtex",
         "cite_key": "joachim_boljen_2004",
         "author": "",
         "title": "Zur geometrischen Interpretation und direkten Bestimmung von Formfunktionen",
-        "journal": {
-            "entry_type": "reference",
-            "cite_key": "zeitschrift_fur_vermessungswesen"
-        },
+        "crossref": "zeitschrift_fur_vermessungswesen",
         "year": 2004,
         "volume": "129",
         "pages": "258-260",
