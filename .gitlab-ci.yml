@@ -2,19 +2,7 @@ default:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - python --version
-    - conda --version
-    - which python
-    - which conda
-    - conda init bash
-    - conda env list
-    - conda list cosmoloj_py
-    - conda create -n cosmoloj_py python=3.11 -y
-    - . ~/.bashrc
-    - conda activate cosmoloj_py
-    - conda list
-    - python --version
-    - which python
+    - . ./init_conda.sh cosmoloj_py 3.11
 
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
@@ -48,12 +36,10 @@ include:
 conda_envs:
   stage: envs
   before_script:
-    - conda create -n multienv python=3.12 -y
-    - . ~/.bashrc
-    - conda activate multienv
+    - echo $CONDA_HOME
+    - PATH=$PATH:$CONDA_HOME/bin
+    - . ./init_conda.sh multienv 3.12
     - conda install -c cosmoloj multienv=0.4.1 -y
-    - python --version
-    - which python
   script:
     - cd simpleunit
     - pyenvs deps
@@ -86,12 +72,10 @@ conda_envs:
 pylintrc_envs:
   stage: envs
   before_script:
-    - conda create -n multienv python=3.12 -y
-    - . ~/.bashrc
-    - conda activate multienv
+    - echo $CONDA_HOME
+    - PATH=$PATH:$CONDA_HOME/bin
+    - . ./init_conda.sh multienv 3.12
     - conda install -c cosmoloj multienv=0.4.1 -y
-    - python --version
-    - which python
   script:
     - pyenvs lint
   after_script:
