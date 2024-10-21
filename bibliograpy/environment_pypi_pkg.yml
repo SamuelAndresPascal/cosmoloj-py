@@ -1,8 +1,0 @@
-name: pypi_pkg
-channels:
-- default
-- conda-forge
-dependencies:
-- python=3.12
-- pip:
-  - build==1.2.1

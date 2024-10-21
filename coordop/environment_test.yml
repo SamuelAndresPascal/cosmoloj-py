@@ -1,9 +1,0 @@
-name: test
-channels:
-- default
-- conda-forge
-dependencies:
-- python=3.12
-- pytest=7.4.4
-- numpy
-- pytest-cov

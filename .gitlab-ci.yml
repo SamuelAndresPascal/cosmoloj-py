@@ -26,6 +26,7 @@ default:
     - conda remove -n cosmoloj_py --all -y
 
 stages:
+  - envs
   - lint
   - doc
   - test
@@ -43,6 +44,69 @@ include:
   - local: 'coordop/.gitlab-ci.yml'
   - local: 'multienv/.gitlab-ci.yml'
   - local: 'bibliograpy/.gitlab-ci.yml'
+
+conda_envs:
+  stage: env
+  before_script:
+    - conda create -n multienv python=3.12 -y
+    - . ~/.bashrc
+    - conda activate multienv
+    - conda install -c cosmoloj multienv=0.4.1 -y
+    - python --version
+    - which python
+  script:
+    - cd simpleunit
+    - pyenvs deps
+    - cd ../taxref
+    - pyenvs deps
+    - cd ../coordop
+    - pyenvs deps
+    - cd ../multienv
+    - pyenvs deps
+    - cd ../bibliograpy
+    - pyenvs deps
+  after_script:
+    - PATH=$PATH:$CONDA_HOME/bin
+    - python --version
+    - conda --version
+    - which python
+    - conda init bash
+    - . ~/.bashrc
+    - conda remove -n multienv --all -y
+  artifacts:
+    when: always
+    paths:
+      - simpleunit/environment_*
+      - taxref/environment_*
+      - coordop/environment_*
+      - multienv/environment_*
+      - bibliograpy/environment_*
+    expire_in: 2 days
+
+pylintrc_envs:
+  stage: env
+  before_script:
+    - conda create -n multienv python=3.12 -y
+    - . ~/.bashrc
+    - conda activate multienv
+    - conda install -c cosmoloj multienv=0.4.1 -y
+    - python --version
+    - which python
+  script:
+    - pyenvs lint
+  after_script:
+    - PATH=$PATH:$CONDA_HOME/bin
+    - python --version
+    - conda --version
+    - which python
+    - conda init bash
+    - . ~/.bashrc
+    - conda remove -n multienv --all -y
+  artifacts:
+    when: always
+    paths:
+      - pylintrc_*
+    expire_in: 2 days
 
 coverage:
   stage: coverage

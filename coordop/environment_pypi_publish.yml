@@ -1,7 +1,0 @@
-name: pypi_publish
-channels:
-- default
-- conda-forge
-dependencies:
-- python=3.12
-- twine
