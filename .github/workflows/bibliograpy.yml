@@ -26,6 +26,8 @@ jobs:
           conda --version
           python --version
           conda list
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
       - working-directory: bibliograpy
         run: |
           pip install .

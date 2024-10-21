@@ -32,6 +32,17 @@ jobs:
         run: pyenvs deps
       - working-directory: bibliograpy
         run: pyenvs deps
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-without-markdown
+          path: |
+            simpleunit/environment_*
+            taxref/environment_*
+            coordop/environment_*
+            multienv/environment_*
+            bibliograpy/environment_*
+          retention-days: 1
 
   pylintrc_envs:
     runs-on: ubuntu-latest
@@ -48,3 +59,9 @@ jobs:
       - run: |
           conda install -c cosmoloj multienv
           pyenvs lint
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-without-markdown
+          path: pylintrc_*
+          retention-days: 1
