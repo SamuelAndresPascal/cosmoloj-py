@@ -46,7 +46,7 @@ include:
   - local: 'bibliograpy/.gitlab-ci.yml'
 
 conda_envs:
-  stage: env
+  stage: envs
   before_script:
     - conda create -n multienv python=3.12 -y
     - . ~/.bashrc
@@ -84,7 +84,7 @@ conda_envs:
     expire_in: 2 days
 
 pylintrc_envs:
-  stage: env
+  stage: envs
   before_script:
     - conda create -n multienv python=3.12 -y
     - . ~/.bashrc
