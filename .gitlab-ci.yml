@@ -53,12 +53,7 @@ conda_envs:
     - pyenvs deps
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
-    - python --version
-    - conda --version
-    - which python
-    - conda init bash
-    - . ~/.bashrc
-    - conda remove -n multienv --all -y
+    - . ./clean_conda.sh multienv
   artifacts:
     when: always
     paths:
@@ -80,12 +75,7 @@ pylintrc_envs:
     - pyenvs lint
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
-    - python --version
-    - conda --version
-    - which python
-    - conda init bash
-    - . ~/.bashrc
-    - conda remove -n multienv --all -y
+    - . ./clean_conda.sh multienv
   artifacts:
     when: always
     paths:
