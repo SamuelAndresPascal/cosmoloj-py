@@ -16,6 +16,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - uses: actions/checkout@v4
+      - run: ls -l
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint
@@ -28,7 +29,6 @@ jobs:
           conda list
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
-      - run: ls -l
       - working-directory: bibliograpy
         run: |
           pip install .
