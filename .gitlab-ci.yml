@@ -6,12 +6,7 @@ default:
 
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
-    - python --version
-    - conda --version
-    - which python
-    - conda init bash
-    - . ~/.bashrc
-    - conda remove -n cosmoloj_py --all -y
+    - . ./clean_conda.sh cosmoloj_py
 
 stages:
   - envs
