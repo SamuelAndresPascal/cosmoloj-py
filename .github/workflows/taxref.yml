@@ -2,13 +2,39 @@ name: taxref
 run-name: ${{ github.actor }}
 
 on:
-  workflow_run:
-    workflows: ["envs"]
-    branches: [master]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 5 * * 0'
 
 jobs:
+  envs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: multienv
+          python-version: 3.12
+          auto-activate-base: false
+      - run: conda install -c cosmoloj multienv
+      - run: pyenvs lint
+      - working-directory: taxref
+        run: pyenvs deps
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pylintrc-environments
+          path: pylintrc_*
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: conda-environments
+          path: taxref/environment_*
+          retention-days: 1
 
   lint:
     runs-on: ubuntu-latest
@@ -17,6 +43,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint
@@ -39,6 +66,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint_test
