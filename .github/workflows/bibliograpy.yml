@@ -47,7 +47,6 @@ jobs:
       - uses: actions/download-artifact@v4
       - run: mv conda-environments/* bibliograpy/
       - run: mv pylintrc-environments/* .
-      - run: unzip *.zip
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint
@@ -74,6 +73,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* bibliograpy/
+      - run: mv pylintrc-environments/* .
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint_test
@@ -99,6 +100,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* bibliograpy/
+      - run: mv pylintrc-environments/* .
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: test
