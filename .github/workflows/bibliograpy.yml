@@ -45,6 +45,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - run: ls -l
+      - run: unzip *.zip
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint
