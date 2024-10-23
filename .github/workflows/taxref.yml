@@ -41,9 +41,12 @@ jobs:
     defaults:
       run:
         shell: bash -el {0}
+    needs: envs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* taxref/
+      - run: mv pylintrc-environments/* .
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint
@@ -64,9 +67,12 @@ jobs:
     defaults:
       run:
         shell: bash -el {0}
+    needs: envs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* taxref/
+      - run: mv pylintrc-environments/* .
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: lint_test
