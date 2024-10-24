@@ -115,4 +115,5 @@ jobs:
         run: |
           pip install .
           bibliograpy process --output src/coordop bibliograpy.yml
+          pip install .
       - run: pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
