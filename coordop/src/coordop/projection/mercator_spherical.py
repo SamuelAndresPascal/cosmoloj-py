@@ -1,11 +1,8 @@
 """
-title = "Map Projections - A Working Manual",
-editor = "UNITED STATES GOVERNMENT PRINTING OFFICE, WASHINGTON",
-year = 1987,
-url = "https://pubs.usgs.gov/pp/1395/report.pdf"
-section 7, page 38
+'Map Projections - A Working Manual' Mercator Spherical.
 """
-
+from bibliograpy.api import reference
+from coordop.bibliography import MAP_PROJECTIONS
 from typing import override
 
 from math import cos
@@ -14,7 +11,7 @@ from coordop.operation import InvertibleProjection
 from coordop.projection import map_projections
 from coordop.surface import Spheroid
 
-
+@reference(MAP_PROJECTIONS)
 class MercatorSpherical(InvertibleProjection[Spheroid]):
     """The mercator spherical projection as defined in Map Projections."""
 
