@@ -61,7 +61,7 @@ jobs:
         run: |
           pip install .
           bibliograpy process --output src/coordop bibliograpy.yml
-          pylint --rcfile=../pylintrc_src src --ignore src/coordop/bibliography.py
+          pylint --rcfile=../pylintrc_src --ignore-paths src/coordop/bibliography.py src
 
   lint-test:
     runs-on: ubuntu-latest

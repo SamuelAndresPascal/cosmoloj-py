@@ -9,7 +9,7 @@ lint:coordop:
     - conda list
     - pip install .
     - bibliograpy process --output src/coordop bibliograpy.yml
-    - pylint --rcfile=../pylintrc_src src
+    - pylint --rcfile=../pylintrc_src src --ignore src/coordop/bibliography.py
 
 lint_test:coordop:
   stage: lint
@@ -35,6 +35,7 @@ test:coordop:
     - conda list
     - pip install .
     - bibliograpy process --output src/coordop bibliograpy.yml
+    - pip install .
     - cd ..
     - pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
   artifacts:
@@ -64,6 +65,7 @@ pypi-package:coordop:pypi:
     - cp ../LICENSE.md .
     - pip install .
     - bibliograpy process --output src/coordop bibliograpy.yml
+    - pip install .
     - python -m build
     - ls -l $DIST_DIR
   artifacts:
