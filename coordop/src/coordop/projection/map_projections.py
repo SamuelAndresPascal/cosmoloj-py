@@ -1,9 +1,11 @@
 """
 'Map Projections - A Working Manual' algorithms.
 """
-from bibliograpy.api import reference
-from coordop.bibliography import MAP_PROJECTIONS
 from math import log, tan, pi, atan, exp
+
+from bibliograpy.api import reference
+
+from coordop.bibliography import MAP_PROJECTIONS
 
 @reference(MAP_PROJECTIONS)
 def x_7_1(radius: float, cos_phi1: float, lambda0: float, lon: float) -> float:

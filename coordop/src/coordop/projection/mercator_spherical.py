@@ -1,12 +1,13 @@
 """
 'Map Projections - A Working Manual' Mercator Spherical.
 """
-from bibliograpy.api import reference
-from coordop.bibliography import MAP_PROJECTIONS
 from typing import override
 
 from math import cos
 
+from bibliograpy.api import reference
+
+from coordop.bibliography import MAP_PROJECTIONS
 from coordop.operation import InvertibleProjection
 from coordop.projection import map_projections
 from coordop.surface import Spheroid
