@@ -4,7 +4,7 @@ import pydoc
 
 import pytest
 
-from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder
+from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder, inbook
 
 SCOPE = {}
 IAU = Misc.generic(cite_key='iau',
@@ -253,3 +253,29 @@ def test_cross_reference():
     assert iau_2006.cross_resolved().institution == 'Internation Astronomical Union'
     assert iau_2006.author is None
     assert iau_2006.cross_resolved().author == 'IAU'
+
+def test_specific_entry_type_decorator():
+    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+
+    @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
+    def bib_ref():
+        """ma doc"""
+
+    if sys.version_info.minor == 12:
+        assert (pydoc.render_doc(bib_ref) ==
+"""Python Library Documentation: function bib_ref in module test_api
+
+b\bbi\bib\bb_\b_r\bre\bef\bf()
+    ma doc
+
+    Bibliography: mon inbook
+""")
+    else:
+        assert (pydoc.render_doc(bib_ref) ==
+"""Python Library Documentation: function bib_ref in module test_api
+
+b\bbi\bib\bb_\b_r\bre\bef\bf()
+    ma doc
+
+    Bibliography: mon inbook
+""")

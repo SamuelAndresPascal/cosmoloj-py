@@ -8,6 +8,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+_ANONYM_CITE_KEY = ""
+
 @dataclass(frozen=True)
 class NonStandard:
     """Non-standard bibtex bibliography reference fields."""
@@ -451,7 +453,8 @@ class ReferenceBuilder:
     @staticmethod
     def default(prefix: str = 'Bibliography:',
                 itemize: str = '*',
-                reference_formatter = lambda r: f"{r.title} [{r.cite_key}]"):
+                reference_formatter = lambda r: (f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY
+                                                                             else r.title)):
         """the default reference decorator"""
         return ReferenceBuilder(
             reference_wrapper=lambda r: ReferenceBuilder._default_lambda(prefix, itemize, reference_formatter, r))
@@ -678,3 +681,78 @@ class Unpublished(Reference):
     def _mandatory_values(self):
         """Returns all the mandatory values."""
         return [self.author, self.title, self.note]
+
+# Déclarations de références anonymes
+# les références anonymes n'ont pas de cite_key
+# elles ne sont pas réutilisables et sont simplement déclarées une seule fois
+
+def _anonym(constructor: type[Reference]):
+    def internal(
+            address: str | None = None,
+            annote: str | None = None,
+            booktitle: str | None = None,
+            author: str | None = None,
+            chapter: str | None = None,
+            crossref: str | Reference | None = None,
+            edition: str | None = None,
+            editor: str | None = None,
+            howpublished: str | None = None,
+            institution: str | None = None,
+            journal: str | None = None,
+            month: str | None = None,
+            note: str | None = None,
+            number: str | None = None,
+            organization: str | None = None,
+            pages: str | int | None = None,
+            publisher: str | None = None,
+            school: str | None = None,
+            series: str | None = None,
+            title: str | None = None,
+            type: str | None = None,
+            volume: str | int | None = None,
+            year: str | int | None = None,
+            non_standard: NonStandard | None = None,
+            ref_supplier = reference):
+        return ref_supplier(constructor.generic(
+                    cite_key=_ANONYM_CITE_KEY,
+                    address=address,
+                    annote=annote,
+                    booktitle=booktitle,
+                    author=author,
+                    chapter=chapter,
+                    crossref=crossref,
+                    edition=edition,
+                    editor=editor,
+                    howpublished=howpublished,
+                    institution=institution,
+                    journal=journal,
+                    month=month,
+                    note=note,
+                    number=number,
+                    organization=organization,
+                    pages=pages,
+                    publisher=publisher,
+                    school=school,
+                    series=series,
+                    title=title,
+                    type=type,
+                    volume=volume,
+                    year=year,
+                    non_standard=non_standard,
+                    scope=crossref.scope))
+    return internal
+
+article = _anonym(Article)
+book = _anonym(Book)
+booklet = _anonym(Booklet)
+inbook = _anonym(Inbook)
+incollection = _anonym(Incollection)
+inproceedings = _anonym(Inproceedings)
+conference = _anonym(Conference)
+manual = _anonym(Manual)
+mastersthesis = _anonym(Mastersthesis)
+misc = _anonym(Misc)
+phdthesis = _anonym(Phdthesis)
+proceedings = _anonym(Proceedings)
+techreport = _anonym(TechReport)
+unpublished = _anonym(Unpublished)
