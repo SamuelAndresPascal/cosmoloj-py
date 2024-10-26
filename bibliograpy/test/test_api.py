@@ -276,6 +276,6 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
 
 b\bbi\bib\bb_\b_r\bre\bef\bf()
     ma doc
-
+    
     Bibliography: mon inbook
 """)
