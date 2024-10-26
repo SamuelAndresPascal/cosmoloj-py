@@ -77,8 +77,6 @@ pypi-publish:coordop:test_pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^coordop_/
     - when: never
-  dependencies:
-    - pypi-package:coordop:pypi
   script:
     - cd coordop
     - conda env create --yes --file environment_pypi_publish.yml
@@ -94,8 +92,6 @@ pypi-publish:coordop:pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^coordop_/
     - when: never
-  dependencies:
-    - pypi-package:coordop:pypi
   script:
     - cd coordop
     - conda env create --yes --file environment_pypi_publish.yml

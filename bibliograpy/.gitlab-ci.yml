@@ -124,8 +124,6 @@ pypi-publish:bibliograpy:test_pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
     - when: never
-  dependencies:
-    - pypi-package:bibliograpy:pypi
   script:
     - cd bibliograpy
     - conda env create --yes --file environment_pypi_publish.yml
@@ -141,8 +139,6 @@ pypi-publish:bibliograpy:pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
     - when: never
-  dependencies:
-    - pypi-package:bibliograpy:pypi
   script:
     - cd bibliograpy
     - conda env create --yes --file environment_pypi_publish.yml

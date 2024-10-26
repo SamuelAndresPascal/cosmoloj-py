@@ -88,8 +88,6 @@ pypi-publish:taxref:test_pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
     - when: never
-  dependencies:
-    - pypi-package:taxref:pypi
   script:
     - cd taxref
     - conda env create --yes --file environment_pypi_publish.yml
@@ -105,8 +103,6 @@ pypi-publish:taxref:pypi:
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
     - when: never
-  dependencies:
-    - pypi-package:taxref:pypi
   script:
     - cd taxref
     - conda env create --yes --file environment_pypi_publish.yml
