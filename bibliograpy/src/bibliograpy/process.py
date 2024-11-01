@@ -10,6 +10,7 @@ from typing import Any
 import bibtexparser
 import yaml
 from bibtexparser.bibdatabase import BibDatabase
+from bibtexparser.bwriter import BibTexWriter
 
 from bibliograpy.api import TYPES
 
@@ -58,4 +59,6 @@ def _process(ns: Namespace):
                         entries.append(TYPES[ref['entry_type']].from_dict(ref, scope).to_bib())
                 db = BibDatabase()
                 db.entries = entries
-                bibtexparser.dump(db, o)
+                writer = BibTexWriter()
+                writer.order_entries_by = None
+                bibtexparser.dump(bib_database=db, bibtex_file=o, writer=writer)

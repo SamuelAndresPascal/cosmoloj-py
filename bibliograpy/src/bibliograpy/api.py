@@ -343,7 +343,7 @@ class Reference:
             elif isinstance(value, NonStandard):
                 continue
             elif value is not None:
-                result[field_name] = value
+                result[field_name] = str(value)
 
         result['ENTRYTYPE'] = type(self).bibtex_entry_type()
         return result
