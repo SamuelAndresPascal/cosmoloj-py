@@ -330,7 +330,8 @@ class Reference:
 
             if Reference.SCOPE_FIELD == f.name:
                 continue
-            elif Reference.CITE_KEY_FIELD == f.name:
+
+            if Reference.CITE_KEY_FIELD == f.name:
                 field_name = 'ID'
             else:
                 field_name = f.name
@@ -353,9 +354,10 @@ class Reference:
 
     @classmethod
     def bibtex_entry_type(cls):
-        for t in TYPES:
-            if TYPES[t] == cls:
-                return t
+        """Gets the bibtex entrytype name"""
+        for bibtex, internal_type in TYPES.items():
+            if internal_type == cls:
+                return bibtex
         raise ValueError
 
     @classmethod
