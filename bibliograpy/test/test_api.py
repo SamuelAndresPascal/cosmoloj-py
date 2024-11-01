@@ -22,7 +22,7 @@ IAU_2006_B1 = TechReport.generic(
 
 def test_to_source_bib():
     """test to python source bib serialization"""
-    assert (IAU_2006_B1.to_source_bib() ==
+    assert (IAU_2006_B1.to_py() ==
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',

@@ -42,7 +42,7 @@ class NonStandard:
         return None
 
 
-    def to_source_bib(self) -> str:
+    def to_py(self) -> str:
         """Serialization of the non-standard reference field set in processed python code."""
 
         base = f"{type(self).__name__}("
@@ -291,7 +291,7 @@ class Reference:
         """Produces a Python symbol for the reference."""
         return cite_key.upper()
 
-    def to_source_bib(self) -> str:
+    def to_py(self) -> str:
         """Serialization of the reference in processed python code."""
 
         base = f"{Reference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
@@ -312,7 +312,7 @@ class Reference:
                 else:
                     fields.append(f"{f.name}='{value}'")
             elif isinstance(value, NonStandard):
-                fields.append(f'{f.name}={value.to_source_bib()}')
+                fields.append(f'{f.name}={value.to_py()}')
             elif value is not None:
                 fields.append(f'{f.name}={value}')
 
@@ -323,9 +323,40 @@ class Reference:
 
         return f"\n{base}{sep.join(fields)})"
 
+    def to_bib(self) -> dict:
+        """converts to a bibtex parser dict"""
+        result = {}
+        for f in dataclasses.fields(type(self)):
+
+            if Reference.SCOPE_FIELD == f.name:
+                continue
+            elif Reference.CITE_KEY_FIELD == f.name:
+                field_name = 'ID'
+            else:
+                field_name = f.name
+
+            value = getattr(self, f.name)
+
+            if isinstance(value, str):
+                result[field_name] = value
+            elif isinstance(value, NonStandard):
+                continue
+            elif value is not None:
+                result[field_name] = value
+
+        result['ENTRYTYPE'] = type(self).bibtex_entry_type()
+        return result
+
     def _mandatory_values(self) -> list:
         """Checks if standard mandatory fields are not None."""
         raise NotImplementedError
+
+    @classmethod
+    def bibtex_entry_type(cls):
+        for t in TYPES:
+            if TYPES[t] == cls:
+                return t
+        raise ValueError
 
     @classmethod
     def generic(cls,
@@ -756,3 +787,20 @@ phdthesis = _anonym(Phdthesis)
 proceedings = _anonym(Proceedings)
 techreport = _anonym(TechReport)
 unpublished = _anonym(Unpublished)
+
+TYPES: dict[str, type[Reference]] = {
+    'article': Article,
+    'book': Book,
+    'booklet': Booklet,
+    'inbook': Inbook,
+    'incollection': Incollection,
+    'inproceedings': Inproceedings,
+    'conference': Conference,
+    'manual': Manual,
+    'mastersthesis': Mastersthesis,
+    'misc': Misc,
+    'phdthesis': Phdthesis,
+    'proceedings': Proceedings,
+    'techreport': TechReport,
+    'unpublished': Unpublished
+}

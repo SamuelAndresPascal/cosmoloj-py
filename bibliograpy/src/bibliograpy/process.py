@@ -7,29 +7,14 @@ from argparse import Namespace
 from pathlib import Path
 from typing import Any
 
+import bibtexparser
 import yaml
+from bibtexparser.bibdatabase import BibDatabase
 
-from bibliograpy.api import Misc, TechReport, Unpublished, Proceedings, Article, Book, Booklet, Inbook, Conference, \
-    Manual, Mastersthesis, Incollection, Inproceedings, Phdthesis, Reference
+from bibliograpy.api import TYPES
 
 LOG = logging.getLogger(__name__)
 
-_TYPES: dict[str, type[Reference]] = {
-    'article': Article,
-    'book': Book,
-    'booklet': Booklet,
-    'inbook': Inbook,
-    'incollection': Incollection,
-    'inproceedings': Inproceedings,
-    'conference': Conference,
-    'manual': Manual,
-    'mastersthesis': Mastersthesis,
-    'misc': Misc,
-    'phdthesis': Phdthesis,
-    'proceedings': Proceedings,
-    'techreport': TechReport,
-    'unpublished': Unpublished
-}
 
 def _process(ns: Namespace):
     """config
@@ -48,6 +33,8 @@ def _process(ns: Namespace):
             content = yaml.safe_load(s)
         elif in_extension == 'json':
             content = json.load(s)
+        elif in_extension == 'bib':
+            content = bibtexparser.load(s)
         else:
             raise ValueError(f'unsupported configuration format {in_extension}')
 
@@ -59,7 +46,16 @@ def _process(ns: Namespace):
                 o.write('from bibliograpy.api import *\n')
                 o.write('\n')
                 for ref in content:
-                    if ref['entry_type'] in _TYPES:
-                        o.write(f"{_TYPES[ref['entry_type']].from_dict(ref, scope).to_source_bib()}\n")
+                    if ref['entry_type'] in TYPES:
+                        o.write(f"{TYPES[ref['entry_type']].from_dict(ref, scope).to_py()}\n")
             elif out_extension in ['yml', 'yaml']:
                 yaml.dump(content, o, sort_keys=False)
+            elif out_extension in ['bib']:
+                scope: dict[str, Any] = {}
+                entries = []
+                for ref in content:
+                    if ref['entry_type'] in TYPES:
+                        entries.append(TYPES[ref['entry_type']].from_dict(ref, scope).to_bib())
+                db = BibDatabase()
+                db.entries = entries
+                bibtexparser.dump(db, o)

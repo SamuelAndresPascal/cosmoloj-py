@@ -110,3 +110,23 @@ def test_process_input_file_not_found():
 
     assert e.value.args[0] == 2
     assert e.value.args[1] == "No such file or directory"
+
+def test_process_yml_to_bib():
+    """test process from a yml bibliography to a bibtex bibliography"""
+
+    _process(Namespace(CMD='process',
+                       file=_input_file('mini.yml'),
+                       output_file=_input_file('tutu_bib.bib'),
+                       encoding='utf-8',
+                       output='.'))
+
+    with open(_input_file('tutu_bib.bib'), encoding='utf-8') as s:
+        content = s.read()
+        assert content == """@misc{iau,
+ title = {International Astronomical Union}
+}
+
+@misc{nasa,
+ title = {NASA}
+}
+"""
