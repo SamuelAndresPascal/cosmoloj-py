@@ -122,11 +122,11 @@ def test_process_yml_to_bib():
 
     with open(_input_file('tutu_bib.bib'), encoding='utf-8') as s:
         content = s.read()
-        assert content == """@misc{iau,
- title = {International Astronomical Union}
+        assert content == """@misc{nasa,
+ title = {NASA}
 }
 
-@misc{nasa,
- title = {NASA}
+@misc{iau,
+ title = {International Astronomical Union}
 }
 """
