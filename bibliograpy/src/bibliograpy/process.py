@@ -30,46 +30,55 @@ def _process(ns: Namespace):
 
     LOG.info('open configuration file %s', ns.file)
     with open(ns.file, encoding=ns.encoding) as s:
-
-        if in_extension == 'yml':
-            content = yaml.safe_load(s)
-        elif in_extension == 'json':
-            content = json.load(s)
-        elif in_extension == 'bib':
-            input_content = bibtexparser.load(s).entries
-            top = {}
-            content = []
-            for e in input_content:
-                top['entry_type'] = e['ENTRYTYPE']
-                top[Reference.CITE_KEY_FIELD] = e['ID']
-                del e['ENTRYTYPE']
-                del e['ID']
-                content.append({**top, **e})
-        else:
-            raise ValueError(f'unsupported configuration format {in_extension}')
+        content = _read(s, extension=in_extension)
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
-            if out_extension == 'py':
+            _write(o, extension=out_extension, content=content)
 
-                scope: dict[str, Any] = {}
+def _read(s, extension: str) -> list:
+    """Reads the input bibliography file content."""
 
-                o.write('from bibliograpy.api import *\n')
-                o.write('\n')
-                for ref in content:
-                    if ref['entry_type'] in TYPES:
-                        o.write(f"{TYPES[ref['entry_type']].from_dict(ref, scope).to_py()}\n")
-            elif out_extension in ['yml', 'yaml']:
-                yaml.dump(content, o, sort_keys=False)
-            elif out_extension in ['bib']:
-                scope: dict[str, Any] = {}
-                entries = []
-                for ref in content:
-                    if ref['entry_type'] in TYPES:
-                        entries.append(TYPES[ref['entry_type']].from_dict(ref, scope).to_bib())
-                db = BibDatabase()
-                db.entries = entries
-                writer = BibTexWriter()
-                writer.order_entries_by = None
-                bibtexparser.dump(bib_database=db, bibtex_file=o, writer=writer)
-            elif out_extension in ['json']:
-                json.dump(content, fp=o, sort_keys=False)
+    if extension == 'yml':
+        return yaml.safe_load(s)
+    elif extension == 'json':
+        return json.load(s)
+    elif extension == 'bib':
+        meta = {}
+        content = []
+        for e in bibtexparser.load(s).entries:
+            meta['entry_type'] = e['ENTRYTYPE']
+            meta[Reference.CITE_KEY_FIELD] = e['ID']
+            del e['ENTRYTYPE']
+            del e['ID']
+            content.append({**meta, **e})
+        return content
+    else:
+        raise ValueError(f'unsupported configuration format {extension}')
+
+def _write(o, extension: str, content: list):
+    """Writes the bibliography in the format specified by the provided extension."""
+
+    if extension == 'py':
+
+        scope: dict[str, Any] = {}
+
+        o.write('from bibliograpy.api import *\n')
+        o.write('\n')
+        for ref in content:
+            if ref['entry_type'] in TYPES:
+                o.write(f"{TYPES[ref['entry_type']].from_dict(ref, scope).to_py()}\n")
+    elif extension in ['yml', 'yaml']:
+        yaml.dump(content, o, sort_keys=False)
+    elif extension in ['bib']:
+        scope: dict[str, Any] = {}
+        entries = []
+        for ref in content:
+            if ref['entry_type'] in TYPES:
+                entries.append(TYPES[ref['entry_type']].from_dict(ref, scope).to_bib())
+        db = BibDatabase()
+        db.entries = entries
+        writer = BibTexWriter()
+        writer.order_entries_by = None
+        bibtexparser.dump(bib_database=db, bibtex_file=o, writer=writer)
+    elif extension in ['json']:
+        json.dump(content, fp=o, sort_keys=False)
