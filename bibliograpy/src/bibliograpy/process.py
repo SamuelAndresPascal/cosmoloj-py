@@ -13,6 +13,7 @@ from bibtexparser.bibdatabase import BibDatabase
 from bibtexparser.bwriter import BibTexWriter
 
 from bibliograpy.api import TYPES
+from bibliograpy.api import Reference
 
 LOG = logging.getLogger(__name__)
 
@@ -35,7 +36,15 @@ def _process(ns: Namespace):
         elif in_extension == 'json':
             content = json.load(s)
         elif in_extension == 'bib':
-            content = bibtexparser.load(s)
+            input_content = bibtexparser.load(s).entries
+            top = {}
+            content = []
+            for e in input_content:
+                top['entry_type'] = e['ENTRYTYPE']
+                top[Reference.CITE_KEY_FIELD] = e['ID']
+                del e['ENTRYTYPE']
+                del e['ID']
+                content.append({**top, **e})
         else:
             raise ValueError(f'unsupported configuration format {in_extension}')
 
