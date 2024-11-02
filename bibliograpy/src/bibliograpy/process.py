@@ -62,3 +62,5 @@ def _process(ns: Namespace):
                 writer = BibTexWriter()
                 writer.order_entries_by = None
                 bibtexparser.dump(bib_database=db, bibtex_file=o, writer=writer)
+            elif out_extension in ['json']:
+                json.dump(content, fp=o, sort_keys=False)

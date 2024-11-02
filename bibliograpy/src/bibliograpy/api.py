@@ -341,7 +341,14 @@ class Reference:
             if isinstance(value, str):
                 result[field_name] = value
             elif isinstance(value, NonStandard):
-                continue
+                    ns = {}
+                    for f in dataclasses.fields(NonStandard):
+                        v = getattr(value, f.name)
+                        if v is not None:
+                            ns[f.name] = str(v)
+
+                    result = result | ns
+
             elif value is not None:
                 result[field_name] = str(value)
 
