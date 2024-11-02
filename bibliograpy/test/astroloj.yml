@@ -1,0 +1,628 @@
+- entry_type: misc
+  cite_key: nasa
+  title: NASA
+  institution: NASA
+- entry_type: misc
+  cite_key: iau
+  title: International Astronomical Union
+  institution: IAU
+- entry_type: misc
+  cite_key: wmo
+  title: World Meteorological Organization
+  institution: WMO
+- entry_type: misc
+  cite_key: iers
+  title: International Earth rotation and Reference systems Service
+  institution: IERS
+- entry_type: misc
+  cite_key: obspm
+  title: Observatoire de Paris
+  url: https://www.obspm.fr/
+- entry_type: misc
+  cite_key: imcce
+  title: "Institut de M\xE9canique C\xE9leste et de Calcul des \xC9ph\xE9m\xE9rides"
+  url: https://www.imcce.fr/
+- entry_type: misc
+  cite_key: ogc
+  title: Open Geospatial Consortium
+  institution: OGC
+- entry_type: misc
+  cite_key: iso
+  title: ISO
+- entry_type: misc
+  cite_key: w3c
+  title: World Wide Web Consortium
+  institution: W3C
+- entry_type: misc
+  cite_key: ucar
+  title: University Corporation for Atmospheric Research
+  institution: UCAR
+- entry_type: misc
+  cite_key: astronomy_astrophysics
+  title: Astronomy & Astrophysics
+  journal: A&A
+  issn: 0004-6361
+  eIssn: 1432-0746
+  url: https://www.aanda.org/
+- entry_type: misc
+  cite_key: astronomy_astrophysics_suppl_series
+  title: Astronomy and Astrophysics supplement series
+  journal: Astronomy and Astrophysics supplement series
+  issn: 0365-0138
+  eIssn: 1286-4846
+  url: https://aas.aanda.org/
+- entry_type: misc
+  cite_key: bulletin_astronomique
+  title: Bulletin astronomique
+- entry_type: misc
+  cite_key: the_astronomical_journal
+  title: The Astronomical Journal
+  journal: The Astronomical Journal
+- entry_type: misc
+  cite_key: astronomy_geophysics
+  title: Astronomy & Geophysics
+  journal: Astronomy & Geophysics
+- entry_type: misc
+  cite_key: celestial_mechanics
+  title: Celestial Mechanics
+  journal: Celestial Mechanics
+- entry_type: misc
+  cite_key: celestial_mechanics_dynamical_astronomy
+  title: Celestial Mechanics & Dynamical Astronomy
+  issn: 0923-2958
+  eIssn: 1572-9478
+- entry_type: misc
+  cite_key: journal_geophysical_research
+  title: Journal of Geophysical Research
+  journal: Journal of Geophysical Research
+  issn: 0148-0227
+- entry_type: misc
+  cite_key: journal_history_astronomy
+  title: Journal for the History of Astronomy
+  journal: Journal for the History of Astronomy
+  issn: 0021-8286
+- entry_type: misc
+  cite_key: astronomical_almanac
+  title: The Astronomical Almanac
+- entry_type: proceedings
+  cite_key: international_astronomical_union_colloquium
+  title: International Astronomical Union Colloquium
+  booktitle: International Astronomical Union Colloquium
+  issn: 0252-9211
+  year: 2000
+- entry_type: misc
+  cite_key: celestial_mechanics_and_dynamical_astronomy
+  title: Celestial Mechanics & Dynamical Astronomy
+  journal: Celestial Mechanics & Dynamical Astronomy
+  issn: 0923-2958
+  eIssn: 1572-9478
+- entry_type: book
+  cite_key: astronomical_almanac_1997
+  author: Defense Dept., Navy, Nautical Almanac Office
+  editor: U.S. Government Printing Office
+  title: The Astronomical Almanac for the year 1997
+  publisher: ''
+  crossref: astronomical_almanac
+  year: 1996
+- entry_type: book
+  cite_key: stephenson_1997
+  title: Historical Eclipses and Earth's Rotation
+  editor: Cambridge University Press
+  publisher: ''
+  year: 1997
+- entry_type: book
+  cite_key: astronomical_almanac_2013
+  title: The Astronomical Almanac for the year 2013
+  author: Defense Dept., Navy, Nautical Almanac Office
+  editor: U.S. Government Printing Office
+  publisher: ''
+  crossref: astronomical_almanac
+  year: 2012
+  url: https://books.google.fr/books?id=7fl_-DLwJ8YC&lpg=PP1&dq=the%20astronomical%20almanac&hl=fr&pg=PP1#v=onepage&q=the%20astronomical%20almanac&f=false
+- entry_type: book
+  cite_key: astronomical_almanac_2017
+  author: Defense Department, The Stationery Office, U S Nautical Almanac Office
+  editor: U.S. Government Printing Office
+  publisher: ''
+  title: The Astronomical Almanac for the year 2017
+  crossref: astronomical_almanac
+  year: 2016
+  url: https://books.google.fr/books?id=5E9R8trNQ88C&lpg=SL14-PA2&dq=astronomical%20almanac%20k11&hl=fr&pg=PR2#v=onepage&q=astronomical%20almanac%20k11&f=false
+- entry_type: book
+  cite_key: connaissance_des_temps_2015
+  author: Bureau des Longitudes
+  editor: Gauthier-Villars
+  publisher: ''
+  title: "\xC9ph\xE9m\xE9rides astronomiques - Connaissance des temps"
+  year: 2015
+- entry_type: article
+  cite_key: simon_al_2013
+  author: ''
+  title: New analytical planetary theories VSOP2013 and TOP2013
+  crossref: astronomy_astrophysics
+  year: 2013
+  volume: '557'
+  url: https://www.aanda.org/articles/aa/abs/2013/09/aa21843-13/aa21843-13.html
+- entry_type: article
+  cite_key: vondrak_al_2011
+  author: ''
+  title: New precession expressions, valid for long-time intervals
+  crossref: astronomy_astrophysics
+  year: 2011
+  volume: '534'
+  url: https://www.aanda.org/articles/aa/pdf/2011/10/aa17274-11.pdf
+- entry_type: misc
+  cite_key: orbital_ephemerides
+  title: Orbital Ephemerides of the Sun, Moon, and Planets
+  url: ftp://ssd.jpl.nasa.gov/pub/eph/planets/ioms/ExplSupplChap8.pdf
+  details: Chapitre 8, par E. Myles Standish and James G. Williams.
+- entry_type: misc
+  cite_key: astronomical_almanac_online
+  title: The Astronomical Almanac online
+  url: http://asa.usno.navy.mil/
+- entry_type: phdthesis
+  cite_key: laskar_1984
+  author: ''
+  school: ''
+  title: "Th\xE9orie G\xE9n\xE9rale Plan\xE9taire. El\xE9ments orbitaux des plan\xE8\
+    tes sur 1 million d\u2019ann\xE9es"
+  year: 1984
+- entry_type: techreport
+  cite_key: espenak_meeus_2006
+  author: ''
+  type: document
+  title: "Five Millennium Canon of Solar Eclipses: \u20131999 to +3000 (2000 BCE to\
+    \ 3000 CE)"
+  crossref: nasa
+  year: 2006
+  url: https://eclipse.gsfc.nasa.gov/5MCSE/5MCSE-Text11.pdf
+  number: "NASA/TP\u20132006\u2013214141"
+- entry_type: techreport
+  cite_key: kozai_1973
+  author: ''
+  type: report
+  title: A new method to compute lunisolar perturbations in satellite motions
+  crossref: nasa
+  year: 1973
+  url: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19730008982.pdf
+  number: N73-17709
+- entry_type: techreport
+  cite_key: liezke_1967
+  author: ''
+  type: report
+  title: Expressions for the Precession Quantities and Their Partial Derivatives
+  crossref: nasa
+  year: 1967
+  url: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19670020103.pdf
+  number: 32-1044
+- entry_type: article
+  cite_key: andoyer_1911
+  author: ''
+  title: "Les formules de la pr\xE9cession d'apr\xE8s S. Newcomb"
+  crossref: astronomy_astrophysics
+  volume: '28'
+  pages: 67-76
+  year: 1911
+  url: https://www.aanda.org/articles/aa/abs/2013/09/aa21843-13/aa21843-13.html
+- entry_type: article
+  cite_key: bretagnon_1974_aa30
+  author: ''
+  title: Long-period terms in the solar system
+  crossref: astronomy_astrophysics
+  volume: '30'
+  pages: 141-154
+  year: 1974
+  url: http://adsabs.harvard.edu/abs/1974A%26A....30..141B
+- entry_type: article
+  cite_key: chapron_al_1975
+  author: ''
+  title: A formula for calculating higher-order perturbations in planetary problems
+  crossref: celestial_mechanics
+  volume: '11'
+  pages: 379-399
+  year: 1975
+  url: http://adsabs.harvard.edu/abs/1975CeMec..11..379C
+- entry_type: article
+  cite_key: lieske_al_1977
+  author: ''
+  title: Expressions for the Precession Quantities Based upon the IAU (1976) System
+    of Astronomical Constants
+  crossref: astronomy_astrophysics
+  volume: '58'
+  pages: 1-16
+  year: 1977
+  url: http://adsabs.harvard.edu/full/1977A%26A....58....1L
+- entry_type: article
+  cite_key: bretagnon_chapront_1981
+  author: ''
+  title: A note on the numerical expressions for precession calculations
+  crossref: astronomy_astrophysics
+  volume: '103'
+  pages: 103-107
+  year: 1981
+  url: http://adsabs.harvard.edu/abs/1982A%26A...114..278B
+- entry_type: article
+  cite_key: lestrade_bretagnon_1982
+  author: ''
+  title: Relativistic perturbations for all the planets
+  crossref: astronomy_astrophysics
+  volume: '105'
+  pages: 42-52
+  year: 1982
+  url: http://adsabs.harvard.edu/abs/1982A%26A...105...42L
+- entry_type: article
+  cite_key: bretagnon_1982_aa108
+  author: ''
+  title: Integration constants and mean elements for the planetary system
+  crossref: astronomy_astrophysics
+  volume: '108'
+  pages: 69-75
+  year: 1982
+  url: http://adsabs.harvard.edu/abs/1982A%26A...108...69B
+- entry_type: article
+  cite_key: bretagnon_1982
+  author: ''
+  title: Theory for the motion of all the planets - The VSOP82 solution
+  crossref: astronomy_astrophysics
+  volume: '114'
+  pages: 278-288
+  year: 1982
+  url: http://adsabs.harvard.edu/abs/1982A%26A...114..278B
+- entry_type: article
+  cite_key: chapront_touze_chapront_1983
+  author: ''
+  title: The lunar ephemeris EPL 2000
+  crossref: astronomy_astrophysics
+  volume: '124'
+  pages: 50-62
+  year: 1983
+  url: http://adsabs.harvard.edu/full/1983A%26A...124...50C
+- entry_type: article
+  cite_key: laskar_1985
+  author: ''
+  title: Accurate methods in general planetary theory
+  crossref: astronomy_astrophysics
+  volume: '144'
+  pages: 133-146
+  year: 1985
+  url: http://adsabs.harvard.edu/abs/1985A%26A...144..133L
+- entry_type: article
+  cite_key: laskar_1986
+  author: ''
+  title: Secular terms of classical planetary theories using the results of general
+    theory
+  crossref: astronomy_astrophysics
+  volume: '157'
+  pages: 59-70
+  year: 1986
+  url: http://adsabs.harvard.edu/abs/1986A%26A...157...59L
+- entry_type: article
+  cite_key: bretagnon_francou_1988
+  author: ''
+  title: Planetary theories in rectangular and spherical variables. VSOP87 solutions
+  crossref: astronomy_astrophysics
+  volume: '202'
+  pages: 309-315
+  year: 1988
+  url: http://adsabs.harvard.edu/abs/1988A&A...202..309B
+- entry_type: article
+  cite_key: capitaine_al_2000
+  author: ''
+  title: Definition of the Celestial Ephemeris Origin and of UT1 in the International
+    Celestial Reference Frame
+  crossref: astronomy_astrophysics
+  volume: '355'
+  pages: 398-405
+  year: 2000
+  url: http://articles.adsabs.harvard.edu/pdf/2000A%26A...355..398C
+- entry_type: inproceedings
+  cite_key: capitaine_2000
+  author: ''
+  title: Definition of the Celestial Ephemeris Pole and the Celestial Ephemeris Origin
+  crossref: international_astronomical_union_colloquium
+  volume: '182'
+  pages: 153-163
+  year: 2000
+  url: https://www.cambridge.org/core/journals/international-astronomical-union-colloquium/article/definition-of-the-celestial-ephemeris-pole-and-the-celestial-ephemeris-origin/3ED19E4A0C612E8027D4256DA858255B
+- entry_type: article
+  cite_key: capitaine_al_1986
+  author: ''
+  title: A non-rotating origin on the instantaneous equator - Definition, properties
+    and use
+  crossref: celestial_mechanics
+  issue: '3'
+  volume: '39'
+  pages: 283-307
+  year: 1986
+  url: http://articles.adsabs.harvard.edu//full/1986CeMec..39..283C
+- entry_type: article
+  author: ''
+  cite_key: kinoshita_souchay_1990
+  title: The Theory of the Nutation for the Rigid Earth Model at the Second Order
+  crossref: celestial_mechanics_and_dynamical_astronomy
+  volume: '48'
+  pages: 187-265
+  month: september
+  year: 1990
+  url: https://ui.adsabs.harvard.edu/abs/1990CeMDA..48..187K/abstract
+- entry_type: inproceedings
+  cite_key: bretagnon_francou_1992
+  author: ''
+  title: General Theory for the Outer Planets
+  booktitle: proceedings of the 152nd Symposium of the International Astronomical
+    Union held in Angra dos Reis, Brazil, 15-19 July, 1991
+  volume: '152'
+  year: 1992
+- entry_type: article
+  cite_key: morrison_stephenson_2004
+  author: ''
+  title: "Historical values of the Earth's clock error \u0394T and the calculation\
+    \ of eclipses"
+  crossref: journal_history_astronomy
+  volume: '35'
+  issue: '120'
+  details: part 3
+  pages: 327-336
+  year: 1992
+  url: http://articles.adsabs.harvard.edu/full/2004JHA....35..327M
+- entry_type: article
+  cite_key: stephenson_2003
+  author: ''
+  title: Historical Eclipses and Earth's Rotation
+  crossref: astronomy_geophysics
+  volume: '44'
+  year: 2003
+  url: http://astrogeo.oxfordjournals.org/content/44/2/2.22.full
+- entry_type: article
+  cite_key: williams_al_1994
+  author: ''
+  title: Contributions to the Earth's obliquity rate, precession, and nutation
+  crossref: the_astronomical_journal
+  volume: '108'
+  issue: '2'
+  pages: 711-724
+  year: 1994
+  url: https://www.researchgate.net/publication/4687246_Contributions_to_the_Earth%27s_Obliquity_Rate_Precession_and_Nutation
+- entry_type: misc
+  cite_key: syrte_obspm_fr_ftp
+  crossref: obspm
+  url: ftp://syrte.obspm.fr/
+- entry_type: misc
+  cite_key: imcce_fr_ftp
+  crossref: imcce
+  url: ftp://ftp.imcce.fr/
+- entry_type: misc
+  cite_key: hpiers_obspm_fr_http
+  crossref: obspm
+  url: http://hpiers.obspm.fr/
+- entry_type: misc
+  cite_key: hpiers_obspm_fr_ftp
+  crossref: obspm
+  url: ftp://hpiers.obspm.fr/
+- entry_type: article
+  cite_key: mathews_al_2002
+  author: ''
+  title: 'Modeling of nutation and precession: New nutation series for nonrigid Earth
+    and insights into the Earth''s interior'
+  crossref: journal_geophysical_research
+  volume: '107'
+  year: 2002
+  url: https://ui.adsabs.harvard.edu/abs/2002JGRB..107.2068M/abstract
+  details: https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/2001JB000390
+- entry_type: misc
+  cite_key: mhb2000
+  title: MHB2000 nutation model
+  crossref: mathews_al_2002
+  url: http://www-gpsg.mit.edu/~tah/mhb2000/
+- entry_type: misc
+  cite_key: renato_2007
+  title: 'Third-Body Perturbation Using a Single Averaged Model: Application in Nonsingular
+    Variables'
+  year: 2007
+  url: https://pdfs.semanticscholar.org/f952/eeea55dd380d86e01c131d249758c8c2b151.pdf
+- entry_type: techreport
+  cite_key: iau_2006_b1
+  author: ''
+  type: recommendation
+  title: Adoption of the P03 Precession Theory and Definition of the Ecliptic
+  year: 2006
+  number: IAU 2006 Resolution B1
+  crossref: iau
+  url: https://www.iau.org/static/resolutions/IAU2006_Resol1.pdf
+- entry_type: techreport
+  cite_key: iers_tn_36
+  author: ''
+  type: document
+  title: IERS Conventions (2010)
+  year: 2010
+  number: IERS Technical Note No. 36
+  crossref: iers
+  url: https://www.iers.org/IERS/EN/Publications/TechnicalNotes/tn36.html
+- entry_type: techreport
+  cite_key: wkt_crs_v1_0
+  author: ''
+  type: standard
+  title: Geographic information - Well known text representation of coordinate reference
+    systems
+  year: 2015
+  month: May
+  day: 1
+  number: OGC 12-063r5
+  version: '1.0'
+  crossref: ogc
+  url: http://docs.opengeospatial.org/is/12-063r5/12-063r5.html
+- entry_type: techreport
+  cite_key: wkt_crs_v2_0_6
+  author: ''
+  type: standard
+  title: Geographic information - Well known text representation of coordinate reference
+    systems
+  year: 2019
+  month: August
+  day: 13
+  number: OGC 18-010r7
+  version: 2.0.6
+  crossref: ogc
+  url: http://docs.opengeospatial.org/is/18-010r7/18-010r7.html
+- entry_type: techreport
+  cite_key: fits_v4_0
+  author: ''
+  type: standard
+  title: Definition of the Flexible Image Transport System (FITS)
+  year: 2016
+  month: July
+  day: 22
+  crossref: iau
+- entry_type: techreport
+  cite_key: wmo_codes_2_2019
+  author: ''
+  type: standard
+  title: "Manual on Codes - International Codes, Volume I.2, Annex II to the WMO Technical\
+    \ Regulations: Part B \u2013 Binary Codes, Part C \u2013 Common Features to Binary\
+    \ and Alphanumeric Codes"
+  year: 2019
+  crossref: wmo
+- entry_type: techreport
+  cite_key: object_model_for_interoperable_geoprocessing
+  author: ''
+  type: specification
+  title: 'The OpenGis Abstract Specification: An Object Model for Interoperable Geoprocessing,
+    Revision 1'
+  year: 1996
+  number: 96-015R1
+  crossref: ogc
+- entry_type: techreport
+  cite_key: filter_1_1_0
+  author: ''
+  type: specification
+  title: OpenGIS Filter Encoding Implementation Specification
+  year: 2005
+  number: OGC 04-095
+  version: 1.1.0
+  crossref: ogc
+  url: http://portal.opengeospatial.org/files/?artifact_id=8340
+- entry_type: techreport
+  cite_key: csw_1_1_1
+  author: ''
+  type: specification
+  title: OpenGIS Catalog Services Specification
+  year: 2002
+  number: OGC 02-087r3
+  version: 1.1.1
+  crossref: ogc
+- entry_type: techreport
+  cite_key: geotiff_1_1
+  author: ''
+  type: standard
+  title: OGC GeoTIFF Standard
+  year: 1992
+  number: 19-008r4
+  version: '1_1'
+  crossref: ogc
+  url: http://docs.opengeospatial.org/is/19-008r4/19-008r4.html
+- entry_type: techreport
+  cite_key: tiff_v6
+  author: ''
+  institution: ''
+  type: document
+  title: TIFF Revision 6.0
+  year: 1992
+  url: https://www.adobe.io/open/standards/TIFF.html
+- entry_type: techreport
+  cite_key: png_v3
+  author: ''
+  type: recommendation
+  title: Portable Network Graphics (PNG) Specification (Third Edition)
+  year: 2022
+  url: https://www.w3.org/TR/png/
+  crossref: w3c
+- entry_type: techreport
+  cite_key: netcdf_appendix_b
+  type: specification
+  author: ''
+  title: Appendix B. File Format Specifications
+  year: 2018
+  url: https://docs.unidata.ucar.edu/netcdf-c/current/file_format_specifications.html
+  crossref: ucar
+- entry_type: article
+  cite_key: fukushima_1991
+  author: ''
+  title: Geodesic nutation
+  crossref: astronomy_astrophysics
+  volume: '244'
+  year: 1991
+  url: https://ui.adsabs.harvard.edu/abs/1991A%26A...244L..11F/abstract
+- entry_type: article
+  cite_key: laskar_1993
+  author: ''
+  title: Orbital, precessional, and insolation quantities for the Earth from -20 MYR
+    to +10 MYR
+  crossref: astronomy_astrophysics
+  pages: 522-533
+  volume: '270'
+  year: 1993
+  url: http://adsabs.harvard.edu/abs/1993A&A...270..522L
+- entry_type: article
+  cite_key: simon_al_1994
+  author: ''
+  title: Numerical Expressions for precession formulae and mean elements for the Moon
+    and the planets
+  crossref: astronomy_astrophysics
+  pages: 663-683
+  volume: '282'
+  year: 1994
+  url: http://adsabs.harvard.edu/abs/1994A%26A...282..663S
+- entry_type: article
+  cite_key: souchay_al_1999
+  author: ''
+  title: Corrections and new developments in rigid earth nutation theoryIII. Final
+    tables \"REN-2000\" including crossed-nutation and spin-orbit coupling effects
+  crossref: astronomy_astrophysics_suppl_series
+  pages: 111-131
+  volume: '135'
+  year: 1999
+  url: https://www.researchgate.net/profile/Marta_Folgueira/publication/228793411_Corrections_and_new_developments_in_rigid_earth_nutation_theory_III_Final_tables_REN-2000_including_crossed-nutation_and_spin-orbit_coupling_effects/links/558bda4608ae40781c1f1d06.pdf
+- entry_type: article
+  cite_key: capitaine_al_2003
+  author: ''
+  title: Expressions for IAU 2000 precession quantities
+  crossref: astronomy_astrophysics
+  volume: '412'
+  year: 2003
+  url: https://www.aanda.org/articles/aa/pdf/2003/48/aa4068.pdf
+- entry_type: article
+  cite_key: bretagnon_al_2003
+  author: ''
+  title: Expressions for precession consistent with the IAU 2000A model
+  subtitle: Considerations about the ecliptic and the Earth Orientation Parameters
+  crossref: astronomy_astrophysics
+  volume: '400'
+  year: 2003
+  url: https://www.aanda.org/articles/aa/pdf/2003/11/aa2753.pdf
+- entry_type: article
+  cite_key: laskar_2004
+  author: ''
+  title: A long-term numerical solution for the insolation quantities of the Earth
+  crossref: astronomy_astrophysics
+  volume: '428'
+  year: 2004
+  pages: 261-285
+  url: https://www.aanda.org/articles/aa/pdf/2004/46/aa1335.pdf
+- entry_type: article
+  cite_key: capitaine_al_2005
+  author: ''
+  title: Improvement of the IAU 2000 precession model
+  crossref: astronomy_astrophysics
+  volume: '432'
+  year: 2005
+  pages: 355-367
+  url: https://www.aanda.org/articles/aa/pdf/2005/10/aa1908.pdf
+- entry_type: article
+  cite_key: wallace_al_2006
+  author: ''
+  title: Precession-nutation procedures consistent with IAU 2006 resolutions
+  crossref: astronomy_astrophysics
+  volume: '459'
+  year: 2006
+  pages: 981-987
+  url: https://www.aanda.org/articles/aa/pdf/2006/45/aa5897-06.pdf
