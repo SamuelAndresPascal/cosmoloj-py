@@ -35,11 +35,11 @@ def _create_parser() -> ArgumentParser:
                              nargs='?',
                              help="path to the configuration file",
                              default="pyenvs-deps.yml")
-    parser_deps.add_argument('--encoding',
+    parser_deps.add_argument('--encoding', '-e',
                              nargs='?',
                              help='the configuration file encoding (default to utf-8)',
                              default='utf-8')
-    parser_deps.add_argument('--output',
+    parser_deps.add_argument('--output', '-o',
                              nargs='?',
                              help='the dependency management file output directory',
                              default='.')
@@ -50,11 +50,11 @@ def _create_parser() -> ArgumentParser:
                              nargs='?',
                              help="path to the configuration file",
                              default="pyenvs-lint.yml")
-    parser_lint.add_argument('--encoding',
+    parser_lint.add_argument('--encoding', '-e',
                              nargs='?',
                              help='the configuration file encoding (default to utf-8)',
                              default='utf-8')
-    parser_lint.add_argument('--output',
+    parser_lint.add_argument('--output', '-o',
                              nargs='?',
                              help='the linter configuration file output directory',
                              default='.')

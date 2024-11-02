@@ -11,9 +11,10 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  --encoding [ENCODING]
+  --encoding [ENCODING], -e [ENCODING]
                         the configuration file encoding (default to utf-8)
-  --output [OUTPUT]     the linter configuration file output directory
+  --output [OUTPUT], -o [OUTPUT]
+                        the linter configuration file output directory
 ```
 
 ## Purpose
