@@ -40,9 +40,11 @@ def _read(s, extension: str) -> list:
 
     if extension == 'yml':
         return yaml.safe_load(s)
-    elif extension == 'json':
+
+    if extension == 'json':
         return json.load(s)
-    elif extension == 'bib':
+
+    if extension == 'bib':
         meta = {}
         content = []
         for e in bibtexparser.load(s).entries:
@@ -52,8 +54,8 @@ def _read(s, extension: str) -> list:
             del e['ID']
             content.append({**meta, **e})
         return content
-    else:
-        raise ValueError(f'unsupported configuration format {extension}')
+
+    raise ValueError(f'unsupported configuration format {extension}')
 
 def _write(o, extension: str, content: list):
     """Writes the bibliography in the format specified by the provided extension."""
