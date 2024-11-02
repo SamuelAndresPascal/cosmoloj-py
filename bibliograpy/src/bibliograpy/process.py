@@ -24,7 +24,7 @@ def _process(ns: Namespace):
     LOG.info("dependencies")
 
     in_extension = ns.file.split('.')[-1]
-    output_dir = Path(Path.cwd(), ns.output)
+    output_dir = Path(Path.cwd(), ns.output_dir)
     output_file = ns.output_file
     out_extension = output_file.split('.')[-1]
 

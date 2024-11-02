@@ -32,15 +32,15 @@ def _create_parser() -> ArgumentParser:
                              nargs='?',
                              help="path to the bibliograpy configuration file",
                              default="bibliograpy.yaml")
-    process.add_argument('--encoding',
+    process.add_argument('--encoding', '-e',
                              nargs='?',
                              help='the bibliograpy configuration file encoding (default to utf-8)',
                              default='utf-8')
-    process.add_argument('--output',
+    process.add_argument('--output-dir', '-O',
                              nargs='?',
                              help='the source bibliograpy file output directory',
                              default='.')
-    process.add_argument('--output-file',
+    process.add_argument('--output-file', '-o',
                              nargs='?',
                              help='the source bibliograpy output file name',
                              default='bibliography.py')

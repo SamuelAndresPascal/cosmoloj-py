@@ -29,7 +29,7 @@ def test_process_yml_to_yml():
                        file=_input_file('mini.yml'),
                        output_file=_input_file('test_process_yml_to_yml.yml'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_yml_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -50,7 +50,7 @@ def test_process_yml_to_bib():
                        file=_input_file('mini.yml'),
                        output_file=_input_file('test_process_yml_to_bib.bib'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_yml_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -70,7 +70,7 @@ def test_process_yml_to_json():
                        file=_input_file('mini.yml'),
                        output_file=_input_file('test_process_yml_to_json.json'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_yml_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -84,7 +84,7 @@ def test_process_json_to_yml():
                        file=_input_file('mini.json'),
                        output_file=_input_file('test_process_json_to_yml.yml'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_json_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -105,7 +105,7 @@ def test_process_json_to_bib():
                        file=_input_file('mini.json'),
                        output_file=_input_file('test_process_json_to_bib.bib'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_json_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -125,7 +125,7 @@ def test_process_json_to_json():
                        file=_input_file('mini.json'),
                        output_file=_input_file('test_process_json_to_json.json'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_json_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -139,7 +139,7 @@ def test_process_bib_to_yml():
                        file=_input_file('mini.json'),
                        output_file=_input_file('test_process_bib_to_yml.yml'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_bib_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -160,7 +160,7 @@ def test_process_bib_to_bib():
                        file=_input_file('mini.bib'),
                        output_file=_input_file('test_process_bib_to_bib.bib'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_bib_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -180,7 +180,7 @@ def test_process_bib_to_json():
                        file=_input_file('mini.bib'),
                        output_file=_input_file('test_process_bib_to_json.json'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     with open(_input_file('test_process_bib_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -194,7 +194,7 @@ def test_process_yml_to_yml_astroloj():
                        file=_input_file('astroloj.json'),
                        output_file=_input_file('astroloj.py'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
 def test_process_yml_to_yml_cosmoloj():
     """test process from a yml bibliography to a yml bibliography"""
@@ -203,7 +203,7 @@ def test_process_yml_to_yml_cosmoloj():
                        file=_input_file('cosmoloj.json'),
                        output_file=_input_file('cosmoloj.py'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
 def test_process_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
@@ -212,7 +212,7 @@ def test_process_yml_to_py():
                        file=_input_file('mini.yml'),
                        output_file=_input_file('test_process_yml_to_py.py'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     from test_process_yml_to_py import IAU, NASA
 
@@ -252,7 +252,7 @@ def test_process_json_to_py():
                        file=_input_file('mini.json'),
                        output_file=_input_file('test_process_json_to_py.py'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     from test_process_json_to_py import IAU, NASA
 
@@ -292,7 +292,7 @@ def test_process_bib_to_py():
                        file=_input_file('mini.bib'),
                        output_file=_input_file('test_process_bib_to_py.py'),
                        encoding='utf-8',
-                       output='.'))
+                       output_dir='.'))
 
     from test_process_bib_to_py import IAU, NASA
 

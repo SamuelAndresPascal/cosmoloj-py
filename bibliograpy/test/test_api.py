@@ -214,7 +214,7 @@ def test_mandatory_field():
             author='',
             title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
             year=2006)
-    assert e.value.args[0] == 'missing mandatory field for iau_2006_b1 TechReport'
+    assert e.value.args[0] == 'missing mandatory field for TechReport iau_2006_b1'
 
 def test_cross_reference():
     """test cross reference hierarchy management"""

@@ -427,7 +427,7 @@ class Reference:
             if all(f is not None for f in instance.cross_resolved()._mandatory_values()):
                 LOG.info('all mandatory values resolved in scope cross references')
             else:
-                raise ValueError(f'missing mandatory field for {instance.cite_key} {cls.__name__}')
+                raise ValueError(f'missing mandatory field for {cls.__name__} {instance.cite_key}')
 
         # scope management for crossref
         if scope is not None:
@@ -779,7 +779,7 @@ def _anonym(constructor: type[Reference]):
                     volume=volume,
                     year=year,
                     non_standard=non_standard,
-                    scope=crossref.scope))
+                    scope=None if crossref is None else crossref.scope))
     return internal
 
 article = _anonym(Article)

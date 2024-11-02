@@ -94,7 +94,7 @@ demo:bibliograpy:
     - conda list
     - pip install .
     - cd demo
-    - . demo.sh
+    - . preprocess_and_use.sh
 
 pypi-package:bibliograpy:pypi:
   stage: pypi-package
