@@ -8,7 +8,7 @@ lint:coordop:
     - conda activate lint
     - conda list
     - pip install .
-    - bibliograpy process --output src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.yml
     - pylint --rcfile=../pylintrc_src --ignore-paths src/coordop/bibliography.py src
 
 lint_test:coordop:
