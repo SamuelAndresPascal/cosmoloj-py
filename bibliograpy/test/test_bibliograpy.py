@@ -4,6 +4,7 @@ from argparse import Namespace
 from pathlib import Path
 import pydoc
 import sys
+import time
 
 import yaml
 
@@ -214,6 +215,8 @@ def test_process_yml_to_py():
                        encoding='utf-8',
                        output_dir='.'))
 
+    time.sleep(1) # wait for the bibliography source file to be generated
+
     from test_process_yml_to_py import IAU, NASA
 
     @reference(IAU, NASA)
@@ -254,6 +257,8 @@ def test_process_json_to_py():
                        encoding='utf-8',
                        output_dir='.'))
 
+    time.sleep(1) # wait for the bibliography source file to be generated
+
     from test_process_json_to_py import IAU, NASA
 
     @reference(IAU, NASA)
@@ -293,6 +298,8 @@ def test_process_bib_to_py():
                        output_file=_input_file('test_process_bib_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
+
+    time.sleep(1) # wait for the bibliography source file to be generated
 
     from test_process_bib_to_py import IAU, NASA
 

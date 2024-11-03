@@ -6,7 +6,8 @@ import pytest
 
 from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder, inbook
 
-SCOPE = {}
+SCOPE: dict[str, Reference] = {}
+
 IAU = Misc.generic(cite_key='iau',
                    title='International Astronomical Union',
                    institution='IAU',
@@ -22,13 +23,24 @@ IAU_2006_B1 = TechReport.generic(
 
 def test_to_source_bib():
     """test to python source bib serialization"""
-    assert (IAU_2006_B1.to_py() ==
+    assert (IAU_2006_B1.to_py(scope_symbol=None) ==
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',
                                  crossref=IAU,
                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
                                  year=2006)""")
+
+def test_to_source_bib_with_scope():
+    """test to python source bib serialization"""
+    assert (IAU_2006_B1.to_py(scope_symbol='SCOPE') ==
+"""
+IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
+                                 author='',
+                                 crossref=IAU,
+                                 title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
+                                 year=2006,
+                                 scope=SCOPE)""")
 
 def test_builtin_reference_decorator():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""

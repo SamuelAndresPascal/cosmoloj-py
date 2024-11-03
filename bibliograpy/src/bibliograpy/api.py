@@ -291,7 +291,7 @@ class Reference:
         """Produces a Python symbol for the reference."""
         return cite_key.upper()
 
-    def to_py(self) -> str:
+    def to_py(self, scope_symbol: str | None) -> str:
         """Serialization of the reference in processed python code."""
 
         base = f"{Reference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
@@ -315,6 +315,9 @@ class Reference:
                 fields.append(f'{f.name}={value.to_py()}')
             elif value is not None:
                 fields.append(f'{f.name}={value}')
+
+        if scope_symbol is not None:
+            fields.append(f'{Reference.SCOPE_FIELD}={scope_symbol}')
 
         # argument indentation management
         sep = ',\n'
@@ -483,11 +486,11 @@ class ReferenceBuilder:
                         refs: list[Reference]) -> str:
 
         if len(refs) == 1:
-            return f"\n\n{prefix} {reference_formatter(refs[0])}\n"
+            return f"\n\n{prefix} {reference_formatter(refs[0].cross_resolved())}\n"
 
         result = f"\n\n{prefix}\n\n"
         for r in refs:
-            result += f"{itemizer} {reference_formatter(r)}\n"
+            result += f"{itemizer} {reference_formatter(r.cross_resolved())}\n"
         return result
 
     @staticmethod
@@ -503,6 +506,8 @@ class ReferenceBuilder:
         """The reference decorator."""
 
         def internal(obj):
+            if obj.__doc__ is None:
+                obj.__doc__ = ''
             if len(refs) == 1:
                 ref0 = refs[0]
                 if isinstance(ref0, Reference):
@@ -813,3 +818,7 @@ TYPES: dict[str, type[Reference]] = {
     'techreport': TechReport,
     'unpublished': Unpublished
 }
+
+
+
+SHARED_SCOPE: dict[str, Reference] = {}
