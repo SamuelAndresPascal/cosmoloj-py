@@ -34,7 +34,7 @@ test:coordop:
     - conda activate test
     - conda list
     - pip install .
-    - bibliograpy process --output src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.yml
     - pip install .
     - cd ..
     - pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
@@ -64,7 +64,7 @@ pypi-package:coordop:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - bibliograpy process --output src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.yml
     - pip install .
     - python -m build
     - ls -l $DIST_DIR
