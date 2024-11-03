@@ -63,7 +63,9 @@ test:bibliograpy:
   artifacts:
     when: always
     paths:
-      - bibliograpy/test/tutu_bib.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_bib_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_yml_to_py.py # generated bibliography in tests needed at coverage time
       - .coverage
       - bibliograpy/report.xml
     reports:
