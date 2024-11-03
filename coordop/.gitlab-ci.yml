@@ -21,7 +21,7 @@ lint_test:coordop:
     - conda activate lint_test
     - conda list
     - pip install .
-    - bibliograpy process --output src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.yml
     - pylint --rcfile=../pylintrc_test test/projection/*
 
 test:coordop:
