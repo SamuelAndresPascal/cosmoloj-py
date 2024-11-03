@@ -170,7 +170,7 @@ conda-package:bibliograpy:
     - mkdir $DIST_DIR
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
-    - conda build --numpy=2.0 $DIST_DIR/$PACKAGE
+    - conda build --numpy=2.0 --channel conda-forge $DIST_DIR/$PACKAGE
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
     - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
