@@ -4,7 +4,7 @@
 
 ## Requirements and Installation
 
-`bibliograpy` requires `python>=9` and uses `pyyaml`.
+`bibliograpy` requires `python>=10` and uses `pyyaml` and `bibtexparser`.
 
 It can be installed using pip:
 
