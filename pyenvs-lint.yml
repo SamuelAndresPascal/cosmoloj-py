@@ -4,6 +4,7 @@ configuration:
         strict_environment: strict
 
 environments:
+  - coordop-src-api
   - bibliograpy-src-api
   - bibliograpy-test
   - multienv-src
