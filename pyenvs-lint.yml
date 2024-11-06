@@ -34,7 +34,7 @@ sections:
         value: 27
         environments: [bibliograpy-src-api]
       - key: max-positional-arguments
-        value: 7
+        value: 21
         environments: [coordop-src]
       - key: min-public-methods
         value: 1
@@ -57,9 +57,6 @@ sections:
       - key: max-parents
         value: 10
         environments: [multienv-src]
-      - key: max-positional-arguments
-        value: 21
-        environments: [coordop-src]
       - key: max-public-methods
         value: 32
         environments: [coordop-src]
