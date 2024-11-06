@@ -46,8 +46,11 @@ sections:
         value: 30
         environments: [src, multienv-src]
       - key: max-locals
+        value: 21
+        environments: [coordop-src]
+      - key: max-locals
         value: 30
-        environments: [src, multienv-src]
+        environments: [multienv-src]
       - key: max-attributes
         value: 17
         environments: [coordop-src]
