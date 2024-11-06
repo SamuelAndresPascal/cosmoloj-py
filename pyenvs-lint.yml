@@ -28,14 +28,17 @@ sections:
   - name: DESIGN
     rules:
       - key: max-positional-arguments
-        value: 25
+        value: 27
         environments: [bibliograpy-src-api]
       - key: max-positional-arguments
         value: 7
         environments: [coordop-src]
       - key: min-public-methods
         value: 1
-        environments: [src, multienv-src]
+        environments: [coordop-src]
+      - key: min-public-methods
+        value: 1
+        environments: [multienv-src]
       - key: max-args
         value: 30
         environments: [src, multienv-src]
@@ -46,8 +49,11 @@ sections:
         value: 100
         environments: [src, multienv-src]
       - key: max-public-methods
-        value: 100
-        environments: [src, multienv-src]
+        value: 32
+        environments: [coordop-src]
+      - key: max-public-methods
+        value: 20
+        environments: [multienv-src]
       - key: max-parents
         value: 10
         environments: [src, multienv-src]
@@ -58,7 +64,7 @@ sections:
         environments: [test]
       - key: disable
         value: 'undefined-variable,unused-argument'
-        environments: [src]
+        environments: [coordop-src]
       - key: disable
         value: 'undefined-variable,unused-argument,duplicate-code'
         environments: [multienv-src]

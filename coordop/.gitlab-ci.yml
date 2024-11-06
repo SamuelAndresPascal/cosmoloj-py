@@ -8,7 +8,7 @@ lint:coordop:
     - conda activate lint
     - conda list
     - pip install .
-    - bibliograpy process --output-dir src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.bib
     - pylint --rcfile=../pylintrc_coordop-src --ignore-paths src/coordop/bibliography.py src
 
 lint_test:coordop:
@@ -21,7 +21,7 @@ lint_test:coordop:
     - conda activate lint_test
     - conda list
     - pip install .
-    - bibliograpy process --output-dir src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.bib
     - pylint --rcfile=../pylintrc_test test/projection/*
 
 test:coordop:
@@ -34,7 +34,7 @@ test:coordop:
     - conda activate test
     - conda list
     - pip install .
-    - bibliograpy process --output-dir src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.bib
     - pip install .
     - cd ..
     - pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
@@ -75,7 +75,7 @@ pypi-package:coordop:pypi:
     - cat pyproject.toml
     - cp ../LICENSE.md .
     - pip install .
-    - bibliograpy process --output-dir src/coordop bibliograpy.yml
+    - bibliograpy process --output-dir src/coordop bibliograpy.bib
     - pip install .
     - python -m build
     - ls -l $DIST_DIR
