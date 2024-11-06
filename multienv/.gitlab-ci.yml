@@ -84,6 +84,7 @@ python-version-support:multienv:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
     - cd multienv
+    - . resources/check_py_version.sh 3.13 || exit 1
     - . resources/check_py_version.sh 3.12 || exit 1
 
 demo:multienv:

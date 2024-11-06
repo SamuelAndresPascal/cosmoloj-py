@@ -49,7 +49,7 @@ def test_builtin_reference_decorator():
     def bib_ref():
         """ma doc"""
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref) ==
 """Python Library Documentation: function bib_ref in module test_api
 
@@ -73,7 +73,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
         """ma doc avec plusieurs références"""
 
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_foo) ==
 """Python Library Documentation: function bib_ref_foo in module test_api
 
@@ -103,7 +103,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
         """ma doc avec plusieurs références en varargs"""
 
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_bar) ==
 """Python Library Documentation: function bib_ref_bar in module test_api
 
@@ -150,7 +150,7 @@ def test_custom_reference_builder():
         """ma doc avec plusieurs références en varargs"""
 
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(tatafr) ==
 """Python Library Documentation: function tatafr in module test_api
 
@@ -193,7 +193,7 @@ def test_parameterized_default_reference_builder():
         """ma doc avec plusieurs références en varargs"""
 
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(tatafr) ==
 """Python Library Documentation: function tatafr in module test_api
 
@@ -273,7 +273,7 @@ def test_specific_entry_type_decorator():
     def bib_ref():
         """ma doc"""
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref) ==
 """Python Library Documentation: function bib_ref in module test_api
 

@@ -223,7 +223,7 @@ def test_process_yml_to_py():
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_foo) ==
 """Python Library Documentation: function bib_ref_foo in module test_bibliograpy
 
@@ -265,7 +265,7 @@ def test_process_json_to_py():
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_foo) ==
 """Python Library Documentation: function bib_ref_foo in module test_bibliograpy
 
@@ -307,7 +307,7 @@ def test_process_bib_to_py():
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
-    if sys.version_info.minor == 12:
+    if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_foo) ==
 """Python Library Documentation: function bib_ref_foo in module test_bibliograpy
 
