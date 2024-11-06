@@ -32,7 +32,7 @@ dependencies:
   - id: pytest-cov
     environments: [test]
   - id: build
-    version: 1.2.1
+    version: 1.2.2
     environments: [pypi_pkg]
   - id: twine
     version: 1.11.0
