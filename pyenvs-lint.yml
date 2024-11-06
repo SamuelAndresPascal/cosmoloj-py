@@ -29,6 +29,9 @@ sections:
       - key: max-positional-arguments
         value: 25
         environments: [bibliograpy-src-api]
+      - key: max-positional-arguments
+        value: 7
+        environments: [coordop-src-api]
       - key: min-public-methods
         value: 1
         environments: [src, multienv-src]
