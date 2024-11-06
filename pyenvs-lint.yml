@@ -4,7 +4,7 @@ configuration:
         strict_environment: strict
 
 environments:
-  - coordop-src-api
+  - coordop-src
   - bibliograpy-src-api
   - bibliograpy-test
   - multienv-src
@@ -32,7 +32,7 @@ sections:
         environments: [bibliograpy-src-api]
       - key: max-positional-arguments
         value: 7
-        environments: [coordop-src-api]
+        environments: [coordop-src]
       - key: min-public-methods
         value: 1
         environments: [src, multienv-src]
