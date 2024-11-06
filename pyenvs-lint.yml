@@ -27,6 +27,9 @@ sections:
         environments: [taxref-src]
   - name: DESIGN
     rules:
+      - key: max-args
+        value: 21
+        environments: [coordop-src]
       - key: max-positional-arguments
         value: 27
         environments: [bibliograpy-src-api]
@@ -46,17 +49,23 @@ sections:
         value: 30
         environments: [src, multienv-src]
       - key: max-attributes
-        value: 100
-        environments: [src, multienv-src]
+        value: 17
+        environments: [coordop-src]
+      - key: max-parents
+        value: 9
+        environments: [coordop-src]
+      - key: max-parents
+        value: 10
+        environments: [multienv-src]
+      - key: max-positional-arguments
+        value: 21
+        environments: [coordop-src]
       - key: max-public-methods
         value: 32
         environments: [coordop-src]
       - key: max-public-methods
         value: 20
         environments: [multienv-src]
-      - key: max-parents
-        value: 10
-        environments: [src, multienv-src]
   - name: MESSAGES CONTROL
     rules:
       - key: disable
