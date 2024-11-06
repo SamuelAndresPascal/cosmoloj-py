@@ -358,7 +358,7 @@ class Reference:
         result['ENTRYTYPE'] = type(self).bibtex_entry_type()
         return result
 
-    def _mandatory_values(self) -> list:
+    def _mandatory_values(self) -> dict[str, Any]:
         """Checks if standard mandatory fields are not None."""
         raise NotImplementedError
 
@@ -426,8 +426,8 @@ class Reference:
                        non_standard=non_standard,
                        scope=scope)
 
-        if any(f is None for f in instance._mandatory_values()):
-            if all(f is not None for f in instance.cross_resolved()._mandatory_values()):
+        if any(v is None for k, v in instance._mandatory_values().items()):
+            if all(v is not None for k, v in instance.cross_resolved()._mandatory_values().items()):
                 LOG.info('all mandatory values resolved in scope cross references')
             else:
                 raise ValueError(f'missing mandatory field for {cls.__name__} {instance.cite_key}')
@@ -527,7 +527,7 @@ class _InternalReference(Reference):
 
     def _mandatory_values(self):
         """Checks if standard mandatory fields are not None."""
-        return []
+        return {}
 
 _bibtex_com = reference(_InternalReference.generic(cite_key='bibtex_com',
                                                    title='www.bibtex.com'))
@@ -551,7 +551,12 @@ class Article(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values"""
-        return [self.author, self.title, self.journal, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'journal': self.journal,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -565,7 +570,12 @@ class Book(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author or self.editor, self.title, self.publisher, self.year]
+        return {
+            'author or editor': self.author or self.editor,
+            'title': self.title,
+            'publisher': self.publisher,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -579,7 +589,7 @@ class Booklet(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.title]
+        return {'title': self.title}
 
 @_bibtex_package
 @_bibtex_com
@@ -593,7 +603,13 @@ class Inbook(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author or self.editor, self.title, self.chapter or self.pages, self.publisher, self.year]
+        return {
+            'author or editor': self.author or self.editor,
+            'title': self.title,
+            'chapter or pages': self.chapter or self.pages,
+            'publisher': self.publisher,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -607,7 +623,13 @@ class Incollection(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.booktitle, self.publisher, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'booktitle': self.booktitle,
+            'publisher': self.publisher,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -621,7 +643,12 @@ class Inproceedings(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.booktitle, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'booktitle': self.booktitle,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -641,7 +668,7 @@ class Manual(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.title]
+        return {'title': self.title}
 
 @_bibtex_package
 @_bibtex_com
@@ -655,7 +682,12 @@ class Mastersthesis(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.school, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'school': self.school,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -669,7 +701,7 @@ class Misc(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return []
+        return {}
 
 @_bibtex_package
 @_bibtex_com
@@ -683,7 +715,12 @@ class Phdthesis(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.school, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'school': self.school,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -697,7 +734,10 @@ class Proceedings(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.title, self.year]
+        return {
+            'title': self.title,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -711,7 +751,12 @@ class TechReport(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.institution, self.year]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'institution': self.institution,
+            'year': self.year
+        }
 
 @_bibtex_package
 @_bibtex_com
@@ -725,7 +770,11 @@ class Unpublished(Reference):
 
     def _mandatory_values(self):
         """Returns all the mandatory values."""
-        return [self.author, self.title, self.note]
+        return {
+            'author': self.author,
+            'title': self.title,
+            'note': self.note
+        }
 
 # Déclarations de références anonymes
 # les références anonymes n'ont pas de cite_key
