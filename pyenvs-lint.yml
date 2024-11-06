@@ -26,6 +26,9 @@ sections:
         environments: [taxref-src]
   - name: DESIGN
     rules:
+      - key: max-positional-arguments
+        value: 25
+        environments: [bibliograpy-src-api]
       - key: min-public-methods
         value: 1
         environments: [src, multienv-src]
