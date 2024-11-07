@@ -4,31 +4,62 @@ General standard input definition.
 
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
-class Rule:
-    """Representation of pyenvs lint rule content."""
+class MapRule:
+    """Representation of pyenvs lint map rule content.
+    Such a rule specifies distinct values for a same rule in many environments."""
     key: str
-    value: str
-    environments: list[str] | None
+    environments: dict[str, str]
 
     @staticmethod
     def from_dict(source: dict):
         """Builds a Rule from a configuration dict."""
 
-        assert 'key' in source, 'key is a mandatory section field'
-        assert 'value' in source, 'value is a mandatory section field'
+        return MapRule(
+            key=source['key'],
+            environments=source['environments'],
+        )
 
-        return Rule(
+@dataclass(frozen=True)
+class ValueRule:
+    """Representation of pyenvs lint strict rule content.
+    Such a rule is common to all environments and so, don't need to specify anyone."""
+    key: str
+    value: str
+
+    @staticmethod
+    def from_dict(source: dict):
+        """Builds a Rule from a configuration dict."""
+
+        return ValueRule(
+            key=source['key'],
+            value=source['value']
+        )
+
+@dataclass(frozen=True)
+class ListRule:
+    """Representation of pyenvs lint rule content.
+    Such a rule specifies a single value valid for a list of specific environments."""
+    key: str
+    value: str
+    environments: list[str]
+
+    @staticmethod
+    def from_dict(source: dict):
+        """Builds a Rule from a configuration dict."""
+
+        return ListRule(
             key=source['key'],
             value=source['value'],
-            environments=source['environments'] if 'environments' in source else None,
+            environments=source['environments'],
         )
 
 @dataclass(frozen=True)
 class Section:
     """Representation of pyenvs lint section content."""
     name: str
-    rules: list[Rule]
+    rules: list[ValueRule | MapRule | ListRule]
 
     @staticmethod
     def from_dict(source: dict):
@@ -37,20 +68,30 @@ class Section:
         assert 'name' in source, 'name is a mandatory section field'
         assert 'rules' in source, 'rules is a mandatory section field'
 
+        rules = []
+        for s in source['rules']:
+            if 'value' in s and 'environments' in s:
+                rules.append(ListRule.from_dict(s))
+            elif 'value' in s:
+                rules.append(ValueRule.from_dict(s))
+            elif 'environments' in s:
+                rules.append(MapRule.from_dict(s))
+            else:
+                raise ValueError
         return Section(
             name=source['name'],
-            rules=[Rule.from_dict(s) for s in source['rules']],
+            rules=rules,
         )
 
     def environment_rules(self, environment: str):
         """Get a new section containing only rules for the given environment."""
         return Section(name=self.name,
-                       rules=[r for r in self.rules if not r.environments or environment in r.environments])
+                       rules=[r for r in self.rules if isinstance(r, ValueRule) or environment in r.environments])
 
     def strict_rules(self):
         """Get a new section containing only the strict rules."""
         return Section(name=self.name,
-                       rules=[r for r in self.rules if not r.environments])
+                       rules=[r for r in self.rules if isinstance(r, ValueRule)])
 
     def __len__(self):
         return len(self.rules)
@@ -92,7 +133,7 @@ class Configuration:
     def _implicit_environments(self) -> list[str]:
         """Computes implicit environments which are ones contained in dependency environment lists."""
         return list(dict.fromkeys([e for s in self.sections if s.rules
-                                   for r in s.rules if r.environments
+                                   for r in s.rules if not isinstance(r, ValueRule)
                                    for e in r.environments]))
 
     def effective_environments(self) -> list[str]:

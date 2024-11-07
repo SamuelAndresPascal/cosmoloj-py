@@ -6,7 +6,8 @@ General Pylint formatter output definitions.
 from dataclasses import dataclass
 from pathlib import Path
 
-from multienv.pyenvs_lint_input_std import Section, Configuration
+from multienv.pyenvs_lint_input_std import Section, Configuration, MapRule
+
 
 @dataclass(frozen=True)
 class Pylintrc:
@@ -35,6 +36,8 @@ class Pylintrc:
         result = []
         for s in self.sections:
             result.append(f"[{s.name}]\n")
-            result.extend([f"{r.key}={r.value}\n" for r in s.rules])
+            result.extend([f"{r.key}={r.environments[self.name]}" if isinstance(r, MapRule)
+                           else f"{r.key}={r.value}\n"
+                           for r in s.rules])
             result.append('\n')
         return result

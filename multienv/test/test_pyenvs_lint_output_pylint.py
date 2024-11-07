@@ -1,7 +1,7 @@
 """Test module for pyenv pylint environment output."""
 
 from multienv.pyenvs_lint_output_pylint import Pylintrc
-from multienv.pyenvs_lint_input_std import Section, Rule
+from multienv.pyenvs_lint_input_std import Section, ListRule
 
 
 def test_format_dependency():
@@ -10,8 +10,8 @@ def test_format_dependency():
     s = Section(
         name='FORMAT',
         rules=[
-            Rule(key='max-line-length', value='120', environments=None),
-            Rule(key='max-args', value='9', environments=['src'])
+            ListRule(key='max-line-length', value='120', environments=None),
+            ListRule(key='max-args', value='9', environments=['src'])
         ]
     )
 

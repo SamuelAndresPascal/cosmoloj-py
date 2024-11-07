@@ -2,7 +2,8 @@
 
 import pytest
 
-from multienv.pyenvs_lint_input_std import Rule, Section, Configuration
+from multienv.pyenvs_lint_input_std import ListRule, Section, Configuration, MapRule, ValueRule
+
 
 def test_lint_configuration_from_dict_classic():
     """Test configuration loading from dict."""
@@ -217,7 +218,7 @@ def test_lint_section_from_dict_classic():
     assert r.value == '120'
     assert r.environments == ['multienv', 'test']
 
-def test_lint_rule_from_dict_classic():
+def test_lint_listrule_from_dict_classic():
     """Test rule loading from dict."""
 
     i = {
@@ -226,14 +227,33 @@ def test_lint_rule_from_dict_classic():
         'environments': ['multienv', 'test']
     }
 
-    r = Rule.from_dict(i)
+    r = ListRule.from_dict(i)
 
     assert r.key == 'max-line-length'
     assert r.value == '120'
     assert r.environments == ['multienv', 'test']
 
+def test_lint_maprule_from_environement_dict_classic():
+    """Test rule loading from dict."""
 
-def test_lint_rule_from_dict_without_environments():
+    i = {
+        'key': 'max-line-length',
+        'environments': {
+            'multienv': 100,
+            'test': 120
+        }
+    }
+
+    r = MapRule.from_dict(i)
+
+    assert r.key == 'max-line-length'
+    assert r.environments == {
+            'multienv': 100,
+            'test': 120
+        }
+
+
+def test_lint_listrule_from_dict_without_environments():
     """Test rule loading from dict."""
 
     i = {
@@ -241,14 +261,13 @@ def test_lint_rule_from_dict_without_environments():
         'value': '120'
     }
 
-    r = Rule.from_dict(i)
+    r = ValueRule.from_dict(i)
 
     assert r.key == 'max-line-length'
     assert r.value == '120'
-    assert r.environments is None
 
 
-def test_lint_rule_from_dict_without_value():
+def test_lint_listrule_from_dict_without_value():
     """Test rule loading from dict."""
 
     i = {
@@ -256,12 +275,12 @@ def test_lint_rule_from_dict_without_value():
         'environments': ['multienv', 'test']
     }
 
-    with pytest.raises(AssertionError) as e:
-        Rule.from_dict(i)
+    with pytest.raises(KeyError) as e:
+        ListRule.from_dict(i)
 
-    assert e.value.args[0] == 'value is a mandatory section field'
+    assert e.value.args[0] == 'value'
 
-def test_lint_rule_from_dict_without_key():
+def test_lint_listrule_from_dict_without_key():
     """Test rule loading from dict."""
 
     i = {
@@ -269,7 +288,7 @@ def test_lint_rule_from_dict_without_key():
         'environments': ['multienv', 'test']
     }
 
-    with pytest.raises(AssertionError) as e:
-        Rule.from_dict(i)
+    with pytest.raises(KeyError) as e:
+        ListRule.from_dict(i)
 
-    assert e.value.args[0] == 'key is a mandatory section field'
+    assert e.value.args[0] == 'key'
