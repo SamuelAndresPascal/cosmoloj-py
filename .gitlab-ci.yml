@@ -33,8 +33,8 @@ conda_envs:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - . ./init_conda.sh multienv 3.12
-    - conda install -c cosmoloj multienv=0.4.1 -y
+    - . ./init_conda.sh multienv 3.13
+    - conda install -c cosmoloj multienv=0.5.0 -y
   script:
     - cd simpleunit
     - pyenvs deps
@@ -64,8 +64,8 @@ pylintrc_envs:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - . ./init_conda.sh multienv 3.12
-    - conda install -c cosmoloj multienv=0.4.1 -y
+    - . ./init_conda.sh multienv 3.13
+    - conda install -c cosmoloj multienv=0.5.0 -y
   script:
     - pyenvs lint
   after_script:

@@ -28,58 +28,40 @@ sections:
   - name: DESIGN
     rules:
       - key: max-args
-        value: 21
-        environments: [coordop-src]
+        environments:
+          coordop-src: 21
       - key: max-positional-arguments
-        value: 27
-        environments: [bibliograpy-src-api]
-      - key: max-positional-arguments
-        value: 21
-        environments: [coordop-src]
+        environments:
+          bibliograpy-src-api: 27
+          coordop-src: 21
       - key: min-public-methods
         value: 1
-        environments: [coordop-src]
-      - key: min-public-methods
-        value: 1
-        environments: [multienv-src]
+        environments: [coordop-src, multienv-src]
       - key: max-args
         value: 30
         environments: [src, multienv-src]
       - key: max-locals
-        value: 21
-        environments: [coordop-src]
-      - key: max-locals
-        value: 30
-        environments: [multienv-src]
+        environments:
+          coordop-src: 21
+          multienv-src: 30
       - key: max-attributes
         value: 17
         environments: [coordop-src]
       - key: max-parents
-        value: 9
-        environments: [coordop-src]
-      - key: max-parents
-        value: 10
-        environments: [multienv-src]
+        environments:
+          coordop-src: 9
+          multienv-src: 10
       - key: max-public-methods
-        value: 32
-        environments: [coordop-src]
-      - key: max-public-methods
-        value: 20
-        environments: [multienv-src]
+        environments:
+          coordop-src: 32
+          multienv-src: 20
   - name: MESSAGES CONTROL
     rules:
       - key: disable
-        value: 'protected-access,duplicate-code'
-        environments: [test]
-      - key: disable
-        value: 'undefined-variable,unused-argument'
-        environments: [coordop-src]
-      - key: disable
-        value: 'undefined-variable,unused-argument,duplicate-code'
-        environments: [multienv-src]
-      - key: disable
-        value: 'import-error,import-outside-toplevel'
-        environments: [bibliograpy-test]
-      - key: disable
-        value: 'too-many-instance-attributes,too-many-arguments,too-many-locals,redefined-builtin'
-        environments: [bibliograpy-src-api]
+        value:
+        environments:
+          test: 'protected-access,duplicate-code'
+          coordop-src: 'undefined-variable,unused-argument'
+          multienv-src: 'undefined-variable,unused-argument,duplicate-code'
+          bibliograpy-test: 'import-error,import-outside-toplevel'
+          bibliograpy-src-api: 'too-many-instance-attributes,too-many-arguments,too-many-locals,redefined-builtin'
