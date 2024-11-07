@@ -1,0 +1,45 @@
+configuration:
+  formatters:
+    - pylint
+
+environments:
+  - src_distinct
+  - test_distinct
+
+sections:
+  - name: 'FORMAT'
+    rules:
+      - key: max-line-length
+        value: 120
+      - key: max-args
+        value: 9
+        environments: [src_distinct]
+  - name: 'DESIGN'
+    rules:
+      - key: min-public-methods
+        value: 1
+        environments: [src_distinct]
+      - key: max-args
+        value: 30
+        environments: [src_distinct]
+      - key: max-locals
+        value: 30
+        environments: [src_distinct]
+      - key: max-attributes
+        value: 100
+        environments: [src_distinct]
+      - key: max-public-methods
+        value: 100
+        environments: [src_distinct]
+      - key: max-parents
+        environments:
+          src_distinct: 10
+          test_distinct: 5
+  - name: 'MESSAGES CONTROL'
+    rules:
+      - key: disable
+        value: 'protected-access,duplicate-code'
+        environments: [test_distinct]
+      - key: disable
+        value: 'undefined-variable,unused-argument'
+        environments: [src_distinct]

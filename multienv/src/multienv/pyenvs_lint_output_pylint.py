@@ -36,7 +36,7 @@ class Pylintrc:
         result = []
         for s in self.sections:
             result.append(f"[{s.name}]\n")
-            result.extend([f"{r.key}={r.environments[self.name]}" if isinstance(r, MapRule)
+            result.extend([f"{r.key}={r.environments[self.name]}\n" if isinstance(r, MapRule)
                            else f"{r.key}={r.value}\n"
                            for r in s.rules])
             result.append('\n')
