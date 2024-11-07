@@ -58,7 +58,6 @@ sections:
   - name: MESSAGES CONTROL
     rules:
       - key: disable
-        value:
         environments:
           test: 'protected-access,duplicate-code'
           coordop-src: 'undefined-variable,unused-argument'
