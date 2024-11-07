@@ -53,7 +53,7 @@ python-version-support:taxref:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
     - cd taxref
-    - . resources/check_py_version.sh 3.13 || exit 1
+    #- . resources/check_py_version.sh 3.13 || exit 1 doit attendre le support de 3.13 par pandas
     - . resources/check_py_version.sh 3.12 || exit 1
     - . resources/check_py_version.sh 3.11 || exit 1
     - . resources/check_py_version.sh 3.10 || exit 1
