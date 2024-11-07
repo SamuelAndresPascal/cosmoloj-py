@@ -6,5 +6,7 @@ conda --version
 conda install numpy -y
 pip install .
 bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
+pip install .
+
 conda install pytest -y
 pytest
