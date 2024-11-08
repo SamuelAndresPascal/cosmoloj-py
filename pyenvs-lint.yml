@@ -47,6 +47,9 @@ sections:
       - key: max-attributes
         value: 17
         environments: [coordop-src]
+      - key: max-module-lines
+        value: 2000
+        environments: [coordop-src]
       - key: max-parents
         environments:
           coordop-src: 9

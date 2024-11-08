@@ -1033,7 +1033,7 @@ class Epsg9802(InvertibleProjection[Ellipsoid]):
         return cos(phi) / sqrt(1. - self._e * self._e * sinphi * sinphi)
 
     def _compute_t(self, phi: float) -> float:
-        esinphi = self._e * sin(phi);
+        esinphi = self._e * sin(phi)
         return tan(pi / 4. - phi / 2.) / pow((1. - esinphi) / (1. + esinphi), self._e / 2.)
 
     def _compute_n(self) -> float:
@@ -1064,7 +1064,8 @@ class Epsg9802(InvertibleProjection[Ellipsoid]):
 
     def __compute_phi(self, easting: float, northing: float, phi: float) -> float:
         return pi / 2. - 2. * atan(
-                self._compute_inv_t(easting, northing) * pow((1. - self._e * sin(phi)) / (1 + self._e * sin(phi)), self._e / 2.)
+                self._compute_inv_t(easting, northing)
+                * pow((1. - self._e * sin(phi)) / (1 + self._e * sin(phi)), self._e / 2.)
         )
 
     def _compute_inv_theta(self, easting: float, northing: float):
