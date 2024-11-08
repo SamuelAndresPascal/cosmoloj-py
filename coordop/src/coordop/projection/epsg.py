@@ -974,3 +974,107 @@ class Epsg9801(InvertibleProjection[Ellipsoid]):
         rel_northing = self._r0 - (northing - self._fn)
         result = sqrt(rel_easting ** 2 + rel_northing ** 2)
         return result if self._n > 0. else -result
+
+
+
+@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+class Epsg9802(InvertibleProjection[Ellipsoid]):
+    """Lambert Conic Conformal (2SP)"""
+
+    _PHI = 0
+    _LAMBDA = 1
+    _EASTING = 0
+    _NORTHING = 1
+    _PRECISION = 1e-12
+
+    def __init__(self, ellipsoid: Ellipsoid,
+                 phif: float, lambdaf: float, phi1: float, phi2: float, ef: float, nf: float):
+        self._ellipsoid = ellipsoid
+        self._a = ellipsoid.a()
+        self._e = ellipsoid.e()
+        self._phif = phif
+        self._lambdaf = lambdaf
+        self._phi1 = phi1
+        self._phi2 = phi2
+        self._ef = ef
+        self._nf = nf
+        self._m1 = self._compute_m(phi1)
+        self._m2 = self._compute_m(phi2)
+        self._t1 = self._compute_t(phi1)
+        self._t2 = self._compute_t(phi2)
+        self._n = self._compute_n()
+        self._f = self._compute_f()
+        self._rf = self._compute_r(phif)
+
+    @override
+    def get_surface(self) -> Ellipsoid:
+        return self._ellipsoid
+
+    @override
+    def compute(self, i):
+        phi = i[Epsg9802._PHI]
+        l = i[Epsg9802._LAMBDA]
+        return self._compute_easting(phi, l), self._compute_northing(phi, l)
+
+    @override
+    def inverse(self, i):
+        easting = i[Epsg9802._EASTING]
+        northing = i[Epsg9802._NORTHING]
+        return self._compute_phi(easting, northing), self._compute_lambda(easting, northing)
+
+    def _compute_easting(self, phi: float, l: float) -> float:
+        return self._ef + self._compute_r(phi) * sin(self._compute_theta(l))
+
+    def _compute_northing(self, phi: float, l: float) -> float:
+        return self._nf + self._rf - self._compute_r(phi) * cos(self._compute_theta(l))
+
+    def _compute_m(self, phi: float) -> float:
+        sinphi = sin(phi)
+        return cos(phi) / sqrt(1. - self._e * self._e * sinphi * sinphi)
+
+    def _compute_t(self, phi: float) -> float:
+        esinphi = self._e * sin(phi);
+        return tan(pi / 4. - phi / 2.) / pow((1. - esinphi) / (1. + esinphi), self._e / 2.)
+
+    def _compute_n(self) -> float:
+        return (log(self._m1) - log(self._m2)) / (log(self._t1) - log(self._t2))
+
+    def _compute_f(self) -> float:
+        return self._m1 / (self._n * pow(self._t1, self._n))
+
+    def _compute_r(self, phi: float) -> float:
+        t = self._compute_t(phi)
+        return self._a * self._f * pow(t, self._n) if t > 0. else 0.
+
+    def _compute_theta(self, l: float) -> float:
+        return self._n * (l - self._lambdaf)
+
+    def _compute_lambda(self, easting: float, northing: float) -> float:
+        return self._compute_inv_theta(easting, northing) / self._n + self._lambdaf
+
+    def _compute_phi(self, easting: float, northing: float) -> float:
+        phi = self._compute_inv_t(easting, northing)
+
+        while True:
+            tmp = self.__compute_phi(easting, northing, phi)
+            if abs(tmp - phi) > Epsg9802._PRECISION:
+                phi = tmp
+            else:
+                return tmp
+
+    def __compute_phi(self, easting: float, northing: float, phi: float) -> float:
+        return pi / 2. - 2. * atan(
+                self._compute_inv_t(easting, northing) * pow((1. - self._e * sin(phi)) / (1 + self._e * sin(phi)), self._e / 2.)
+        )
+
+    def _compute_inv_theta(self, easting: float, northing: float):
+        return atan2(easting - self._ef, self._rf - (northing - self._nf))
+
+    def _compute_inv_t(self, easting: float, northing: float) -> float:
+        return pow(self._compute_inv_r(easting, northing) / (self._a * self._f), 1. / self._n)
+
+    def _compute_inv_r(self, easting: float, northing: float):
+        rel_easting = easting - self._ef
+        rel_northing = self._rf - (northing - self._nf)
+        result = sqrt(rel_easting ** 2 + rel_northing ** 2)
+        return result if self._n > 0. else -result
