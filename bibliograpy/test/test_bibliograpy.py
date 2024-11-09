@@ -10,7 +10,7 @@ import yaml
 
 import pytest
 
-from bibliograpy.api import reference
+from bibliograpy.api import cite
 
 from bibliograpy.process import _process
 
@@ -219,7 +219,7 @@ def test_process_yml_to_py():
 
     from test_process_yml_to_py import IAU, NASA
 
-    @reference(IAU, NASA)
+    @cite(IAU, NASA)
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
@@ -261,7 +261,7 @@ def test_process_json_to_py():
 
     from test_process_json_to_py import IAU, NASA
 
-    @reference(IAU, NASA)
+    @cite(IAU, NASA)
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 
@@ -303,7 +303,7 @@ def test_process_bib_to_py():
 
     from test_process_bib_to_py import IAU, NASA
 
-    @reference(IAU, NASA)
+    @cite(IAU, NASA)
     def bib_ref_foo():
         """ma doc avec plusieurs références en varargs"""
 

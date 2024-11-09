@@ -1,11 +1,11 @@
 from math import cos, atan, pi, log, tan, exp
 
-from bibliograpy.api import reference, inbook
+from bibliograpy.api import cite, inbook
 
 import cosmoloj_bib as bib
 
 
-@reference(bib.MAP_PROJECTIONS)
+@cite(bib.MAP_PROJECTIONS)
 class MercatorSpherical:
     """The mercator spherical projection as defined in Map Projections."""
 
@@ -29,17 +29,17 @@ class MercatorSpherical:
         return phi_7_4(self._r, self._cos_phi1, i[MercatorSpherical._Y]), \
                lambda_7_5(self._r, self._cos_phi1, self._lambda0, i[MercatorSpherical._X])
 
-@reference(bib.MAP_PROJECTIONS)
+@cite(bib.MAP_PROJECTIONS)
 def x_7_1(radius: float, cos_phi1: float, lambda0: float, lon: float) -> float:
     """formula 7-1"""
     return radius * (lon - lambda0) * cos_phi1
 
-@reference(bib.MAP_PROJECTIONS)
+@cite(bib.MAP_PROJECTIONS)
 def y_7_2(radius: float, cos_phi1: float, lat: float) -> float:
     """formula 7-2"""
     return radius * log(tan(pi / 4. + lat / 2.)) * cos_phi1
 
-@reference(bib.MAP_PROJECTIONS)
+@cite(bib.MAP_PROJECTIONS)
 def phi_7_4(radius: float, cos_phi1: float, y: float) -> float:
     """formula 7-4"""
     return (pi / 2. - 2 * atan(exp(-y / radius))) / cos_phi1

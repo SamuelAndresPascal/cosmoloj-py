@@ -19,6 +19,7 @@ stages:
   - pypi-package
   - pypi-publish
   - conda-package
+  - conda-publish
   - sonar
 
 include:

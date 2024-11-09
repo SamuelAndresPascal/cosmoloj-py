@@ -15,7 +15,7 @@ environments:
   - doc
   - pypi_pkg
   - pypi_publish
-  - conda_publish
+  - conda_pkg
 
 dependencies:
   - id: python
@@ -43,4 +43,4 @@ dependencies:
     environments: [pypi_publish]
   - id: grayskull
     version: 2.7.3
-    environments: [conda_publish]
+    environments: [conda_pkg]

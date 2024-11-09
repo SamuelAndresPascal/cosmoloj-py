@@ -42,11 +42,11 @@ IAU_2006_B1 = TechReport.generic(
 ```py
 """The bibliography_client module using the bibliography.py module."""
 
-from bibliograpy.api import reference
+from bibliograpy.api import cite
 
 from bibliography import IAU_2006_B1
 
-@reference(IAU_2006_B1)
+@cite(IAU_2006_B1)
 def my_function():
     """My my_function documentation."""
     # some implementation here using the reference given as a parameter to the decorator

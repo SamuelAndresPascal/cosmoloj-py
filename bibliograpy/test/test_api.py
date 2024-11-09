@@ -4,7 +4,7 @@ import pydoc
 
 import pytest
 
-from bibliograpy.api import reference, Misc, TechReport, Reference, ReferenceBuilder, inbook
+from bibliograpy.api import cite, Misc, TechReport, Reference, ReferenceBuilder, inbook
 
 SCOPE: dict[str, Reference] = {}
 
@@ -45,7 +45,7 @@ IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
 def test_builtin_reference_decorator():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""
 
-    @reference(IAU_2006_B1)
+    @cite(IAU_2006_B1)
     def bib_ref():
         """ma doc"""
 
@@ -68,7 +68,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
     Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
 """)
 
-    @reference([IAU_2006_B1, IAU])
+    @cite([IAU_2006_B1, IAU])
     def bib_ref_foo():
         """ma doc avec plusieurs références"""
 
@@ -98,7 +98,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * International Astronomical Union [iau]
 """)
 
-    @reference(IAU_2006_B1, IAU)
+    @cite(IAU_2006_B1, IAU)
     def bib_ref_bar():
         """ma doc avec plusieurs références en varargs"""
 

@@ -520,7 +520,8 @@ class ReferenceBuilder:
 
         return internal
 
-reference = ReferenceBuilder.default()
+cite = ReferenceBuilder.default()
+reference = cite # deprecated
 
 class _InternalReference(Reference):
     """Internal bibliographic usage before defining standard types."""
@@ -529,10 +530,10 @@ class _InternalReference(Reference):
         """Checks if standard mandatory fields are not None."""
         return {}
 
-_bibtex_com = reference(_InternalReference.generic(cite_key='bibtex_com',
+_bibtex_com = cite(_InternalReference.generic(cite_key='bibtex_com',
                                                    title='www.bibtex.com'))
 
-_bibtex_package = reference(
+_bibtex_package = cite(
     _InternalReference.generic(cite_key='bibtex_package',
                                title='CTAN Bibtex package documentation',
                                non_standard=NonStandard(
@@ -806,7 +807,7 @@ def _anonym(constructor: type[Reference]):
             volume: str | int | None = None,
             year: str | int | None = None,
             non_standard: NonStandard | None = None,
-            ref_supplier = reference):
+            ref_supplier = cite):
         return ref_supplier(constructor.generic(
                     cite_key=_ANONYM_CITE_KEY,
                     address=address,

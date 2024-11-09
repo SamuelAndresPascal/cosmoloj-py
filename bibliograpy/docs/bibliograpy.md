@@ -45,20 +45,20 @@ character string search in the source code.
 Compare:
 
 ```python
-from bibliograpy.api import Misc, NonStandard, reference
+from bibliograpy.api import Misc, NonStandard, cite
 
 BIBLIOGRAPY_DOC = Misc.generic(cite_key='bibliograpy_doc',
                                title='the Bibliograpy documentation',
                                non_standard=NonStandard(url='https://cosmoloj.com/mkdocs/bibliograpy/latest/'))
 
-@reference(BIBLIOGRAPY_DOC)
+@cite(BIBLIOGRAPY_DOC)
 def foo():
     """
     Foo does nothing.
     """
 
 
-@reference(BIBLIOGRAPY_DOC)
+@cite(BIBLIOGRAPY_DOC)
 def bar():
     """
     Foo does nothing more.
@@ -73,7 +73,7 @@ allows to define navigable links in code between bibliographic variables, for in
 same journal which factorizes its title:
 
 ```python
-from bibliograpy.api import Misc, Article, reference
+from bibliograpy.api import Misc, Article, cite
 
 JOURNAL = Misc.generic(cite_key='my_journal', journal='My International Journal')
 
@@ -81,14 +81,14 @@ ARTICLE_A = Article.generic(cite_key='article_a', title='Mi first discovery', cr
 
 ARTICLE_B = Article.generic(cite_key='article_b', title='Mi second discovery', crossref=JOURNAL)
 
-@reference(ARTICLE_A)
+@cite(ARTICLE_A)
 def foo():
     """
     My first discovery demonstration.
     """
 
 
-@reference(ARTICLE_A, ARTICLE_B)
+@cite(ARTICLE_A, ARTICLE_B)
 def bar():
     """
     Comparison between my first discovery and my second one.
