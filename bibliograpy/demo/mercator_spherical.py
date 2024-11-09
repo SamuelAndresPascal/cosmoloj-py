@@ -20,7 +20,7 @@ class MercatorSpherical:
         self._cos_phi1 = cos(phi0)
         self._lambda0 = lambda0
 
-    @reference(bib.MAP_PROJECTIONS)
+    @cite(bib.MAP_PROJECTIONS)
     def compute(self, i):
         return x_7_1(self._r, self._cos_phi1, self._lambda0, i[MercatorSpherical._LONGITUDE]), \
                y_7_2(self._r, self._cos_phi1, i[MercatorSpherical._LATITUDE])
