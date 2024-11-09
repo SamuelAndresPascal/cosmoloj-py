@@ -19,7 +19,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: multienv
-          python-version: 3.12
+          python-version: 3.13
           auto-activate-base: false
       - run: conda install -c cosmoloj multienv
       - run: pyenvs lint
@@ -51,7 +51,7 @@ jobs:
         with:
           activate-environment: lint
           environment-file: bibliograpy/environment_lint.yml
-          python-version: 3.12
+          python-version: 3.13
           auto-activate-base: false
       - run: |
           conda --version
@@ -79,7 +79,7 @@ jobs:
         with:
           activate-environment: lint_test
           environment-file: bibliograpy/environment_lint_test.yml
-          python-version: 3.12
+          python-version: 3.13
           auto-activate-base: false
       - run: |
           conda --version
@@ -106,7 +106,7 @@ jobs:
         with:
           activate-environment: test
           environment-file: bibliograpy/environment_test.yml
-          python-version: 3.12
+          python-version: 3.13
           auto-activate-base: false
       - run: |
           conda --version
