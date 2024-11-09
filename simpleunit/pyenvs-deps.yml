@@ -19,7 +19,7 @@ environments:
 
 dependencies:
   - id: python
-    version: '3.12'
+    version: '3.13'
   - id: pylint
     version: 3.3.1
     environments: [lint, lint_test]
@@ -36,7 +36,7 @@ dependencies:
   - id: mkdocstrings-python
     environments: [doc]
   - id: build
-    version: 1.2.2
+    version: 1.2.2.post1
     environments: [pypi_pkg]
   - id: twine
     version: 5.1.1
