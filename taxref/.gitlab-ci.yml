@@ -1,7 +1,8 @@
 lint:taxref:
   stage: lint
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
   script:
     - cd taxref
     - conda env create --yes --file environment_lint.yml
@@ -13,7 +14,8 @@ lint:taxref:
 lint_test:taxref:
   stage: lint
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
   script:
     - cd taxref
     - conda env create --yes --file environment_lint_test.yml
@@ -26,7 +28,8 @@ lint_test:taxref:
 test:taxref:
   stage: test
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
   script:
     - cd taxref
     - conda env create --yes --file environment_test.yml
@@ -48,7 +51,8 @@ test:taxref:
 python-version-support:taxref:
   stage: python-version-support
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
   variables:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
@@ -64,7 +68,9 @@ python-version-support:taxref:
 pypi-package:taxref:pypi:
   stage: pypi-package
   rules:
-    - if: $CI_COMMIT_TAG =~ /^taxref_/ || $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+    - if: $CI_COMMIT_TAG =~ /^taxref_/
   script:
     - cd taxref
     - conda env create --yes --file environment_pypi_pkg.yml
@@ -88,7 +94,6 @@ pypi-publish:taxref:test_pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
-    - when: never
   script:
     - cd taxref
     - conda env create --yes --file environment_pypi_publish.yml
@@ -103,7 +108,6 @@ pypi-publish:taxref:pypi:
   stage: pypi-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
-    - when: never
   script:
     - cd taxref
     - conda env create --yes --file environment_pypi_publish.yml
@@ -120,7 +124,6 @@ conda-package:taxref:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
       when: delayed
       start_in: 5 minutes
-    - when: never
   variables:
     DIST_DIR: conda_dist
     PACKAGE: taxref
@@ -142,7 +145,6 @@ conda-publish:taxref:
   stage: conda-publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^taxref_/
-    - when: never
   variables:
     PACKAGE: taxref
   script:
