@@ -81,7 +81,7 @@ pylintrc_envs:
 coverage:
   stage: coverage
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH
   script:
     - conda install coverage
     - coverage xml
@@ -96,7 +96,7 @@ coverage:
 sonar:
   stage: sonar
   rules:
-    - if: $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH
   script:
     - $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.login=$SONAR_LOGIN
   artifacts:
