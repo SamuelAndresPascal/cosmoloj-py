@@ -168,19 +168,32 @@ conda-package:multienv:
     - conda env create --yes --file environment_conda_publish.yml
     - conda activate conda_publish
     - conda list
-    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - rm -rf $DIST_DIR/
     - mkdir $DIST_DIR
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
     - conda build --numpy=2.0 $DIST_DIR/$PACKAGE
+  artifacts:
+    paths:
+      - multienv/$DIST_DIR/*
+
+conda-publish:multienv:
+  stage: conda-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^multienv_/
+    - when: never
+  variables:
+    PACKAGE: multienv
+  script:
+    - cd multienv
+    - conda env create --yes --file environment_conda_publish.yml
+    - conda activate conda_publish
+    - conda list
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
     - anaconda logout
     - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
     - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
     - anaconda logout
-  artifacts:
-    paths:
-      - multienv/$DIST_DIR/*
   environment:
     name: anaconda multienv
     url: https://anaconda.org/cosmoloj/multienv/
