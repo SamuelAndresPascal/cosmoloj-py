@@ -40,7 +40,7 @@ IAU_2006_B1 = TechReport.generic(
 ```
 
 ```py
-"""The bibliography_client module using the bibliography.py module."""
+"""The bibliography_client module using the bibliography module."""
 
 from bibliograpy.api import cite
 
@@ -358,7 +358,7 @@ or json formatted:
 ]
 ```
 
-Whe preprocessed, the bibliography produces some python constants to import in the code which uses these bibliographical
+When preprocessed, the bibliography produces some python constants to import in the code which uses these bibliographical
 references.
 
 ```python
