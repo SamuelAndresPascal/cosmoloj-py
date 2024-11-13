@@ -31,6 +31,8 @@ dependencies:
   - id: mkdocs
     version: '1.6'
     environments: [doc]
+  - id: mkdocs-bibtex
+    environments: [doc]
   - id: mkdocstrings
     environments: [doc]
   - id: mkdocstrings-python

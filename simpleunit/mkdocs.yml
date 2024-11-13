@@ -4,7 +4,7 @@ edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/simpleun
 site_description: Simple Unit Python Reference Implementation documentation site
 site_author: Samuel Andrés
 
-strict: true
+#strict: true
 
 nav:
   - Specification: specification.md
@@ -22,10 +22,14 @@ theme: mkdocs  # readthedocs
 plugins:
   - search
   - mkdocstrings
+  - bibtex:
+      bib_file: bibliograpy.bib
+      csl_file: https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/bristol-university-press.csl
 
 markdown_extensions:
   - admonition
   - toc
+  - footnotes # for bibliography
 
 validation:
   nav:
