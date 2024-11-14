@@ -7,6 +7,7 @@ site_author: Samuel Andrés
 strict: true
 
 nav:
+  - specification: specification.md
   - bibliograpy:
       - bibliograpy: bibliograpy.md
       - process: bibliograpy_process.md
@@ -21,10 +22,14 @@ theme: mkdocs  # readthedocs
 plugins:
   - search
   - mkdocstrings
+  - bibtex:
+      bib_file: bibliograpy.bib
+      csl_file: https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/bristol-university-press.csl
 
 markdown_extensions:
   - admonition
   - toc
+  - footnotes # for bibliography
 
 validation:
   nav:

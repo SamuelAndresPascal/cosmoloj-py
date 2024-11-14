@@ -35,6 +35,8 @@ dependencies:
     environments: [doc]
   - id: mkdocstrings-python
     environments: [doc]
+  - id: mkdocs-bibtex
+    environments: [doc]
   - id: build
     version: 1.2.2.post1
     environments: [pypi_pkg]
