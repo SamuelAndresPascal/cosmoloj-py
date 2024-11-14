@@ -4,7 +4,7 @@ edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/simpleun
 site_description: Simple Unit Python Reference Implementation documentation site
 site_author: Samuel Andrés
 
-#strict: true
+strict: true
 
 nav:
   - Specification: specification.md
