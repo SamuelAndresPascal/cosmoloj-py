@@ -1,0 +1,40 @@
+site_name: Coordop
+repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
+edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/coordop/docs
+site_description: Coordop documentation site
+site_author: Samuel Andrés
+
+strict: true
+
+nav:
+  - specification: specification.md
+  - API: api.md
+  - About: about.md
+
+not_in_nav: |
+  /index.md
+
+theme: mkdocs  # readthedocs
+
+plugins:
+  - search
+  - mkdocstrings
+  - bibtex:
+      bib_file: bibliograpy.bib
+      csl_file: https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/bristol-university-press.csl
+
+markdown_extensions:
+  - admonition
+  - toc
+  - footnotes # for bibliography
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn
