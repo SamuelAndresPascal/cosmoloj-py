@@ -14,4 +14,3 @@ units *are* factor of themselves raised to the rational power 1.
 Although the *Simple Unit* specification is lighter than the Unit API Java specification, the principle of unit
 representation is the same : units and converters are objects that have to be defined by the user.
 
-\bibliography

@@ -10,3 +10,11 @@
 
 [![PyPI repository Badge](https://badge.fury.io/py/coordop.svg)](https://badge.fury.io/py/coordop)
 
+
+* [Documentation](#documentation)
+
+## Documentation
+
+[Latest release](https://cosmoloj.com/mkdocs/coordop/latest/)
+
+[Trunk](https://cosmoloj.com/mkdocs/coordop/master/)

@@ -1,6 +1,6 @@
 # Coordop
 
-* [Requirements Installation](#requirements-and-installation)
+* [Requirements and installation](#requirements-and-installation)
 
 ## Requirements and Installation
 
