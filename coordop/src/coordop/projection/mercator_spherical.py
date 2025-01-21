@@ -5,14 +5,14 @@ from typing import override
 
 from math import cos
 
-from bibliograpy.api import reference
+from bibliograpy.api import cite
 
 from coordop.bibliography import MAP_PROJECTIONS
 from coordop.operation import InvertibleProjection
 from coordop.projection import map_projections
 from coordop.surface import Spheroid
 
-@reference(MAP_PROJECTIONS)
+@cite(MAP_PROJECTIONS)
 class MercatorSpherical(InvertibleProjection[Spheroid]):
     """The mercator spherical projection as defined in Map Projections."""
 

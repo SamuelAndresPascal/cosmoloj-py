@@ -4,7 +4,7 @@ from typing import override
 
 from math import log, tan, pi, atan, exp, sqrt, sin, cos, asin, atan2, degrees, floor
 
-from bibliograpy.api import reference
+from bibliograpy.api import cite
 from coordop.util.integral import sum_function
 from coordop.operation import InvertibleProjection
 from coordop.projection.mercator_spherical import MercatorSpherical
@@ -12,7 +12,7 @@ from coordop.surface import Surface, Spheroid, Ellipsoid
 from coordop.bibliography import IOGP_GUIDANCE_NOTE_7_2_2019
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1024(InvertibleProjection[Surface]):
     """EPSG::1024
     Popular Visualisation Pseudo-Mercator ("Web Mercator")
@@ -45,7 +45,7 @@ class Epsg1024(InvertibleProjection[Surface]):
             (i[Epsg1024._EASTING] - self._fe) / self._a + self._lambda0
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1026(MercatorSpherical):
     """EPSG::1026
     Mercator (Spherical)
@@ -69,7 +69,7 @@ class Epsg1026(MercatorSpherical):
         return super().inverse([i[Epsg1026._EASTING] - self._fe, i[Epsg1026._NORTHING] - self._fn])
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1027(InvertibleProjection[Spheroid]):
     """EPSG::1027
     Lambert Azimuthal Equal Area
@@ -150,7 +150,7 @@ class Epsg1027(InvertibleProjection[Spheroid]):
                     self._lambda0 + atan2(east * sinc, rho * cos(self._phi0) * cosc - north * sin(self._phi0) * sinc)
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1028(InvertibleProjection[Ellipsoid]):
     """Abstract EPSG::1028 projection."""
 
@@ -224,7 +224,7 @@ class Epsg1028(InvertibleProjection[Ellipsoid]):
                                                            + n * self._f7 * sin(14. * m)))))))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1028Series(Epsg1028):
     """EPSG::1028 implementation using series."""
 
@@ -276,7 +276,7 @@ class Epsg1028Series(Epsg1028):
                                                                           + e2 * self._m8 * sin(14. * phi))))))))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1028Integration2dKind(Epsg1028):
     """EPSG::1028 implementation using elliptic integral of the 2d kind."""
 
@@ -289,7 +289,7 @@ class Epsg1028Integration2dKind(Epsg1028):
                           - self._e2 * sin(phi) * cos(phi) / self.get_surface().e_sin_sqrt(phi))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1028Integration3rdKind(Epsg1028):
     """EPSG::1028 implementation using elliptic integral of the 3rd kind."""
 
@@ -301,7 +301,7 @@ class Epsg1028Integration3rdKind(Epsg1028):
                                                         parts=floor(50. * degrees(phi)) + 1))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1029(InvertibleProjection[Surface]):
     """EPSG::1029
 
@@ -345,7 +345,7 @@ class Epsg1029(InvertibleProjection[Surface]):
         return self._surface
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg9819a(InvertibleProjection[Ellipsoid]):
     """EPSG:9819
 
@@ -493,7 +493,7 @@ class Epsg9819a(InvertibleProjection[Ellipsoid]):
         return asin(cos(i_t) * sin(i_d) / cos(i_u))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg9819b(Epsg9819a):
     """EPSG:9819
 
@@ -510,7 +510,7 @@ class Epsg9819b(Epsg9819a):
         return atan2(cos(u) * sin(v) / cos(t), (cos(alphac) * sin(t) - sin(u)) / sin(alphac) / cos(t))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1041a(Epsg9819a):
     """EPSG:1041
 
@@ -527,7 +527,7 @@ class Epsg1041a(Epsg9819a):
         return super().inverse([-i[Epsg9819a._NORTHING], -i[Epsg9819a._EASTING]])
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1041b(Epsg1041a):
     """EPSG:1041
 
@@ -538,7 +538,7 @@ class Epsg1041b(Epsg1041a):
         return Epsg9819b.compute_d(u, v, t, self._alphac)
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1042a(Epsg9819a):
     """EPSG::1042
 
@@ -627,7 +627,7 @@ class Epsg1042a(Epsg9819a):
         return i[Epsg1042a._WESTING] - self._fe + self._dy(xrp, yrp)
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1042b(Epsg1042a):
     """EPSG::1042
 
@@ -639,7 +639,7 @@ class Epsg1042b(Epsg1042a):
         return Epsg9819b.compute_d(u, v, t, self._alphac)
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1043a(Epsg1042a):
     """EPSG:1043
 
@@ -656,7 +656,7 @@ class Epsg1043a(Epsg1042a):
         return super().inverse([-i[Epsg1042a._WESTING], -i[Epsg1042a._SOUTHING]])
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1043b(Epsg1043a):
     """EPSG:1043
 
@@ -667,7 +667,7 @@ class Epsg1043b(Epsg1043a):
         return Epsg9819b.compute_d(u, v, t, self._alphac)
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1044(InvertibleProjection[Ellipsoid]):
     """Mercator variant C"""
 
@@ -721,7 +721,7 @@ class Epsg1044(InvertibleProjection[Ellipsoid]):
                                            + e2 * 4279. / 161280. * sin(8. * chi))))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1051(InvertibleProjection[Ellipsoid]):
     """Lambert Conic Conformal (2SP Michigan)"""
 
@@ -833,7 +833,7 @@ class Epsg1051(InvertibleProjection[Ellipsoid]):
         return result if self._n > 0. else -result
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg1052(InvertibleProjection[Ellipsoid]):
     """Colombia Urban"""
 
@@ -879,7 +879,7 @@ class Epsg1052(InvertibleProjection[Ellipsoid]):
         return phi, self._lambda0 + de / (self._ellipsoid.nu(phi) * cos(phi))
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg9801(InvertibleProjection[Ellipsoid]):
     """Lambert Conic Conformal (1SP)"""
 
@@ -977,7 +977,7 @@ class Epsg9801(InvertibleProjection[Ellipsoid]):
 
 
 
-@reference(IOGP_GUIDANCE_NOTE_7_2_2019)
+@cite(IOGP_GUIDANCE_NOTE_7_2_2019)
 class Epsg9802(InvertibleProjection[Ellipsoid]):
     """Lambert Conic Conformal (2SP)"""
 
