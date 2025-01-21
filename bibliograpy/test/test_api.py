@@ -307,14 +307,14 @@ def test_builtin_reference_decorator_class_usage():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""
 
     @cite(IAU_2006_B1)
-    class Bib_ref:
+    class BibRef:
         """ma doc"""
 
     if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(Bib_ref) ==
-                """Python Library Documentation: class Bib_ref in module test_api
+        assert (pydoc.render_doc(BibRef) ==
+                """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  ma doc
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
@@ -328,10 +328,10 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
  |      list of weak references to the object
 """)
     else:
-        assert (pydoc.render_doc(Bib_ref) ==
-                """Python Library Documentation: class Bib_ref in module test_api
+        assert (pydoc.render_doc(BibRef) ==
+                """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  ma doc
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
@@ -346,14 +346,14 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
 """)
 
     @cite([IAU_2006_B1, IAU])
-    class Bib_ref_foo:
+    class BibRefFoo:
         """ma doc"""
 
     if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(Bib_ref_foo) ==
-                """Python Library Documentation: class Bib_ref_foo in module test_api
+        assert (pydoc.render_doc(BibRefFoo) ==
+                """Python Library Documentation: class BibRefFoo in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -370,10 +370,10 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtin
  |      list of weak references to the object
 """)
     else:
-        assert (pydoc.render_doc(Bib_ref_foo) ==
-                """Python Library Documentation: class Bib_ref_foo in module test_api
+        assert (pydoc.render_doc(BibRefFoo) ==
+                """Python Library Documentation: class BibRefFoo in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -391,14 +391,14 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtin
 """)
 
     @cite(IAU_2006_B1, IAU)
-    class Bib_ref_bar:
+    class BibRefBar:
         """ma doc"""
 
     if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(Bib_ref_bar) ==
-                """Python Library Documentation: class Bib_ref_bar in module test_api
+        assert (pydoc.render_doc(BibRefBar) ==
+                """Python Library Documentation: class BibRefBar in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_b\x08ba\x08ar\x08r(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -415,10 +415,10 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_b\x08ba\x08ar\x08r(builtin
  |      list of weak references to the object
 """)
     else:
-        assert (pydoc.render_doc(Bib_ref_bar) ==
-                """Python Library Documentation: class Bib_ref_bar in module test_api
+        assert (pydoc.render_doc(BibRefBar) ==
+                """Python Library Documentation: class BibRefBar in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_b\x08ba\x08ar\x08r(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -440,14 +440,14 @@ def test_specific_entry_type_decorator_class_usage():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""
 
     @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
-    class Bib_ref:
+    class BibRef:
         """ma doc"""
 
     if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(Bib_ref) ==
-                """Python Library Documentation: class Bib_ref in module test_api
+        assert (pydoc.render_doc(BibRef) ==
+                """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  ma doc
  |
  |  Bibliography: mon inbook
@@ -461,10 +461,10 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
  |      list of weak references to the object
 """)
     else:
-        assert (pydoc.render_doc(Bib_ref) ==
-                    """Python Library Documentation: class Bib_ref in module test_api
+        assert (pydoc.render_doc(BibRef) ==
+                    """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  ma doc
  |
  |  Bibliography: mon inbook
@@ -477,4 +477,3 @@ class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
  |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
  |      list of weak references to the object
 """)
-
