@@ -310,6 +310,12 @@ def test_builtin_reference_decorator_class_usage():
     class BibRef:
         """ma doc"""
 
+        def foo(self):
+            return "foo"
+
+        def bar(self):
+            return "bar"
+
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
@@ -319,6 +325,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -336,6 +349,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -349,6 +369,12 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
     class BibRefFoo:
         """ma doc"""
 
+        def foo(self):
+            return "foo"
+
+        def bar(self):
+            return "bar"
+
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefFoo) ==
                 """Python Library Documentation: class BibRefFoo in module test_api
@@ -361,6 +387,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -381,6 +414,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -394,6 +434,12 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
     class BibRefBar:
         """ma doc"""
 
+        def foo(self):
+            return "foo"
+
+        def bar(self):
+            return "bar"
+
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefBar) ==
                 """Python Library Documentation: class BibRefBar in module test_api
@@ -406,6 +452,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -426,6 +479,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -443,6 +503,12 @@ def test_specific_entry_type_decorator_class_usage():
     class BibRef:
         """ma doc"""
 
+        def foo(self):
+            return "foo"
+
+        def bar(self):
+            return "bar"
+
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
@@ -452,6 +518,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Bibliography: mon inbook
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
@@ -469,6 +542,13 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Bibliography: mon inbook
  |
+ |  Methods defined here:
+ |
+ |  b\x08ba\x08ar\x08r(self)
+ |
+ |  f\x08fo\x08oo\x08o(self)
+ |
+ |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
  |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
