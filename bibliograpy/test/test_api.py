@@ -310,10 +310,10 @@ def test_builtin_reference_decorator_class_usage():
     class BibRef:
         """ma doc"""
 
-        def foo(self):
+        def bib(self):
             return "foo"
 
-        def bar(self):
+        def ref(self):
             return "bar"
 
     if sys.version_info.minor >= 12:
@@ -327,9 +327,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -351,9 +351,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -369,10 +369,10 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
     class BibRefFoo:
         """ma doc"""
 
-        def foo(self):
+        def bib(self):
             return "foo"
 
-        def bar(self):
+        def ref(self):
             return "bar"
 
     if sys.version_info.minor >= 12:
@@ -389,9 +389,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -416,9 +416,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -434,10 +434,10 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
     class BibRefBar:
         """ma doc"""
 
-        def foo(self):
+        def bib(self):
             return "foo"
 
-        def bar(self):
+        def ref(self):
             return "bar"
 
     if sys.version_info.minor >= 12:
@@ -454,9 +454,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -481,9 +481,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -503,10 +503,10 @@ def test_specific_entry_type_decorator_class_usage():
     class BibRef:
         """ma doc"""
 
-        def foo(self):
+        def bib(self):
             return "foo"
 
-        def bar(self):
+        def ref(self):
             return "bar"
 
     if sys.version_info.minor >= 12:
@@ -520,9 +520,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
@@ -544,9 +544,9 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |
  |  Methods defined here:
  |
- |  b\x08ba\x08ar\x08r(self)
+ |  b\bbi\bib\bb(self)
  |
- |  f\x08fo\x08oo\x08o(self)
+ |  r\bre\bef\bf(self)
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
