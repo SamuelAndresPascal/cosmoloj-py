@@ -434,7 +434,8 @@ class Reference:
 
         # scope management for crossref
         if scope is not None:
-            if cite_key in scope:
+            # les chaines vides doivent être ignorées car elles représentent l'unique clef des citations anonymes
+            if cite_key != '' and cite_key in scope:
                 raise ValueError(f'{cite_key} is already present in bibliograpy scope for {scope[cite_key]}')
 
             scope[cite_key] = instance
@@ -521,7 +522,6 @@ class ReferenceBuilder:
         return internal
 
 cite = ReferenceBuilder.default()
-reference = cite # deprecated
 
 class _InternalReference(Reference):
     """Internal bibliographic usage before defining standard types."""

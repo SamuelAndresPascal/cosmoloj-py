@@ -8,10 +8,12 @@ from bibliograpy.api import cite, Misc, TechReport, Reference, ReferenceBuilder,
 
 SCOPE: dict[str, Reference] = {}
 
+
 IAU = Misc.generic(cite_key='iau',
                    title='International Astronomical Union',
                    institution='IAU',
                    scope=SCOPE)
+
 
 IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
@@ -20,6 +22,7 @@ IAU_2006_B1 = TechReport.generic(
     title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
     year=2006,
     scope=SCOPE)
+
 
 def test_to_source_bib():
     """test to python source bib serialization"""
@@ -31,6 +34,7 @@ IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
                                  year=2006)""")
 
+
 def test_to_source_bib_with_scope():
     """test to python source bib serialization"""
     assert (IAU_2006_B1.to_py(scope_symbol='SCOPE') ==
@@ -41,6 +45,7 @@ IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
                                  year=2006,
                                  scope=SCOPE)""")
+
 
 def test_builtin_reference_decorator():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""
@@ -128,6 +133,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
     * International Astronomical Union [iau]
 """)
 
+
 def test_custom_reference_builder():
     """test custom reference builder"""
 
@@ -175,6 +181,7 @@ t\bta\bat\bta\baf\bfr\br()
     * International Astronomical Union [iau]
 """)
 
+
 def test_parameterized_default_reference_builder():
     """test parameterized default reference builder"""
 
@@ -218,6 +225,7 @@ t\bta\bat\bta\baf\bfr\br()
     ++ International Astronomical Union [iau]
 """)
 
+
 def test_mandatory_field():
     """test mandatory field management"""
     with pytest.raises(ValueError) as e:
@@ -227,6 +235,7 @@ def test_mandatory_field():
             title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
             year=2006)
     assert e.value.args[0] == 'missing mandatory field for TechReport iau_2006_b1'
+
 
 def test_cross_reference():
     """test cross reference hierarchy management"""
@@ -266,6 +275,7 @@ def test_cross_reference():
     assert iau_2006.author is None
     assert iau_2006.cross_resolved().author == 'IAU'
 
+
 def test_specific_entry_type_decorator():
     """test build-in reference decorator with a single reference, a array of references and references in varargs"""
 
@@ -291,3 +301,180 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
     
     Bibliography: mon inbook
 """)
+
+
+def test_builtin_reference_decorator_class_usage():
+    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+
+    @cite(IAU_2006_B1)
+    class Bib_ref:
+        """ma doc"""
+
+    if sys.version_info.minor >= 12:
+        assert (pydoc.render_doc(Bib_ref) ==
+                """Python Library Documentation: class Bib_ref in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(Bib_ref) ==
+                """Python Library Documentation: class Bib_ref in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+
+    @cite([IAU_2006_B1, IAU])
+    class Bib_ref_foo:
+        """ma doc"""
+
+    if sys.version_info.minor >= 12:
+        assert (pydoc.render_doc(Bib_ref_foo) ==
+                """Python Library Documentation: class Bib_ref_foo in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography:
+ |
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(Bib_ref_foo) ==
+                """Python Library Documentation: class Bib_ref_foo in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_f\x08fo\x08oo\x08o(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography:
+ |
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+
+    @cite(IAU_2006_B1, IAU)
+    class Bib_ref_bar:
+        """ma doc"""
+
+    if sys.version_info.minor >= 12:
+        assert (pydoc.render_doc(Bib_ref_bar) ==
+                """Python Library Documentation: class Bib_ref_bar in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_b\x08ba\x08ar\x08r(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography:
+ |
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(Bib_ref_bar) ==
+                """Python Library Documentation: class Bib_ref_bar in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f_\x08_b\x08ba\x08ar\x08r(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography:
+ |
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+
+
+def test_specific_entry_type_decorator_class_usage():
+    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+
+    @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
+    class Bib_ref:
+        """ma doc"""
+
+    if sys.version_info.minor >= 12:
+        assert (pydoc.render_doc(Bib_ref) ==
+                """Python Library Documentation: class Bib_ref in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography: mon inbook
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(Bib_ref) ==
+                    """Python Library Documentation: class Bib_ref in module test_api
+
+class B\x08Bi\x08ib\x08b_\x08_r\x08re\x08ef\x08f(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography: mon inbook
+ |
+ |  Data descriptors defined here:
+ |
+ |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |      dictionary for instance variables
+ |
+ |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |      list of weak references to the object
+""")
+
