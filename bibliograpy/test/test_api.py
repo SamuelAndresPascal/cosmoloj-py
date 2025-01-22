@@ -344,7 +344,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
-    else:
+    elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
 
@@ -369,6 +369,32 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(BibRef) ==
+                """Python Library Documentation: class BibRef in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object (if defined)
 """)
 
     @cite([IAU_2006_B1, IAU])
@@ -412,7 +438,7 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
-    else:
+    elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRefFoo) ==
                 """Python Library Documentation: class BibRefFoo in module test_api
 
@@ -440,6 +466,35 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(BibRefFoo) ==
+                """Python Library Documentation: class BibRefFoo in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography:
+ |  
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object (if defined)
 """)
 
     @cite(IAU_2006_B1, IAU)
@@ -483,7 +538,7 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
-    else:
+    elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRefBar) ==
                 """Python Library Documentation: class BibRefBar in module test_api
 
@@ -511,6 +566,35 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(BibRefBar) ==
+                """Python Library Documentation: class BibRefBar in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography:
+ |  
+ |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
+ |  * International Astronomical Union [iau]
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object (if defined)
 """)
 
 
@@ -555,7 +639,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
-    else:
+    elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRef) ==
                     """Python Library Documentation: class BibRef in module test_api
 
@@ -580,4 +664,30 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(BibRef) ==
+                    """Python Library Documentation: class BibRef in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography: mon inbook
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object (if defined)
 """)
