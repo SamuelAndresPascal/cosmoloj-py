@@ -391,7 +391,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  Data descriptors defined here:
  |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
- |      dictionary for instance variables
+ |      dictionary for instance variables (if defined)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object (if defined)
@@ -491,7 +491,7 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  Data descriptors defined here:
  |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
- |      dictionary for instance variables
+ |      dictionary for instance variables (if defined)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object (if defined)
@@ -591,7 +591,7 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  Data descriptors defined here:
  |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
- |      dictionary for instance variables
+ |      dictionary for instance variables (if defined)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object (if defined)
@@ -686,7 +686,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  Data descriptors defined here:
  |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
- |      dictionary for instance variables
+ |      dictionary for instance variables (if defined)
  |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object (if defined)
