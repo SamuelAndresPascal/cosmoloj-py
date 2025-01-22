@@ -48,7 +48,7 @@ IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
 
 
 def test_builtin_reference_decorator():
-    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+    """test build-in reference decorator with a single reference, an array of references and references in varargs"""
 
     @cite(IAU_2006_B1)
     def bib_ref():
@@ -277,7 +277,7 @@ def test_cross_reference():
 
 
 def test_specific_entry_type_decorator():
-    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+    """test build-in reference decorator with a single reference, an array of references and references in varargs"""
 
     @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
     def bib_ref():
@@ -304,7 +304,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
 
 
 def test_builtin_reference_decorator_class_usage():
-    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+    """test build-in reference decorator with a single reference, an array of references and references in varargs"""
 
     @cite(IAU_2006_B1)
     class BibRef:
@@ -350,23 +350,23 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
- |
+ |  
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
- |
+ |  
  |  Methods defined here:
- |
+ |  
  |  b\bbi\bib\bb(self)
  |      ma doc bib
- |
+ |  
  |  r\bre\bef\bf(self)
  |      ma doc ref
- |
+ |  
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
- |
+ |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
- |
+ |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
@@ -418,26 +418,26 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
 
 class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
- |
+ |  
  |  Bibliography:
- |
+ |  
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
- |
+ |  
  |  Methods defined here:
- |
+ |  
  |  b\bbi\bib\bb(self)
  |      ma doc bib
- |
+ |  
  |  r\bre\bef\bf(self)
  |      ma doc ref
- |
+ |  
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
- |
+ |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
- |
+ |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
@@ -489,33 +489,33 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
 
 class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
- |
+ |  
  |  Bibliography:
- |
+ |  
  |  * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
  |  * International Astronomical Union [iau]
- |
+ |  
  |  Methods defined here:
- |
+ |  
  |  b\bbi\bib\bb(self)
  |      ma doc bib
- |
+ |  
  |  r\bre\bef\bf(self)
  |      ma doc ref
- |
+ |  
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
- |
+ |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
- |
+ |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
 
 
 def test_specific_entry_type_decorator_class_usage():
-    """test build-in reference decorator with a single reference, a array of references and references in varargs"""
+    """test build-in reference decorator with a single reference, an array of references and references in varargs"""
 
     @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
     class BibRef:
@@ -561,23 +561,23 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
- |
+ |  
  |  Bibliography: mon inbook
- |
+ |  
  |  Methods defined here:
- |
+ |  
  |  b\bbi\bib\bb(self)
  |      ma doc bib
- |
+ |  
  |  r\bre\bef\bf(self)
  |      ma doc ref
- |
+ |  
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
- |
+ |  
  |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
- |
+ |  
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
