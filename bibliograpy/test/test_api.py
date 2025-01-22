@@ -311,16 +311,18 @@ def test_builtin_reference_decorator_class_usage():
         """ma doc"""
 
         def bib(self):
+            """ma doc bib"""
             return "foo"
 
         def ref(self):
+            """ma doc ref"""
             return "bar"
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
@@ -328,23 +330,25 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
     else:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
  |
  |  Bibliography: Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
@@ -352,16 +356,18 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
 
@@ -370,16 +376,18 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
         """ma doc"""
 
         def bib(self):
+            """ma doc bib"""
             return "foo"
 
         def ref(self):
+            """ma doc ref"""
             return "bar"
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefFoo) ==
                 """Python Library Documentation: class BibRefFoo in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -390,23 +398,25 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
     else:
         assert (pydoc.render_doc(BibRefFoo) ==
                 """Python Library Documentation: class BibRefFoo in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -417,16 +427,18 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
 
@@ -435,16 +447,18 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fF\x08Fo\x08oo\x08o(builtins.object)
         """ma doc"""
 
         def bib(self):
+            """ma doc bib"""
             return "foo"
 
         def ref(self):
+            """ma doc ref"""
             return "bar"
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefBar) ==
                 """Python Library Documentation: class BibRefBar in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -455,23 +469,25 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
     else:
         assert (pydoc.render_doc(BibRefBar) ==
                 """Python Library Documentation: class BibRefBar in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
  |
  |  Bibliography:
@@ -482,16 +498,18 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08fB\x08Ba\x08ar\x08r(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
 
@@ -504,16 +522,18 @@ def test_specific_entry_type_decorator_class_usage():
         """ma doc"""
 
         def bib(self):
+            """ma doc bib"""
             return "foo"
 
         def ref(self):
+            """ma doc ref"""
             return "bar"
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
                 """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
  |
  |  Bibliography: mon inbook
@@ -521,23 +541,25 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
     else:
         assert (pydoc.render_doc(BibRef) ==
                     """Python Library Documentation: class BibRef in module test_api
 
-class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
  |
  |  Bibliography: mon inbook
@@ -545,15 +567,17 @@ class B\x08Bi\x08ib\x08bR\x08Re\x08ef\x08f(builtins.object)
  |  Methods defined here:
  |
  |  b\bbi\bib\bb(self)
+ |      ma doc bib
  |
  |  r\bre\bef\bf(self)
+ |      ma doc ref
  |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
  |
- |  _\x08__\x08_d\x08di\x08ic\x08ct\x08t_\x08__\x08_
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
  |      dictionary for instance variables
  |
- |  _\x08__\x08_w\x08we\x08ea\x08ak\x08kr\x08re\x08ef\x08f_\x08__\x08_
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object
 """)
