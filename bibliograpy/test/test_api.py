@@ -691,3 +691,105 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
  |      list of weak references to the object (if defined)
 """)
+
+
+def test_method_and_class_usage():
+    """test build-in reference decorator with a single reference, an array of references and references in varargs"""
+
+    @inbook(crossref=IAU_2006_B1, title="mon inbook", pages=235, publisher='', author='auteur')
+    class BibRef:
+        """ma doc"""
+
+        @cite(IAU)
+        def bib(self):
+            """ma doc bib"""
+            return "foo"
+
+        def ref(self):
+            """ma doc ref"""
+            return "bar"
+
+    if sys.version_info.minor >= 12:
+        assert (pydoc.render_doc(BibRef) ==
+                """Python Library Documentation: class BibRef in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
+ |  ma doc
+ |
+ |  Bibliography: mon inbook
+ |
+ |  Methods defined here:
+ |
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |
+ |      Bibliography: International Astronomical Union [iau]
+ |
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object
+""")
+    elif sys.version_info.minor >= 11:
+        assert (pydoc.render_doc(BibRef) ==
+                    """Python Library Documentation: class BibRef in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography: mon inbook
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |      
+ |      Bibliography: International Astronomical Union [iau]
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object
+""")
+    else:
+        assert (pydoc.render_doc(BibRef) ==
+                    """Python Library Documentation: class BibRef in module test_api
+
+class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
+ |  ma doc
+ |  
+ |  Bibliography: mon inbook
+ |  
+ |  Methods defined here:
+ |  
+ |  b\bbi\bib\bb(self)
+ |      ma doc bib
+ |      
+ |      Bibliography: International Astronomical Union [iau]
+ |  
+ |  r\bre\bef\bf(self)
+ |      ma doc ref
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  _\b__\b_d\bdi\bic\bct\bt_\b__\b_
+ |      dictionary for instance variables (if defined)
+ |  
+ |  _\b__\b_w\bwe\bea\bak\bkr\bre\bef\bf_\b__\b_
+ |      list of weak references to the object (if defined)
+""")
