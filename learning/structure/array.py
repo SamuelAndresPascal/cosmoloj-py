@@ -1,6 +1,6 @@
 import time
 
-a = [[0 for x in range(10000)] for y in range(10000)]
+a = [[0 for _ in range(10000)] for _ in range(10000)]
 
 start = time.time_ns()
 for i in a:
