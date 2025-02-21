@@ -31,9 +31,10 @@ lint_test:simpleunit:
 mkdocs:simpleunit:
   stage: doc
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
-    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
+    - when: never
+#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+#    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
   script:
     - cd simpleunit
     - conda env create --yes --file environment_doc.yml
@@ -120,7 +121,7 @@ pypi-package:simpleunit:pypi:
     - conda list
     - rm -rf dist/
     - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
+    #- if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
     - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/simpleunit\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
     - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
     - cat pyproject.toml
@@ -141,7 +142,7 @@ pypi-publish:simpleunit:test_pypi:
     - conda env create --yes --file environment_pypi_publish.yml
     - conda activate pypi_publish
     - conda list
-    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
+#    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
   environment:
     name: test pypi simpleunit
     url: https://test.pypi.org/project/simpleunit/
@@ -155,7 +156,7 @@ pypi-publish:simpleunit:pypi:
     - conda env create --yes --file environment_pypi_publish.yml
     - conda activate pypi_publish
     - conda list
-    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
+#    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
   environment:
     name: pypi simpleunit
     url: https://pypi.org/project/simpleunit/
@@ -186,7 +187,7 @@ conda-package:simpleunit:
 conda-publish:simpleunit:
   stage: conda-publish
   rules:
-    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
+    - when: never
   variables:
     PACKAGE: simpleunit
   script:
