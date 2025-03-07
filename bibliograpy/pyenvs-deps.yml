@@ -36,6 +36,7 @@ dependencies:
   - id: mkdocstrings-python
     environments: [doc]
   - id: mkdocs-bibtex
+    version: 4.0.1
     environments: [doc]
   - id: build
     version: 1.2.2.post1

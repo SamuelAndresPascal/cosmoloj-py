@@ -32,6 +32,7 @@ dependencies:
     version: '1.6'
     environments: [doc]
   - id: mkdocs-bibtex
+    version: 4.0.1
     environments: [doc]
   - id: mkdocstrings
     environments: [doc]
