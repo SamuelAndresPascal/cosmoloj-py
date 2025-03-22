@@ -4,7 +4,7 @@ import pydoc
 
 import pytest
 
-from bibliograpy.api import cite, Misc, TechReport, Reference, ReferenceBuilder, inbook
+from bibliograpy.api_bibtex import cite, Misc, TechReport, Reference, ReferenceBuilder, inbook
 
 SCOPE: dict[str, Reference] = {}
 
@@ -56,7 +56,7 @@ def test_builtin_reference_decorator():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref) ==
-"""Python Library Documentation: function bib_ref in module test_api
+"""Python Library Documentation: function bib_ref in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf()
     ma doc
@@ -65,7 +65,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
 """)
     else:
         assert (pydoc.render_doc(bib_ref) ==
-"""Python Library Documentation: function bib_ref in module test_api
+"""Python Library Documentation: function bib_ref in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf()
     ma doc
@@ -80,7 +80,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_foo) ==
-"""Python Library Documentation: function bib_ref_foo in module test_api
+"""Python Library Documentation: function bib_ref_foo in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     ma doc avec plusieurs références
@@ -92,7 +92,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
 """)
     else:
         assert (pydoc.render_doc(bib_ref_foo) ==
-"""Python Library Documentation: function bib_ref_foo in module test_api
+"""Python Library Documentation: function bib_ref_foo in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     ma doc avec plusieurs références
@@ -110,7 +110,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref_bar) ==
-"""Python Library Documentation: function bib_ref_bar in module test_api
+"""Python Library Documentation: function bib_ref_bar in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
     ma doc avec plusieurs références en varargs
@@ -122,7 +122,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
 """)
     else:
         assert (pydoc.render_doc(bib_ref_bar) ==
-"""Python Library Documentation: function bib_ref_bar in module test_api
+"""Python Library Documentation: function bib_ref_bar in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
     ma doc avec plusieurs références en varargs
@@ -158,7 +158,7 @@ def test_custom_reference_builder():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api
+"""Python Library Documentation: function tatafr in module test_api_bibtex
 
 t\bta\bat\bta\baf\bfr\br()
     ma doc avec plusieurs références en varargs
@@ -170,7 +170,7 @@ t\bta\bat\bta\baf\bfr\br()
 """)
     else:
         assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api
+"""Python Library Documentation: function tatafr in module test_api_bibtex
 
 t\bta\bat\bta\baf\bfr\br()
     ma doc avec plusieurs références en varargs
@@ -202,7 +202,7 @@ def test_parameterized_default_reference_builder():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api
+"""Python Library Documentation: function tatafr in module test_api_bibtex
 
 t\bta\bat\bta\baf\bfr\br()
     ma doc avec plusieurs références en varargs
@@ -214,7 +214,7 @@ t\bta\bat\bta\baf\bfr\br()
 """)
     else:
         assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api
+"""Python Library Documentation: function tatafr in module test_api_bibtex
 
 t\bta\bat\bta\baf\bfr\br()
     ma doc avec plusieurs références en varargs
@@ -285,7 +285,7 @@ def test_specific_entry_type_decorator():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(bib_ref) ==
-"""Python Library Documentation: function bib_ref in module test_api
+"""Python Library Documentation: function bib_ref in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf()
     ma doc
@@ -294,7 +294,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf()
 """)
     else:
         assert (pydoc.render_doc(bib_ref) ==
-"""Python Library Documentation: function bib_ref in module test_api
+"""Python Library Documentation: function bib_ref in module test_api_bibtex
 
 b\bbi\bib\bb_\b_r\bre\bef\bf()
     ma doc
@@ -320,7 +320,7 @@ def test_builtin_reference_decorator_class_usage():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
-                """Python Library Documentation: class BibRef in module test_api
+                """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -346,7 +346,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRef) ==
-                """Python Library Documentation: class BibRef in module test_api
+                """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -372,7 +372,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     else:
         assert (pydoc.render_doc(BibRef) ==
-                """Python Library Documentation: class BibRef in module test_api
+                """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -411,7 +411,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefFoo) ==
-                """Python Library Documentation: class BibRefFoo in module test_api
+                """Python Library Documentation: class BibRefFoo in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
@@ -440,7 +440,7 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
 """)
     elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRefFoo) ==
-                """Python Library Documentation: class BibRefFoo in module test_api
+                """Python Library Documentation: class BibRefFoo in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
@@ -469,7 +469,7 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
 """)
     else:
         assert (pydoc.render_doc(BibRefFoo) ==
-                """Python Library Documentation: class BibRefFoo in module test_api
+                """Python Library Documentation: class BibRefFoo in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
  |  ma doc
@@ -511,7 +511,7 @@ class B\bBi\bib\bbR\bRe\bef\bfF\bFo\boo\bo(builtins.object)
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRefBar) ==
-                """Python Library Documentation: class BibRefBar in module test_api
+                """Python Library Documentation: class BibRefBar in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
@@ -540,7 +540,7 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
 """)
     elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRefBar) ==
-                """Python Library Documentation: class BibRefBar in module test_api
+                """Python Library Documentation: class BibRefBar in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
@@ -569,7 +569,7 @@ class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
 """)
     else:
         assert (pydoc.render_doc(BibRefBar) ==
-                """Python Library Documentation: class BibRefBar in module test_api
+                """Python Library Documentation: class BibRefBar in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bfB\bBa\bar\br(builtins.object)
  |  ma doc
@@ -615,7 +615,7 @@ def test_specific_entry_type_decorator_class_usage():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
-                """Python Library Documentation: class BibRef in module test_api
+                """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -641,7 +641,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRef) ==
-                    """Python Library Documentation: class BibRef in module test_api
+                    """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -667,7 +667,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     else:
         assert (pydoc.render_doc(BibRef) ==
-                    """Python Library Documentation: class BibRef in module test_api
+                    """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -711,7 +711,7 @@ def test_method_and_class_usage():
 
     if sys.version_info.minor >= 12:
         assert (pydoc.render_doc(BibRef) ==
-                """Python Library Documentation: class BibRef in module test_api
+                """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -739,7 +739,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     elif sys.version_info.minor >= 11:
         assert (pydoc.render_doc(BibRef) ==
-                    """Python Library Documentation: class BibRef in module test_api
+                    """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc
@@ -767,7 +767,7 @@ class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
 """)
     else:
         assert (pydoc.render_doc(BibRef) ==
-                    """Python Library Documentation: class BibRef in module test_api
+                    """Python Library Documentation: class BibRef in module test_api_bibtex
 
 class B\bBi\bib\bbR\bRe\bef\bf(builtins.object)
  |  ma doc

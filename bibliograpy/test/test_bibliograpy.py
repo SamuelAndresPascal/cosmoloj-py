@@ -10,17 +10,13 @@ import yaml
 
 import pytest
 
-from bibliograpy.api import cite
+from bibliograpy.api_bibtex import cite
 
 from bibliograpy.process import _process
 
 def _input_file(file: str) -> str:
     """Les fichiers d'entrée se trouvent à côté des scripts de test."""
     return str(Path(Path(__file__).parent, file))
-
-def _output_file(file: str) -> str:
-    """Les fichiers de sortie sont générés relativement à l'endroit où la commande est exécutée."""
-    return str(Path(Path.cwd(), file))
 
 
 def test_process_yml_to_yml():
@@ -336,7 +332,7 @@ def test_process_input_file_not_found():
     """test process input file not found"""
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_output_file('not_existing_file.yml'), encoding='utf-8') as s:
+        with open(_input_file('not_existing_file.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2

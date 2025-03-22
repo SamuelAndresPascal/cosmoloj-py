@@ -2,5 +2,5 @@
 
 ::: bibliograpy.bibliograpy
 
-::: bibliograpy.api
+::: bibliograpy.api_bibtex
 ::: bibliograpy.process

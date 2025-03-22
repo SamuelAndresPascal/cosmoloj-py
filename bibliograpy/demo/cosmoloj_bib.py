@@ -1,6 +1,4 @@
-from bibliograpy.api import *
-
-from bibliograpy.api import SHARED_SCOPE
+from bibliograpy.api_bibtex import *
 
 
 MAP_PROJECTIONS = Book.generic(cite_key='map_projections',

@@ -28,9 +28,9 @@ def _create_parser() -> ArgumentParser:
 
     subparsers = parser.add_subparsers(dest='CMD', help='available commands')
 
-    subparsers.add_parser('info', help='get general info')
+    subparsers.add_parser(name='info', help='get general info')
 
-    process = subparsers.add_parser('process', help='generates bibliograpy source bibliography')
+    process = subparsers.add_parser(name='process', help='generates bibliograpy source bibliography')
     process.add_argument('file',
                          nargs='?',
                          help="path to the bibliograpy configuration file",

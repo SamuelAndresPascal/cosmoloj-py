@@ -1,4 +1,4 @@
-from bibliograpy.api import *
+from bibliograpy.api_bibtex import *
 
 
 NASA = Misc.generic(cite_key='nasa',

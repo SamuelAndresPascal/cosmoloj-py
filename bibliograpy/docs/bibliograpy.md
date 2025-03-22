@@ -45,7 +45,7 @@ character string search in the source code.
 Compare:
 
 ```python
-from bibliograpy.api import Misc, NonStandard, cite
+from bibliograpy.api_bibtex import Misc, NonStandard, cite
 
 BIBLIOGRAPY_DOC = Misc.generic(cite_key='bibliograpy_doc',
                                title='the Bibliograpy documentation',
@@ -73,7 +73,7 @@ allows to define navigable links in code between bibliographic variables, for in
 same journal which factorizes its title:
 
 ```python
-from bibliograpy.api import Misc, Article, cite
+from bibliograpy.api_bibtex import Misc, Article, cite
 
 JOURNAL = Misc.generic(cite_key='my_journal', journal='My International Journal')
 
