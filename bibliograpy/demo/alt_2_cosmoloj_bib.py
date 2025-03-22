@@ -1,4 +1,4 @@
-from bibliograpy.api import *
+from bibliograpy.api_bibtex import *
 
 SCOPE: dict[str, Reference] = {}
 

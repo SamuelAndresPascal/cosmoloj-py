@@ -1,4 +1,4 @@
-from bibliograpy.api import *
+from bibliograpy.api_bibtex import *
 
 
 OGC = Misc.generic(cite_key='ogc',

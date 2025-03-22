@@ -29,7 +29,7 @@ decorators.
 ```py
 """The bibliography module."""
 
-from bibliograpy.api import TechReport
+from bibliograpy.api_bibtex import TechReport
 
 IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
@@ -42,7 +42,7 @@ IAU_2006_B1 = TechReport.generic(
 ```py
 """The bibliography_client module using the bibliography module."""
 
-from bibliograpy.api import cite
+from bibliograpy.api_bibtex import cite
 
 from bibliography import IAU_2006_B1
 
@@ -98,7 +98,7 @@ This preprocessing produces the corresponding bibliographic references that can 
 bibliograpy decorator arguments.
 
 ```py
-from bibliograpy.api import Misc
+from bibliograpy.api_bibtex import Misc
 
 NASA = Misc.generic(cite_key='nasa',
                     title='NASA')
@@ -362,7 +362,7 @@ When preprocessed, the bibliography produces some python constants to import in 
 references.
 
 ```python
-from bibliograpy.api import *
+from bibliograpy.api_bibtex import *
 
 
 OGC = Misc.generic(cite_key='ogc',

@@ -12,8 +12,7 @@ import yaml
 from bibtexparser.bibdatabase import BibDatabase
 from bibtexparser.bwriter import BibTexWriter
 
-from bibliograpy.api import TYPES
-from bibliograpy.api import Reference
+from bibliograpy.api_bibtex import TYPES, Reference
 
 LOG = logging.getLogger(__name__)
 
@@ -66,7 +65,7 @@ def _write(o, extension: str, content: list, scope_symbol: str | None, init_scop
 
         scope: dict[str, Any] = {}
 
-        o.write('from bibliograpy.api import *\n')
+        o.write('from bibliograpy.api_bibtex import *\n')
         o.write('\n')
 
         if init_scope is not None:

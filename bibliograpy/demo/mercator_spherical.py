@@ -1,6 +1,6 @@
 from math import cos, atan, pi, log, tan, exp
 
-from bibliograpy.api import cite, inbook
+from bibliograpy.api_bibtex import cite, inbook
 
 import cosmoloj_bib as bib
 
