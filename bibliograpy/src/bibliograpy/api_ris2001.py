@@ -1,3 +1,6 @@
+"""
+RIS 2001 specification model.
+"""
 from enum import Enum, auto
 
 from bibliograpy.api_bibtex import cite
@@ -6,6 +9,10 @@ from bibliograpy.bibliography import RIS_2001
 
 @cite(RIS_2001)
 class Tag(Enum):
+    """
+    RIS fields.
+    """
+
     TY = auto()
     """Type of reference. 
     This must contain one of the following field names as defined in the section, Reference Type field names."""
@@ -241,6 +248,11 @@ class Tag(Enum):
 
 @cite(RIS_2001)
 class TypeFieldName(Enum):
+    """Reference Type Field Names
+
+    The following describes the valid reference type field names that can be used with for the reference type field when
+    importing references into Reference Manager."""
+
     ABST = auto()
     """Abstract"""
 
@@ -337,7 +349,7 @@ class TypeFieldName(Enum):
     THES = auto()
     """Thesis/Dissertation"""
 
-    UNBILl = auto()
+    UNBILL = auto()
     """Unenacted bill/resolution"""
 
     UNPB = auto()
