@@ -380,9 +380,8 @@ class TypeFieldName(Enum):
                 return n
         raise ValueError(f'unknown {type} type')
 
-def _read_ris_entry_type(tio: TextIO) -> TypeFieldName:
+def _parse_ris_entry_type(line: str) -> TypeFieldName:
     # first field must contain entry type
-    line = tio.readline()
     tag = Tags.parse(line[:2])
     if tag is not Tags.TY:
         raise ValueError(f'expected type field but found {tag}')
@@ -392,10 +391,9 @@ def _read_ris_entry_type(tio: TextIO) -> TypeFieldName:
 
     return TypeFieldName.parse(line[6:].rstrip())
 
-def read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str] | TypeFieldName]:
-    result = {}
+def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
 
-    result[Tags.TY] = _read_ris_entry_type(tio)
+    result = {}
 
     last_tag: Tags | None = None
 
@@ -406,7 +404,7 @@ def read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str] | TypeFieldName]:
             last_tag = tag
 
             if tag is Tags.ER:
-                continue
+                return result
 
             if tag is Tags.TY:
                 raise ValueError('only one type field is expected, a ')
@@ -427,7 +425,17 @@ def read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str] | TypeFieldName]:
                 result[last_tag][-1] += line.rstrip('\n\r')
             else:
                 result[last_tag] += line.rstrip('\n\r')
+    raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
 
-    if last_tag is not Tags.ER:
-        raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
-    return result
+
+def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
+
+    results: list[dict[Tags, str | list[str] | TypeFieldName]] = []
+
+    while line := tio.readline():
+        if line.rstrip() == '':
+            continue
+        entry: dict[Tags, str | list[str] | TypeFieldName] = {Tags.TY: _parse_ris_entry_type(line)}
+        entry.update(_read_ris_entry(tio))
+        results.append(entry)
+    return results

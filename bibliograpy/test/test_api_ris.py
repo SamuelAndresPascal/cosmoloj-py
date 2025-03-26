@@ -2,21 +2,22 @@ from pathlib import Path
 
 import pytest
 
-from bibliograpy.api_ris2001 import read_ris_entry, Tags, TypeFieldName
+from bibliograpy.api_ris2001 import read_ris_entries, Tags, TypeFieldName
 
 
 def test_multiple_records():
 
     with open(Path(__file__).parent / 'resources' / 'ris2011' / 'multipleRecords.ris') as s:
         with pytest.raises(ValueError) as e:
-            read_ris_entry(s)
+            read_ris_entries(s)
         assert e.value.args[0] == 'unknown DA tag'
 
 def test_sample1():
 
     with open(Path(__file__).parent / 'resources' / 'ris2001' / 'sample1.ris') as s:
-        result = read_ris_entry(s)
-        assert result == {
+        result = read_ris_entries(s)
+        assert len(result) == 1
+        assert result[0] == {
             Tags.TY: TypeFieldName.JOUR,
             Tags.A1: ['Baldwin,S.A.', 'Fugaccia,I.', 'Brown,D.R.', 'Brown,L.V.', 'Scheff,S.W.'],
             Tags.T1: 'Blood-brain barrier breach following cortical contusion in the rat',
@@ -33,8 +34,9 @@ def test_sample1():
 def test_sample2():
 
     with open(Path(__file__).parent / 'resources' / 'ris2001' / 'sample2.ris') as s:
-        result = read_ris_entry(s)
-        assert result == {
+        result = read_ris_entries(s)
+        assert len(result) == 1
+        assert result[0] == {
             Tags.TY: TypeFieldName.PAT,
             Tags.A1: ['Burger,D.R.', 'Goldstein,A.S.'],
             Tags.T1: 'Method of detecting AIDS virus infection',
@@ -55,8 +57,9 @@ def test_sample2():
 def test_sample3():
 
     with open(Path(__file__).parent / 'resources' / 'ris2001' / 'sample3.ris') as s:
-        result = read_ris_entry(s)
-        assert result == {
+        result = read_ris_entries(s)
+        assert len(result) == 1
+        assert result[0] == {
             Tags.TY: TypeFieldName.CONF,
             Tags.A1: ['Catania,J.', 'Coates,T.', 'Kegeles,S.', 'Peterson,J.', 'Marin,B.', 'Fullilove,M.'],
             Tags.T1: 'Predicting risk behavior with the AIDS risk reduction model (ARRM) in a random household probability sample of San Franciscans: the "AMEN" study',
@@ -71,4 +74,57 @@ def test_sample3():
             Tags.Y2: '1990/6/20',
             Tags.M1: '1',
             Tags.N1: "OBJECTIVE: Data from the AIDS In Multi-Ethnic Neighborhoods survey are used to test Stages 1 & 3 of ARRM (a three stage process model of sexual risk behavior change; Catania, Kegeles, & Coates, 1990). Stage 1 analyses examine predictors of labeling one's sexual behavior in terms of HIV risk; Stage 3 concerns predictors of sexual behavior (e.g., condom use) (Stage 2 was not assessed in this first wave of the study but will be examined in wave 2). METHODS: Data were collected in a random household probability study of 1,781 white (41%), black (26%), and Hispanic (25%) (8% Other), unmarried respondents, aged 20-44, residing in selected \"high risk\" census tracts of San Francisco (Heterosexual = 83%, Homosexual = 13%, Bisexual = 4%). Labeling defined as making an accurate or inaccurate assessment of one's risk for HIV based on prior and current sexual practices. The behavioral outcome is frequency of condom use averaged across sexual partners for the past year. RESULTS: Multiple regression (Logistic & LSQ) analyses indicate that, 1) Accurate labeling of high risk behavior is related to high susceptibility beliefs (Imp. Chi Sq. =,92.46, p less than .0001), but unrelated to knowing someone with AIDS; gay relative to heterosexual men (p less than .03), and Hispanics compared to whites (p less than .01) were more likely to accurately label their behavior, 2) Greater condom use during vaginal or anal intercourse is significantly related to better sexual communication skills, higher perceived benefits and lower costs of condom use, but unrelated to religiosity, self-efficacy, and ethnicity (R's range from .50 - .66); these latter results are substantially the same for men and women, and heterosexuals and gay men. CONCLUSION: The findings 1) suggest the ARRM model is applicable to most social groups, 2) underscore the importance of interventions that enhance communication skills and teach methods of facilitating sexual enjoyment of condoms"
+        }
+
+def test_sample456():
+
+    with open(Path(__file__).parent / 'resources' / 'ris2001' / 'sample456.ris') as s:
+        result = read_ris_entries(s)
+        assert len(result) == 3
+        assert result[0] == {
+            Tags.TY: TypeFieldName.RPRT,
+            Tags.A1: ['Esparza,J.'],
+            Tags.T1: 'Report of a WHO workshop on the measurement and significance of neutralizing antibody to HIV and SIV, London, 3-5 October 1988',
+            Tags.Y1: '1990',
+            Tags.VL: '4',
+            Tags.SP: '269',
+            Tags.EP: '275',
+            Tags.RP: 'Not In File',
+            Tags.CY: 'San Francisco CA',
+            Tags.PB: 'UC Berkeley',
+            Tags.KW: ['HIV', 'SIV', 'AIDS'],
+            Tags.T3: 'World Health Organisation Global Programme on AIDS'
+        }
+        assert result[1] == {
+            Tags.TY: TypeFieldName.CHAP,
+            Tags.A1: ['Franks,L.M.'],
+            Tags.T1: 'Preface by an AIDS Victim',
+            Tags.Y1: '1991',
+            Tags.VL: '10',
+            Tags.SP: 'vii',
+            Tags.EP: 'viii',
+            Tags.RP: 'Not In File',
+            Tags.T2: 'Cancer, HIV and AIDS.',
+            Tags.CY: 'Berkeley CA',
+            Tags.PB: 'Berkeley Press',
+            Tags.KW: ['HIV', 'AIDS'],
+            Tags.M1: '1',
+            Tags.M2: '1',
+            Tags.SN: '0-679-40110-5'
+        }
+        assert result[2] == {
+            Tags.TY: TypeFieldName.CASE,
+            Tags.A1: ['Cary,A.', 'Friedenrich,W.'],
+            Tags.T1: 'Redman v. State of California',
+            Tags.Y1: '1988/10/7',
+            Tags.VL: '201',
+            Tags.IS: '32',
+            Tags.SP: '220',
+            Tags.EP: '240',
+            Tags.RP: 'Not In File',
+            Tags.CY: 'ATLA Law Reporter',
+            Tags.PB: 'San Diego County 45th Judicial District, California',
+            Tags.KW: ['AIDS', 'litigation', 'AIDS litigation', 'rape'],
+            Tags.U1: 'ISSN 0456-8125',
+            Tags.N1: 'Raped inmate can press case against officials for contracting AIDS'
         }
