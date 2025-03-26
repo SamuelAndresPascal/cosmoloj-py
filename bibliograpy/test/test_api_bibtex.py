@@ -1,4 +1,4 @@
-"""Test module for bibliograpy"""
+"""Test module for bibtex api"""
 import sys
 import pydoc
 

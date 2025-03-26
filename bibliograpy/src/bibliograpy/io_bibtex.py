@@ -1,3 +1,5 @@
+"""Bibtex I/O module."""
+
 import json
 
 from typing import Any, TextIO
