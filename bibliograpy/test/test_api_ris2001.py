@@ -9,7 +9,7 @@ from bibliograpy.api_ris2001 import read_ris_entries, Tags, TypeFieldName
 def test_multiple_records():
     """test sample using the 2011 specification"""
 
-    with open(Path(__file__).parent / 'resources' / 'ris2011' / 'multipleRecords.ris') as s:
+    with open(Path(__file__).parent / 'resources' / 'ris2011' / 'multipleRecords.ris', encoding='utf-8') as s:
         with pytest.raises(ValueError) as e:
             read_ris_entries(s)
         assert e.value.args[0] == 'unknown DA tag'

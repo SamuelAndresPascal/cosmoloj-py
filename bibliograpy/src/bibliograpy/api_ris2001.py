@@ -11,6 +11,7 @@ from bibliograpy.bibliography import RIS_2001
 
 @dataclass(frozen=True)
 class Tag:
+    """A field tag."""
     auto: auto
     repeating: bool = False
 
@@ -255,6 +256,7 @@ class Tags(Enum):
 
     @staticmethod
     def parse(tag_str: str):
+        """Parses a tag name into an enum value."""
         for n in Tags:
             if tag_str == n.name:
                 return n
@@ -374,11 +376,12 @@ class TypeFieldName(Enum):
     """Video recording"""
 
     @staticmethod
-    def parse(type: str):
+    def parse(entry_type: str):
+        """Parses an entry type name into an enum value."""
         for n in TypeFieldName:
-            if type == n.name:
+            if entry_type == n.name:
                 return n
-        raise ValueError(f'unknown {type} type')
+        raise ValueError(f'unknown {entry_type} type')
 
 def _parse_ris_entry_type(line: str) -> TypeFieldName:
     # first field must contain entry type
@@ -392,6 +395,7 @@ def _parse_ris_entry_type(line: str) -> TypeFieldName:
     return TypeFieldName.parse(line[6:].rstrip())
 
 def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
+    """Reads a single RIS entry from the input stream."""
 
     result = {}
 
@@ -410,7 +414,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
                 raise ValueError('only one type field is expected, a ')
 
             if tag.value.repeating:
-                if tag in result.keys():
+                if tag in result:
                     result[tag].append(line[6:].rstrip('\n\r'))
                 else:
                     result[tag] = [line[6:].rstrip('\n\r')]
@@ -429,6 +433,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
 
 
 def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
+    """Reads a RIS entry list from the input stream."""
 
     results: list[dict[Tags, str | list[str] | TypeFieldName]] = []
 
