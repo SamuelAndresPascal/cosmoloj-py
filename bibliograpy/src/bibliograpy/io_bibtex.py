@@ -1,6 +1,6 @@
 import json
 
-from typing import Any
+from typing import Any, TextIO
 
 import bibtexparser
 import yaml
@@ -32,7 +32,7 @@ def read(s, extension: str) -> list[dict]:
 
     raise ValueError(f'unsupported configuration format {extension}')
 
-def write(o, extension: str, content: list[dict], scope_symbol: str | None, init_scope: str | None):
+def write(o: TextIO, extension: str, content: list[dict], scope_symbol: str | None, init_scope: str | None):
     """Writes the bibliography in the format specified by the provided extension."""
 
     if extension == 'py':

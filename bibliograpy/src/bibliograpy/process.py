@@ -28,4 +28,3 @@ def _process(ns: Namespace):
 
         with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
             write(o, extension=out_extension, content=content, scope_symbol=scope_symbol, init_scope=init_scope)
-
