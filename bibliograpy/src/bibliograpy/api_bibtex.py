@@ -475,7 +475,7 @@ class Reference:
 
 
 @dataclass(frozen=True)
-class ReferenceBuilder:
+class CitationBuilder:
     """A builder of reference decorators."""
 
     reference_wrapper: Callable[[list[Reference]], str]
@@ -483,25 +483,25 @@ class ReferenceBuilder:
     @staticmethod
     def _default_lambda(prefix: str,
                         itemizer: str,
-                        reference_formatter,
+                        formatter,
                         refs: list[Reference]) -> str:
 
         if len(refs) == 1:
-            return f"\n\n{prefix} {reference_formatter(refs[0].cross_resolved())}\n"
+            return f"\n\n{prefix} {formatter(refs[0].cross_resolved())}\n"
 
         result = f"\n\n{prefix}\n\n"
         for r in refs:
-            result += f"{itemizer} {reference_formatter(r.cross_resolved())}\n"
+            result += f"{itemizer} {formatter(r.cross_resolved())}\n"
         return result
 
     @staticmethod
     def default(prefix: str = 'Bibliography:',
                 itemize: str = '*',
-                reference_formatter = lambda r: (f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY
-                                                                             else r.title)):
+                formatter = lambda r: (f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY
+                                                                   else r.title)):
         """the default reference decorator"""
-        return ReferenceBuilder(
-            reference_wrapper=lambda r: ReferenceBuilder._default_lambda(prefix, itemize, reference_formatter, r))
+        return CitationBuilder(
+            reference_wrapper=lambda r: CitationBuilder._default_lambda(prefix, itemize, formatter, r))
 
     def __call__(self, *refs):
         """The reference decorator."""
@@ -521,7 +521,7 @@ class ReferenceBuilder:
 
         return internal
 
-cite = ReferenceBuilder.default()
+cite = CitationBuilder.default()
 
 class _InternalReference(Reference):
     """Internal bibliographic usage before defining standard types."""
@@ -531,7 +531,7 @@ class _InternalReference(Reference):
         return {}
 
 _bibtex_com = cite(_InternalReference.generic(cite_key='bibtex_com',
-                                                   title='www.bibtex.com'))
+                                              title='www.bibtex.com'))
 
 _bibtex_package = cite(
     _InternalReference.generic(cite_key='bibtex_package',

@@ -4,7 +4,7 @@ import pydoc
 
 import pytest
 
-from bibliograpy.api_bibtex import cite, Misc, TechReport, Reference, ReferenceBuilder, inbook
+from bibliograpy.api_bibtex import cite, Misc, TechReport, Reference, CitationBuilder, inbook
 
 SCOPE: dict[str, Reference] = {}
 
@@ -149,7 +149,7 @@ def test_custom_reference_builder():
             result += f"* {_ref_formatter(r)}\n"
         return result
 
-    ref = ReferenceBuilder(reference_wrapper=custom_wrapper)
+    ref = CitationBuilder(reference_wrapper=custom_wrapper)
 
     @ref(IAU_2006_B1, IAU)
     def tatafr():
@@ -185,15 +185,15 @@ t\bta\bat\bta\baf\bfr\br()
 def test_parameterized_default_reference_builder():
     """test parameterized default reference builder"""
 
-    def _formatter(ref: Reference) -> str:
-        base = f'{ref.title} [{ref.cite_key}]'
-        if ref.crossref:
-            return base + f' -> [{ref.crossref}]'
+    def _formatter(r: Reference) -> str:
+        base = f'{r.title} [{r.cite_key}]'
+        if r.crossref:
+            return base + f' -> [{r.crossref}]'
         return base
 
-    ref = ReferenceBuilder.default(prefix='Références bibliographiques :',
-                                   itemize='++',
-                                   reference_formatter=_formatter)
+    ref = CitationBuilder.default(prefix='Références bibliographiques :',
+                                  itemize='++',
+                                  formatter=_formatter)
 
     @ref(IAU_2006_B1, IAU)
     def tatafr():
