@@ -179,5 +179,3 @@ and SIV, London, 3-5 October 1988""",
             Tags.U1: 'ISSN 0456-8125',
             Tags.N1: 'Raped inmate can press case against officials for contracting AIDS'
         }
-        
-        print(result)
