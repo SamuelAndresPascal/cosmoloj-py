@@ -1,5 +1,4 @@
 """Test module for bibtex process tool."""
-import os
 from argparse import Namespace
 from pathlib import Path
 import pydoc
@@ -18,6 +17,11 @@ from bibliograpy.process import _process
 def _bibtex_resource(file: str) -> str:
     """Chemin vers les fichiers d'entrée."""
     return str(Path(Path(__file__).parent / 'resources' / 'bibtex' / file))
+
+
+def _sibbling_module(file: str) -> str:
+    """Chemin vers les fichiers de modules voisins."""
+    return str(Path(Path(__file__).parent / file))
 
 
 def _output(file: str) -> str:
@@ -224,14 +228,14 @@ def test_process_bibtex_yml_to_py():
 
     _process(Namespace(CMD='process',
                        file=_bibtex_resource('mini.yml'),
-                       output_file=_output('test_process_bibtex_yml_to_py.py'),
+                       output_file=_sibbling_module('test_process_bibtex_yml_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='bib'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.bibtex.out.test_process_bibtex_yml_to_py import IAU, NASA
+    from test_process_bibtex_yml_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -267,14 +271,14 @@ def test_process_bibtex_json_to_py():
 
     _process(Namespace(CMD='process',
                        file=_bibtex_resource('mini.json'),
-                       output_file=_output('test_process_bibtex_json_to_py.py'),
+                       output_file=_sibbling_module('test_process_bibtex_json_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='bib'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.bibtex.out.test_process_bibtex_json_to_py import IAU, NASA
+    from test_process_bibtex_json_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -310,14 +314,14 @@ def test_process_bibtex_bib_to_py():
 
     _process(Namespace(CMD='process',
                        file=_bibtex_resource('mini.bib'),
-                       output_file=_output('test_process_bibtex_bib_to_py.py'),
+                       output_file=_sibbling_module('test_process_bibtex_bib_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='bib'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.bibtex.out.test_process_bibtex_bib_to_py import IAU, NASA
+    from test_process_bibtex_bib_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():

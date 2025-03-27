@@ -20,6 +20,11 @@ def _ris2001_resource(file: str) -> str:
     return str(Path(Path(__file__).parent / 'resources' / 'ris2001' / file))
 
 
+def _sibbling_module(file: str) -> str:
+    """Chemin vers les fichiers de modules voisins."""
+    return str(Path(Path(__file__).parent / file))
+
+
 def _output(file: str) -> str:
     """Chemin vers les fichiers de sortie."""
     return str(Path(Path(__file__).parent / 'resources' / 'ris2001' / 'out' / file))
@@ -439,14 +444,14 @@ def test_process_ris2001_yml_to_py():
 
     _process(Namespace(CMD='process',
                        file=_ris2001_resource('mini.yml'),
-                       output_file=_output('test_process_ris2001_yml_to_py.py'),
+                       output_file=_sibbling_module('test_process_ris2001_yml_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.ris2001.out.test_process_ris2001_yml_to_py import IAU, NASA
+    from test_process_ris2001_yml_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -483,14 +488,14 @@ def test_process_ris2001_json_to_py():
 
     _process(Namespace(CMD='process',
                        file=_ris2001_resource('mini.json'),
-                       output_file=_output('test_process_ris2001_json_to_py.py'),
+                       output_file=_sibbling_module('test_process_ris2001_json_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.ris2001.out.test_process_ris2001_json_to_py import IAU, NASA
+    from test_process_ris2001_json_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -527,14 +532,14 @@ def test_process_ris2001_ris_to_py():
 
     _process(Namespace(CMD='process',
                        file=_ris2001_resource('mini.ris'),
-                       output_file=_output('test_process_ris2001_ris_to_py.py'),
+                       output_file=_sibbling_module('test_process_ris2001_ris_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from resources.ris2001.out.test_process_ris2001_ris_to_py import IAU, NASA
+    from test_process_ris2001_ris_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
