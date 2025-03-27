@@ -254,6 +254,9 @@ class Tags(Enum):
     """Image(s).
     There is no practical limit to the length of this field."""
 
+    def __str__(self):
+        return self.name
+
     @staticmethod
     def parse(tag_str: str):
         """Parses a tag name into an enum value."""
@@ -374,6 +377,9 @@ class TypeFieldName(Enum):
 
     VIDEO = auto()
     """Video recording"""
+
+    def __str__(self):
+        return self.name
 
     @staticmethod
     def parse(entry_type: str):

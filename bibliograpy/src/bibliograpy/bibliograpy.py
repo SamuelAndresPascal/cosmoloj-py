@@ -19,6 +19,7 @@ DEFAULT_FILE = "bibliograpy.yaml"
 DEFAULT_ENCODING = 'utf-8'
 DEFAULT_OUTPUT_DIR = '.'
 DEFAULT_OUTPUT_FILE = 'bibliography.py'
+DEFAULT_FORMAT = 'bib'
 
 
 def _create_parser() -> ArgumentParser:
@@ -47,12 +48,17 @@ def _create_parser() -> ArgumentParser:
                          nargs='?',
                          help='the source bibliograpy output file name',
                          default=DEFAULT_OUTPUT_FILE)
+    process.add_argument('--format', '-f',
+                         nargs='?',
+                         help='the input bibliography format (bib, ris2001)',
+                         default=DEFAULT_FORMAT)
     process.add_argument('--scope', '-s',
                          nargs='?',
-                         help='the scope name, must be consistent with --scope-import')
+                         help="""the scope name, must be consistent with --init-scope \
+    (for bibtex format cross-reference resolution)""")
     process.add_argument('--init-scope', '-S',
                          nargs='?',
-                         help='the scope import line')
+                         help='the scope import line (for bibtex format cross-reference resolution)')
 
     return parser
 

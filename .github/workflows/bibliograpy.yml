@@ -63,8 +63,9 @@ jobs:
           pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
           pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_bibtex.py
-          pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/io_bibtex.py
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/io_bibtex.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2001.py
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris.py
 
   lint-test:
     runs-on: ubuntu-latest
@@ -90,7 +91,8 @@ jobs:
       - working-directory: bibliograpy
         run: |
           pip install .
-          pylint --rcfile=../pylintrc_bibliograpy-test test/test_bibliograpy.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
 
