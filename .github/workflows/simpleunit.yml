@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - simpleunit_*
   schedule:
     - cron: '30 5 * * 0'
 
