@@ -480,6 +480,24 @@ class CitationBuilder:
 
     reference_wrapper: Callable[[list[Reference]], str]
 
+    def __call__(self, *refs):
+        """The reference decorator."""
+
+        def internal(obj):
+            if obj.__doc__ is None:
+                obj.__doc__ = ''
+            if len(refs) == 1:
+                ref0 = refs[0]
+                if isinstance(ref0, Reference):
+                    obj.__doc__ += self.reference_wrapper([ref0])
+                elif isinstance(ref0, list):
+                    obj.__doc__ += self.reference_wrapper(ref0)
+            else:
+                obj.__doc__ += self.reference_wrapper([*refs])
+            return obj
+
+        return internal
+
     @staticmethod
     def _default_lambda(prefix: str,
                         itemizer: str,
@@ -502,24 +520,6 @@ class CitationBuilder:
         """the default reference decorator"""
         return CitationBuilder(
             reference_wrapper=lambda r: CitationBuilder._default_lambda(prefix, itemize, formatter, r))
-
-    def __call__(self, *refs):
-        """The reference decorator."""
-
-        def internal(obj):
-            if obj.__doc__ is None:
-                obj.__doc__ = ''
-            if len(refs) == 1:
-                ref0 = refs[0]
-                if isinstance(ref0, Reference):
-                    obj.__doc__ += self.reference_wrapper([ref0])
-                elif isinstance(ref0, list):
-                    obj.__doc__ += self.reference_wrapper(ref0)
-            else:
-                obj.__doc__ += self.reference_wrapper([*refs])
-            return obj
-
-        return internal
 
 cite = CitationBuilder.default()
 
