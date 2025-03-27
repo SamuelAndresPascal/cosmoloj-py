@@ -12,3 +12,6 @@ report.xml
 coverage.xml
 .scannerwork
 **/LICENSE.md
+
+# generated pylint configuration files
+pylintrc_*
