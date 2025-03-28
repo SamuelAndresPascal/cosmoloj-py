@@ -3,10 +3,10 @@ from __future__ import annotations
 
 import dataclasses
 from dataclasses import dataclass
-from typing import Callable, Any
+from typing import Any
 import logging
 
-from bibliograpy.api_core import CitationFormatter, SimpleCitationFormatter
+from bibliograpy.api_core import SimpleCitationFormatter
 
 LOG = logging.getLogger(__name__)
 
@@ -477,6 +477,7 @@ class BibtexReference:
 
 
 def default_bibtex_formatter(r: BibtexReference):
+    """The default formatter for bibtex references."""
     r = r.cross_resolved()
     return f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY else r.title
 

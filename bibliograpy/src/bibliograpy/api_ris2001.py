@@ -453,5 +453,6 @@ def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeField
 
 
 def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
+    """The default formatter for RIS 2001 references."""
     title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))
     return f"{title} [{r[Tags.ID]}]" if Tags.ID in r else title

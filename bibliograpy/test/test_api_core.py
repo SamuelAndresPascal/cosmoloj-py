@@ -37,6 +37,7 @@ def test_custom_citation_formatter():
             return result
 
         def ref_formatter(self, r: BibtexReference) -> str:
+            """The single reference formatter."""
             return f"{r.title} [{r.cite_key}]"
 
     ref = _CitationFormatter()
