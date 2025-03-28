@@ -36,7 +36,7 @@ sections:
           coordop-src: 21
       - key: min-public-methods
         value: 1
-        environments: [coordop-src, multienv-src]
+        environments: [coordop-src, multienv-src, bibliograpy-src-api]
       - key: max-args
         value: 30
         environments: [src, multienv-src]

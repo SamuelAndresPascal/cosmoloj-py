@@ -11,7 +11,7 @@ lint:bibliograpy:
     - pip install .
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
-    - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_core.py
+    - pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_bibtex.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_bibtex.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2001.py

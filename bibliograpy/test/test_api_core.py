@@ -26,18 +26,18 @@ IAU_2006_B1 = TechReport.generic(
 def test_custom_citation_formatter():
     """test custom citation formatter"""
 
-    def _ref_formatter(r: BibtexReference) -> str:
-        return f"{r.title} [{r.cite_key}]"
-
     class _CitationFormatter(CitationFormatter):
         def format(self, refs: list) -> str:
             if len(refs) == 1:
-                return f"\n\nBibliographie : {_ref_formatter(refs[0])}\n"
+                return f"\n\nBibliographie : {self.ref_formatter(refs[0])}\n"
 
             result = "\n\nBibliographie :\n\n"
             for r in refs:
-                result += f"* {_ref_formatter(r)}\n"
+                result += f"* {self.ref_formatter(r)}\n"
             return result
+
+        def ref_formatter(self, r: BibtexReference) -> str:
+            return f"{r.title} [{r.cite_key}]"
 
     ref = _CitationFormatter()
 
