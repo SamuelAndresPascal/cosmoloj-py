@@ -9,7 +9,7 @@ import yaml
 from bibtexparser.bibdatabase import BibDatabase
 from bibtexparser.bwriter import BibTexWriter
 
-from bibliograpy.api_bibtex import TYPES, Reference
+from bibliograpy.api_bibtex import TYPES, BibtexReference
 
 
 def read(s, extension: str) -> list[dict]:
@@ -26,7 +26,7 @@ def read(s, extension: str) -> list[dict]:
         content = []
         for e in bibtexparser.load(s).entries:
             meta['entry_type'] = e['ENTRYTYPE']
-            meta[Reference.CITE_KEY_FIELD] = e['ID']
+            meta[BibtexReference.CITE_KEY_FIELD] = e['ID']
             del e['ENTRYTYPE']
             del e['ID']
             content.append({**meta, **e})

@@ -10,7 +10,7 @@ import yaml
 
 import pytest
 
-from bibliograpy.api_bibtex import cite
+from bibliograpy.api_ris2001 import _cite
 
 from bibliograpy.process import _process
 

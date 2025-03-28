@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import TextIO
 
-from bibliograpy.api_bibtex import cite
 from bibliograpy.bibliography import RIS_2001
+from bibliograpy.api_bibtex import _cite
 
 
 @dataclass(frozen=True)
@@ -15,7 +15,7 @@ class Tag:
     auto: auto
     repeating: bool = False
 
-@cite(RIS_2001)
+@_cite(RIS_2001)
 class Tags(Enum):
     """
     RIS fields.
@@ -266,7 +266,7 @@ class Tags(Enum):
         raise ValueError(f'unknown {tag_str} tag')
 
 
-@cite(RIS_2001)
+@_cite(RIS_2001)
 class TypeFieldName(Enum):
     """Reference Type Field Names
 
@@ -450,3 +450,7 @@ def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeField
         entry.update(_read_ris_entry(tio))
         results.append(entry)
     return results
+
+
+def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
+    return f"{r[Tags.TI]} [{r[Tags.ID]}]" if Tags.ID in r else r[Tags.TI]

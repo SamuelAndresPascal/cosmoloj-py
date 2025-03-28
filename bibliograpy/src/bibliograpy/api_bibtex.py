@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from typing import Callable, Any
 import logging
 
+from bibliograpy.api_core import CitationFormatter, SimpleCitationFormatter
+
 LOG = logging.getLogger(__name__)
 
 _ANONYM_CITE_KEY = ""
@@ -58,7 +60,7 @@ class NonStandard:
 
 
 @dataclass(frozen=True, repr=False)
-class Reference:
+class BibtexReference:
     """A bibliography reference."""
 
     CITE_KEY_FIELD = 'cite_key'
@@ -232,24 +234,24 @@ class Reference:
     non_standard: NonStandard | None
     """Non standard fields."""
 
-    scope: dict[str, Reference] | None
+    scope: dict[str, BibtexReference] | None
     """Environnement de résolution des références croisées."""
 
-    def _hierarchy(self) -> list[Reference]:
+    def _hierarchy(self) -> list[BibtexReference]:
         """Calcul de la hiérarchie par références croisées."""
-        current: Reference | None = self
+        current: BibtexReference | None = self
 
-        hierarchy: list[Reference] = [current]
+        hierarchy: list[BibtexReference] = [current]
         while current is not None:
             if current.crossref is not None and current.scope is not None and current.crossref in current.scope:
-                parent: Reference = current.scope[current.crossref]
+                parent: BibtexReference = current.scope[current.crossref]
                 hierarchy.append(parent)
                 current = parent
             else:
                 current = None
         return hierarchy
 
-    def cross_resolved(self) -> Reference:
+    def cross_resolved(self) -> BibtexReference:
         """Calcul de la référence héritant des champs des références croisées parentes."""
         hierarchy = self._hierarchy()
 
@@ -259,7 +261,7 @@ class Reference:
         resolved_standard_dict: dict[str, Any] = {}
         for f in dataclasses.fields(type(self)):
 
-            if f.name in [Reference.NON_STANDARD_FIELD, Reference.SCOPE_FIELD]:
+            if f.name in [BibtexReference.NON_STANDARD_FIELD, BibtexReference.SCOPE_FIELD]:
                 continue
 
             for i in hierarchy:
@@ -278,7 +280,7 @@ class Reference:
                         resolved_non_standard_dict[f.name] = v
                         break
 
-        resolved_standard_dict[Reference.NON_STANDARD_FIELD] = NonStandard.from_dict(resolved_non_standard_dict)
+        resolved_standard_dict[BibtexReference.NON_STANDARD_FIELD] = NonStandard.from_dict(resolved_non_standard_dict)
 
         # il ne faut pas ajouter dans le scope cette instance résolue par références croisées car sa clef étant la même
         # que celle de la référence explicite, les deux entreraient en conflit dans le scope
@@ -294,18 +296,18 @@ class Reference:
     def to_py(self, scope_symbol: str | None) -> str:
         """Serialization of the reference in processed python code."""
 
-        base = f"{Reference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
+        base = f"{BibtexReference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
 
         fields = []
         for f in dataclasses.fields(type(self)):
 
-            if Reference.SCOPE_FIELD == f.name:
+            if BibtexReference.SCOPE_FIELD == f.name:
                 continue
 
             value = getattr(self, f.name)
 
-            if f.name == Reference.CROSSREF_FIELD and value is not None:
-                fields.append(f"{f.name}={Reference.to_source_symbol(value)}")
+            if f.name == BibtexReference.CROSSREF_FIELD and value is not None:
+                fields.append(f"{f.name}={BibtexReference.to_source_symbol(value)}")
             elif isinstance(value, str):
                 if "'" in value:
                     fields.append(f'{f.name}="{value}"')
@@ -317,7 +319,7 @@ class Reference:
                 fields.append(f'{f.name}={value}')
 
         if scope_symbol is not None:
-            fields.append(f'{Reference.SCOPE_FIELD}={scope_symbol}')
+            fields.append(f'{BibtexReference.SCOPE_FIELD}={scope_symbol}')
 
         # argument indentation management
         sep = ',\n'
@@ -331,10 +333,10 @@ class Reference:
         result = {}
         for f in dataclasses.fields(type(self)):
 
-            if Reference.SCOPE_FIELD == f.name:
+            if BibtexReference.SCOPE_FIELD == f.name:
                 continue
 
-            if Reference.CITE_KEY_FIELD == f.name:
+            if BibtexReference.CITE_KEY_FIELD == f.name:
                 field_name = 'ID'
             else:
                 field_name = f.name
@@ -378,7 +380,7 @@ class Reference:
                 booktitle: str | None = None,
                 author: str | None = None,
                 chapter: str | None = None,
-                crossref: str | Reference | None = None,
+                crossref: str | BibtexReference | None = None,
                 edition: str | None = None,
                 editor: str | None = None,
                 howpublished: str | None = None,
@@ -397,7 +399,7 @@ class Reference:
                 volume: str | int | None = None,
                 year: str | int | None = None,
                 non_standard: NonStandard | None = None,
-                scope: dict[str, Reference] | None = None) -> Reference:
+                scope: dict[str, BibtexReference] | None = None) -> BibtexReference:
         """builds a generic reference, allowing to init each field"""
         instance = cls(cite_key=cite_key,
                        address=address,
@@ -405,7 +407,7 @@ class Reference:
                        booktitle=booktitle,
                        author=author,
                        chapter=chapter,
-                       crossref=crossref.cite_key if isinstance(crossref, Reference) else crossref,
+                       crossref=crossref.cite_key if isinstance(crossref, BibtexReference) else crossref,
                        edition=edition,
                        editor=editor,
                        howpublished=howpublished,
@@ -443,10 +445,10 @@ class Reference:
         return instance
 
     @classmethod
-    def from_dict(cls, source: dict[str, Any], scope: dict[str, Reference] | None) -> Reference:
+    def from_dict(cls, source: dict[str, Any], scope: dict[str, BibtexReference] | None) -> BibtexReference:
         """Builds a reference from a dict."""
         return cls.generic(
-            cite_key=source[Reference.CITE_KEY_FIELD],
+            cite_key=source[BibtexReference.CITE_KEY_FIELD],
             address=source['address'] if 'address' in source else None,
             annote=source['annote'] if 'annote' in source else None,
             author=source['author'] if 'author' in source else None,
@@ -474,66 +476,25 @@ class Reference:
             scope=scope)
 
 
-@dataclass(frozen=True)
-class CitationBuilder:
-    """A builder of reference decorators."""
+def default_bibtex_formatter(r: BibtexReference):
+    r = r.cross_resolved()
+    return f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY else r.title
 
-    reference_wrapper: Callable[[list[Reference]], str]
 
-    def __call__(self, *refs):
-        """The reference decorator."""
+_cite = SimpleCitationFormatter(prefix='Bibliography:', itemize='*', reference_formatter=default_bibtex_formatter)
 
-        def internal(obj):
-            if obj.__doc__ is None:
-                obj.__doc__ = ''
-            if len(refs) == 1:
-                ref0 = refs[0]
-                if isinstance(ref0, Reference):
-                    obj.__doc__ += self.reference_wrapper([ref0])
-                elif isinstance(ref0, list):
-                    obj.__doc__ += self.reference_wrapper(ref0)
-            else:
-                obj.__doc__ += self.reference_wrapper([*refs])
-            return obj
 
-        return internal
-
-    @staticmethod
-    def _default_lambda(prefix: str,
-                        itemizer: str,
-                        formatter,
-                        refs: list[Reference]) -> str:
-
-        if len(refs) == 1:
-            return f"\n\n{prefix} {formatter(refs[0].cross_resolved())}\n"
-
-        result = f"\n\n{prefix}\n\n"
-        for r in refs:
-            result += f"{itemizer} {formatter(r.cross_resolved())}\n"
-        return result
-
-    @staticmethod
-    def default(prefix: str = 'Bibliography:',
-                itemize: str = '*',
-                formatter = lambda r: (f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY
-                                                                   else r.title)):
-        """the default reference decorator"""
-        return CitationBuilder(
-            reference_wrapper=lambda r: CitationBuilder._default_lambda(prefix, itemize, formatter, r))
-
-cite = CitationBuilder.default()
-
-class _InternalReference(Reference):
+class _InternalReference(BibtexReference):
     """Internal bibliographic usage before defining standard types."""
 
     def _mandatory_values(self):
         """Checks if standard mandatory fields are not None."""
         return {}
 
-_bibtex_com = cite(_InternalReference.generic(cite_key='bibtex_com',
-                                              title='www.bibtex.com'))
+_bibtex_com = _cite(_InternalReference.generic(cite_key='bibtex_com',
+                                               title='www.bibtex.com'))
 
-_bibtex_package = cite(
+_bibtex_package = _cite(
     _InternalReference.generic(cite_key='bibtex_package',
                                title='CTAN Bibtex package documentation',
                                non_standard=NonStandard(
@@ -543,7 +504,7 @@ _bibtex_package = cite(
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Article(Reference):
+class Article(BibtexReference):
     """any article published in a periodical like a journal article or magazine article
 
     An article from a journal or magazine.
@@ -562,7 +523,7 @@ class Article(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Book(Reference):
+class Book(BibtexReference):
     """a book
 
     A book with an explicit publisher.
@@ -581,7 +542,7 @@ class Book(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Booklet(Reference):
+class Booklet(BibtexReference):
     """like a book but without a designated publisher
 
     A work that is printed and bound, but without a named publisher or sponsoring institution.
@@ -595,7 +556,7 @@ class Booklet(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Inbook(Reference):
+class Inbook(BibtexReference):
     """a section or chapter in a book
 
     A part of a book, which may be a chapter (or section or whatever)and/or a range of pages.
@@ -615,7 +576,7 @@ class Inbook(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Incollection(Reference):
+class Incollection(BibtexReference):
     """an article in a collection
 
     A part of a book having its own title.
@@ -635,7 +596,7 @@ class Incollection(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Inproceedings(Reference):
+class Inproceedings(BibtexReference):
     """a conference paper (same as the conference entry type)
 
     An article in a conference proceedings.
@@ -660,7 +621,7 @@ class Conference(Inproceedings):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Manual(Reference):
+class Manual(BibtexReference):
     """a technical manual
 
     manual Technical documentation.
@@ -674,7 +635,7 @@ class Manual(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Mastersthesis(Reference):
+class Mastersthesis(BibtexReference):
     """a Masters thesis
 
     mastersthesis A Master’s thesis.
@@ -693,7 +654,7 @@ class Mastersthesis(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Misc(Reference):
+class Misc(BibtexReference):
     """used if nothing else fits
 
     misc Use this type when nothing else fits.
@@ -707,7 +668,7 @@ class Misc(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Phdthesis(Reference):
+class Phdthesis(BibtexReference):
     """a PhD thesis
 
     phdthesis A PhD thesis.
@@ -726,7 +687,7 @@ class Phdthesis(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Proceedings(Reference):
+class Proceedings(BibtexReference):
     """the whole conference proceedings
 
     proceedings The proceedings of a conference.
@@ -743,7 +704,7 @@ class Proceedings(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class TechReport(Reference):
+class TechReport(BibtexReference):
     """a technical report, government report or white paper
 
     techreport A report published by a school or other institution, usually numbered within a series.
@@ -762,7 +723,7 @@ class TechReport(Reference):
 @_bibtex_package
 @_bibtex_com
 @dataclass(frozen=True, repr=False)
-class Unpublished(Reference):
+class Unpublished(BibtexReference):
     """a work that has not yet been officially published
 
     unpublished A document having an author and title, but not formally published.
@@ -781,14 +742,14 @@ class Unpublished(Reference):
 # les références anonymes n'ont pas de cite_key
 # elles ne sont pas réutilisables et sont simplement déclarées une seule fois
 
-def _anonym(constructor: type[Reference]):
+def _anonym(constructor: type[BibtexReference]):
     def internal(
             address: str | None = None,
             annote: str | None = None,
             booktitle: str | None = None,
             author: str | None = None,
             chapter: str | None = None,
-            crossref: str | Reference | None = None,
+            crossref: str | BibtexReference | None = None,
             edition: str | None = None,
             editor: str | None = None,
             howpublished: str | None = None,
@@ -807,7 +768,7 @@ def _anonym(constructor: type[Reference]):
             volume: str | int | None = None,
             year: str | int | None = None,
             non_standard: NonStandard | None = None,
-            ref_supplier = cite):
+            ref_supplier = _cite):
         return ref_supplier(constructor.generic(
                     cite_key=_ANONYM_CITE_KEY,
                     address=address,
@@ -852,7 +813,7 @@ proceedings = _anonym(Proceedings)
 techreport = _anonym(TechReport)
 unpublished = _anonym(Unpublished)
 
-TYPES: dict[str, type[Reference]] = {
+TYPES: dict[str, type[BibtexReference]] = {
     'article': Article,
     'book': Book,
     'booklet': Booklet,
@@ -871,4 +832,4 @@ TYPES: dict[str, type[Reference]] = {
 
 
 
-SHARED_SCOPE: dict[str, Reference] = {}
+SHARED_SCOPE: dict[str, BibtexReference] = {}

@@ -1,6 +1,6 @@
 from bibliograpy.api_bibtex import *
 
-SCOPE: dict[str, Reference] = {}
+SCOPE: dict[str, BibtexReference] = {}
 
 
 MAP_PROJECTIONS = Book.generic(cite_key='map_projections',

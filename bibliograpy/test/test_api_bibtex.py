@@ -4,9 +4,10 @@ import pydoc
 
 import pytest
 
-from bibliograpy.api_bibtex import cite, Misc, TechReport, Reference, CitationBuilder, inbook
+from bibliograpy.api_bibtex import Misc, TechReport, BibtexReference, inbook
+from bibliograpy.api_common import cite
 
-SCOPE: dict[str, Reference] = {}
+SCOPE: dict[str, BibtexReference] = {}
 
 
 IAU = Misc.generic(cite_key='iau',
@@ -131,98 +132,6 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_b\bba\bar\br()
     
     * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
     * International Astronomical Union [iau]
-""")
-
-
-def test_custom_reference_builder():
-    """test custom reference builder"""
-
-    def _ref_formatter(r: Reference) -> str:
-        return f"{r.title} [{r.cite_key}]"
-
-    def custom_wrapper(refs: list[Reference]) -> str:
-        if len(refs) == 1:
-            return f"\n\nBibliographie : {_ref_formatter(refs[0])}\n"
-
-        result = "\n\nBibliographie :\n\n"
-        for r in refs:
-            result += f"* {_ref_formatter(r)}\n"
-        return result
-
-    ref = CitationBuilder(reference_wrapper=custom_wrapper)
-
-    @ref(IAU_2006_B1, IAU)
-    def tatafr():
-        """ma doc avec plusieurs références en varargs"""
-
-
-    if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api_bibtex
-
-t\bta\bat\bta\baf\bfr\br()
-    ma doc avec plusieurs références en varargs
-
-    Bibliographie :
-
-    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
-    * International Astronomical Union [iau]
-""")
-    else:
-        assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api_bibtex
-
-t\bta\bat\bta\baf\bfr\br()
-    ma doc avec plusieurs références en varargs
-    
-    Bibliographie :
-    
-    * Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1]
-    * International Astronomical Union [iau]
-""")
-
-
-def test_parameterized_default_reference_builder():
-    """test parameterized default reference builder"""
-
-    def _formatter(r: Reference) -> str:
-        base = f'{r.title} [{r.cite_key}]'
-        if r.crossref:
-            return base + f' -> [{r.crossref}]'
-        return base
-
-    ref = CitationBuilder.default(prefix='Références bibliographiques :',
-                                  itemize='++',
-                                  formatter=_formatter)
-
-    @ref(IAU_2006_B1, IAU)
-    def tatafr():
-        """ma doc avec plusieurs références en varargs"""
-
-
-    if sys.version_info.minor >= 12:
-        assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api_bibtex
-
-t\bta\bat\bta\baf\bfr\br()
-    ma doc avec plusieurs références en varargs
-
-    Références bibliographiques :
-
-    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1] -> [iau]
-    ++ International Astronomical Union [iau]
-""")
-    else:
-        assert (pydoc.render_doc(tatafr) ==
-"""Python Library Documentation: function tatafr in module test_api_bibtex
-
-t\bta\bat\bta\baf\bfr\br()
-    ma doc avec plusieurs références en varargs
-    
-    Références bibliographiques :
-    
-    ++ Adoption of the P03 Precession Theory and Definition of the Ecliptic [iau_2006_b1] -> [iau]
-    ++ International Astronomical Union [iau]
 """)
 
 

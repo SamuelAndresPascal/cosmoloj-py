@@ -9,10 +9,8 @@ import yaml
 
 import pytest
 
-from bibliograpy.api_bibtex import cite
-
 from bibliograpy.process import _process
-
+from bibliograpy.api_common import cite
 
 def _bibtex_resource(file: str) -> str:
     """Chemin vers les fichiers d'entrée."""
