@@ -25,7 +25,7 @@ class CitationFormatter:
         return internal
 
 
-class SimpleCitationFormatter[R](CitationFormatter):
+class SimpleCitationFormatter(CitationFormatter):
     """A simple citation formatter for """
 
     def __init__(self, prefix, itemize, reference_formatter):
