@@ -5,7 +5,6 @@ class CitationFormatter:
 
     def format(self, refs: list) -> str:
         """Formats a citation list."""
-        pass
 
     def __call__(self, *refs):
         """The reference decorator."""
@@ -27,6 +26,7 @@ class CitationFormatter:
 
 
 class SimpleCitationFormatter[R](CitationFormatter):
+    """A simple citation formatter for """
 
     def __init__(self, prefix, itemize, reference_formatter):
         self._prefix = prefix

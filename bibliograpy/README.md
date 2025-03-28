@@ -42,7 +42,7 @@ IAU_2006_B1 = TechReport.generic(
 ```py
 """The bibliography_client module using the bibliography module."""
 
-from bibliograpy.api_bibtex import cite
+from bibliograpy.api_common import cite
 
 from bibliography import IAU_2006_B1
 

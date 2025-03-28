@@ -453,4 +453,5 @@ def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeField
 
 
 def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
-    return f"{r[Tags.TI]} [{r[Tags.ID]}]" if Tags.ID in r else r[Tags.TI]
+    title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))
+    return f"{title} [{r[Tags.ID]}]" if Tags.ID in r else title

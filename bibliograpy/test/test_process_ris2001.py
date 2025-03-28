@@ -10,7 +10,7 @@ import yaml
 
 import pytest
 
-from bibliograpy.api_ris2001 import _cite
+from bibliograpy.api_common import cite
 
 from bibliograpy.process import _process
 
@@ -438,7 +438,6 @@ def test_process_ris2001_ris_to_json():
                            'neurotrophic factors administered intravenously both immediately and days after brain '
                            'trauma."}]')
 
-@pytest.mark.skip
 def test_process_ris2001_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
@@ -482,7 +481,6 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * NASA [nasa]
 """)
 
-@pytest.mark.skip
 def test_process_ris2001_json_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
@@ -526,7 +524,6 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * NASA [nasa]
 """)
 
-@pytest.mark.skip
 def test_process_ris2001_ris_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
