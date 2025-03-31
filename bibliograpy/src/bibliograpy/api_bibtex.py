@@ -11,6 +11,8 @@ from bibliograpy.api_core import SimpleCitationFormatter
 LOG = logging.getLogger(__name__)
 
 _ANONYM_CITE_KEY = ""
+ENTRYTYPE_FIELD_IN_MODEL_DICT = "ENTRYTYPE"
+ID_FIELD_IN_MODEL_DICT = "ID"
 
 @dataclass(frozen=True)
 class NonStandard:
@@ -337,7 +339,7 @@ class BibtexReference:
                 continue
 
             if BibtexReference.CITE_KEY_FIELD == f.name:
-                field_name = 'ID'
+                field_name = ID_FIELD_IN_MODEL_DICT
             else:
                 field_name = f.name
 
@@ -357,7 +359,7 @@ class BibtexReference:
             elif value is not None:
                 result[field_name] = str(value)
 
-        result['ENTRYTYPE'] = type(self).bibtex_entry_type()
+        result[ENTRYTYPE_FIELD_IN_MODEL_DICT] = type(self).bibtex_entry_type()
         return result
 
     def _mandatory_values(self) -> dict[str, Any]:

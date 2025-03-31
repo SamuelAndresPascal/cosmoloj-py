@@ -1,4 +1,114 @@
 """Core management of reference decorators."""
+from dataclasses import dataclass
+from enum import Enum
+from typing import TextIO
+
+@dataclass(frozen=True)
+class Format:
+    """A format representation."""
+    specification_ids: list[str]
+    io_extension: list[str]
+
+class Formats(Format, Enum):
+    """Supported bibliography formats."""
+    BIBTEX = (['bib', 'bibtex'], ['bib', 'bibtex'])
+    RIS2001 = (['ris2001'], ['ris'])
+    YML = ([], ['yml', 'yaml'])
+    JSON = ([], ['json'])
+    PYTHON = (['py'], ['py'])
+
+    @staticmethod
+    def as_specification(format_id: str):
+        """Gets a supported format enum instance from a supported process argument string."""
+        for f in Formats:
+            if format_id in f.specification_ids:
+                return f
+        raise ValueError(f'unexpected format {format_id}')
+
+    @staticmethod
+    def as_io_extension(format_id: str):
+        """Gets a supported format enum instance from a supported process argument string."""
+        for f in Formats:
+            if format_id in f.io_extension:
+                return f
+        raise ValueError(f'unexpected format {format_id}')
+
+
+class InputFormat:
+    """InputFormat interface to deserialize a bibliography."""
+
+    def __init__(self, source: Format, standard: Format):
+        self._source = source
+        self._standard = standard
+
+    def from_yml(self, i: TextIO):
+        """Reads from yml representation."""
+
+    def from_json(self, i: TextIO):
+        """Reads from json representation."""
+
+    def from_standard(self, i: TextIO):
+        """Reads from standard format."""
+
+    def source(self) -> Format:
+        """The source format."""
+        return self._source
+
+    def standard(self) -> Format:
+        """The standard format."""
+        return self._standard
+
+    def read(self, i: TextIO):
+        """Deserialization method."""
+        if self.source() is Formats.YML:
+            return self.from_yml(i)
+        if self.source() is Formats.JSON:
+            return self.from_json(i)
+        if self.source() is self.standard():
+            return self.from_standard(i)
+
+        raise ValueError(f'unsupported configuration format {self.source()}')
+
+class OutputFormat:
+    """Output format to serialize a bibliography."""
+
+    def __init__(self, target: Format, standard: Format):
+        self._target = target
+        self._standard = standard
+
+    def to_yml(self, o: TextIO):
+        """Writes to yml representation."""
+
+    def to_json(self, o: TextIO):
+        """Writes to json representation."""
+
+    def to_standard(self, o: TextIO):
+        """Writes to standard format."""
+
+    def to_py(self, o: TextIO):
+        """Writes to python representation."""
+
+    def target(self):
+        """The file extension."""
+        return self._target
+
+    def standard(self) -> Format:
+        """The standard format."""
+        return self._standard
+
+    def write(self, o: TextIO):
+        """Serialization method."""
+        if self.target() is Formats.YML:
+            return self.to_yml(o)
+        if self.target() is Formats.JSON:
+            return self.to_json(o)
+        if self.target() is Formats.PYTHON:
+            return self.to_py(o)
+        if self.target() is self.standard():
+            return self.to_standard(o)
+
+        raise ValueError(f'unsupported configuration format {self.target()}')
+
 
 class CitationFormatter:
     """A builder of reference decorators."""

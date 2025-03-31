@@ -3,27 +3,13 @@ bibliograpy process module
 """
 import logging
 from argparse import Namespace
-from enum import Enum
 from pathlib import Path
 
-from bibliograpy.io_bibtex import read as r_bib, write as w_bib
-from bibliograpy.io_ris import read as r_ris2001, write as w_ris
+from bibliograpy.api_core import Formats
+from bibliograpy.io_bibtex import BibtexInputFormat, BibtexOutputFormat
+from bibliograpy.io_ris import Ris2001InputFormat, Ris2001OutputFormat
 
 LOG = logging.getLogger(__name__)
-
-class Formats(Enum):
-    """Supported bibliography formats."""
-    BIBTEX = ['bib', 'bibtex']
-    RIS2001 = ['ris2001']
-    RIS2011 = ['ris2011', 'ris']
-
-    @staticmethod
-    def parse(format_id: str):
-        """Gets a supported format enum instance from a supported process argument string."""
-        for f in Formats:
-            if format_id in f.value:
-                return f
-        raise ValueError(f'unexpected format {format_id}')
 
 
 def _process(ns: Namespace):
@@ -31,27 +17,32 @@ def _process(ns: Namespace):
     """
     LOG.info("dependencies")
 
-    in_extension = ns.file.split('.')[-1]
+    source = Formats.as_io_extension(ns.file.split('.')[-1])
     output_dir = Path(Path.cwd(), ns.output_dir)
     output_file = ns.output_file
-    out_extension = output_file.split('.')[-1]
+    target = Formats.as_io_extension(output_file.split('.')[-1])
     scope_symbol = ns.scope if 'scope' in ns else None
     init_scope = ns.init_scope if 'init_scope' in ns else None
-    fmt = Formats.parse(ns.format)
+    fmt = Formats.as_specification(ns.format)
 
     LOG.info('open configuration file %s', ns.file)
 
     if fmt is Formats.BIBTEX:
-        with open(ns.file, encoding=ns.encoding) as s:
-            content = r_bib(s, extension=in_extension)
-
+        iformat = BibtexInputFormat(source=source)
+        with open(ns.file, encoding=ns.encoding) as i:
+            content = iformat.read(i)
+            oformat = BibtexOutputFormat(content=content,
+                                         target=target,
+                                         scope_symbol=scope_symbol,
+                                         init_scope=init_scope)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
-                w_bib(o, extension=out_extension, content=content, scope_symbol=scope_symbol, init_scope=init_scope)
+                oformat.write(o)
     elif fmt is Formats.RIS2001:
-        with open(ns.file, encoding=ns.encoding) as s:
-            content = r_ris2001(s, extension=in_extension)
-
+        iformat = Ris2001InputFormat(source=source)
+        with open(ns.file, encoding=ns.encoding) as i:
+            content = iformat.read(i)
+            oformat = Ris2001OutputFormat(target=target, content=content)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
-                w_ris(o, extension=out_extension, content=content)
+                oformat.write(o)
     else:
         raise ValueError(f'unsupported format {format}')
