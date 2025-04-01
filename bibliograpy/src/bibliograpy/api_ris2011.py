@@ -1,0 +1,375 @@
+"""
+RIS 2011 specification model.
+"""
+from dataclasses import dataclass
+from enum import Enum, auto
+from typing import TextIO
+
+from bibliograpy.bibliography import RIS_2001
+from bibliograpy.api_bibtex import _cite
+
+
+@dataclass(frozen=True)
+class Tag:
+    """A field tag."""
+    auto: auto
+    repeating: bool = False
+
+@_cite(RIS_2001)
+class Tags(Enum):
+    """
+    RIS fields.
+    """
+
+    TY = Tag(auto=auto())
+    """Type of reference. 
+    This must contain the abbreviation for the reference type as found in the next section. This will determine how all 
+    other fields are interpreted."""
+
+    ER = Tag(auto=auto())
+    """End of reference.
+    Must be the last tag in a reference."""
+
+    AU = Tag(auto=auto(), repeating=True)
+    A2 = Tag(auto=auto())
+    A3 = Tag(auto=auto())
+    A4 = Tag(auto=auto())
+    """Authors, Editors, Translators. 
+    Each author must be on a separate line, preceded by the tag that corresponds to the author role (see individual ref 
+    type matrix for role definitions). Each reference can contain unlimited author fields, and can contain up to 255 
+    characters for each field. The author name must be in the following syntax:
+    
+    Lastname, Firstname, Suffix
+    
+    For Firstname, you can use full names, initials, or both. The format for the author’s first name is as follows:
+    
+    Phillips, A.J
+    
+    Phillips, Albert John
+    
+    Phillips, Albert
+    
+    Lastname = Any string of letters, spaces, and hyphens
+    
+    Firstname = Any string of letters, spaces, and hyphens
+    
+    Initial = Any single letter followed by a period
+    
+    Full Name = Any string of letters, spaces, and hyphens
+    
+    Suffix = Jr/Sr/II/III/MD etc. (Phillips,A.J.,Sr.); use of the suffix is optional"""
+
+    PY = Tag(auto=auto())
+    """This is the publication year. 
+    It must be four numberic characters. Dates prior to 1000 should use “0” in the positions before the intended date. 
+    For example, the year 765 would be represented as 0765."""
+
+    DA = Tag(auto=auto())
+    """Dates must be in the following format:
+    
+    YYYY/MM/DD/other info
+    
+    The year, month and day fields are all numeric. The other info field can be any string of letters, spaces and 
+    hyphens.
+    
+    Note that each specific date information is optional, however the slashes (“/”) are not. For example, if you just 
+    had the <year> and <other info>, then the output would look like: “1993///Spring.”
+    
+    Date information should be set forth in the following format:
+    
+    YYYY or
+    YYYY/MM or
+    YYYY/MM/DD or
+    YYYY/MM/DD/other info"""
+
+    KW = Tag(auto=auto(), repeating=True)
+    """Keywords.
+    Each keyword or phrase must be on its own line, preceded by this tag. A keyword can consist of multiple words 
+    (phrases) and can be up to 255 characters long. There can be unlimited keywords in a reference."""
+
+    RP = Tag(auto=auto())
+    """Reprint status.
+    This optional field can contain one of three status notes. Each must be in uppercase, and the date after 
+    “ON REQUEST” must be in USA format, in parentheses (MM/DD/YY). If this field is blank the Import function assumes 
+    the reprint status is “NOT IN FILE.”
+    
+    The three options are:
+
+    IN FILE – The data provider has a corresponding physical copy for the reference.
+    NOT IN FILE – The data provider does not have a corresponding physical copy.
+    ON REQUEST (mm/dd/yy) - This means that the data provider has requested a reprint of the reference; the date is the 
+    date on which the reprint was requested (in mm/dd/yy format)."""
+
+    J2 = Tag(auto=auto())
+    """Periodical name: standard abbreviation. 
+    This is the abbreviation of the periodical in which the article is published. If possible, periodical names should 
+    be abbreviated in the Index Medicus® style, with periods after the abbreviations. This field is mapped to the full 
+    journal name in T2 and is used as the journal abbreviation in output styles."""
+
+    UR = Tag(auto=auto())
+    """Web/URL.
+    There is no practical length limit to this field. URL addresses can be entered individually, one per tag, or
+    multiple addresses can be entered on one line using a semi-colon as a separator."""
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def parse(tag_str: str):
+        """Parses a tag name into an enum value."""
+        for n in Tags:
+            if tag_str == n.name:
+                return n
+        raise ValueError(f'unknown {tag_str} tag')
+
+
+@_cite(RIS_2001)
+class TypeFieldName(Enum):
+    """Reference Type Field Names
+
+    The following describes the valid reference type field names that can be used with for the reference type field when
+    importing references into Reference Manager."""
+
+    ABST = auto()
+    """Abstract"""
+
+    AGGR = auto()
+    """Aggregated Database"""
+
+    ANCIENT = auto()
+    """Ancient Text"""
+
+    ADVS = auto()
+    """Audiovisual material"""
+
+    ART = auto()
+    """Art Work"""
+
+    BILL = auto()
+    """Bill"""
+
+    BLOG = auto()
+    """Blog"""
+
+    BOOK = auto()
+    """Book, Whole"""
+
+    CASE = auto()
+    """Case"""
+
+    CHAP = auto()
+    """Book Section"""
+
+    CHART = auto()
+    """Chart"""
+
+    CLSWK = auto()
+    """Classical Work"""
+
+    COMP = auto()
+    """Computer program"""
+
+    CONF = auto()
+    """Conference proceeding"""
+
+    CPAPER = auto()
+    """Conference Paper"""
+
+    CTLG = auto()
+    """Catalog"""
+
+    DATA = auto()
+    """Dataset"""
+
+    DICT = auto()
+    """Dictionary"""
+
+    EDBOOK = auto()
+    """Edited book"""
+
+    EBOOK = auto()
+    """Electronic book"""
+
+    ECHAP = auto()
+    """Electronic Book Section"""
+
+    EJOUR = auto()
+    """Electronic Article"""
+
+    ENCYC = auto()
+    """Encyclopedia"""
+
+    EQUA = auto()
+    """Equation"""
+
+    FIGURE = auto()
+    """Figure"""
+
+    GEN = auto()
+    """Generic"""
+
+    GOVDOC = auto()
+    """Government Document"""
+
+    GRNT = auto()
+    """Grant"""
+
+    HEAR = auto()
+    """Hearing"""
+
+    ICOMM = auto()
+    """Internet Communication"""
+
+    INPR = auto()
+    """In Press Article"""
+
+    JFULL = auto()
+    """Full Journal"""
+
+    JOUR = auto()
+    """Journal"""
+
+    LEGAL = auto()
+    """Legal Rule"""
+
+    MAP = auto()
+    """Map"""
+
+    MGZN = auto()
+    """Magazine article"""
+
+    MANSCPT = auto()
+    """Manuscript"""
+
+    MUSIC = auto()
+    """Music"""
+
+    NEWS = auto()
+    """Newspaper"""
+
+    DBASE = auto()
+    """Online Database"""
+
+    MULTI = auto()
+    """Online Multimedia"""
+
+    PAMP = auto()
+    """Pamphlet"""
+
+    PAT = auto()
+    """Patent"""
+
+    PCOMM = auto()
+    """Personal communication"""
+
+    RPRT = auto()
+    """Report"""
+
+    SER = auto()
+    """Serial (Book, Monograph)"""
+
+    SLIDE = auto()
+    """Slide"""
+
+    SOUND = auto()
+    """Sound recording"""
+
+    STAND = auto()
+    """Standard"""
+
+    STAT = auto()
+    """Statute"""
+
+    THES = auto()
+    """Thesis/Dissertation"""
+
+    UNBILL = auto()
+    """Unenacted bill/resolution"""
+
+    UNPD = auto()
+    """Unpublished work"""
+
+    VIDEO = auto()
+    """Video recording"""
+
+    ELEC = auto()
+    """Web Page"""
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def parse(entry_type: str):
+        """Parses an entry type name into an enum value."""
+        for n in TypeFieldName:
+            if entry_type == n.name:
+                return n
+        raise ValueError(f'unknown {entry_type} type')
+
+def _parse_ris_entry_type(line: str) -> TypeFieldName:
+    # first field must contain entry type
+    tag = Tags.parse(line[:2])
+    if tag is not Tags.TY:
+        raise ValueError(f'expected type field but found {tag}')
+
+    if line[2:6] != '  - ':
+        raise ValueError(f'type line "{line}" is not correctly formatted')
+
+    return TypeFieldName.parse(line[6:].rstrip())
+
+def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
+    """Reads a single RIS entry from the input stream."""
+
+    result = {}
+
+    last_tag: Tags | None = None
+
+    while line := tio.readline():
+
+        try:
+            tag = Tags.parse(line[:2])
+            last_tag = tag
+
+            if tag is Tags.ER:
+                return result
+
+            if tag is Tags.TY:
+                raise ValueError('only one type field is expected, a ')
+
+            if tag.value.repeating:
+                if tag in result:
+                    result[tag].append(line[6:].rstrip('\n\r'))
+                else:
+                    result[tag] = [line[6:].rstrip('\n\r')]
+            else:
+                result[tag] = line[6:].rstrip('\n\r')
+        except ValueError as e:
+            if line[2:6] == '  - ' or last_tag is None:
+                raise e
+
+            # long field support
+            if last_tag.value.repeating:
+                result[last_tag][-1] += line.rstrip('\n\r')
+            else:
+                result[last_tag] += line.rstrip('\n\r')
+    raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
+
+
+def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
+    """Reads a RIS entry list from the input stream."""
+
+    results: list[dict[Tags, str | list[str] | TypeFieldName]] = []
+
+    while line := tio.readline():
+        if line.rstrip() == '':
+            continue
+        entry: dict[Tags, str | list[str] | TypeFieldName] = {Tags.TY: _parse_ris_entry_type(line)}
+        entry.update(_read_ris_entry(tio))
+        results.append(entry)
+    return results
+
+
+def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
+    """The default formatter for RIS 2001 references."""
+    title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))
+    return f"{title} [{r[Tags.ID]}]" if Tags.ID in r else title

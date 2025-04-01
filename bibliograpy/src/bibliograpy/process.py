@@ -7,7 +7,7 @@ from pathlib import Path
 
 from bibliograpy.api_core import Formats
 from bibliograpy.io_bibtex import BibtexInputFormat, BibtexOutputFormat
-from bibliograpy.io_ris import Ris2001InputFormat, Ris2001OutputFormat
+from bibliograpy.io_ris2001 import Ris2001InputFormat, Ris2001OutputFormat
 
 LOG = logging.getLogger(__name__)
 
