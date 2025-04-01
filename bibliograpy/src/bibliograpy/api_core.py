@@ -13,7 +13,7 @@ class Formats(Format, Enum):
     """Supported bibliography formats."""
     BIBTEX = (['bib', 'bibtex'], ['bib', 'bibtex'])
     RIS2001 = (['ris2001'], ['ris'])
-    RIS2011 = (['ris2011'], ['ris'])
+    RIS2011 = (['ris', 'ris2011'], ['ris'])
     YML = ([], ['yml', 'yaml'])
     JSON = ([], ['json'])
     PYTHON = ([], ['py'])

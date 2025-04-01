@@ -50,7 +50,7 @@ def _create_parser() -> ArgumentParser:
                          default=DEFAULT_OUTPUT_FILE)
     process.add_argument('--format', '-f',
                          nargs='?',
-                         help='the input bibliography format (bib, bibtex, ris2001)',
+                         help='the input bibliography format (bib/bibtex, ris2001, ris/ris2011)',
                          default=DEFAULT_FORMAT)
     process.add_argument('--scope', '-s',
                          nargs='?',

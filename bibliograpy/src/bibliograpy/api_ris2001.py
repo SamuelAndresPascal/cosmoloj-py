@@ -21,34 +21,34 @@ class Tags(Tag, Enum):
     RIS fields.
     """
 
-    TY = (auto())
+    TY = auto()
     """Type of reference. 
     This must contain one of the following field names as defined in the section, Reference Type field names."""
 
-    ER = (auto())
+    ER = auto()
     """End of reference.
     Must be the last tag in a reference."""
 
-    ID = (auto())
+    ID = auto()
     """Reference ID.
     The Reference ID can consist of any alphanumeric characters—up to 20 characters in length."""
 
-    T1 = (auto())
+    T1 = auto()
     """Title Primary.
     Note that the BT tag maps to this field only for Whole Book and Unpublished Work references.
     This field can contain alphanumeric characters; there is no practical length limit to this field."""
-    TI = (auto())  # synonym of T1
-    CT = (auto())  # synonym of T1
+    TI = auto()  # synonym of T1
+    CT = auto()  # synonym of T1
 
-    BT = (auto())
+    BT = auto()
 
-    T2 = (auto())
+    T2 = auto()
     """Title Secondary.
     Note that the BT tag maps to this field for all reference types except for Whole Book and Unpublished Work 
     references.
     There is no practical limit to the length of this field."""
 
-    T3 = (auto())
+    T3 = auto()
     """Title Series.
     This field can contain alphanumeric characters; there is no practical length limit to this field."""
 
@@ -91,7 +91,7 @@ class Tags(Tag, Enum):
 	in this field. The author name must be in the correct syntax (refer to A1 and AU fields).
 	Each author name can be up to 255 characters long."""
 
-    Y1 = (auto())
+    Y1 = auto()
     """Date Primary.
     This date must be in the following format:
 
@@ -101,18 +101,18 @@ class Tags(Tag, Enum):
     hyphens. Note that each specific date information is optional, however the slashes ("/") are not. For example, if
     you just had the <year> and <other info>, then the output would look like: "1998///Spring."
     """
-    PY = (auto())  # synonym of Y1
+    PY = auto()  # synonym of Y1
 
-    Y2 = (auto())
+    Y2 = auto()
     """Date Secondary. (Refer to Y1 and PY fields)."""
 
-    N1 = (auto())
+    N1 = auto()
     """Notes.
     These are free text fields and can contain alphanumeric characters; there is no practical length limit to this
     field."""
-    AB = (auto())  # synonym of Y1
+    AB = auto()  # synonym of Y1
 
-    N2 = (auto())
+    N2 = auto()
     """Abstract.
     This is a free text field and can contain alphanumeric characters; there is no practical length limit to this field.
     """
@@ -123,7 +123,7 @@ class Tags(Tag, Enum):
     (phrases) and can be up to 255 characters long. There is no limit to the amount of keywords in a single reference.
     """
 
-    RP = (auto())
+    RP = auto()
     """Reprint status.
     This optional field can contain one of three status notes. Each must be in uppercase,
     and the date after "ON REQUEST" must be in the US date format, in parentheses: (MM/DD/YY). 
@@ -137,12 +137,12 @@ class Tags(Tag, Enum):
     ON REQUEST (MM/DD/YY) - This means that you have sent for a reprint of the reference; the date is the date on which
     the reprint was requested (in MM/DD/YY format)."""
 
-    JF = (auto())
+    JF = auto()
     """Periodical name: full format.
     This is an alphanumeric field of up to 255 characters."""
-    JO = (auto())  # synonym of JF
+    JO = auto()  # synonym of JF
 
-    JA = (auto())
+    JA = auto()
     """Periodical name: standard abbreviation.
     This is the periodical in which the article was (or is to be, in the case of in-press references) published.
     This is an alphanumeric field of up to 255 characters.
@@ -152,105 +152,105 @@ class Tags(Tag, Enum):
     abbreviations), you can use the "RIS Format (Adds periods)" Import Filter definition. This definition uses the
     Periodical Word Dictionary."""
 
-    J1 = (auto())
+    J1 = auto()
     """Periodical name: user abbreviation 1.
 	This is an alphanumeric field of up to 255 characters."""
 
-    J2 = (auto())
+    J2 = auto()
     """Periodical name: user abbreviation 2.
     This is an alphanumeric field of up to 255 characters."""
 
-    VL = (auto())
+    VL = auto()
     """Volume number.
     There is no practical limit to the length of this field."""
 
-    IS = (auto())
+    IS = auto()
     """Issue.
     There is no practical limit to the length of this field."""
-    CP = (auto())  # synonym of IS
+    CP = auto()  # synonym of IS
 
-    SP = (auto())
+    SP = auto()
     """Start page number; an alphanumeric string.
     There is no practical limit to the length of this field."""
 
-    EP = (auto())
+    EP = auto()
     """Ending page number, as above."""
 
-    CY = (auto())
+    CY = auto()
     """City of publication; this is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    PB = (auto())
+    PB = auto()
     """Publisher; this is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    SN = (auto())
+    SN = auto()
     """ISSN/ISBN. This is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    AD = (auto())
+    AD = auto()
     """Address.
     This is a free text field and contain alphanumeric characters; there is no practical length limit to this field."""
 
-    AV = (auto())
+    AV = auto()
     """Availability.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M1 = (auto())
+    M1 = auto()
     """Miscellaneous 1.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M2 = (auto())
+    M2 = auto()
     """Miscellaneous 2.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M3 = (auto())
+    M3 = auto()
     """Miscellaneous 3.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U1 = (auto())
+    U1 = auto()
     """User definable 1.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U2 = (auto())
+    U2 = auto()
     """User definable 2.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U3 = (auto())
+    U3 = auto()
     """User definable 3.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U4 = (auto())
+    U4 = auto()
     """User definable 4.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U5 = (auto())
+    U5 = auto()
     """User definable 5.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    UR = (auto())
+    UR = auto()
     """Web/URL.
 	There is no practical limit to the length of this field.
 	URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
 	using a semi-colon as a separator."""
 
-    L1 = (auto())
+    L1 = auto()
     """Link to PDF.
     There is no practical limit to the length of this field.
     URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
     using a semi-colon as a separator."""
 
-    L2 = (auto())
+    L2 = auto()
     """Link to Full-text.
     There is no practical limit to the length of this field.
     URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
     using a semi-colon as a separator."""
 
-    L3 = (auto())
+    L3 = auto()
     """Related Records.
     There is no practical limit to the length of this field."""
 
-    L4 = (auto())
+    L4 = auto()
     """Image(s).
     There is no practical limit to the length of this field."""
 

@@ -21,12 +21,12 @@ class Tags(Tag, Enum):
     RIS fields.
     """
 
-    TY = (auto())
+    TY = auto()
     """Type of reference. 
     This must contain the abbreviation for the reference type as found in the next section. This will determine how all 
     other fields are interpreted."""
 
-    ER = (auto())
+    ER = auto()
     """End of reference.
     Must be the last tag in a reference."""
 
@@ -65,69 +65,69 @@ class Tags(Tag, Enum):
     A4 = (auto(), True)
     """Subsidiary Author"""
 
-    AB = (auto())
+    AB = auto()
     """Abstract"""
 
-    AD = (auto())
+    AD = auto()
     """Author address"""
 
-    AN = (auto())
+    AN = auto()
     """Accession Number"""
 
-    C1 = (auto())
+    C1 = auto()
     """Custom 1"""
 
-    C2 = (auto())
+    C2 = auto()
     """Custom 2"""
 
-    C3 = (auto())
+    C3 = auto()
     """Custom 3"""
 
-    C4 = (auto())
+    C4 = auto()
     """Custom 4"""
 
-    C5 = (auto())
+    C5 = auto()
     """Custom 5"""
 
-    C6 = (auto())
+    C6 = auto()
     """Custom 6"""
 
-    C7 = (auto())
+    C7 = auto()
     """Custom 7"""
 
-    C8 = (auto())
+    C8 = auto()
     """Custom 8"""
 
-    CA = (auto())
+    CA = auto()
     """Caption"""
 
-    CN = (auto())
+    CN = auto()
     """Call Number"""
 
-    CY = (auto())
+    CY = auto()
     """Place Published"""
 
-    DB = (auto())
+    DB = auto()
     """Name of Database"""
 
-    DO = (auto())
+    DO = auto()
     """DOI"""
 
-    DP = (auto())
+    DP = auto()
     """Database provider"""
 
-    ET = (auto())
+    ET = auto()
     """Edition"""
 
-    ID = (auto())
+    ID = auto()
     """The characters allowed in the reference ID fields can be in the set "0" through "9," or "A" through "Z.\""""
 
-    PY = (auto())
+    PY = auto()
     """This is the publication year. 
     It must be four numeric characters. Dates prior to 1000 should use “0” in the positions before the intended date. 
     For example, the year 765 would be represented as 0765."""
 
-    DA = (auto())
+    DA = auto()
     """Dates must be in the following format:
     
     YYYY/MM/DD/other info
@@ -150,7 +150,7 @@ class Tags(Tag, Enum):
     Each keyword or phrase must be on its own line, preceded by this tag. A keyword can consist of multiple words 
     (phrases) and can be up to 255 characters long. There can be unlimited keywords in a reference."""
 
-    RP = (auto())
+    RP = auto()
     """Reprint status.
     This optional field can contain one of three status notes. Each must be in uppercase, and the date after 
     “ON REQUEST” must be in USA format, in parentheses (MM/DD/YY). If this field is blank the Import function assumes 
@@ -163,78 +163,78 @@ class Tags(Tag, Enum):
     ON REQUEST (mm/dd/yy) - This means that the data provider has requested a reprint of the reference; the date is the 
     date on which the reprint was requested (in mm/dd/yy format)."""
 
-    J2 = (auto())
+    J2 = auto()
     """Periodical name: standard abbreviation. 
     This is the abbreviation of the periodical in which the article is published. If possible, periodical names should 
     be abbreviated in the Index Medicus® style, with periods after the abbreviations. This field is mapped to the full 
     journal name in T2 and is used as the journal abbreviation in output styles."""
 
-    L1 = (auto())
+    L1 = auto()
     """File attachment"""
 
-    L4 = (auto())
+    L4 = auto()
     """Figure"""
 
-    LA = (auto())
+    LA = auto()
     """Language"""
 
-    LB = (auto())
+    LB = auto()
     """Label"""
 
-    IS = (auto())
+    IS = auto()
     """Number"""
 
-    M3 = (auto())
+    M3 = auto()
     """Type of Work"""
 
-    N1 = (auto())
+    N1 = auto()
     """Notes"""
 
-    NV = (auto())
+    NV = auto()
     """Number of Volumes"""
 
-    OP = (auto())
+    OP = auto()
     """Original Publication"""
 
-    PB = (auto())
+    PB = auto()
     """Publisher"""
 
-    UR = (auto())
+    UR = auto()
     """Web/URL.
     There is no practical length limit to this field. URL addresses can be entered individually, one per tag, or
     multiple addresses can be entered on one line using a semi-colon as a separator."""
 
     # following fields are for implicit RIS 2001 retrocompatibility in RIS 2011 samples
-    T3 = (auto())
-    CT = (auto())
-    U3 = (auto())
-    L3 = (auto())
-    T1 = (auto())
-    CP = (auto())
-    AV = (auto())
-    EP = (auto())
-    JO = (auto())
-    U1 = (auto())
-    U5 = (auto())
-    VL = (auto())
-    L2 = (auto())
-    JF = (auto())
-    U4 = (auto())
+    T3 = auto()
+    CT = auto()
+    U3 = auto()
+    L3 = auto()
+    T1 = auto()
+    CP = auto()
+    AV = auto()
+    EP = auto()
+    JO = auto()
+    U1 = auto()
+    U5 = auto()
+    VL = auto()
+    L2 = auto()
+    JF = auto()
+    U4 = auto()
     ED = (auto(), True)
-    J1 = (auto())
-    SN = (auto())
-    Y1 = (auto())
-    T2 = (auto())
-    N2 = (auto())
-    TI = (auto())
-    BT = (auto())
+    J1 = auto()
+    SN = auto()
+    Y1 = auto()
+    T2 = auto()
+    N2 = auto()
+    TI = auto()
+    BT = auto()
     A1 = (auto(), True)
-    JA = (auto())
-    M2 = (auto())
-    U2 = (auto())
-    M1 = (auto())
-    Y2 = (auto())
-    SP = (auto())
+    JA = auto()
+    M2 = auto()
+    U2 = auto()
+    M1 = auto()
+    Y2 = auto()
+    SP = auto()
 
     def __str__(self):
         return self.name
