@@ -13,30 +13,51 @@ Bibliography management to decorate source code.
 [![PyPI repository Badge](https://badge.fury.io/py/bibliograpy.svg)](https://badge.fury.io/py/bibliograpy)
 
 
-* [API](#api)
 * [Preprocessing tool](#preprocessing-tool)
+* [API](#api)
 * [Documentation](#documentation)
 
 
 
 
-The Bibliograpy API allows to manage bibliographic centralized references.
+Bibliograpy allows to manage bibliographic centralized references.
 
-1. As an executable tool, it generates python constant bibliography modules mapping bibliographic files in `Bibtex` and
-`RIS (2001)` formats.
+1. **Re-use bibliographic standards.** As an *executable tool*, it 
+generates python bibliography modules mapping bibliographic files to python constant representations. 
 
-2. As an API, it allows to decorate functions, classes and methods referencing the python constant bibliographies.
+2. **Make bibliographic references easy to use and to maintain.** As an *API*, it allows to decorate functions, classes
+and methods in the source code, referencing the centralized python constant bibliographies, defined only once and for 
+all.
 
-3. As an underlying library, it supplements the docstring of decorated elements with bibliographical information.
+3. **Transparently inject bibliographic references in docstrings.** As an *underlying documentation library*, it 
+supplements the docstring of decorated elements with bibliographical information.
 
 
 ## Preprocessing tool
 
-Bibliograpy allows generating a source code bibliograpy from a resource bibliography file.
+The `bibliograpy process` tool allows generating a source code bibliograpy from a resource bibliography file.
 
-Bibliograpy process supports bibliography files in yaml format. Each bibliographic entry contains three fields. 
-The `type` field only supports the `misc` value. The `key` fields represents the bibliographic entry unique key (id).
-The `title` field represents the readable form or the entry. For instance:
+### Supported formats and syntaxes
+
+`bibliograpy process` supports bibliography files in `Bibtex` or `RIS (2001)` formats.
+
+Each format can be expressed in its own syntax or using an equivalent representation in `YAML` or `JSON`.
+
+#### Supported syntaxes for Bibtex bibliographies
+
+For instance, let us consider a `Bibtex` bibliography expressed in the `Bibtex` proper syntax:
+
+```bibtex
+@misc{nasa
+  title = {NASA}
+}
+
+@misc{iau,
+  title = {International Astronomical Union}
+ }
+```
+
+But it can also be expressed in `YAML`:
 
 ```yml
 - entry_type: misc
@@ -47,21 +68,7 @@ The `title` field represents the readable form or the entry. For instance:
   title: International Astronomical Union
 ```
 
-This bibliography file can be preprocessend by the `bibliograpy process` tool.
-
-By default, the `bibliograpy process` tool searches for a `bibliograpy.yaml` file reproducing the `Bibtex` format.
-
-```shell
-bibliograpy process
-```
-
-The bibliograpy file can be renamed, but the `.yaml`/`.yml` extension is needed to supplie a YAML formatted file.
-
-```shell
-bibliograpy process my_biblio.yml
-```
-
-The json syntax is also supported mapping the `Bibtex` format (`.json` extension mandatory):
+Or in `JSON`:
 
 ```json
 [
@@ -78,27 +85,55 @@ The json syntax is also supported mapping the `Bibtex` format (`.json` extension
 ]
 ```
 
-```shell
-bibliograpy process mybiblio.json
+Note the `entry_type` and `cite_key` fields used in `YAML`/`JSON` to map the `Bibtex` entry type and cite key values.
+
+####  Supported syntaxes for RIS (2001) bibliographies
+
+Let un consider now an equivalent of the previous bibliography, now given in `RIS (2001)` format:
+
+```ris
+TY  - GEN
+ID  - nasa
+T1  - NASA
+ER  -
+TY  - GEN
+ID  - iau
+T1  - International Astronomical Union
+ER  -
 ```
 
-Or the `Bibtex` syntax itself (`.bib` or `.bibtex` extension mandatory):
+As for `Bibtex`, the `bibliograpy process` tool supports a `RIS (2001)` bibliography to be expressed using equivalent
+`YAML` or `JSON` syntaxes, respectively:
 
-```bibtex
-@misc{nasa
-  title = {NASA}
-}
-
-@misc{iau,
-  title = {International Astronomical Union}
- }
+```yaml
+- TY: GEN
+  ID: nasa
+  T1: NASA
+- TY: GEN
+  ID: iau
+  T1: International Astronomical Union
 ```
 
-```shell
-bibliograpy process my_biblio.bib
+```json
+[
+  {
+    "TY": "GEN",
+    "ID": "nasa",
+    "T1": "NASA"
+  },
+  {
+    "TY": "GEN",
+    "ID": "iau",
+    "T1": "International Astronomical Union"
+  }
+]
 ```
 
-By default, it produces a `bibliography.py` python module of bibliographic references.
+### Processing bibliographies
+
+Bibliography file can be preprocessed by the `bibliograpy process` tool to produces bibliography python modules.
+
+For instance, there is the python processing result of the previous `Bibtex` bibliography sample:
 
 ```py
 from bibliograpy.api_bibtex import Misc
@@ -110,12 +145,45 @@ IAU = Misc.generic(cite_key='iau',
                    title='International Astronomical Union')
 ```
 
-Otherwise, *for a given format*, the process tool allow to convert a bibiligraphy file from one of the `JSON`, `YAML` 
-and standard syntaxes to another one.
+And there is the processing result of the `RIS (2001)` one:
+
+```py
+from bibliograpy.api_ris2001 import *
+
+NASA = {
+    Tags.TY: TypeFieldName.GEN,
+    Tags.ID: 'nasa',
+    Tags.T1: 'NASA'
+}
+
+IAU = {
+    Tags.TY: TypeFieldName.GEN,
+    Tags.ID: 'iau',
+    Tags.T1: 'International Astronomical Union'
+}
+```
+
+By default, the `bibliograpy process` tool searches for a `bibliograpy.yaml` file reproducing the `Bibtex` format.
+
+```shell
+bibliograpy process
+```
+
+Is equivalent to:
+
+```shell
+bibliograpy process --format=bibtex bibliograpy.yaml
+```
+
+Note the *format* is parameterized through the `--format` option as the `syntax` is inferred from the bibliography file
+extension.
+
+Moreover, *for a given format*, the `bibliograpy process` tool allow to convert a bibliography file from one of the 
+`JSON`, `YAML` and standard syntaxes to another one. **It does not convert a format to another one.**
 
 ### Cross-referencing support (Bibtex format)
 
-The `bibliograpy process` tool support the cross-referencing/inheritance `Bibtex` mechanism.
+The `bibliograpy process` tool support the cross-referencing/inheritance mechanism specified by the `Bibtex` format.
 
 Example, from a bibtex bibliography (`bibliograpy.bib`):
 
@@ -154,8 +222,8 @@ Example, from a bibtex bibliography (`bibliograpy.bib`):
 bibliograpy process bibliograpy.bib
 ```
 
-When preprocessed, the bibliography produces some python constants to import in the code which uses these 
-bibliographical references.
+When processed, the bibliography produces python constants to import in the code which uses the very 
+bibliographical references as cross-references from other ones.
 
 ```python
 from bibliograpy.api_bibtex import *
@@ -190,7 +258,8 @@ JOACHIM_BOLJEN_2004 = Article.generic(cite_key='joachim_boljen_2004',
                                       non_standard=NonStandard(url='https://geodaesie.info/system/files/privat/zfv_2004_4_Boljen.pdf'))
 ```
 
-Nevertheless, to be actually cross-resolved all the references *must* use a scope.
+Nevertheless, to be *actually* cross-resolved by the underlying Bibliograpy library, all the references *must* use a 
+scope which have to be named and initialized through respectively `--scope` and `--init-scope` options.
 
 ```shell
 bibliograpy process --scope=_SCOPE --init-scope="_SCOPE = {}" bibliograpy.bib
@@ -235,16 +304,17 @@ JOACHIM_BOLJEN_2004 = Article.generic(cite_key='joachim_boljen_2004',
                                       scope=_SCOPE)
 ```
 
-Note the scope name *must* be provided by the `--scope` option and be properly initialized using the `--init-scope`
-option.
-
 A default `SHARED_SCOPE` shared scope is provided by the `bibliograpy.api_bibtex` module. If this name is supplied to
-the `--scope` option, no initialization is necessary unless the user wants to shadow the common `SHARED_SCOPE`.
+the `--scope` option, no initialization is necessary (unless the user wants to shadow the common `SHARED_SCOPE`).
 
-## API
+## API / Documentation library
 
-Hence, is it possible to factorize all bibliographic sources as variables in a single module, using them as arguments of
-decorators.
+Hence, is it possible to factorize all bibliographic sources contained in a bibliography file as variables in a python 
+module. 
+
+Then, the Bibliograpy API allows using them as arguments of decorators.
+
+
 
 ```py
 """The bibliography module."""
@@ -269,17 +339,18 @@ from bibliography import IAU_2006_B1
 @cite(IAU_2006_B1)
 def my_function():
     """My my_function documentation."""
-    # some implementation here using the reference given as a parameter to the decorator
+    return "Hello IAU !"
 
 ```
 
 The usage of the decorator has two purposes.
 
-First, to use a bibliographic reference defined once and for all, centralized and reusable.
+First, to use a bibliographic reference defined once and for all, centralized and reusable, easy to maintain, update,
+refactor and search for usage.
 
-Second, to implicitly add to the documentation of the decorated entity a bibliographical section.
+Second, to implicitly add to the documentation of the decorated entities a bibliographical section.
 
-```
+```shell
 import bibliography_client
 
 >>> help(my_function)
