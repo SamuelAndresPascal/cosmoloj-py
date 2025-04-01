@@ -89,7 +89,7 @@ Note the `entry_type` and `cite_key` fields used in `YAML`/`JSON` to map the `Bi
 
 ####  Supported syntaxes for RIS (2001) bibliographies
 
-Let un consider now an equivalent of the previous bibliography, now given in `RIS (2001)` format:
+Let us consider now an equivalent of the previous bibliography, now given in `RIS (2001)` format:
 
 ```ris
 TY  - GEN
