@@ -7,9 +7,9 @@ from typing import TextIO
 import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
-from bibliograpy.api_ris2001 import read_ris_entries, Tags, TypeFieldName
+from bibliograpy.api_ris2011 import read_ris_entries, Tags, TypeFieldName
 
-class Ris2001InputFormat(InputFormat):
+class Ris2011InputFormat(InputFormat):
     """Ris 2001 input format implementation."""
 
     def __init__(self, source: Format):
@@ -29,7 +29,11 @@ class Ris2001InputFormat(InputFormat):
         """Reads from standard format."""
         return read_ris_entries(tio=i)
 
-class Ris2001OutputFormat(OutputFormat):
+    def _from_standard_ext(self) -> list[str]:
+        """Extensions to be deserialized from standard format."""
+        return ['ris2011', 'ris']
+
+class Ris2011OutputFormat(OutputFormat):
     """Bibtex format implementation."""
 
     def __init__(self,

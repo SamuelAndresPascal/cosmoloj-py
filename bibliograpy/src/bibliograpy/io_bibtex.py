@@ -41,10 +41,6 @@ class BibtexInputFormat(InputFormat):
             content.append({**meta, **e})
         return content
 
-    def _from_standard_ext(self) -> list[str]:
-        """Extensions to be deserialized from standard format."""
-        return ['bib', 'bibtex']
-
 class BibtexOutputFormat(OutputFormat):
     """Bibtex format implementation."""
 

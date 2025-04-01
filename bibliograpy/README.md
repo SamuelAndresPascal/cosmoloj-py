@@ -39,7 +39,7 @@ The `bibliograpy process` tool allows generating a source code bibliograpy from 
 
 ### Supported formats and syntaxes
 
-`bibliograpy process` supports bibliography files in `Bibtex` or `RIS (2001)` formats.
+`bibliograpy process` supports bibliography files in `Bibtex`, `RIS (2001)` or `RIS (2011)` formats.
 
 Each format can be expressed in its own syntax or using an equivalent representation in `YAML` or `JSON`.
 
@@ -87,7 +87,7 @@ Or in `JSON`:
 
 Note the `entry_type` and `cite_key` fields used in `YAML`/`JSON` to map the `Bibtex` entry type and cite key values.
 
-####  Supported syntaxes for RIS (2001) bibliographies
+####  Supported syntaxes for RIS (2001) / RIS (2011) bibliographies
 
 Let us consider now an equivalent of the previous bibliography, now given in `RIS (2001)` format:
 

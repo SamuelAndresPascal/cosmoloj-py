@@ -16,43 +16,43 @@ class Tag:
     repeating: bool = False
 
 @_cite(RIS_2001)
-class Tags(Enum):
+class Tags(Tag, Enum):
     """
     RIS fields.
     """
 
-    TY = Tag(auto=auto())
+    TY = (auto())
     """Type of reference. 
     This must contain one of the following field names as defined in the section, Reference Type field names."""
 
-    ER = Tag(auto=auto())
+    ER = (auto())
     """End of reference.
     Must be the last tag in a reference."""
 
-    ID = Tag(auto=auto())
+    ID = (auto())
     """Reference ID.
     The Reference ID can consist of any alphanumeric characters—up to 20 characters in length."""
 
-    T1 = Tag(auto=auto())
+    T1 = (auto())
     """Title Primary.
     Note that the BT tag maps to this field only for Whole Book and Unpublished Work references.
     This field can contain alphanumeric characters; there is no practical length limit to this field."""
-    TI = Tag(auto=auto())  # synonym of T1
-    CT = Tag(auto=auto())  # synonym of T1
+    TI = (auto())  # synonym of T1
+    CT = (auto())  # synonym of T1
 
-    BT = Tag(auto=auto())
+    BT = (auto())
 
-    T2 = Tag(auto=auto())
+    T2 = (auto())
     """Title Secondary.
     Note that the BT tag maps to this field for all reference types except for Whole Book and Unpublished Work 
     references.
     There is no practical limit to the length of this field."""
 
-    T3 = Tag(auto=auto())
+    T3 = (auto())
     """Title Series.
     This field can contain alphanumeric characters; there is no practical length limit to this field."""
 
-    A1 = Tag(auto=auto(), repeating=True)
+    A1 = (auto(), True)
     """Author Primary.
     Each author must be on a separate line, preceded by this tag. Each reference can contain unlimited author fields, 
     and can contain up to 255 characters for each field. The author name must be in the following syntax:
@@ -76,22 +76,22 @@ class Tags(Enum):
     Full Name = Any string of letters, spaces, and hyphens
 
     Suffix = Jr/Sr/II/III/MD etc. (Phillips,A.J.,Sr.); use of the suffix is optional"""
-    AU = Tag(auto=auto(), repeating=True)  # synonym of A1
+    AU = (auto(), True)  # synonym of A1
 
-    A2 = Tag(auto=auto(), repeating=True)
+    A2 = (auto(), True)
     """Author Secondary.
     Each author must be on a separate line, preceded by this tag. There is no practical limit to the number of authors
     in this field. The author name must be in the correct syntax (refer to A1 and AU fields).
     This author name can be up to 255 characters long."""
-    ED = Tag(auto=auto(), repeating=True)  # synonym of A2
+    ED = (auto(), True)  # synonym of A2
 
-    A3 = Tag(auto=auto(), repeating=True)
+    A3 = (auto(), True)
     """Author Series. 
 	Each author must be on a separate line, preceded by this tag. There is no practical limit to the number of authors 
 	in this field. The author name must be in the correct syntax (refer to A1 and AU fields).
 	Each author name can be up to 255 characters long."""
 
-    Y1 = Tag(auto=auto())
+    Y1 = (auto())
     """Date Primary.
     This date must be in the following format:
 
@@ -101,29 +101,29 @@ class Tags(Enum):
     hyphens. Note that each specific date information is optional, however the slashes ("/") are not. For example, if
     you just had the <year> and <other info>, then the output would look like: "1998///Spring."
     """
-    PY = Tag(auto=auto())  # synonym of Y1
+    PY = (auto())  # synonym of Y1
 
-    Y2 = Tag(auto=auto())
+    Y2 = (auto())
     """Date Secondary. (Refer to Y1 and PY fields)."""
 
-    N1 = Tag(auto=auto())
+    N1 = (auto())
     """Notes.
     These are free text fields and can contain alphanumeric characters; there is no practical length limit to this
     field."""
-    AB = Tag(auto=auto())  # synonym of Y1
+    AB = (auto())  # synonym of Y1
 
-    N2 = Tag(auto=auto())
+    N2 = (auto())
     """Abstract.
     This is a free text field and can contain alphanumeric characters; there is no practical length limit to this field.
     """
 
-    KW = Tag(auto=auto(), repeating=True)
+    KW = (auto(), True)
     """Keywords.
     Each keyword or phrase must be on its own line, preceded by this tag. A keyword can consist of multiple words
     (phrases) and can be up to 255 characters long. There is no limit to the amount of keywords in a single reference.
     """
 
-    RP = Tag(auto=auto())
+    RP = (auto())
     """Reprint status.
     This optional field can contain one of three status notes. Each must be in uppercase,
     and the date after "ON REQUEST" must be in the US date format, in parentheses: (MM/DD/YY). 
@@ -137,12 +137,12 @@ class Tags(Enum):
     ON REQUEST (MM/DD/YY) - This means that you have sent for a reprint of the reference; the date is the date on which
     the reprint was requested (in MM/DD/YY format)."""
 
-    JF = Tag(auto=auto())
+    JF = (auto())
     """Periodical name: full format.
     This is an alphanumeric field of up to 255 characters."""
-    JO = Tag(auto=auto())  # synonym of JF
+    JO = (auto())  # synonym of JF
 
-    JA = Tag(auto=auto())
+    JA = (auto())
     """Periodical name: standard abbreviation.
     This is the periodical in which the article was (or is to be, in the case of in-press references) published.
     This is an alphanumeric field of up to 255 characters.
@@ -152,105 +152,105 @@ class Tags(Enum):
     abbreviations), you can use the "RIS Format (Adds periods)" Import Filter definition. This definition uses the
     Periodical Word Dictionary."""
 
-    J1 = Tag(auto=auto())
+    J1 = (auto())
     """Periodical name: user abbreviation 1.
 	This is an alphanumeric field of up to 255 characters."""
 
-    J2 = Tag(auto=auto())
+    J2 = (auto())
     """Periodical name: user abbreviation 2.
     This is an alphanumeric field of up to 255 characters."""
 
-    VL = Tag(auto=auto())
+    VL = (auto())
     """Volume number.
     There is no practical limit to the length of this field."""
 
-    IS = Tag(auto=auto())
+    IS = (auto())
     """Issue.
     There is no practical limit to the length of this field."""
-    CP = Tag(auto=auto())  # synonym of IS
+    CP = (auto())  # synonym of IS
 
-    SP = Tag(auto=auto())
+    SP = (auto())
     """Start page number; an alphanumeric string.
     There is no practical limit to the length of this field."""
 
-    EP = Tag(auto=auto())
+    EP = (auto())
     """Ending page number, as above."""
 
-    CY = Tag(auto=auto())
+    CY = (auto())
     """City of publication; this is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    PB = Tag(auto=auto())
+    PB = (auto())
     """Publisher; this is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    SN = Tag(auto=auto())
+    SN = (auto())
     """ISSN/ISBN. This is an alphanumeric field.
     There is no practical limit to the length of this field."""
 
-    AD = Tag(auto=auto())
+    AD = (auto())
     """Address.
     This is a free text field and contain alphanumeric characters; there is no practical length limit to this field."""
 
-    AV = Tag(auto=auto())
+    AV = (auto())
     """Availability.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M1 = Tag(auto=auto())
+    M1 = (auto())
     """Miscellaneous 1.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M2 = Tag(auto=auto())
+    M2 = (auto())
     """Miscellaneous 2.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    M3 = Tag(auto=auto())
+    M3 = (auto())
     """Miscellaneous 3.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U1 = Tag(auto=auto())
+    U1 = (auto())
     """User definable 1.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U2 = Tag(auto=auto())
+    U2 = (auto())
     """User definable 2.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U3 = Tag(auto=auto())
+    U3 = (auto())
     """User definable 3.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U4 = Tag(auto=auto())
+    U4 = (auto())
     """User definable 4.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    U5 = Tag(auto=auto())
+    U5 = (auto())
     """User definable 5.
     This is an alphanumeric field and there is no practical limit to the length of this field."""
 
-    UR = Tag(auto=auto())
+    UR = (auto())
     """Web/URL.
 	There is no practical limit to the length of this field.
 	URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
 	using a semi-colon as a separator."""
 
-    L1 = Tag(auto=auto())
+    L1 = (auto())
     """Link to PDF.
     There is no practical limit to the length of this field.
     URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
     using a semi-colon as a separator."""
 
-    L2 = Tag(auto=auto())
+    L2 = (auto())
     """Link to Full-text.
     There is no practical limit to the length of this field.
     URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line
     using a semi-colon as a separator."""
 
-    L3 = Tag(auto=auto())
+    L3 = (auto())
     """Related Records.
     There is no practical limit to the length of this field."""
 
-    L4 = Tag(auto=auto())
+    L4 = (auto())
     """Image(s).
     There is no practical limit to the length of this field."""
 
@@ -419,7 +419,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
             if tag is Tags.TY:
                 raise ValueError('only one type field is expected, a ')
 
-            if tag.value.repeating:
+            if tag.repeating:
                 if tag in result:
                     result[tag].append(line[6:].rstrip('\n\r'))
                 else:
@@ -431,7 +431,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
                 raise e
 
             # long field support
-            if last_tag.value.repeating:
+            if last_tag.repeating:
                 result[last_tag][-1] += line.rstrip('\n\r')
             else:
                 result[last_tag] += line.rstrip('\n\r')

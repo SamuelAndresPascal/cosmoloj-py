@@ -8,6 +8,7 @@ from pathlib import Path
 from bibliograpy.api_core import Formats
 from bibliograpy.io_bibtex import BibtexInputFormat, BibtexOutputFormat
 from bibliograpy.io_ris2001 import Ris2001InputFormat, Ris2001OutputFormat
+from bibliograpy.io_ris2011 import Ris2011InputFormat, Ris2011OutputFormat
 
 LOG = logging.getLogger(__name__)
 
@@ -42,6 +43,13 @@ def _process(ns: Namespace):
         with open(ns.file, encoding=ns.encoding) as i:
             content = iformat.read(i)
             oformat = Ris2001OutputFormat(target=target, content=content)
+            with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
+                oformat.write(o)
+    elif fmt is Formats.RIS2011:
+        iformat = Ris2011InputFormat(source=source)
+        with open(ns.file, encoding=ns.encoding) as i:
+            content = iformat.read(i)
+            oformat = Ris2011OutputFormat(target=target, content=content)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
                 oformat.write(o)
     else:

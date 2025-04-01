@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import TextIO
 
-from bibliograpy.bibliography import RIS_2001
+from bibliograpy.bibliography import RIS_2011
 from bibliograpy.api_bibtex import _cite
 
 
@@ -15,25 +15,22 @@ class Tag:
     auto: auto
     repeating: bool = False
 
-@_cite(RIS_2001)
-class Tags(Enum):
+@_cite(RIS_2011)
+class Tags(Tag, Enum):
     """
     RIS fields.
     """
 
-    TY = Tag(auto=auto())
+    TY = (auto())
     """Type of reference. 
     This must contain the abbreviation for the reference type as found in the next section. This will determine how all 
     other fields are interpreted."""
 
-    ER = Tag(auto=auto())
+    ER = (auto())
     """End of reference.
     Must be the last tag in a reference."""
 
-    AU = Tag(auto=auto(), repeating=True)
-    A2 = Tag(auto=auto())
-    A3 = Tag(auto=auto())
-    A4 = Tag(auto=auto())
+    AU = (auto(), True)
     """Authors, Editors, Translators. 
     Each author must be on a separate line, preceded by the tag that corresponds to the author role (see individual ref 
     type matrix for role definitions). Each reference can contain unlimited author fields, and can contain up to 255 
@@ -59,12 +56,78 @@ class Tags(Enum):
     
     Suffix = Jr/Sr/II/III/MD etc. (Phillips,A.J.,Sr.); use of the suffix is optional"""
 
-    PY = Tag(auto=auto())
+    A2 = (auto(), True)
+    """Secondary Author"""
+
+    A3 = (auto(), True)
+    """Tertiary Author"""
+
+    A4 = (auto(), True)
+    """Subsidiary Author"""
+
+    AB = (auto())
+    """Abstract"""
+
+    AD = (auto())
+    """Author address"""
+
+    AN = (auto())
+    """Accession Number"""
+
+    C1 = (auto())
+    """Custom 1"""
+
+    C2 = (auto())
+    """Custom 2"""
+
+    C3 = (auto())
+    """Custom 3"""
+
+    C4 = (auto())
+    """Custom 4"""
+
+    C5 = (auto())
+    """Custom 5"""
+
+    C6 = (auto())
+    """Custom 6"""
+
+    C7 = (auto())
+    """Custom 7"""
+
+    C8 = (auto())
+    """Custom 8"""
+
+    CA = (auto())
+    """Caption"""
+
+    CN = (auto())
+    """Call Number"""
+
+    CY = (auto())
+    """Place Published"""
+
+    DB = (auto())
+    """Name of Database"""
+
+    DO = (auto())
+    """DOI"""
+
+    DP = (auto())
+    """Database provider"""
+
+    ET = (auto())
+    """Edition"""
+
+    ID = (auto())
+    """The characters allowed in the reference ID fields can be in the set "0" through "9," or "A" through "Z.\""""
+
+    PY = (auto())
     """This is the publication year. 
-    It must be four numberic characters. Dates prior to 1000 should use “0” in the positions before the intended date. 
+    It must be four numeric characters. Dates prior to 1000 should use “0” in the positions before the intended date. 
     For example, the year 765 would be represented as 0765."""
 
-    DA = Tag(auto=auto())
+    DA = (auto())
     """Dates must be in the following format:
     
     YYYY/MM/DD/other info
@@ -82,12 +145,12 @@ class Tags(Enum):
     YYYY/MM/DD or
     YYYY/MM/DD/other info"""
 
-    KW = Tag(auto=auto(), repeating=True)
+    KW = (auto(), True)
     """Keywords.
     Each keyword or phrase must be on its own line, preceded by this tag. A keyword can consist of multiple words 
     (phrases) and can be up to 255 characters long. There can be unlimited keywords in a reference."""
 
-    RP = Tag(auto=auto())
+    RP = (auto())
     """Reprint status.
     This optional field can contain one of three status notes. Each must be in uppercase, and the date after 
     “ON REQUEST” must be in USA format, in parentheses (MM/DD/YY). If this field is blank the Import function assumes 
@@ -100,16 +163,78 @@ class Tags(Enum):
     ON REQUEST (mm/dd/yy) - This means that the data provider has requested a reprint of the reference; the date is the 
     date on which the reprint was requested (in mm/dd/yy format)."""
 
-    J2 = Tag(auto=auto())
+    J2 = (auto())
     """Periodical name: standard abbreviation. 
     This is the abbreviation of the periodical in which the article is published. If possible, periodical names should 
     be abbreviated in the Index Medicus® style, with periods after the abbreviations. This field is mapped to the full 
     journal name in T2 and is used as the journal abbreviation in output styles."""
 
-    UR = Tag(auto=auto())
+    L1 = (auto())
+    """File attachment"""
+
+    L4 = (auto())
+    """Figure"""
+
+    LA = (auto())
+    """Language"""
+
+    LB = (auto())
+    """Label"""
+
+    IS = (auto())
+    """Number"""
+
+    M3 = (auto())
+    """Type of Work"""
+
+    N1 = (auto())
+    """Notes"""
+
+    NV = (auto())
+    """Number of Volumes"""
+
+    OP = (auto())
+    """Original Publication"""
+
+    PB = (auto())
+    """Publisher"""
+
+    UR = (auto())
     """Web/URL.
     There is no practical length limit to this field. URL addresses can be entered individually, one per tag, or
     multiple addresses can be entered on one line using a semi-colon as a separator."""
+
+    # following fields are for implicit RIS 2001 retrocompatibility in RIS 2011 samples
+    T3 = (auto())
+    CT = (auto())
+    U3 = (auto())
+    L3 = (auto())
+    T1 = (auto())
+    CP = (auto())
+    AV = (auto())
+    EP = (auto())
+    JO = (auto())
+    U1 = (auto())
+    U5 = (auto())
+    VL = (auto())
+    L2 = (auto())
+    JF = (auto())
+    U4 = (auto())
+    ED = (auto(), True)
+    J1 = (auto())
+    SN = (auto())
+    Y1 = (auto())
+    T2 = (auto())
+    N2 = (auto())
+    TI = (auto())
+    BT = (auto())
+    A1 = (auto(), True)
+    JA = (auto())
+    M2 = (auto())
+    U2 = (auto())
+    M1 = (auto())
+    Y2 = (auto())
+    SP = (auto())
 
     def __str__(self):
         return self.name
@@ -123,7 +248,7 @@ class Tags(Enum):
         raise ValueError(f'unknown {tag_str} tag')
 
 
-@_cite(RIS_2001)
+@_cite(RIS_2011)
 class TypeFieldName(Enum):
     """Reference Type Field Names
 
@@ -336,7 +461,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
             if tag is Tags.TY:
                 raise ValueError('only one type field is expected, a ')
 
-            if tag.value.repeating:
+            if tag.repeating:
                 if tag in result:
                     result[tag].append(line[6:].rstrip('\n\r'))
                 else:
@@ -348,7 +473,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
                 raise e
 
             # long field support
-            if last_tag.value.repeating:
+            if last_tag.repeating:
                 result[last_tag][-1] += line.rstrip('\n\r')
             else:
                 result[last_tag] += line.rstrip('\n\r')
@@ -369,7 +494,7 @@ def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeField
     return results
 
 
-def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
-    """The default formatter for RIS 2001 references."""
+def default_ris2011_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
+    """The default formatter for RIS 2011 references."""
     title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))
     return f"{title} [{r[Tags.ID]}]" if Tags.ID in r else title

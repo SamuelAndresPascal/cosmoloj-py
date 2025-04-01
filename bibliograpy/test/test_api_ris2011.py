@@ -1,23 +1,38 @@
-"""Test module for RIS 2001 api"""
+"""Test module for RIS 2011 api"""
 from pathlib import Path
 
-import pytest
-
-from bibliograpy.api_ris2001 import read_ris_entries, Tags, TypeFieldName
-from bibliograpy.api_ris2011 import Tags as RIS2011
+from bibliograpy.api_ris2011 import read_ris_entries, Tags, TypeFieldName
 
 
 def test_multiple_records():
     """test sample using the 2011 specification"""
 
-    print({e.name for e in Tags if e.name not in [t.name for t in RIS2011]})
-    # {'C7', 'CA', 'C3', 'C4', 'C1', 'DA', 'OP', 'C8', 'NV', 'C5', 'CN', 'LB', 'LA', 'A4', 'ET', 'DO', 'C6', 'AN', 'C2', 'DB', 'DP'}
-    # {'T3', 'CT', 'U3', 'L3', 'T1', 'CP', 'AV', 'EP', 'JO', 'U1', 'U5', 'VL', 'L2', 'JF', 'U4', 'ED', 'J1', 'SN', 'Y1', 'T2', 'N2', 'TI', 'BT', 'A1', 'JA', 'M2', 'U2', 'M1', 'Y2', 'SP'}
-
     with open(Path(__file__).parent / 'resources' / 'ris2011' / 'multipleRecords.ris', encoding='utf-8') as s:
-        with pytest.raises(ValueError) as e:
-            read_ris_entries(s)
-        assert e.value.args[0] == 'unknown DA tag'
+        result = read_ris_entries(s)
+        assert len(result) == 2
+        assert result[0] == {
+            Tags.TY: TypeFieldName.JOUR,
+            Tags.T2: 'Bell System Technical Journal',
+            Tags.PY: '1948',
+            Tags.DA: 'July',
+            Tags.TI: 'A Mathematical Theory of Communication',
+            Tags.EP: '423',
+            Tags.VL: '27',
+            Tags.AU: ['Shannon, Claude E.'],
+            Tags.SP: '379'
+        }
+        assert result[1] == {
+            Tags.TY: TypeFieldName.JOUR,
+            Tags.SP: '230',
+            Tags.EP: '265',
+            Tags.JO: 'Proc. of London Mathematical Society',
+            Tags.IS: '1',
+            Tags.Y1: '1937',
+            Tags.A1: ['Turing, Alan Mathison'],
+            Tags.T1: 'On computable numbers, with an application to the Entscheidungsproblem',
+            Tags.VL: '47'
+        }
+
 
 def test_sample1():
     """test 2001 specification sample"""
