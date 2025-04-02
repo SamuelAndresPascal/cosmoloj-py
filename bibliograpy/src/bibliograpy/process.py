@@ -38,6 +38,7 @@ def _process(ns: Namespace):
                                          init_scope=init_scope)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
                 oformat.write(o)
+
     elif fmt is Formats.RIS2001:
         iformat = Ris2001InputFormat(source=source)
         with open(ns.file, encoding=ns.encoding) as i:
@@ -45,6 +46,7 @@ def _process(ns: Namespace):
             oformat = Ris2001OutputFormat(target=target, content=content)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
                 oformat.write(o)
+
     elif fmt is Formats.RIS2011:
         iformat = Ris2011InputFormat(source=source)
         with open(ns.file, encoding=ns.encoding) as i:

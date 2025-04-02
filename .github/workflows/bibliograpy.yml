@@ -98,6 +98,7 @@ jobs:
           pip install .
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py

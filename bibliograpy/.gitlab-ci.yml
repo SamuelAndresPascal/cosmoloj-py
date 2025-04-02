@@ -13,9 +13,9 @@ lint:bibliograpy:
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
     - pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_bibtex.py
-    - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_bibtex.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2001.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2011.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_bibtex.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2001.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2011.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_common.py
@@ -33,9 +33,11 @@ lint_test:bibliograpy:
     - pip install .
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_common.py
 
 mkdocs:bibliograpy:
