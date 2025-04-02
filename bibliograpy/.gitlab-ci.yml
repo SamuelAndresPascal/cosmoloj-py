@@ -87,6 +87,9 @@ test:bibliograpy:
       - bibliograpy/test/test_process_ris2001_ris_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_process_ris2001_json_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_process_ris2001_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_ris2011_ris_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_ris2011_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_process_ris2011_yml_to_py.py # generated bibliography in tests needed at coverage time
       - .coverage
       - bibliograpy/report.xml
     reports:
