@@ -139,8 +139,8 @@ def test_sample456():
         assert result[0] == {
             RIS2001.TY: TypeFieldName.RPRT,
             RIS2001.A1: ['Esparza,J.'],
-            RIS2001.T1: """Report of a WHO workshop on the measurement and significance of neutralizing antibody to HIV \
-and SIV, London, 3-5 October 1988""",
+            RIS2001.T1: """Report of a WHO workshop on the measurement and significance of neutralizing antibody to \
+HIV and SIV, London, 3-5 October 1988""",
             RIS2001.Y1: '1990',
             RIS2001.VL: '4',
             RIS2001.SP: '269',
