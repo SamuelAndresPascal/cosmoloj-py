@@ -43,8 +43,8 @@ class DefaultCitationFormatter(CitationFormatter):
         """RIS 2001 reference formatter."""
         return default_ris2001_formatter(r)
 
-    def ris2011(self, r: dict[Ris2001, str | list[str] | Ris2001Field]):
+    def ris2011(self, r: dict[Ris2011, str | list[str] | Ris2011Field]):
         """RIS 2001 reference formatter."""
-        return default_ris2001_formatter(r)
+        return default_ris2011_formatter(r)
 
 cite = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')
