@@ -12,7 +12,7 @@ The bibliograpy purpose consists in two distinct parts.
 First, the **Bibliograpy API** allows to manipulate bibliographic references as symbols of the code itself instead of
 simple character strings deprived of any semantics in the docstrings.
 
-Considers the ordinary way to mention bibliographic references in source code.
+Consider the ordinary way to mention bibliographic references in source code.
 
 ```python
 def foo():
@@ -30,7 +30,7 @@ def bar():
     """
 ```
 
-Both function uses the same reference.
+Both functions use the same reference.
 
 But nothing is factorized for maintenance purpose. Maybe a typo could affect all
 the citations of the same references, maybe a single one.

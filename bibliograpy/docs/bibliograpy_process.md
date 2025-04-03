@@ -15,7 +15,7 @@ options:
   --output-file, -o [OUTPUT_FILE]
                         the source bibliograpy output file name
   --format, -f [FORMAT]
-                        the input bibliography format (bib, bibtex, ris2001)
+                        the input bibliography format (bib/bibtex, ris2001, ris/ris2011)
   --scope, -s [SCOPE]   the scope name, must be consistent with --init-scope (for bibtex format cross-reference resolution)
   --init-scope, -S [INIT_SCOPE]
                         the scope import line (for bibtex format cross-reference resolution)
