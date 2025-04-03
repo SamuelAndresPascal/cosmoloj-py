@@ -35,7 +35,7 @@ dependencies:
     version: 1.2.2.post1
     environments: [pypi_pkg]
   - id: twine
-    version: 5.1.1
+    version: 6.0.1
     environments: [pypi_publish]
   - id: grayskull
     version: 2.7.3
