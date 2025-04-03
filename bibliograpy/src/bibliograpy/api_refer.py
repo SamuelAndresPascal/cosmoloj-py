@@ -100,6 +100,6 @@ class Tags(Tag, Enum):
     def parse(tag_str: str):
         """Parses a tag name into an enum value."""
         for n in Tags:
-            if tag_str == n.name or tag_str == "%" + n.name:
+            if tag_str in (n.name, "%" + n.name):
                 return n
         raise ValueError(f'unknown {tag_str} tag')
