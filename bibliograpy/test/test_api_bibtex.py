@@ -19,7 +19,7 @@ IAU = Misc.generic(cite_key='iau',
 IAU_2006_B1 = TechReport.generic(
     cite_key='iau_2006_b1',
     author='',
-    crossref='iau',
+    crossref=IAU,
     title='Adoption of the P03 Precession Theory and Definition of the Ecliptic',
     year=2006,
     scope=SCOPE)

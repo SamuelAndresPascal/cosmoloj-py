@@ -7,7 +7,7 @@ from typing import TextIO
 import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
-from bibliograpy.api_ris2011 import read_ris_entries, Tags, TypeFieldName
+from bibliograpy.api_ris2011 import Tags, TypeFieldName
 
 class Ris2011InputFormat(InputFormat):
     """Ris 2001 input format implementation."""
@@ -25,13 +25,66 @@ class Ris2011InputFormat(InputFormat):
         return [{Tags.parse(k): TypeFieldName.parse(e[k]) if k is Tags.TY else e[k] for k in e}
                 for e in json.load(i)]
 
-    def from_standard(self, i: TextIO):
+    def from_standard(self, i: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
         """Reads from standard format."""
-        return read_ris_entries(tio=i)
 
-    def _from_standard_ext(self) -> list[str]:
-        """Extensions to be deserialized from standard format."""
-        return ['ris2011', 'ris']
+        results: list[dict[Tags, str | list[str] | TypeFieldName]] = []
+
+        while line := i.readline():
+            if line.rstrip() == '':
+                continue
+            entry: dict[Tags, str | list[str] | TypeFieldName] = {Tags.TY: _parse_ris_entry_type(line)}
+            entry.update(_read_ris_entry(i))
+            results.append(entry)
+        return results
+
+def _parse_ris_entry_type(line: str) -> TypeFieldName:
+    # first field must contain entry type
+    tag = Tags.parse(line[:2])
+    if tag is not Tags.TY:
+        raise ValueError(f'expected type field but found {tag}')
+
+    if line[2:6] != '  - ':
+        raise ValueError(f'type line "{line}" is not correctly formatted')
+
+    return TypeFieldName.parse(line[6:].rstrip())
+
+def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
+    """Reads a single RIS entry from the input stream."""
+
+    result = {}
+
+    last_tag: Tags | None = None
+
+    while line := tio.readline():
+
+        try:
+            tag = Tags.parse(line[:2])
+            last_tag = tag
+
+            if tag is Tags.ER:
+                return result
+
+            if tag is Tags.TY:
+                raise ValueError('only one type field is expected, a ')
+
+            if tag.repeating:
+                if tag in result:
+                    result[tag].append(line[6:].rstrip('\n\r'))
+                else:
+                    result[tag] = [line[6:].rstrip('\n\r')]
+            else:
+                result[tag] = line[6:].rstrip('\n\r')
+        except ValueError as e:
+            if line[2:6] == '  - ' or last_tag is None:
+                raise e
+
+            # long field support
+            if last_tag.repeating:
+                result[last_tag][-1] += line.rstrip('\n\r')
+            else:
+                result[last_tag] += line.rstrip('\n\r')
+    raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
 
 class Ris2011OutputFormat(OutputFormat):
     """Bibtex format implementation."""

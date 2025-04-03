@@ -431,69 +431,6 @@ class TypeFieldName(Enum):
                 return n
         raise ValueError(f'unknown {entry_type} type')
 
-def _parse_ris_entry_type(line: str) -> TypeFieldName:
-    # first field must contain entry type
-    tag = Tags.parse(line[:2])
-    if tag is not Tags.TY:
-        raise ValueError(f'expected type field but found {tag}')
-
-    if line[2:6] != '  - ':
-        raise ValueError(f'type line "{line}" is not correctly formatted')
-
-    return TypeFieldName.parse(line[6:].rstrip())
-
-def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
-    """Reads a single RIS entry from the input stream."""
-
-    result = {}
-
-    last_tag: Tags | None = None
-
-    while line := tio.readline():
-
-        try:
-            tag = Tags.parse(line[:2])
-            last_tag = tag
-
-            if tag is Tags.ER:
-                return result
-
-            if tag is Tags.TY:
-                raise ValueError('only one type field is expected, a ')
-
-            if tag.repeating:
-                if tag in result:
-                    result[tag].append(line[6:].rstrip('\n\r'))
-                else:
-                    result[tag] = [line[6:].rstrip('\n\r')]
-            else:
-                result[tag] = line[6:].rstrip('\n\r')
-        except ValueError as e:
-            if line[2:6] == '  - ' or last_tag is None:
-                raise e
-
-            # long field support
-            if last_tag.repeating:
-                result[last_tag][-1] += line.rstrip('\n\r')
-            else:
-                result[last_tag] += line.rstrip('\n\r')
-    raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
-
-
-def read_ris_entries(tio: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
-    """Reads a RIS entry list from the input stream."""
-
-    results: list[dict[Tags, str | list[str] | TypeFieldName]] = []
-
-    while line := tio.readline():
-        if line.rstrip() == '':
-            continue
-        entry: dict[Tags, str | list[str] | TypeFieldName] = {Tags.TY: _parse_ris_entry_type(line)}
-        entry.update(_read_ris_entry(tio))
-        results.append(entry)
-    return results
-
-
 def default_ris2011_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
     """The default formatter for RIS 2011 references."""
     title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))

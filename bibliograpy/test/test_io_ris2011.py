@@ -1,7 +1,14 @@
-"""Test module for RIS 2011 api"""
+"""Test module for RIS 2011 IO"""
 from pathlib import Path
+from typing import TextIO
 
-from bibliograpy.api_ris2011 import read_ris_entries, Tags, TypeFieldName
+from bibliograpy.api_core import Formats
+from bibliograpy.api_ris2011 import Tags, TypeFieldName
+from bibliograpy.io_ris2011 import Ris2011InputFormat
+
+
+def read_ris_entries(i: TextIO):
+    return Ris2011InputFormat(Formats.RIS2011).from_standard(i)
 
 
 def test_multiple_records():
