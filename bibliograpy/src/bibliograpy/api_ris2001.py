@@ -3,7 +3,6 @@ RIS 2001 specification model.
 """
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import TextIO
 
 from bibliograpy.bibliography import RIS_2001
 from bibliograpy.api_bibtex import _cite

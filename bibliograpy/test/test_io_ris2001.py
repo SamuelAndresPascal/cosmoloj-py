@@ -10,6 +10,7 @@ from bibliograpy.io_ris2001 import Ris2001InputFormat
 
 
 def read_ris_entries(i: TextIO):
+    """ris entry parsing shortcut"""
     return Ris2001InputFormat(Formats.RIS2001).from_standard(i)
 
 def test_multiple_records():

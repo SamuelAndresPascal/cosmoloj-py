@@ -8,8 +8,8 @@ from bibliograpy.io_ris2011 import Ris2011InputFormat
 
 
 def read_ris_entries(i: TextIO):
+    """ris entry parsing shortcut"""
     return Ris2011InputFormat(Formats.RIS2011).from_standard(i)
-
 
 def test_multiple_records():
     """test sample using the 2011 specification"""
@@ -39,7 +39,6 @@ def test_multiple_records():
             Tags.T1: 'On computable numbers, with an application to the Entscheidungsproblem',
             Tags.VL: '47'
         }
-
 
 def test_sample1():
     """test 2001 specification sample"""
