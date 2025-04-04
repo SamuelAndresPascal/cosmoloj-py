@@ -28,20 +28,32 @@ class ReferInputFormat(InputFormat):
 
         results: list[dict[Tags, str | list[str]]] = []
 
+        result: dict[Tags, str | list[str]] = {}
         while line := i.readline():
-            if line.rstrip() == '':
+            if line.strip() == '':
+                if result:
+                    results.append(result)
+                    result = {}
                 continue
-            entry: dict[Tags, str | list[str]] = {}
-            entry.update(_read_ris_entry(i))
-            results.append(entry)
+
+            tag = Tags.parse(line[:2])
+
+            if tag.repeating:
+                if tag in result:
+                    result[tag].append(line[3:].rstrip('\n\r'))
+                else:
+                    result[tag] = [line[3:].rstrip('\n\r')]
+            else:
+                result[tag] = line[3:].rstrip('\n\r')
+
+        if result:
+            results.append(result)
         return results
 
 def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
     """Reads a single RIS entry from the input stream."""
 
     result = {}
-
-    last_tag: Tags | None = None
 
     while line := tio.readline():
 
@@ -51,20 +63,15 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
 
             continue
 
-        try:
-            tag = Tags.parse(line[:2])
-            last_tag = tag
+        tag = Tags.parse(line[:2])
 
-            if tag.repeating:
-                if tag in result:
-                    result[tag].append(line[6:].rstrip('\n\r'))
-                else:
-                    result[tag] = [line[6:].rstrip('\n\r')]
+        if tag.repeating:
+            if tag in result:
+                result[tag].append(line[3:].rstrip('\n\r'))
             else:
-                result[tag] = line[6:].rstrip('\n\r')
-        except ValueError as e:
-            if line[2:6] == '  - ' or last_tag is None:
-                raise e
+                result[tag] = [line[3:].rstrip('\n\r')]
+        else:
+            result[tag] = line[3:].rstrip('\n\r')
 
     return result
 

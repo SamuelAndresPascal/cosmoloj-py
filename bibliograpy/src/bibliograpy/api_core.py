@@ -14,6 +14,7 @@ class Formats(Format, Enum):
     BIBTEX = (['bib', 'bibtex'], ['bib', 'bibtex'])
     RIS2001 = (['ris2001'], ['ris'])
     RIS2011 = (['ris', 'ris2011'], ['ris'])
+    REFER = (['refer'], ['refer'])
     YML = ([], ['yml', 'yaml'])
     JSON = ([], ['json'])
     PYTHON = ([], ['py'])
