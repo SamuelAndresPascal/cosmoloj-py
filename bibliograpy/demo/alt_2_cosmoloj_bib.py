@@ -1,6 +1,6 @@
 from bibliograpy.api_bibtex import *
 
-SCOPE: dict[str, BibtexReference] = {}
+_SCOPE = {}
 
 
 MAP_PROJECTIONS = Book.generic(cite_key='map_projections',
@@ -9,4 +9,4 @@ MAP_PROJECTIONS = Book.generic(cite_key='map_projections',
                                title='Map Projections - A Working Manual',
                                year='1987',
                                non_standard=NonStandard(url='https://pubs.usgs.gov/pp/1395/report.pdf'),
-                               scope=SCOPE)
+                               scope=_SCOPE)

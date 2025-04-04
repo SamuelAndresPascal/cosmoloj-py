@@ -1,5 +1,7 @@
 from bibliograpy.api_bibtex import *
 
+SHARED_SCOPE = dict()
+
 
 MAP_PROJECTIONS = Book.generic(cite_key='map_projections',
                                editor='UNITED STATES GOVERNMENT PRINTING OFFICE, WASHINGTON',
