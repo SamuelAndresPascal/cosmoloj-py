@@ -48,8 +48,8 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
         if len(line.strip()) == 0:
             if result:
                 return result
-            else:
-                continue
+
+            continue
 
         try:
             tag = Tags.parse(line[:2])
