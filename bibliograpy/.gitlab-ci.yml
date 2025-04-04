@@ -42,6 +42,7 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_common.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2001.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2011.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_refer.py
 
 mkdocs:bibliograpy:
   stage: doc
