@@ -71,4 +71,3 @@ def test_sample3():
             Tags.P: '151-157',
             Tags.K: 'eqn'
         }
-
