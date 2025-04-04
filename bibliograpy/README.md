@@ -262,7 +262,7 @@ Nevertheless, to be *actually* cross-resolved by the underlying Bibliograpy libr
 scope which have to be named and initialized through respectively `--scope` and `--init-scope` options.
 
 ```shell
-bibliograpy process --scope=_SCOPE --init-scope="_SCOPE = {}" bibliograpy.bib
+bibliograpy process --scope=_SCOPE --init-scope="{}" bibliograpy.bib
 ```
 
 ```python

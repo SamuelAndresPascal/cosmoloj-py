@@ -92,7 +92,7 @@ class BibtexOutputFormat(OutputFormat):
         o.write('\n')
 
         if self._init_scope is not None:
-            o.write(f'{self._init_scope}\n')
+            o.write(f'{self._scope_symbol} = {self._init_scope}\n')
             o.write('\n')
 
         for ref in self._content:

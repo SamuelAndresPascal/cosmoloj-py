@@ -113,8 +113,7 @@ class Ris2011OutputFormat(OutputFormat):
         """Writes to standard format."""
 
         for bib_entry in self._content:
-            o.write(f'{Tags.TY}  - {bib_entry[Tags.TY]}')
-            o.write('\n')
+            o.write(f'{Tags.TY}  - {bib_entry[Tags.TY]}\n')
 
             for tag in bib_entry:
 
@@ -123,30 +122,23 @@ class Ris2011OutputFormat(OutputFormat):
 
                 if tag.repeating:
                     for l in bib_entry[tag]:
-                        o.write(f'{tag}  - {l}')
-                        o.write('\n')
+                        o.write(f'{tag}  - {l}\n')
                 else:
-                    o.write(f'{tag}  - {bib_entry[tag]}')
-                    o.write('\n')
+                    o.write(f'{tag}  - {bib_entry[tag]}\n')
 
-            o.write(f'{Tags.ER}  - ')
-            o.write('\n')
+            o.write(f'{Tags.ER}  - \n')
 
     def to_py(self, o: TextIO):
         """Writes to python representation."""
 
-        o.write('from bibliograpy.api_ris2001 import *\n')
-        o.write('\n')
+        o.write('from bibliograpy.api_ris2001 import *\n\n')
 
         for bib_entry in self._content:
             o.write(f'{bib_entry[Tags.ID].upper()} = ')
-            o.write('{')
-            o.write('\n')
+            o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:
-                    o.write(f"  Tags.{e.name}: TypeFieldName.{bib_entry[e]},")
+                    o.write(f"  Tags.{e.name}: TypeFieldName.{bib_entry[e]},\n")
                 else:
-                    o.write(f"  Tags.{e.name}: '{bib_entry[e]}',")
-                o.write('\n')
-            o.write('}')
-            o.write('\n')
+                    o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
+            o.write('}\n')

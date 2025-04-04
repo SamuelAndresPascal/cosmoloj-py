@@ -22,9 +22,14 @@ def _process(ns: Namespace):
     output_dir = Path(Path.cwd(), ns.output_dir)
     output_file = ns.output_file
     target = Formats.as_io_extension(output_file.split('.')[-1])
-    scope_symbol = ns.scope if 'scope' in ns else None
+    if 'shared_scope' in ns and ns.shared_scope:
+        scope_symbol = 'SHARED_SCOPE'
+    else:
+        scope_symbol = ns.scope if 'scope' in ns else None
     init_scope = ns.init_scope if 'init_scope' in ns else None
     fmt = Formats.as_specification(ns.format)
+
+
 
     LOG.info('open configuration file %s', ns.file)
 

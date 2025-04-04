@@ -20,6 +20,7 @@ DEFAULT_ENCODING = 'utf-8'
 DEFAULT_OUTPUT_DIR = '.'
 DEFAULT_OUTPUT_FILE = 'bibliography.py'
 DEFAULT_FORMAT = 'bib'
+DEFAULT_INIT_SCOPE = '{}'
 
 
 def _create_parser() -> ArgumentParser:
@@ -52,13 +53,17 @@ def _create_parser() -> ArgumentParser:
                          nargs='?',
                          help='the input bibliography format (bib/bibtex, ris2001, ris/ris2011)',
                          default=DEFAULT_FORMAT)
-    process.add_argument('--scope', '-s',
-                         nargs='?',
-                         help="""the scope name, must be consistent with --init-scope \
+    group = process.add_mutually_exclusive_group()
+    group.add_argument('--scope', '-s',
+                       nargs='?',
+                       help="""the scope name, must be consistent with --init-scope \
     (for bibtex format cross-reference resolution)""")
-    process.add_argument('--init-scope', '-S',
+    group.add_argument('--shared-scope', '-S',
+                       action='store_true',
+                       help='use the default shared scope named SHARED_SCOPE')
+    process.add_argument('--init-scope', '-i',
                          nargs='?',
-                         help='the scope import line (for bibtex format cross-reference resolution)')
+                         help='the scope initialization value line (for bibtex format cross-reference resolution)')
 
     return parser
 
