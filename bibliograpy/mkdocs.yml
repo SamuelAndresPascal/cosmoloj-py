@@ -10,8 +10,8 @@ nav:
   - specification: specification.md
   - bibliograpy:
       - bibliograpy: bibliograpy.md
-      - process: bibliograpy_bibtex.md
-      - ris_refer: bibliograpy_ris_refer.md
+      - bibtex: bibliograpy_bibtex.md
+      - 'RIS/refer': bibliograpy_ris_refer.md
   - API: api.md
   - About: about.md
 
