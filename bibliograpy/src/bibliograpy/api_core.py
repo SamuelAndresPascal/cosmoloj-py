@@ -11,16 +11,16 @@ class Format:
 
 class Formats(Format, Enum):
     """Supported bibliography formats."""
-    BIBTEX = (['bib', 'bibtex'], ['bib', 'bibtex'])
+    BIBTEX = (['bibtex'], ['bib', 'bibtex'])
     RIS2001 = (['ris2001'], ['ris'])
-    RIS2011 = (['ris', 'ris2011'], ['ris'])
+    RIS2011 = (['ris2011'], ['ris'])
     REFER = (['refer'], ['refer'])
     YML = ([], ['yml', 'yaml'])
     JSON = ([], ['json'])
     PYTHON = ([], ['py'])
 
     @staticmethod
-    def as_specification(format_id: str):
+    def as_command(format_id: str):
         """Gets a supported format enum instance from a supported process argument string."""
         for f in Formats:
             if format_id in f.specification_ids:

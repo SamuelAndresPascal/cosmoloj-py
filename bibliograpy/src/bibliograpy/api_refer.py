@@ -103,3 +103,8 @@ class Tags(Tag, Enum):
             if tag_str in (n.name, "%" + n.name):
                 return n
         raise ValueError(f'unknown {tag_str} tag')
+
+def default_refer_formatter(r: dict[Tags, str | list[str]]):
+    """The default formatter for RIS 2011 references."""
+    title = r[Tags.T] if Tags.T in r else ""
+    return f"{title} [{r[Tags.L]}]" if Tags.L in r else title

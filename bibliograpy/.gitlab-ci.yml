@@ -36,6 +36,7 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_refer.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
@@ -85,15 +86,18 @@ test:bibliograpy:
   artifacts:
     when: always
     paths:
-      - bibliograpy/test/test_process_bibtex_bib_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_bibtex_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_bibtex_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2001_ris_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2001_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2001_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2011_ris_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2011_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_process_ris2011_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_bibtex_bib_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_bibtex_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_bibtex_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2001_ris_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2001_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2001_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2011_ris_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2011_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2011_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_refer_refer_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_refer_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_refer_yml_to_py.py # generated bibliography in tests needed at coverage time
       - .coverage
       - bibliograpy/report.xml
     reports:

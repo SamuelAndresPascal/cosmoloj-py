@@ -13,7 +13,7 @@ class ReferInputFormat(InputFormat):
     """refer input format implementation."""
 
     def __init__(self, source: Format):
-        super().__init__(source=source, standard=Formats.RIS2001)
+        super().__init__(source=source, standard=Formats.REFER)
 
     def from_yml(self, i: TextIO):
         """Reads from yml representation."""
@@ -51,7 +51,7 @@ class ReferInputFormat(InputFormat):
         return results
 
 def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
-    """Reads a single RIS entry from the input stream."""
+    """Reads a single refer entry from the input stream."""
 
     result = {}
 
@@ -82,7 +82,7 @@ class ReferOutputFormat(OutputFormat):
     def __init__(self,
                  content: list[dict],
                  target: Format):
-        super().__init__(target=target, standard=Formats.RIS2001)
+        super().__init__(target=target, standard=Formats.REFER)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -108,7 +108,7 @@ class ReferOutputFormat(OutputFormat):
                     for l in bib_entry[tag]:
                         o.write(f'%{tag} {l}\n')
                 else:
-                    o.write(f'{tag}  - {bib_entry[tag]}\n')
+                    o.write(f'%{tag} {bib_entry[tag]}\n')
 
             o.write('\n')
 
@@ -118,7 +118,7 @@ class ReferOutputFormat(OutputFormat):
         o.write('from bibliograpy.api_refer import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.A][0].upper()} = ')
+            o.write(f'{bib_entry[Tags.L].upper()} = ')
             o.write('{\n')
             for e in bib_entry:
                 o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")

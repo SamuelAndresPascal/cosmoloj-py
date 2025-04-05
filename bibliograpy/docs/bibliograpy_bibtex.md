@@ -1,10 +1,10 @@
-# Bibliograpy process
+# Bibliograpy Bibtex
 
 ```text
-usage: bibliograpy process [-h] [--encoding [ENCODING]] [--output-dir [OUTPUT_DIR]] [--output-file [OUTPUT_FILE]] [--format [FORMAT]] [--scope [SCOPE]] [--init-scope [INIT_SCOPE]] [file]
+usage: bibliograpy bibtex [-h] [--encoding [ENCODING]] [--output-dir [OUTPUT_DIR]] [--output-file [OUTPUT_FILE]] [--scope [SCOPE] | --shared-scope] [--init-scope [INIT_SCOPE]] [file]
 
 positional arguments:
-  file                  path to the bibliograpy configuration file
+  file                  path to the input bibliography file
 
 options:
   -h, --help            show this help message and exit
@@ -14,9 +14,8 @@ options:
                         the source bibliograpy file output directory
   --output-file, -o [OUTPUT_FILE]
                         the source bibliograpy output file name
-  --format, -f [FORMAT]
-                        the input bibliography format (bib/bibtex, ris2001, ris/ris2011)
   --scope, -s [SCOPE]   the scope name, must be consistent with --init-scope (for bibtex format cross-reference resolution)
-  --init-scope, -S [INIT_SCOPE]
-                        the scope import line (for bibtex format cross-reference resolution)
+  --shared-scope, -S    use the default shared scope named SHARED_SCOPE
+  --init-scope, -i [INIT_SCOPE]
+                        the scope initialization value line (for bibtex format cross-reference resolution)
 ```

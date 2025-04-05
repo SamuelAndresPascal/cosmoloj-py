@@ -103,15 +103,18 @@ def bar():
 
 
 ```text
-usage: bibliograpy [-h] {info,process} ...
+usage: bibliograpy [-h] {bibtex,ris2001,ris2011,refer} ...
 
 Bibliography management.
 
 positional arguments:
-  {info,process}  available commands
-    info          get general info
-    process       generates bibliograpy source bibliography
+  {bibtex,ris2001,ris2011,refer}
+                        available commands
+    bibtex              generates bibliograpy Python source bibliography from Bibtex format
+    ris2001             generates bibliograpy Python source bibliography from RIS 2001 format
+    ris2011             generates bibliograpy Python source bibliography from RIS 2011 format
+    refer               generates bibliograpy Python source bibliography from refer format
 
 options:
-  -h, --help      show this help message and exit
+  -h, --help            show this help message and exit
 ```

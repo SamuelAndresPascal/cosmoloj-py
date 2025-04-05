@@ -28,7 +28,7 @@ def _process(ns: Namespace):
     else:
         scope_symbol = ns.scope if 'scope' in ns else None
     init_scope = ns.init_scope if 'init_scope' in ns else None
-    fmt = Formats.as_specification(ns.format)
+    fmt = Formats.as_command(ns.CMD)
 
 
 

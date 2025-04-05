@@ -30,17 +30,17 @@ def _output(file: str) -> str:
     return str(Path(Path(__file__).parent / 'resources' / 'ris2001' / 'out' / file))
 
 
-def test_process_ris2001_yml_to_yml():
+def test_ris2001_yml_to_yml():
     """test process from a yml bibliography to a yml bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.yml'),
-                       output_file=_output('test_process_ris2001_yml_to_yml.yml'),
+                       output_file=_output('test_ris2001_yml_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_yml_to_yml.yml'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_yml_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == [
             {"TY": "JOUR",
@@ -73,17 +73,17 @@ def test_process_ris2001_yml_to_yml():
                    "evidencing BBB breach, may be accessible to neurotrophic factors administered intravenously both "
                    "immediately and days after brain trauma."}]
 
-def test_process_ris2001_yml_to_ris():
+def test_ris2001_yml_to_ris():
     """test process from a yml bibliography to a RIS 2001 bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.yml'),
-                       output_file=_output('test_process_ris2001_yml_to_ris.ris'),
+                       output_file=_output('test_ris2001_yml_to_ris.ris'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_yml_to_ris.ris'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_yml_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
         assert content == """TY  - JOUR
 A1  - Baldwin,S.A.
@@ -122,17 +122,17 @@ intravenously both immediately and days after brain trauma.
 ER  - 
 """
 
-def test_process_ris2001_yml_to_json():
+def test_ris2001_yml_to_json():
     """test process from a yml bibliography to a RIS 2001 bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.yml'),
-                       output_file=_output('test_process_ris2001_yml_to_json.json'),
+                       output_file=_output('test_ris2001_yml_to_json.json'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_yml_to_json.json'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_yml_to_json.json'), encoding='utf-8') as s:
         content = s.read()
         assert content == ('[{"TY": "JOUR", '
                            '"A1": ["Baldwin,S.A.", "Fugaccia,I.", "Brown,D.R.", "Brown,L.V.", "Scheff,S.W."], '
@@ -166,17 +166,17 @@ def test_process_ris2001_yml_to_json():
                            'neurotrophic factors administered intravenously both immediately and days after brain '
                            'trauma."}]')
 
-def test_process_ris2001_json_to_yml():
+def test_ris2001_json_to_yml():
     """test process from a json bibliography to a yml bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.json'),
-                       output_file=_output('test_process_ris2001_json_to_yml.yml'),
+                       output_file=_output('test_ris2001_json_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_json_to_yml.yml'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_json_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == [
             {"TY": "JOUR",
@@ -209,17 +209,17 @@ def test_process_ris2001_json_to_yml():
                    "evidencing BBB breach, may be accessible to neurotrophic factors administered intravenously both "
                    "immediately and days after brain trauma."}]
 
-def test_process_ris2001_json_to_ris():
+def test_ris2001_json_to_ris():
     """test process from a json bibliography to a RIS 2001 bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.json'),
-                       output_file=_output('test_process_ris2001_json_to_ris.ris'),
+                       output_file=_output('test_ris2001_json_to_ris.ris'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_json_to_ris.ris'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_json_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
         assert content == """TY  - JOUR
 A1  - Baldwin,S.A.
@@ -258,17 +258,17 @@ intravenously both immediately and days after brain trauma.
 ER  - 
 """
 
-def test_process_ris2001_json_to_json():
+def test_ris2001_json_to_json():
     """test process from a json bibliography to a json bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.json'),
-                       output_file=_output('test_process_ris2001_json_to_json.json'),
+                       output_file=_output('test_ris2001_json_to_json.json'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_json_to_json.json'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_json_to_json.json'), encoding='utf-8') as s:
         content = s.read()
         assert content == ('[{"TY": "JOUR", '
                            '"A1": ["Baldwin,S.A.", "Fugaccia,I.", "Brown,D.R.", "Brown,L.V.", "Scheff,S.W."], '
@@ -302,17 +302,17 @@ def test_process_ris2001_json_to_json():
                            'neurotrophic factors administered intravenously both immediately and days after brain '
                            'trauma."}]')
 
-def test_process_ris2001_ris_to_yml():
+def test_ris2001_ris_to_yml():
     """test process from a bib bibliography to a yml bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.ris'),
-                       output_file=_output('test_process_ris2001_ris_to_yml.yml'),
+                       output_file=_output('test_ris2001_ris_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_ris_to_yml.yml'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_ris_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
         assert content == [
             {"TY": "JOUR",
@@ -345,17 +345,17 @@ def test_process_ris2001_ris_to_yml():
                    "evidencing BBB breach, may be accessible to neurotrophic factors administered intravenously both "
                    "immediately and days after brain trauma."}]
 
-def test_process_ris2001_ris_to_ris():
+def test_ris2001_ris_to_ris():
     """test process from a RIS 2001 bibliography to a RIS 2001 bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.ris'),
-                       output_file=_output('test_process_ris2001_ris_to_ris.ris'),
+                       output_file=_output('test_ris2001_ris_to_ris.ris'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_ris_to_ris.ris'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_ris_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
         assert content == """TY  - JOUR
 A1  - Baldwin,S.A.
@@ -394,17 +394,17 @@ intravenously both immediately and days after brain trauma.
 ER  - 
 """
 
-def test_process_ris2001_ris_to_json():
+def test_ris2001_ris_to_json():
     """test process from a RIS 2001 bibliography to a json bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('sample1.ris'),
-                       output_file=_output('test_process_ris2001_ris_to_json.json'),
+                       output_file=_output('test_ris2001_ris_to_json.json'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
-    with open(_output('test_process_ris2001_ris_to_json.json'), encoding='utf-8') as s:
+    with open(_output('test_ris2001_ris_to_json.json'), encoding='utf-8') as s:
         content = s.read()
         assert content == ('[{"TY": "JOUR", '
                            '"A1": ["Baldwin,S.A.", "Fugaccia,I.", "Brown,D.R.", "Brown,L.V.", "Scheff,S.W."], '
@@ -438,19 +438,19 @@ def test_process_ris2001_ris_to_json():
                            'neurotrophic factors administered intravenously both immediately and days after brain '
                            'trauma."}]')
 
-def test_process_ris2001_yml_to_py():
+def test_ris2001_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('mini.yml'),
-                       output_file=_sibbling_module('test_process_ris2001_yml_to_py.py'),
+                       output_file=_sibbling_module('test_ris2001_yml_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from test_process_ris2001_yml_to_py import IAU, NASA
+    from test_ris2001_yml_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -481,19 +481,19 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * NASA [nasa]
 """)
 
-def test_process_ris2001_json_to_py():
+def test_ris2001_json_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('mini.json'),
-                       output_file=_sibbling_module('test_process_ris2001_json_to_py.py'),
+                       output_file=_sibbling_module('test_ris2001_json_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from test_process_ris2001_json_to_py import IAU, NASA
+    from test_ris2001_json_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -524,19 +524,19 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * NASA [nasa]
 """)
 
-def test_process_ris2001_ris_to_py():
+def test_ris2001_ris_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
-    _process(Namespace(CMD='process',
+    _process(Namespace(CMD='ris2001',
                        file=_ris2001_resource('mini.ris'),
-                       output_file=_sibbling_module('test_process_ris2001_ris_to_py.py'),
+                       output_file=_sibbling_module('test_ris2001_ris_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
                        format='ris2001'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from test_process_ris2001_ris_to_py import IAU, NASA
+    from test_ris2001_ris_to_py import IAU, NASA
 
     @cite(IAU, NASA)
     def bib_ref_foo():
@@ -567,7 +567,7 @@ b\bbi\bib\bb_\b_r\bre\bef\bf_\b_f\bfo\boo\bo()
     * NASA [nasa]
 """)
 
-def test_process_input_file_not_found():
+def test_input_file_not_found():
     """test process input file not found"""
 
     with pytest.raises(FileNotFoundError) as e:
