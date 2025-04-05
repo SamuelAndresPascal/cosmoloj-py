@@ -160,7 +160,7 @@ conda-package:coordop:
     - mkdir $DIST_DIR
     - grayskull pypi -o $DIST_DIR $PACKAGE
     - cat $DIST_DIR/$PACKAGE/meta.yaml
-    - conda build --numpy=2.0 $DIST_DIR/$PACKAGE
+    - conda build --numpy=2.0 -c conda-forge $DIST_DIR/$PACKAGE
   artifacts:
     paths:
       - coordop/$DIST_DIR/*
