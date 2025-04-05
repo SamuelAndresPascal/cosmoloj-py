@@ -9,7 +9,10 @@ echo "bibliograpy help"
 echo "================"
 echo
 bibliograpy --help
-bibliograpy process --help
+bibliograpy bibtex --help
+bibliograpy ris2001 --help
+bibliograpy ris2011 --help
+bibliograpy refer --help
 
 # preprocess bibliography
 echo
