@@ -56,10 +56,10 @@ def _create_parser() -> ArgumentParser:
                          help='the scope initialization value line (for bibtex format cross-reference resolution)')
 
 
-    for format in ['RIS 2001', 'RIS 2011', 'refer']:
+    for fmt in ['RIS 2001', 'RIS 2011', 'refer']:
 
-        f = subparsers.add_parser(name=format.replace(' ', '').lower(),
-                                  help=f'generates bibliograpy Python source bibliography from {format} format')
+        f = subparsers.add_parser(name=fmt.replace(' ', '').lower(),
+                                  help=f'generates bibliograpy Python source bibliography from {fmt} format')
         f.add_argument('file',
                        nargs='?',
                        help="path to the input bibliography file",
