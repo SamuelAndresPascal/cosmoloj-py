@@ -35,11 +35,11 @@ supplements the docstring of decorated elements with bibliographical information
 
 ## Preprocessing tool
 
-The `bibliograpy process` tool allows generating a source code bibliograpy from a resource bibliography file.
+The `bibliograpy` tool allows generating a source code bibliograpy from a resource bibliography file.
 
 ### Supported formats and syntaxes
 
-`bibliograpy process` supports bibliography files in `Bibtex`, `RIS (2001)` or `RIS (2011)` formats.
+`bibliograpy` supports bibliography files in `Bibtex`, `RIS (2001)`, `RIS (2011)` or `refer` formats.
 
 Each format can be expressed in its own syntax or using an equivalent representation in `YAML` or `JSON`.
 
@@ -89,7 +89,7 @@ Note the `entry_type` and `cite_key` fields used in `YAML`/`JSON` to map the `Bi
 
 ####  Supported syntaxes for RIS (2001) / RIS (2011) bibliographies
 
-Let us consider now an equivalent of the previous bibliography, now given in `RIS (2001)` format:
+Let us consider now an equivalent of the previous bibliography, now given in `RIS (2001)` / `RIS (2011)` format:
 
 ```ris
 TY  - GEN
@@ -102,8 +102,8 @@ T1  - International Astronomical Union
 ER  -
 ```
 
-As for `Bibtex`, the `bibliograpy process` tool supports a `RIS (2001)` bibliography to be expressed using equivalent
-`YAML` or `JSON` syntaxes, respectively:
+The `bibliograpy` tool supports a `RIS (2001)` / `RIS (2011)` bibliography to be expressed using 
+equivalent `YAML` or `JSON` syntaxes, respectively:
 
 ```yaml
 - TY: GEN
@@ -129,9 +129,55 @@ As for `Bibtex`, the `bibliograpy process` tool supports a `RIS (2001)` bibliogr
 ]
 ```
 
+**Note that an `ID` field is mandatory for each entry to be processed into a python value.**
+
+####  Supported syntaxes for refer bibliographies
+
+Let us consider now an equivalent of the previous bibliography, now given in `refer` format:
+
+```refer
+%X institution
+%L nasa
+%T NASA
+
+%X institution
+%L iau
+%T International Astronomical Union
+
+```
+
+The `bibliograpy` tool supports a `refer` bibliography to be expressed using 
+equivalent `YAML` or `JSON` syntaxes, respectively:
+
+```yaml
+- X: institution
+  L: nasa
+  T: NASA
+- X: institution
+  L: iau
+  T: International Astronomical Union
+```
+
+```json
+[
+  {
+    "X": "institution",
+    "L": "nasa",
+    "T": "NASA"
+  },
+  {
+    "X": "institution",
+    "L": "iau",
+    "T": "International Astronomical Union"
+  }
+]
+```
+
+**Note that an `L` (label) field is mandatory for each entry to be processed into a python value.**
+
 ### Processing bibliographies
 
-Bibliography file can be preprocessed by the `bibliograpy process` tool to produces bibliography python modules.
+Bibliography file can be preprocessed by the `bibliograpy` tool to produces bibliography python modules.
 
 For instance, there is the python processing result of the previous `Bibtex` bibliography sample:
 
@@ -163,27 +209,26 @@ IAU = {
 }
 ```
 
-By default, the `bibliograpy process` tool searches for a `bibliograpy.yaml` file reproducing the `Bibtex` format.
+By default, the `bibliograpy` tool searches for a `bibliograpy.yaml` file reproducing the `Bibtex` format.
 
 ```shell
-bibliograpy process
+bibliograpy bibtex
 ```
 
 Is equivalent to:
 
 ```shell
-bibliograpy process --format=bibtex bibliograpy.yaml
+bibliograpy bibtex bibliograpy.yaml
 ```
 
-Note the *format* is parameterized through the `--format` option as the `syntax` is inferred from the bibliography file
-extension.
+Note the *format* syntax is inferred from the bibliography file extension.
 
-Moreover, *for a given format*, the `bibliograpy process` tool allow to convert a bibliography file from one of the 
+Moreover, *for a given format*, the `bibliograpy` tool allow to convert a bibliography file from one of the 
 `JSON`, `YAML` and standard syntaxes to another one. **It does not convert a format to another one.**
 
 ### Cross-referencing support (Bibtex format)
 
-The `bibliograpy process` tool support the cross-referencing/inheritance mechanism specified by the `Bibtex` format.
+The `bibliograpy` tool support the cross-referencing/inheritance mechanism specified by the `Bibtex` format.
 
 Example, from a bibtex bibliography (`bibliograpy.bib`):
 
@@ -219,7 +264,7 @@ Example, from a bibtex bibliography (`bibliograpy.bib`):
 ```
 
 ```shell
-bibliograpy process bibliograpy.bib
+bibliograpy bibtex bibliograpy.bib
 ```
 
 When processed, the bibliography produces python constants to import in the code which uses the very 
@@ -262,7 +307,7 @@ Nevertheless, to be *actually* cross-resolved by the underlying Bibliograpy libr
 scope which have to be named and initialized through respectively `--scope` and `--init-scope` options.
 
 ```shell
-bibliograpy process --scope=_SCOPE --init-scope="{}" bibliograpy.bib
+bibliograpy bibtex --scope=_SCOPE --init-scope="{}" bibliograpy.bib
 ```
 
 ```python
