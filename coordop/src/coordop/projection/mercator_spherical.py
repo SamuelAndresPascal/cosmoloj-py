@@ -5,7 +5,7 @@ from typing import override
 
 from math import cos
 
-from bibliograpy.api import cite
+from bibliograpy.api_common import cite
 
 from coordop.bibliography import MAP_PROJECTIONS
 from coordop.operation import InvertibleProjection

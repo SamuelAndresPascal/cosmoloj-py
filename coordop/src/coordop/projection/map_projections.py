@@ -3,7 +3,7 @@
 """
 from math import log, tan, pi, atan, exp
 
-from bibliograpy.api import cite
+from bibliograpy.api_common import cite
 
 from coordop.bibliography import MAP_PROJECTIONS
 

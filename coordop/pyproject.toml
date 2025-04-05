@@ -25,7 +25,7 @@ classifiers = [
 ]
 keywords = ["epsg", "geomatics", "cartography", "geodesy", "projection", "mathematics"]
 dependencies= [
-    "bibliograpy"
+    "bibliograpy==0.4.0"
 ]
 
 [project.urls]

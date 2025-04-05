@@ -4,7 +4,7 @@ from typing import override
 
 from math import log, tan, pi, atan, exp, sqrt, sin, cos, asin, atan2, degrees, floor
 
-from bibliograpy.api import cite
+from bibliograpy.api_common import cite
 from coordop.util.integral import sum_function
 from coordop.operation import InvertibleProjection
 from coordop.projection.mercator_spherical import MercatorSpherical
