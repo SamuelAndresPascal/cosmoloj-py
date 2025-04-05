@@ -14,7 +14,13 @@ Bibliography management to decorate source code.
 
 
 * [Preprocessing tool](#preprocessing-tool)
-* [API](#api)
+  * [Supported formats and syntaxes](#supported-formats-and-syntaxes)
+    * [Bibtex bibliographies](#supported-syntaxes-for-bibtex-bibliographies)
+    * [RIS bibliographies](#supported-syntaxes-for-ris-2001--ris-2011-bibliographies)
+    * [refer bibliographies](#supported-syntaxes-for-refer-bibliographies)
+  * [Processing bibliographies](#processing-bibliographies)
+  * [Cross-referencing for Bibtex format](#cross-referencing-support-bibtex-format)
+* [API](#api--documentation-library)
 * [Documentation](#documentation)
 
 
@@ -177,7 +183,7 @@ equivalent `YAML` or `JSON` syntaxes, respectively:
 
 ### Processing bibliographies
 
-Bibliography file can be preprocessed by the `bibliograpy` tool to produces bibliography python modules.
+A bibliography file can be preprocessed by the `bibliograpy` tool to produces bibliography python modules.
 
 For instance, there is the python processing result of the previous `Bibtex` bibliography sample:
 
@@ -191,7 +197,7 @@ IAU = Misc.generic(cite_key='iau',
                    title='International Astronomical Union')
 ```
 
-And there is the processing result of the `RIS (2001)` one:
+There is the processing result of the `RIS (2001)` / `RIS (2011)` one:
 
 ```py
 from bibliograpy.api_ris2001 import *
@@ -206,6 +212,24 @@ IAU = {
     Tags.TY: TypeFieldName.GEN,
     Tags.ID: 'iau',
     Tags.T1: 'International Astronomical Union'
+}
+```
+
+And there is the processing result of the `refer` one:
+
+```py
+from bibliograpy.api_refer import *
+
+NASA = {
+    Tags.X: 'institution',
+    Tags.L: 'nasa',
+    Tags.T: 'NASA'
+}
+
+IAU = {
+    Tags.X: 'institution',
+    Tags.L: 'iau',
+    Tags.T: 'International Astronomical Union'
 }
 ```
 
