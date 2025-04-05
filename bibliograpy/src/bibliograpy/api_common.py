@@ -5,6 +5,7 @@ from bibliograpy.api_core import CitationFormatter
 from bibliograpy.api_ris2001 import Tags as Ris2001, TypeFieldName as Ris2001Field, default_ris2001_formatter
 from bibliograpy.api_ris2011 import Tags as Ris2011, TypeFieldName as Ris2011Field, default_ris2011_formatter
 from bibliograpy.api_refer import Tags as Refer, default_refer_formatter
+from bibliograpy.api_endnote import Tags as Endnote, default_endnote_formatter
 
 
 class DefaultCitationFormatter(CitationFormatter):
@@ -35,6 +36,8 @@ class DefaultCitationFormatter(CitationFormatter):
                 return self.ris2011(r)
             if Refer.L in r:
                 return self.refer(r)
+            if Endnote.A in r:
+                return self.endnote(r)
 
         raise ValueError('unexpected reference type')
 
@@ -50,8 +53,12 @@ class DefaultCitationFormatter(CitationFormatter):
         """RIS 2011 reference formatter."""
         return default_ris2011_formatter(r)
 
-    def refer(self, r: dict[Ris2011, str | list[str]]):
+    def refer(self, r: dict[Refer, str | list[str]]):
         """refer reference formatter."""
         return default_refer_formatter(r)
+
+    def endnote(self, r: dict[Endnote, str | list[str]]):
+        """endnote reference formatter."""
+        return default_endnote_formatter(r)
 
 cite = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')

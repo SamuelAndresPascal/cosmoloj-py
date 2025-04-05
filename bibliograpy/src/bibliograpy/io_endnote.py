@@ -1,4 +1,4 @@
-"""refer I/O module."""
+"""endnote I/O module."""
 
 import json
 
@@ -7,13 +7,13 @@ from typing import TextIO
 import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
-from bibliograpy.api_refer import Tags
+from bibliograpy.api_endnote import Tags
 
-class ReferInputFormat(InputFormat):
-    """refer input format implementation."""
+class EndnoteInputFormat(InputFormat):
+    """endnote input format implementation."""
 
     def __init__(self, source: Format):
-        super().__init__(source=source, standard=Formats.REFER)
+        super().__init__(source=source, standard=Formats.ENDNOTE)
 
     def from_yml(self, i: TextIO):
         """Reads from yml representation."""
@@ -51,13 +51,13 @@ class ReferInputFormat(InputFormat):
         return results
 
 
-class ReferOutputFormat(OutputFormat):
-    """refer format implementation."""
+class EndnoteOutputFormat(OutputFormat):
+    """endnote format implementation."""
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str]]],
                  target: Format):
-        super().__init__(target=target, standard=Formats.REFER)
+        super().__init__(target=target, standard=Formats.ENDNOTE)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -81,9 +81,9 @@ class ReferOutputFormat(OutputFormat):
 
                 if tag.repeating:
                     for l in bib_entry[tag]:
-                        o.write(f'%{tag.name} {l}\n')
+                        o.write(f'%{tag.endnote_name()} {l}\n')
                 else:
-                    o.write(f'%{tag.name} {bib_entry[tag]}\n')
+                    o.write(f'%{tag.endnote_name()} {bib_entry[tag]}\n')
 
             o.write('\n')
 
@@ -93,8 +93,8 @@ class ReferOutputFormat(OutputFormat):
         o.write('from bibliograpy.api_refer import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.L].upper()} = ')
+            o.write(f'{bib_entry[Tags.A][0].split(',')[0].upper()} = ')
             o.write('{\n')
             for e in bib_entry:
-                o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
+                o.write(f"  Tags.{e.endnote_name()}: '{bib_entry[e]}',\n")
             o.write('}\n')
