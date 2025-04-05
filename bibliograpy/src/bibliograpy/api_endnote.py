@@ -4,9 +4,6 @@ endnote specification model.
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from bibliograpy.bibliography import REFER_MAN
-from bibliograpy.api_bibtex import _cite
-
 
 @dataclass(frozen=True)
 class Tag:
@@ -23,33 +20,33 @@ class Tags(Tag, Enum):
     ZERO = (auto(), '0')
     """the entry type"""
 
-    T = (auto())
+    T = auto()
 
     A = (auto(), None, True)
     """author"""
 
-    J = (auto())
+    J = auto()
     """journal title"""
 
-    V = (auto())
+    V = auto()
     """volume number"""
 
-    N = (auto())
+    N = auto()
     """issue number"""
 
-    P = (auto())
+    P = auto()
     """page"""
 
     AT = (auto(), '@')
     """identification number (ISSN)"""
 
-    D = (auto())
+    D = auto()
     """date"""
 
-    I = (auto())
+    I = auto()
     """editor"""
 
-    def name(self):
+    def endnote_name(self):
         return self._name if self._name is not None else self.name
 
     @staticmethod
@@ -63,4 +60,4 @@ class Tags(Tag, Enum):
 def default_endnote_formatter(r: dict[Tags, str | list[str]]):
     """The default formatter for endnote references."""
     title = r[Tags.T] if Tags.T in r else ""
-    return f"{title} [{r[Tags.L]}]" if Tags.L in r else title
+    return f"{title}"
