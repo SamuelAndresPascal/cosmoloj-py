@@ -17,12 +17,12 @@ class Ris2001InputFormat(InputFormat):
 
     def from_yml(self, i: TextIO):
         """Reads from yml representation."""
-        return [{Tags.parse(k): TypeFieldName.parse(e[k]) if k is Tags.TY else e[k] for k in e}
+        return [{Tags.parse(k): TypeFieldName.parse(e[k]) if Tags.parse(k) is Tags.TY else e[k] for k in e}
                 for e in yaml.safe_load(i)]
 
     def from_json(self, i: TextIO):
         """Reads from json representation."""
-        return [{Tags.parse(k): TypeFieldName.parse(e[k]) if k is Tags.TY else e[k] for k in e}
+        return [{Tags.parse(k): TypeFieldName.parse(e[k]) if Tags.parse(k) is Tags.TY else e[k] for k in e}
                 for e in json.load(i)]
 
     def from_standard(self, i: TextIO) -> list[dict[Tags, str | list[str] | TypeFieldName]]:
@@ -91,7 +91,7 @@ class Ris2001OutputFormat(OutputFormat):
     """Bibtex format implementation."""
 
     def __init__(self,
-                 content: list[dict],
+                 content: list[dict[Tags, str | list[str] | TypeFieldName]],
                  target: Format):
         super().__init__(target=target, standard=Formats.RIS2001)
         self._content = content
@@ -114,7 +114,7 @@ class Ris2001OutputFormat(OutputFormat):
         """Writes to standard format."""
 
         for bib_entry in self._content:
-            o.write(f'{Tags.TY}  - {bib_entry[Tags.TY]}')
+            o.write(f'{Tags.TY.name}  - {bib_entry[Tags.TY].name}')
             o.write('\n')
 
             for tag in bib_entry:
@@ -124,11 +124,11 @@ class Ris2001OutputFormat(OutputFormat):
 
                 if tag.repeating:
                     for l in bib_entry[tag]:
-                        o.write(f'{tag}  - {l}\n')
+                        o.write(f'{tag.name}  - {l}\n')
                 else:
-                    o.write(f'{tag}  - {bib_entry[tag]}\n')
+                    o.write(f'{tag.name}  - {bib_entry[tag]}\n')
 
-            o.write(f'{Tags.ER}  - \n')
+            o.write(f'{Tags.ER.name}  - \n')
 
     def to_py(self, o: TextIO):
         """Writes to python representation."""
@@ -141,7 +141,7 @@ class Ris2001OutputFormat(OutputFormat):
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:
-                    o.write(f"  Tags.{e.name}: TypeFieldName.{bib_entry[e]},\n")
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
                 else:
                     o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
             o.write('}\n')

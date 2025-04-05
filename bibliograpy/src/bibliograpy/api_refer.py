@@ -1,5 +1,5 @@
 """
-RIS 2001 specification model.
+refer specification model.
 """
 from dataclasses import dataclass
 from enum import Enum, auto
@@ -93,9 +93,6 @@ class Tags(Tag, Enum):
     X = auto()
     """Annotation."""
 
-    def __str__(self):
-        return self.name
-
     @staticmethod
     def parse(tag_str: str):
         """Parses a tag name into an enum value."""
@@ -105,6 +102,6 @@ class Tags(Tag, Enum):
         raise ValueError(f'unknown {tag_str} tag')
 
 def default_refer_formatter(r: dict[Tags, str | list[str]]):
-    """The default formatter for RIS 2011 references."""
+    """The default formatter for refer references."""
     title = r[Tags.T] if Tags.T in r else ""
     return f"{title} [{r[Tags.L]}]" if Tags.L in r else title

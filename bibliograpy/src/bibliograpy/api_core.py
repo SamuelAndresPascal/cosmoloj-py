@@ -6,24 +6,25 @@ from typing import TextIO
 @dataclass(frozen=True)
 class Format:
     """A format representation."""
-    specification_ids: list[str]
+    command: str | None
     io_extension: list[str]
 
 class Formats(Format, Enum):
     """Supported bibliography formats."""
-    BIBTEX = (['bibtex'], ['bib', 'bibtex'])
-    RIS2001 = (['ris2001'], ['ris'])
-    RIS2011 = (['ris2011'], ['ris'])
-    REFER = (['refer'], ['refer'])
-    YML = ([], ['yml', 'yaml'])
-    JSON = ([], ['json'])
-    PYTHON = ([], ['py'])
+    BIBTEX = ('bibtex', ['bib', 'bibtex'])
+    RIS2001 = ('ris2001', ['ris'])
+    RIS2011 = ('ris2011', ['ris'])
+    REFER = ('refer', ['refer'])
+    ENDNOTE = ('endnote', ['enw'])
+    YML = (None, ['yml', 'yaml'])
+    JSON = (None, ['json'])
+    PYTHON = (None, ['py'])
 
     @staticmethod
     def as_command(format_id: str):
         """Gets a supported format enum instance from a supported process argument string."""
         for f in Formats:
-            if format_id in f.specification_ids:
+            if format_id == f.command:
                 return f
         raise ValueError(f'unexpected format {format_id}')
 

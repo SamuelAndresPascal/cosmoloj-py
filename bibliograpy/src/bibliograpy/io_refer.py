@@ -80,7 +80,7 @@ class ReferOutputFormat(OutputFormat):
     """Bibtex format implementation."""
 
     def __init__(self,
-                 content: list[dict],
+                 content: list[dict[Tags, str | list[str]]],
                  target: Format):
         super().__init__(target=target, standard=Formats.REFER)
         self._content = content
@@ -106,9 +106,9 @@ class ReferOutputFormat(OutputFormat):
 
                 if tag.repeating:
                     for l in bib_entry[tag]:
-                        o.write(f'%{tag} {l}\n')
+                        o.write(f'%{tag.name} {l}\n')
                 else:
-                    o.write(f'%{tag} {bib_entry[tag]}\n')
+                    o.write(f'%{tag.name} {bib_entry[tag]}\n')
 
             o.write('\n')
 

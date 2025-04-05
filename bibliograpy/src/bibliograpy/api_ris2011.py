@@ -235,9 +235,6 @@ class Tags(Tag, Enum):
     Y2 = auto()
     SP = auto()
 
-    def __str__(self):
-        return self.name
-
     @staticmethod
     def parse(tag_str: str):
         """Parses a tag name into an enum value."""
@@ -418,9 +415,6 @@ class TypeFieldName(Enum):
 
     ELEC = auto()
     """Web Page"""
-
-    def __str__(self):
-        return self.name
 
     @staticmethod
     def parse(entry_type: str):
