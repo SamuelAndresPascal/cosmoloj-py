@@ -111,6 +111,7 @@ jobs:
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2001.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2011.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_refer.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_endnote.py
 
   test:
     runs-on: ubuntu-latest
