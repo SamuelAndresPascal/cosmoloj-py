@@ -93,7 +93,7 @@ class EndnoteOutputFormat(OutputFormat):
         o.write('from bibliograpy.api_refer import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.A][0].split(',')[0].upper()} = ')
+            o.write(f'{bib_entry[Tags.A][0].split(",")[0].upper()} = ')
             o.write('{\n')
             for e in bib_entry:
                 o.write(f"  Tags.{e.endnote_name()}: '{bib_entry[e]}',\n")
