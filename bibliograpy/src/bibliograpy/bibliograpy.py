@@ -5,6 +5,7 @@ import logging
 
 from argparse import ArgumentParser, Namespace
 
+from bibliograpy.api_core import Formats
 from bibliograpy.process import _process
 
 LOG = logging.getLogger(__name__)
@@ -25,8 +26,9 @@ def _create_parser() -> ArgumentParser:
 
     subparsers = parser.add_subparsers(dest='CMD', help='available commands')
 
-    bibtex = subparsers.add_parser(name='bibtex',
-                                   help='generates bibliograpy Python source bibliography from Bibtex format')
+    bibtex = subparsers.add_parser(name=Formats.BIBTEX.command,
+                                   help='generates bibliograpy Python source bibliography '
+                                        f'from {Formats.BIBTEX.title} format')
     bibtex.add_argument('file',
                          nargs='?',
                          help="path to the input bibliography file",
@@ -56,10 +58,10 @@ def _create_parser() -> ArgumentParser:
                          help='the scope initialization value line (for bibtex format cross-reference resolution)')
 
 
-    for fmt in ['RIS 2001', 'RIS 2011', 'refer']:
+    for fmt in [f for f in Formats if f.command is not None and f is not Formats.BIBTEX]:
 
-        f = subparsers.add_parser(name=fmt.replace(' ', '').lower(),
-                                  help=f'generates bibliograpy Python source bibliography from {fmt} format')
+        f = subparsers.add_parser(name=fmt.command,
+                                  help=f'generates bibliograpy Python source bibliography from {fmt.title} format')
         f.add_argument('file',
                        nargs='?',
                        help="path to the input bibliography file",
@@ -83,12 +85,7 @@ def _create_parser() -> ArgumentParser:
 def entrypoint():
     """The pyenvs command entrypoint."""
 
-    commands = {
-        'bibtex': _process,
-        'ris2001': _process,
-        'ris2011': _process,
-        'refer': _process
-    }
+    commands = { f.command: _process for f in Formats if f.command is not None }
 
     ns: Namespace = _create_parser().parse_args()
 

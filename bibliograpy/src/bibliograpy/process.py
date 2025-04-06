@@ -10,6 +10,7 @@ from bibliograpy.io_bibtex import BibtexInputFormat, BibtexOutputFormat
 from bibliograpy.io_refer import ReferInputFormat, ReferOutputFormat
 from bibliograpy.io_ris2001 import Ris2001InputFormat, Ris2001OutputFormat
 from bibliograpy.io_ris2011 import Ris2011InputFormat, Ris2011OutputFormat
+from bibliograpy.io_endnote import EndnoteInputFormat, EndnoteOutputFormat
 
 LOG = logging.getLogger(__name__)
 
@@ -66,6 +67,14 @@ def _process(ns: Namespace):
         with open(ns.file, encoding=ns.encoding) as i:
             content = iformat.read(i)
             oformat = ReferOutputFormat(target=target, content=content)
+            with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
+                oformat.write(o)
+
+    elif fmt is Formats.ENDNOTE:
+        iformat = EndnoteInputFormat(source=source)
+        with open(ns.file, encoding=ns.encoding) as i:
+            content = iformat.read(i)
+            oformat = EndnoteOutputFormat(target=target, content=content)
             with open(Path(output_dir, output_file), 'w', encoding=ns.encoding) as o:
                 oformat.write(o)
     else:

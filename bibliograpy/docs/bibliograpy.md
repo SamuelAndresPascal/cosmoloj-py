@@ -103,17 +103,18 @@ def bar():
 
 
 ```text
-usage: bibliograpy [-h] {bibtex,ris2001,ris2011,refer} ...
+usage: bibliograpy [-h] {bibtex,ris2001,ris2011,refer,endnote} ...
 
 Bibliography management.
 
 positional arguments:
-  {bibtex,ris2001,ris2011,refer}
+  {bibtex,ris2001,ris2011,refer,endnote}
                         available commands
     bibtex              generates bibliograpy Python source bibliography from Bibtex format
-    ris2001             generates bibliograpy Python source bibliography from RIS 2001 format
-    ris2011             generates bibliograpy Python source bibliography from RIS 2011 format
+    ris2001             generates bibliograpy Python source bibliography from RIS (2001) format
+    ris2011             generates bibliograpy Python source bibliography from RIS (2011) format
     refer               generates bibliograpy Python source bibliography from refer format
+    endnote             generates bibliograpy Python source bibliography from Endnote format
 
 options:
   -h, --help            show this help message and exit

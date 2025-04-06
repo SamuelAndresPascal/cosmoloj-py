@@ -6,19 +6,20 @@ from typing import TextIO
 @dataclass(frozen=True)
 class Format:
     """A format representation."""
+    title: str | None
     command: str | None
     io_extension: list[str]
 
 class Formats(Format, Enum):
     """Supported bibliography formats."""
-    BIBTEX = ('bibtex', ['bib', 'bibtex'])
-    RIS2001 = ('ris2001', ['ris'])
-    RIS2011 = ('ris2011', ['ris'])
-    REFER = ('refer', ['refer'])
-    ENDNOTE = ('endnote', ['enw'])
-    YML = (None, ['yml', 'yaml'])
-    JSON = (None, ['json'])
-    PYTHON = (None, ['py'])
+    BIBTEX = ('Bibtex', 'bibtex', ['bib', 'bibtex'])
+    RIS2001 = ('RIS (2001)', 'ris2001', ['ris'])
+    RIS2011 = ('RIS (2011)', 'ris2011', ['ris'])
+    REFER = ('refer', 'refer', ['refer'])
+    ENDNOTE = ('Endnote', 'endnote', ['enw'])
+    YML = (None, None, ['yml', 'yaml'])
+    JSON = (None, None, ['json'])
+    PYTHON = (None, None, ['py'])
 
     @staticmethod
     def as_command(format_id: str):
