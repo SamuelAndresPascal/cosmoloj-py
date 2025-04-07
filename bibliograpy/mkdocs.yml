@@ -11,7 +11,7 @@ nav:
   - bibliograpy:
       - bibliograpy: bibliograpy.md
       - bibtex: bibliograpy_bibtex.md
-      - 'RIS/refer': bibliograpy_ris_refer.md
+      - 'RIS/refer/Endnote': bibliograpy_ris_refer_endnote.md
   - API: api.md
   - About: about.md
 
