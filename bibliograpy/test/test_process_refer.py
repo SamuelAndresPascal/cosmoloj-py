@@ -1,4 +1,4 @@
-"""Test module for ris2001 process tool."""
+"""Test module for refer process tool."""
 
 from argparse import Namespace
 from pathlib import Path
@@ -37,8 +37,7 @@ def test_yml_to_yml():
                        file=_refer_resource('sample1.yml'),
                        output_file=_output('test_yml_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_yml_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -61,8 +60,7 @@ def test_yml_to_refer():
                        file=_refer_resource('sample1.yml'),
                        output_file=_output('test_yml_to_refer.refer'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_yml_to_refer.refer'), encoding='utf-8') as s:
         content = s.read()
@@ -85,8 +83,7 @@ def test_yml_to_json():
                        file=_refer_resource('sample1.yml'),
                        output_file=_output('test_yml_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_yml_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -106,8 +103,7 @@ def test_json_to_yml():
                        file=_refer_resource('sample1.json'),
                        output_file=_output('test_json_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_json_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -130,8 +126,7 @@ def test_json_to_refer():
                        file=_refer_resource('sample1.json'),
                        output_file=_output('test_json_to_refer.refer'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_json_to_refer.refer'), encoding='utf-8') as s:
         content = s.read()
@@ -154,8 +149,7 @@ def test_json_to_json():
                        file=_refer_resource('sample1.json'),
                        output_file=_output('test_json_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_json_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -175,8 +169,7 @@ def test_refer_to_yml():
                        file=_refer_resource('sample1.refer'),
                        output_file=_output('test_refer_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_refer_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -199,8 +192,7 @@ def test_refer_to_refer():
                        file=_refer_resource('sample1.refer'),
                        output_file=_output('test_refer_to_refer.refer'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_refer_to_refer.refer'), encoding='utf-8') as s:
         content = s.read()
@@ -223,8 +215,7 @@ def test_refer_to_json():
                        file=_refer_resource('sample1.refer'),
                        output_file=_output('test_refer_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     with open(_output('test_refer_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -244,8 +235,7 @@ def test_yml_to_py():
                        file=_refer_resource('mini.yml'),
                        output_file=_sibbling_module('test_refer_yml_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -287,8 +277,7 @@ def test_json_to_py():
                        file=_refer_resource('mini.json'),
                        output_file=_sibbling_module('test_refer_json_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -330,8 +319,7 @@ def test_refer_to_py():
                        file=_refer_resource('mini.refer'),
                        output_file=_sibbling_module('test_refer_refer_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='refer'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 

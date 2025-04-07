@@ -14,13 +14,14 @@ class Tag:
 
 class Tags(Tag, Enum):
     """
-    REFER fields.
+    Endnote fields.
     """
 
     ZERO = (auto(), '0')
     """the entry type"""
 
     T = auto()
+    """title"""
 
     A = (auto(), None, True)
     """author"""
@@ -54,7 +55,7 @@ class Tags(Tag, Enum):
     def parse(tag_str: str):
         """Parses a tag name into an enum value."""
         for n in Tags:
-            if tag_str == '%' + n.endnote_name():
+            if tag_str in ('%' + n.endnote_name(), n.endnote_name()):
                 return n
         raise ValueError(f'unknown {tag_str} tag')
 

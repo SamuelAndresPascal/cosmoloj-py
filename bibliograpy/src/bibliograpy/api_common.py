@@ -36,7 +36,7 @@ class DefaultCitationFormatter(CitationFormatter):
                 return self.ris2011(r)
             if Refer.L in r:
                 return self.refer(r)
-            if Endnote.A in r:
+            if Endnote.A in r or Endnote.T in r:
                 return self.endnote(r)
 
         raise ValueError('unexpected reference type')

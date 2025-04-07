@@ -39,6 +39,7 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_refer.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_endnote.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
@@ -101,6 +102,9 @@ test:bibliograpy:
       - bibliograpy/test/test_refer_refer_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_refer_json_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_refer_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_endnote_endnote_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_endnote_json_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_endnote_yml_to_py.py # generated bibliography in tests needed at coverage time
       - .coverage
       - bibliograpy/report.xml
     reports:

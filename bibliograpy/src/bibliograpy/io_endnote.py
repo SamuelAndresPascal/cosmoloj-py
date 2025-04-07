@@ -17,7 +17,7 @@ class EndnoteInputFormat(InputFormat):
 
     def from_yml(self, i: TextIO):
         """Reads from yml representation."""
-        return [{Tags.parse(k): e[k] for k in e} for e in yaml.safe_load(i)]
+        return [{Tags.parse(str(k)): e[k] for k in e} for e in yaml.safe_load(i)]
 
     def from_json(self, i: TextIO):
         """Reads from json representation."""
@@ -62,13 +62,14 @@ class EndnoteOutputFormat(OutputFormat):
 
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""
-        yaml.dump([{k.name: e[k] for k in e} for e in self._content],
+        yaml.dump([{k.endnote_name(): e[k] for k in e} for e in self._content],
                   o,
-                  sort_keys=False)
+                  sort_keys=False,
+                  encoding='utf-8')
 
     def to_json(self, o: TextIO):
         """Writes to json representation."""
-        json.dump([{k.name: e[k] for k in e} for e in self._content],
+        json.dump([{k.endnote_name(): e[k] for k in e} for e in self._content],
                   fp=o,
                   sort_keys=False)
 
@@ -90,11 +91,22 @@ class EndnoteOutputFormat(OutputFormat):
     def to_py(self, o: TextIO):
         """Writes to python representation."""
 
-        o.write('from bibliograpy.api_refer import *\n\n')
+        o.write('from bibliograpy.api_endnote import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.A][0].split(",")[0].upper()} = ')
+
+            key: str = ''
+
+            if Tags.A in bib_entry:
+                for i in range(min(3, len(bib_entry[Tags.A]))):
+                    key += bib_entry[Tags.A][i].replace(' ', '_').upper()
+                if Tags.D in bib_entry:
+                    key += f"_{bib_entry[Tags.D]}"
+            else:
+                key = bib_entry[Tags.T].replace(' ', '_').upper()
+
+            o.write(f'{key} = ')
             o.write('{\n')
             for e in bib_entry:
-                o.write(f"  Tags.{e.endnote_name()}: '{bib_entry[e]}',\n")
+                o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
             o.write('}\n')

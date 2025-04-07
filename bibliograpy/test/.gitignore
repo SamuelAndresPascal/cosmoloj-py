@@ -10,3 +10,6 @@ test_ris2011_yml_to_py.py
 test_refer_refer_to_py.py
 test_refer_json_to_py.py
 test_refer_yml_to_py.py
+test_endnote_endnote_to_py.py
+test_endnote_json_to_py.py
+test_endnote_yml_to_py.py

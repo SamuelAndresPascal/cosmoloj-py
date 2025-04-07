@@ -37,8 +37,7 @@ def test_ris2011_yml_to_yml():
                        file=_ris2001_resource('sample1.yml'),
                        output_file=_output('test_ris2011_yml_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_yml_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -80,8 +79,7 @@ def test_ris2011_yml_to_ris():
                        file=_ris2001_resource('sample1.yml'),
                        output_file=_output('test_ris2011_yml_to_ris.ris'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_yml_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
@@ -129,8 +127,7 @@ def test_ris2011_yml_to_json():
                        file=_ris2001_resource('sample1.yml'),
                        output_file=_output('test_ris2011_yml_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_yml_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -173,8 +170,7 @@ def test_ris2011_json_to_yml():
                        file=_ris2001_resource('sample1.json'),
                        output_file=_output('test_ris2011_json_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_json_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -216,8 +212,7 @@ def test_ris2011_json_to_ris():
                        file=_ris2001_resource('sample1.json'),
                        output_file=_output('test_ris2011_json_to_ris.ris'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_json_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
@@ -265,8 +260,7 @@ def test_ris2011_json_to_json():
                        file=_ris2001_resource('sample1.json'),
                        output_file=_output('test_ris2011_json_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_json_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -309,8 +303,7 @@ def test_ris2011_ris_to_yml():
                        file=_ris2001_resource('sample1.ris'),
                        output_file=_output('test_ris2011_ris_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_ris_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -352,8 +345,7 @@ def test_ris2011_ris_to_ris():
                        file=_ris2001_resource('sample1.ris'),
                        output_file=_output('test_ris2011_ris_to_ris.ris'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_ris_to_ris.ris'), encoding='utf-8') as s:
         content = s.read()
@@ -401,8 +393,7 @@ def test_ris2011_ris_to_json():
                        file=_ris2001_resource('sample1.ris'),
                        output_file=_output('test_ris2011_ris_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     with open(_output('test_ris2011_ris_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -445,8 +436,7 @@ def test_ris2011_yml_to_py():
                        file=_ris2001_resource('mini.yml'),
                        output_file=_sibbling_module('test_ris2011_yml_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -488,8 +478,7 @@ def test_ris2011_json_to_py():
                        file=_ris2001_resource('mini.json'),
                        output_file=_sibbling_module('test_ris2011_json_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -531,8 +520,7 @@ def test_ris2011_ris_to_py():
                        file=_ris2001_resource('mini.ris'),
                        output_file=_sibbling_module('test_ris2011_ris_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='ris2011'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 

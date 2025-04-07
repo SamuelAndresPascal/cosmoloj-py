@@ -34,8 +34,7 @@ def test_bibtex_yml_to_yml():
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_yml_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -56,8 +55,7 @@ def test_bibtex_yml_to_bib():
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_bib.bib'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_yml_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -77,8 +75,7 @@ def test_bibtex_yml_to_json():
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_yml_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -92,8 +89,7 @@ def test_bibtex_json_to_yml():
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_json_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -114,8 +110,7 @@ def test_bibtex_json_to_bib():
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_bib.bib'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_json_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -135,8 +130,7 @@ def test_bibtex_json_to_json():
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_json_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -150,8 +144,7 @@ def test_bibtex_bib_to_yml():
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_bib_to_yml.yml'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_bib_to_yml.yml'), encoding='utf-8') as s:
         content = yaml.safe_load(s)
@@ -172,8 +165,7 @@ def test_bibtex_bib_to_bib():
                        file=_bibtex_resource('mini.bib'),
                        output_file=_output('test_bibtex_bib_to_bib.bib'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_bib_to_bib.bib'), encoding='utf-8') as s:
         content = s.read()
@@ -193,8 +185,7 @@ def test_bibtex_bib_to_json():
                        file=_bibtex_resource('mini.bib'),
                        output_file=_output('test_bibtex_bib_to_json.json'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     with open(_output('test_bibtex_bib_to_json.json'), encoding='utf-8') as s:
         content = s.read()
@@ -208,8 +199,7 @@ def test_bibtex_yml_to_yml_astroloj():
                        file=_bibtex_resource('astroloj.json'),
                        output_file=_bibtex_resource('astroloj.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
 def test_bibtex_yml_to_yml_cosmoloj():
     """test process from a yml bibliography to a yml bibliography"""
@@ -218,8 +208,7 @@ def test_bibtex_yml_to_yml_cosmoloj():
                        file=_bibtex_resource('cosmoloj.json'),
                        output_file=_bibtex_resource('cosmoloj.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
 def test_bibtex_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
@@ -228,8 +217,7 @@ def test_bibtex_yml_to_py():
                        file=_bibtex_resource('mini.yml'),
                        output_file=_sibbling_module('test_bibtex_yml_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -271,8 +259,7 @@ def test_bibtex_json_to_py():
                        file=_bibtex_resource('mini.json'),
                        output_file=_sibbling_module('test_bibtex_json_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -314,8 +301,7 @@ def test_bibtex_bib_to_py():
                        file=_bibtex_resource('mini.bib'),
                        output_file=_sibbling_module('test_bibtex_bib_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.',
-                       format='bib'))
+                       output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
