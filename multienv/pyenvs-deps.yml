@@ -17,11 +17,12 @@ environments:
   - pypi_pkg
   - pypi_publish
   - conda_publish
+  - demo
 
 dependencies:
   - id: python
     version: '3.13'
-    environments: [lint, test, lint_test, doc, pypi_pkg, pypi_publish, conda_publish]
+    environments: [lint, test, lint_test, doc, pypi_pkg, pypi_publish, conda_publish, demo]
   - id: python
     version: '3.12'
     environments: [test312]

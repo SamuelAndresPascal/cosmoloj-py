@@ -99,8 +99,8 @@ demo:multienv:
     - if: $CI_COMMIT_BRANCH =~ /^multienv_/
   script:
     - cd multienv
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
+    - conda env create --yes --file environment_demo.yml
+    - conda activate demo
     - conda list
     - pip install .
     - cd demo
