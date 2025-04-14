@@ -98,6 +98,6 @@ sonar:
   rules:
     - if: $CI_COMMIT_BRANCH
   script:
-    - $SONAR_SCANNER_HOME/bin/sonar-scanner -Dsonar.token=$SONAR_LOGIN
+    - $SONAR_SCANNER_HOME/bin/sonar-scanner-debug -Dsonar.token=$SONAR_LOGIN
   artifacts:
     expire_in: 2 days
