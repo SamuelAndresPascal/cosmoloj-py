@@ -1,7 +1,11 @@
+PYTHON_VERSION_ID=$1
+
 conda activate base
-conda env remove -n cosmoloj_py -y
-conda env create --yes --file environment_test312.yml -n cosmoloj_py -y python=3.12
-conda activate cosmoloj_py
+conda env remove -n test$PYTHON_VERSION_ID -y
+
+conda env create --yes --file environment_test$PYTHON_VERSION_ID.yml
+conda activate test$PYTHON_VERSION_ID
+
 python --version
 conda --version
 
