@@ -15,3 +15,5 @@ coverage.xml
 
 # generated pylint configuration files
 pylintrc_*
+# generated conda environment files
+environment_*.yml
