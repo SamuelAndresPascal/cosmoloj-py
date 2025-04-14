@@ -74,4 +74,7 @@ def entrypoint():
 
     ns: Namespace = _create_parser().parse_args()
 
+    if ns.CMD is None:
+        _info(ns)
+
     commands[ns.CMD](ns)
