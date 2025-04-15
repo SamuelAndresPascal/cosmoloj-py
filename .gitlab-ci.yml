@@ -87,6 +87,8 @@ coverage:
     - coverage xml
   artifacts:
     when: always
+    paths:
+      - coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
