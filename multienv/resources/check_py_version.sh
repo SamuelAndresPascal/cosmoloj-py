@@ -1,9 +1,13 @@
-PYTHON_VERSION=$1
-. ../resources/reset_env.sh cosmoloj_py $PYTHON_VERSION
+PYTHON_VERSION_ID=$1
+
+conda activate base
+conda env remove -n test$PYTHON_VERSION_ID -y
+
+conda env create --yes --file environment_test$PYTHON_VERSION_ID.yml
+conda activate test$PYTHON_VERSION_ID
+
 python --version
 conda --version
 
-conda install pyyaml -y
 pip install .
-conda install pytest -y
 pytest

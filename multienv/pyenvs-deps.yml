@@ -11,21 +11,27 @@ configuration:
 environments:
   - lint
   - test
+  - test312
   - lint_test
   - doc
   - pypi_pkg
   - pypi_publish
   - conda_publish
+  - demo
 
 dependencies:
   - id: python
     version: '3.13'
+    environments: [lint, test, lint_test, doc, pypi_pkg, pypi_publish, conda_publish, demo]
+  - id: python
+    version: '3.12'
+    environments: [test312]
   - id: pylint
     version: 3.3.1
     environments: [lint, lint_test]
   - id: pytest
     version: 8.3.3
-    environments: [test, lint_test]
+    environments: [test, test312, lint_test]
   - id: pytest-cov
     environments: [test]
   - id: mkdocs
