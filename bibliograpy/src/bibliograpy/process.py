@@ -20,19 +20,39 @@ LOG = logging.getLogger(__name__)
 class _Params:
     ns: Namespace
 
-    def source(self): return Formats.as_io_extension(self.ns.file.split('.')[-1])
-    def output_dir(self): return Path(Path.cwd()) / self.ns.output_dir
-    def output(self): return self.output_dir() / self.ns.output_file
-    def target(self): return Formats.as_io_extension(self.ns.output_file.split('.')[-1])
-    def scope_symbol(self) -> str:
+    def source(self) -> Formats:
+        """Gets the input data format."""
+        return Formats.as_io_extension(self.ns.file.split('.')[-1])
+
+    def output(self) -> Path:
+        """Gets the output file path."""
+        return Path(Path.cwd()) / self.ns.output_dir / self.ns.output_file
+
+    def target(self) -> Formats:
+        """Gets the output data format."""
+        return Formats.as_io_extension(self.ns.output_file.split('.')[-1])
+
+    def scope_symbol(self) -> str | None:
+        """Gets the bibtex scope symbol."""
         if 'shared_scope' in self.ns and self.ns.shared_scope:
             return 'SHARED_SCOPE'
-        else:
-            return self.ns.scope if 'scope' in self.ns else None
-    def init_scope(self): return self.ns.init_scope
-    def file(self): return self.ns.file
-    def encoding(self): return self.ns.encoding
-    def format(self): return Formats.as_command(self.ns.CMD)
+        return self.ns.scope if 'scope' in self.ns else None
+
+    def init_scope(self) -> str:
+        """Get the bibtex scope initialisation expression value."""
+        return self.ns.init_scope
+
+    def file(self) -> str:
+        """Gets the input file path string."""
+        return self.ns.file
+
+    def encoding(self) -> str:
+        """Gets the I/O encoding."""
+        return self.ns.encoding
+
+    def format(self) -> Formats:
+        """Gets the processing format."""
+        return Formats.as_command(self.ns.CMD)
 
 
 def _process(ns: Namespace):
