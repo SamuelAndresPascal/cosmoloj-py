@@ -91,7 +91,7 @@ class BibtexOutputFormat(OutputFormat):
         o.write('from bibliograpy.api_bibtex import *\n')
         o.write('\n')
 
-        if self._init_scope is not None:
+        if self._scope_symbol is not None:
             o.write(f'{self._scope_symbol} = {self._init_scope}\n')
             o.write('\n')
 

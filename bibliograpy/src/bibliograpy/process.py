@@ -26,9 +26,10 @@ def _process(ns: Namespace):
     target = Formats.as_io_extension(output_file.split('.')[-1])
     if 'shared_scope' in ns and ns.shared_scope:
         scope_symbol = 'SHARED_SCOPE'
+        init_scope = None
     else:
         scope_symbol = ns.scope if 'scope' in ns else None
-    init_scope = ns.init_scope if 'init_scope' in ns else None
+        init_scope = ns.init_scope if 'init_scope' in ns else None
     fmt = Formats.as_command(ns.CMD)
 
 

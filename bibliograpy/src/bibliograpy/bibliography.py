@@ -1,6 +1,6 @@
 from bibliograpy.api_bibtex import *
 
-_SCOPE = dict()
+_SCOPE = {}
 
 
 BIBLIOGRAPI = Misc.generic(cite_key='bibliograpi',
@@ -28,3 +28,8 @@ REFER_MAN = Misc.generic(cite_key='refer_man',
                          title='refer(1) — Linux manual page',
                          non_standard=NonStandard(url='https://man7.org/linux/man-pages/man1/refer.1.html'),
                          scope=_SCOPE)
+
+PUBMED_FORMAT = Misc.generic(cite_key='pubmed_format',
+                             title='PubMed format',
+                             non_standard=NonStandard(url='https://pubmed.ncbi.nlm.nih.gov/help/#pubmed-format'),
+                             scope=_SCOPE)
