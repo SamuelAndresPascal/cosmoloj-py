@@ -497,12 +497,12 @@ def default_ris2001_formatter(r: dict[Tags, str | list[str] | MeshPublicationTyp
     """The default formatter for PubMed references."""
     if Tags.PMID in r:
         return r[Tags.PMID]
-    elif Tags.PMC in r:
+    if Tags.PMC in r:
         return r[Tags.PMC]
-    elif Tags.OID in r:
+    if Tags.OID in r:
         return r[Tags.OID]
-    elif Tags.AID in r:
+    if Tags.AID in r:
         return r[Tags.AID]
-    elif Tags.MID in r:
+    if Tags.MID in r:
         return r[Tags.MID]
     return ''
