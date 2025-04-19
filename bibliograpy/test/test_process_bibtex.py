@@ -33,6 +33,7 @@ def test_bibtex_yml_to_yml():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_yml.yml'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -54,6 +55,7 @@ def test_bibtex_yml_to_bib():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_bib.bib'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -74,6 +76,7 @@ def test_bibtex_yml_to_json():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.yml'),
                        output_file=_output('test_bibtex_yml_to_json.json'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -88,6 +91,7 @@ def test_bibtex_json_to_yml():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_yml.yml'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -109,6 +113,7 @@ def test_bibtex_json_to_bib():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_bib.bib'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -129,6 +134,7 @@ def test_bibtex_json_to_json():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_json_to_json.json'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -143,6 +149,7 @@ def test_bibtex_bib_to_yml():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.json'),
                        output_file=_output('test_bibtex_bib_to_yml.yml'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -164,6 +171,7 @@ def test_bibtex_bib_to_bib():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.bib'),
                        output_file=_output('test_bibtex_bib_to_bib.bib'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -184,6 +192,7 @@ def test_bibtex_bib_to_json():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.bib'),
                        output_file=_output('test_bibtex_bib_to_json.json'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -198,6 +207,7 @@ def test_bibtex_yml_to_yml_astroloj():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('astroloj.json'),
                        output_file=_bibtex_resource('astroloj.py'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -207,6 +217,7 @@ def test_bibtex_yml_to_yml_cosmoloj():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('cosmoloj.json'),
                        output_file=_bibtex_resource('cosmoloj.py'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -216,6 +227,7 @@ def test_bibtex_yml_to_py():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.yml'),
                        output_file=_sibbling_module('test_bibtex_yml_to_py.py'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -258,6 +270,7 @@ def test_bibtex_json_to_py():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.json'),
                        output_file=_sibbling_module('test_bibtex_json_to_py.py'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 
@@ -300,6 +313,7 @@ def test_bibtex_bib_to_py():
     _process(Namespace(CMD='bibtex',
                        file=_bibtex_resource('mini.bib'),
                        output_file=_sibbling_module('test_bibtex_bib_to_py.py'),
+                       init_scope='',
                        encoding='utf-8',
                        output_dir='.'))
 

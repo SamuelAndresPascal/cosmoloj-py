@@ -3,6 +3,7 @@ bibliograpy process module
 """
 import logging
 from argparse import Namespace
+from dataclasses import dataclass
 from pathlib import Path
 
 from bibliograpy.api_core import Formats
@@ -15,121 +16,96 @@ from bibliograpy.io_endnote import EndnoteInputFormat, EndnoteOutputFormat
 LOG = logging.getLogger(__name__)
 
 
+@dataclass(frozen=True)
+class _Params:
+    ns: Namespace
+
+    def source(self): return Formats.as_io_extension(self.ns.file.split('.')[-1])
+    def output_dir(self): return Path(Path.cwd()) / self.ns.output_dir
+    def output(self): return self.output_dir() / self.ns.output_file
+    def target(self): return Formats.as_io_extension(self.ns.output_file.split('.')[-1])
+    def scope_symbol(self) -> str:
+        if 'shared_scope' in self.ns and self.ns.shared_scope:
+            return 'SHARED_SCOPE'
+        else:
+            return self.ns.scope if 'scope' in self.ns else None
+    def init_scope(self): return self.ns.init_scope
+    def file(self): return self.ns.file
+    def encoding(self): return self.ns.encoding
+    def format(self): return Formats.as_command(self.ns.CMD)
+
+
 def _process(ns: Namespace):
     """config
     """
     LOG.info("dependencies")
 
-    source = Formats.as_io_extension(ns.file.split('.')[-1])
-    output_dir = Path(Path.cwd(), ns.output_dir)
-    output_file = ns.output_file
-    target = Formats.as_io_extension(output_file.split('.')[-1])
-    if 'shared_scope' in ns and ns.shared_scope:
-        scope_symbol = 'SHARED_SCOPE'
-        init_scope = None
-    else:
-        scope_symbol = ns.scope if 'scope' in ns else None
-        init_scope = ns.init_scope if 'init_scope' in ns else None
-    fmt = Formats.as_command(ns.CMD)
+    params = _Params(ns=ns)
 
     LOG.info('open configuration file %s', ns.file)
 
-    if fmt is Formats.BIBTEX:
-        _process_bibtex(ns=ns,
-                        source=source,
-                        target=target,
-                        output=Path(output_dir, output_file),
-                        scope_symbol=scope_symbol,
-                        init_scope=init_scope)
+    if params.format() is Formats.BIBTEX:
+        _process_bibtex(params=params)
 
-    elif fmt is Formats.RIS2001:
-        _process_ris2001(ns=ns,
-                         source=source,
-                         target=target,
-                         output=Path(output_dir, output_file))
+    elif params.format() is Formats.RIS2001:
+        _process_ris2001(params=params)
 
-    elif fmt is Formats.RIS2011:
-        _process_ris2011(ns=ns,
-                         source=source,
-                         target=target,
-                         output=Path(output_dir, output_file))
+    elif params.format() is Formats.RIS2011:
+        _process_ris2011(params=params)
 
-    elif fmt is Formats.REFER:
-        _process_refer(ns=ns,
-                       source=source,
-                       target=target,
-                       output=Path(output_dir, output_file))
+    elif params.format() is Formats.REFER:
+        _process_refer(params=params)
 
-    elif fmt is Formats.ENDNOTE:
-        _process_endnote(ns=ns,
-                         source=source,
-                         target=target,
-                         output=Path(output_dir, output_file))
+    elif params.format() is Formats.ENDNOTE:
+        _process_endnote(params=params)
     else:
         raise ValueError(f'unsupported format {format}')
 
 
-def _process_bibtex(ns: Namespace,
-                    source: Formats,
-                    target: Formats,
-                    output: Path,
-                    scope_symbol: str | None,
-                    init_scope: str) -> None:
+def _process_bibtex(params: _Params) -> None:
     """Bibtex processing."""
-    iformat = BibtexInputFormat(source=source)
-    with open(ns.file, encoding=ns.encoding) as i:
+    iformat = BibtexInputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
         oformat = BibtexOutputFormat(content=content,
-                                     target=target,
-                                     scope_symbol=scope_symbol,
-                                     init_scope=init_scope)
-        with open(output, 'w', encoding=ns.encoding) as o:
+                                     target=params.target(),
+                                     scope_symbol=params.scope_symbol(),
+                                     init_scope=params.init_scope())
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
-def _process_ris2001(ns: Namespace,
-                     source: Formats,
-                     target: Formats,
-                     output: Path) -> None:
+def _process_ris2001(params: _Params) -> None:
     """RIS 2001 processing."""
-    iformat = Ris2001InputFormat(source=source)
-    with open(ns.file, encoding=ns.encoding) as i:
+    iformat = Ris2001InputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2001OutputFormat(target=target, content=content)
-        with open(output, 'w', encoding=ns.encoding) as o:
+        oformat = Ris2001OutputFormat(target=params.target(), content=content)
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
-def _process_ris2011(ns: Namespace,
-                     source: Formats,
-                     target: Formats,
-                     output: Path) -> None:
+def _process_ris2011(params: _Params) -> None:
     """RIS 2011 processing."""
-    iformat = Ris2011InputFormat(source=source)
-    with open(ns.file, encoding=ns.encoding) as i:
+    iformat = Ris2011InputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2011OutputFormat(target=target, content=content)
-        with open(output, 'w', encoding=ns.encoding) as o:
+        oformat = Ris2011OutputFormat(target=params.target(), content=content)
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
-def _process_refer(ns: Namespace,
-                     source: Formats,
-                     target: Formats,
-                     output: Path) -> None:
+def _process_refer(params: _Params) -> None:
     """Refer processing."""
-    iformat = ReferInputFormat(source=source)
-    with open(ns.file, encoding=ns.encoding) as i:
+    iformat = ReferInputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = ReferOutputFormat(target=target, content=content)
-        with open(output, 'w', encoding=ns.encoding) as o:
+        oformat = ReferOutputFormat(target=params.target(), content=content)
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
-def _process_endnote(ns: Namespace,
-                     source: Formats,
-                     target: Formats,
-                     output: Path) -> None:
+def _process_endnote(params: _Params) -> None:
     """Endnote processing."""
-    iformat = EndnoteInputFormat(source=source)
-    with open(ns.file, encoding=ns.encoding) as i:
+    iformat = EndnoteInputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = EndnoteOutputFormat(target=target, content=content)
-        with open(output, 'w', encoding=ns.encoding) as o:
+        oformat = EndnoteOutputFormat(target=params.target(), content=content)
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
