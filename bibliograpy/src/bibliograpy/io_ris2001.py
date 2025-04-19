@@ -142,6 +142,8 @@ class Ris2001OutputFormat(OutputFormat):
             for e in bib_entry:
                 if e is Tags.TY:
                     o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                elif e.repeating:
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
                 else:
                     o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
             o.write('}\n')

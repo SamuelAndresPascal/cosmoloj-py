@@ -96,5 +96,8 @@ class ReferOutputFormat(OutputFormat):
             o.write(f'{bib_entry[Tags.L].upper()} = ')
             o.write('{\n')
             for e in bib_entry:
-                o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
+                if e.repeating:
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                else:
+                    o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
             o.write('}\n')

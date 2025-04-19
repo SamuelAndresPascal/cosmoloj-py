@@ -1,6 +1,11 @@
 - TY: GEN
   ID: nasa
   T1: NASA
+  AU:
+    - Author
 - TY: GEN
   ID: iau
   T1: International Astronomical Union
+  AU:
+    - Author1
+    - Author2

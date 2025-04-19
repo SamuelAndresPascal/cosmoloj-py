@@ -75,5 +75,6 @@ def test_sample3():
             Tags.V: '275',
             Tags.ZERO: 'Journal Article',
             Tags.T: 'A new approach on curves of constant precession',
-            Tags.A: ['Uzunoğlu, Beyhan', 'Gök, İsmail']
+            Tags.A: ['Uzunoğlu, Beyhan', 'Gök, İsmail'],
+            Tags.U: 'https://www.sciencedirect.com/science/article/abs/pii/S0096300315015854'
         }
