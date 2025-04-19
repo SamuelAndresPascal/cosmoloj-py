@@ -33,3 +33,13 @@ PUBMED_FORMAT = Misc.generic(cite_key='pubmed_format',
                              title='PubMed format',
                              non_standard=NonStandard(url='https://pubmed.ncbi.nlm.nih.gov/help/#pubmed-format'),
                              scope=_SCOPE)
+
+PUBMED_PUBLICATION_TYPES = Misc.generic(cite_key='pubmed_publication_types',
+                                        title='PubMed publication types',
+                                        non_standard=NonStandard(url='https://pubmed.ncbi.nlm.nih.gov/help/#publication-types'),
+                                        scope=_SCOPE)
+
+MESH_PUBLICATION_TYPES = Misc.generic(cite_key='mesh_publication_types',
+                                      title='MESH publication types',
+                                      non_standard=NonStandard(url='https://www.nlm.nih.gov/mesh/pubtypes.html'),
+                                      scope=_SCOPE)

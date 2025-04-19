@@ -69,6 +69,7 @@ jobs:
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2001.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2011.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_refer.py
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/api_pubmed.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_endnote.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2001.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2011.py
@@ -108,6 +109,7 @@ jobs:
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
+          pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_pubmed.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_common.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2001.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2011.py
