@@ -24,6 +24,7 @@ lint:bibliograpy:
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2011.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_refer.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_endnote.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_pubmed.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_common.py
 
 lint_test:bibliograpy:
@@ -51,6 +52,7 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_refer.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_endnote.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_ris2011.py
 
 mkdocs:bibliograpy:
   stage: doc

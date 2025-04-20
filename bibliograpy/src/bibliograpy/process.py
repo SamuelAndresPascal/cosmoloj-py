@@ -8,6 +8,7 @@ from pathlib import Path
 
 from bibliograpy.api_core import Formats
 from bibliograpy.io_bibtex import BibtexInputFormat, BibtexOutputFormat
+from bibliograpy.io_pubmed import PubmedInputFormat, PubmedOutputFormat
 from bibliograpy.io_refer import ReferInputFormat, ReferOutputFormat
 from bibliograpy.io_ris2001 import Ris2001InputFormat, Ris2001OutputFormat
 from bibliograpy.io_ris2011 import Ris2011InputFormat, Ris2011OutputFormat
@@ -127,5 +128,14 @@ def _process_endnote(params: _Params) -> None:
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
         oformat = EndnoteOutputFormat(target=params.target(), content=content)
+        with open(params.output(), 'w', encoding=params.encoding()) as o:
+            oformat.write(o)
+
+def _process_pubmed(params: _Params) -> None:
+    """PubMed processing."""
+    iformat = PubmedInputFormat(source=params.source())
+    with open(params.file(), encoding=params.encoding()) as i:
+        content = iformat.read(i)
+        oformat = PubmedOutputFormat(target=params.target(), content=content)
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)

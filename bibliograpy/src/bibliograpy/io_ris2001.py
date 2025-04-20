@@ -88,7 +88,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
 
 
 class Ris2001OutputFormat(OutputFormat):
-    """Bibtex format implementation."""
+    """RIS 2001 format implementation."""
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | TypeFieldName]],
