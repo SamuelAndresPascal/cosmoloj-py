@@ -68,21 +68,15 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicat
         try:
             tag = Tags.parse(line[:4].rstrip())
             last_tag = tag
-
-            if tag is Tags.PT:
-                if tag in result:
-                    result[tag].append(MeshPublicationType.parse(line[6:].rstrip()))
-                else:
-                    result[tag] = [MeshPublicationType.parse(line[6:].rstrip())]
-                continue
+            content = MeshPublicationType.parse(line[6:].rstrip('\n\r')) if tag is Tags.PT else line[6:].rstrip('\n\r')
 
             if tag.repeating:
                 if tag in result:
-                    result[tag].append(line[6:].rstrip('\n\r'))
+                    result[tag].append(content)
                 else:
-                    result[tag] = [line[6:].rstrip('\n\r')]
+                    result[tag] = [content]
             else:
-                result[tag] = line[6:].rstrip('\n\r')
+                result[tag] = content
         except ValueError as e:
             if line[2:6] == '  - ' or last_tag is None:
                 raise e
