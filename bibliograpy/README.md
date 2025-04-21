@@ -18,6 +18,8 @@ Bibliography management to decorate source code.
     * [Bibtex bibliographies](#supported-syntaxes-for-bibtex-bibliographies)
     * [RIS bibliographies](#supported-syntaxes-for-ris-2001--ris-2011-bibliographies)
     * [refer bibliographies](#supported-syntaxes-for-refer-bibliographies)
+    * [Endnote bibliographies](#supported-syntaxes-for-endnote-bibliographies)
+    * [PubMed bibliographies](#supported-syntaxes-for-pubmed-bibliographies)
   * [Processing bibliographies](#processing-bibliographies)
   * [Cross-referencing for Bibtex format](#cross-referencing-support-bibtex-format)
 * [API](#api--documentation-library)
@@ -180,6 +182,15 @@ equivalent `YAML` or `JSON` syntaxes, respectively:
 ```
 
 **Note that an `L` (label) field is mandatory for each entry to be processed into a python value.**
+
+
+####  Supported syntaxes for Endnote bibliographies
+
+(ongoing partial support)
+
+####  Supported syntaxes for PubMed bibliographies
+
+(ongoing)
 
 ### Processing bibliographies
 

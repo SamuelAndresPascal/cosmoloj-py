@@ -38,13 +38,13 @@ def test_to_py_bis():
 
     _process(Namespace(CMD='pubmed',
                        file=_resource('16596158_bis.nbib'),
-                       output_file=_sibbling_module('test_pubmed_to_py_bis.py'),
+                       output_file=_sibbling_module('test_pubmed_bis_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from test_pubmed_to_py_bis import PUBMED_16596158, BIS_16596158
+    from test_pubmed_bis_to_py import PUBMED_16596158, BIS_16596158
 
     assert len(PUBMED_16596158) == 31
     assert len(BIS_16596158) == 31

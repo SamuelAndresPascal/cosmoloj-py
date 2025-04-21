@@ -110,6 +110,9 @@ test:bibliograpy:
       - bibliograpy/test/test_endnote_endnote_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_endnote_json_to_py.py # generated bibliography in tests needed at coverage time
       - bibliograpy/test/test_endnote_yml_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_ris2011_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_pubmed_to_py.py # generated bibliography in tests needed at coverage time
+      - bibliograpy/test/test_pubmed_bis_to_py.py # generated bibliography in tests needed at coverage time
       - .coverage
       - bibliograpy/report.xml
     reports:
