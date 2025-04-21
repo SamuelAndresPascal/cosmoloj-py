@@ -31,40 +31,50 @@ class PubmedInputFormat(InputFormat):
 
         results: list[dict[Tags, str | list[str] | MeshPublicationType]] = []
 
-        while line := i.readline():
-            if line.rstrip() == '':
+        while True:
+            entry: dict[Tags, str | list[str] | MeshPublicationType] | None = _read_pubmed_entry(i)
+            if entry is None:
+                return results
+            if len(entry) == 0:
                 continue
-            entry: dict[Tags, str | list[str] | MeshPublicationType] = {Tags.PT: _parse_mesh_entry_type(line)}
-            entry.update(_read_pubmed_entry(i))
             results.append(entry)
         return results
 
-def _parse_mesh_entry_type(line: str) -> MeshPublicationType:
-    # first field must contain entry type
-    tag = Tags.parse(line[:2])
-    if tag is not Tags.PT:
-        raise ValueError(f'expected type field but found {tag}')
+def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicationType] | None:
+    """Reads a single Pubmed entry from the input stream.
+    Args:
+        tio (TextIO): the input text stream
 
-    if line[2:6] != '  - ':
-        raise ValueError(f'type line "{line}" is not correctly formatted')
+    Return:
+        (dict[Tags, str | list[str] | MeshPublicationType] | None): a pubmed entry as a dictionary, an empty dictionary
+        is returned if the first potential entry line is empty, None is returned if the end of input stream is reached
+    """
 
-    return MeshPublicationType.parse(line[6:].rstrip())
-
-def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
-    """Reads a single Pubmed entry from the input stream."""
-
-    result = {}
+    result = None
 
     last_tag: Tags | None = None
 
     while line := tio.readline():
 
+        # init the result dictionary inside the loop to return None if the end of the stream has been previously reached
+        if result is None:
+            result = {}
+
+        # An empty line interrupts the entry reading.
+        # Thus, if the first potential entry line is empty, en empty dictionary is returned
+        if line.rstrip() == '':
+            return result
+
         try:
-            tag = Tags.parse(line[:2])
+            tag = Tags.parse(line[:4].rstrip())
             last_tag = tag
 
             if tag is Tags.PT:
-                raise ValueError('only one type field is expected, a ')
+                if tag in result:
+                    result[tag].append(MeshPublicationType.parse(line[6:].rstrip()))
+                else:
+                    result[tag] = [MeshPublicationType.parse(line[6:].rstrip())]
+                continue
 
             if tag.repeating:
                 if tag in result:
@@ -82,7 +92,8 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
                 result[last_tag][-1] += line.rstrip('\n\r')
             else:
                 result[last_tag] += line.rstrip('\n\r')
-    raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
+
+    return result
 
 
 class PubmedOutputFormat(OutputFormat):
@@ -129,15 +140,22 @@ class PubmedOutputFormat(OutputFormat):
     def to_py(self, o: TextIO):
         """Writes to python representation."""
 
+        o.write('from bibliograpy.api_mesh import *\n')
         o.write('from bibliograpy.api_pubmed import *\n\n')
         o.write('\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.ID].upper()} = ')
+            key = bib_entry[Tags.PMID].upper()
+            if not key[0].isalpha():
+                key = 'PUBMED_' + key
+            o.write(f'{key} = ')
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.PT:
-                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                    o.write(f"  Tags.{e.name}: [")
+                    for i in bib_entry[e]:
+                        o.write(f"MeshPublicationType.{i.name}, ")
+                    o.write("],\n")
                 elif e.repeating:
                     o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
                 else:

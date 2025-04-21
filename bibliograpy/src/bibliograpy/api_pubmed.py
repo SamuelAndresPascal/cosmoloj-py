@@ -373,7 +373,7 @@ class Tags(Tag, Enum):
     
     Publication status"""
 
-    PT = auto()
+    PT = (auto(), True) #  seems to be repeatable as seen in downloaded examples on the internet
     """Publication Type
     
     The type of material the article represents"""

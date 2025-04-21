@@ -79,6 +79,9 @@ def _process(ns: Namespace):
 
     elif params.format() is Formats.ENDNOTE:
         _process_endnote(params=params)
+
+    elif params.format() is Formats.PUBMED:
+        _process_pubmed(params=params)
     else:
         raise ValueError(f'unsupported format {format}')
 

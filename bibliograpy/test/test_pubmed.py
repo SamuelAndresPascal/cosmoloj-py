@@ -20,9 +20,9 @@ def _sibbling_module(file: str) -> str:
 def test_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
-    _process(Namespace(CMD='ris2011',
-                       file=_resource('S0301622601003232.ris'),
-                       output_file=_sibbling_module('test_ris2011_to_py.py'),
+    _process(Namespace(CMD='pubmed',
+                       file=_resource('16596158.nbib'),
+                       output_file=_sibbling_module('test_pubmed_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
 
