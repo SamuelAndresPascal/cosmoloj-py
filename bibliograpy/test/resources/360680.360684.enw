@@ -1,0 +1,14 @@
+%0 Journal Article
+%T A system for typesetting mathematics
+%V 18
+%@ 0001-0782
+%U https://doi.org/10.1145/360680.360684
+%R 10.1145/360680.360684
+%N 3
+%J Commun. ACM
+%I Association for Computing Machinery
+%A Brian W. Kernighan
+%A Lorinda L. Cherry
+%D 1975
+%P 151–157
+%K compiler-compiler, graphics, photo-composition, printing, text processing, typesetting

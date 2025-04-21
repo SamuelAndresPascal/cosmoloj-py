@@ -99,7 +99,7 @@ class EndnoteOutputFormat(OutputFormat):
                 key += f"_{bib_entry[Tags.D]}"
         else:
             key = bib_entry[Tags.T].replace(' ', '_').upper()
-        return key
+        return key.replace('.', '')
 
 
     def to_py(self, o: TextIO):
