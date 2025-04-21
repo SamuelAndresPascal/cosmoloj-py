@@ -31,3 +31,18 @@ def test_to_py():
     from test_endnote_to_py import BRIAN_W_KERNIGHANLORINDA_L_CHERRY_1975
 
     assert len(BRIAN_W_KERNIGHANLORINDA_L_CHERRY_1975) == 13
+
+def test_issue_to_py():
+    """test process from a yml bibliography to a py source bibliography"""
+
+    _process(Namespace(CMD='endnote',
+                       file=_resource('com_acm_issue.enw'),
+                       output_file=_sibbling_module('test_endnote_issue_to_py.py'),
+                       encoding='utf-8',
+                       output_dir='.'))
+
+    time.sleep(1) # wait for the bibliography source file to be generated
+
+    from test_endnote_issue_to_py import COMMUN_ACM
+
+    assert len(COMMUN_ACM) == 8

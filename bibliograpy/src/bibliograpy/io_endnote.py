@@ -94,12 +94,16 @@ class EndnoteOutputFormat(OutputFormat):
         key = ''
         if Tags.A in bib_entry:
             for i in range(min(3, len(bib_entry[Tags.A]))):
-                key += bib_entry[Tags.A][i].replace(' ', '_').upper()
+                key += bib_entry[Tags.A][i]
             if Tags.D in bib_entry:
                 key += f"_{bib_entry[Tags.D]}"
+        elif Tags.T in bib_entry:
+            key = bib_entry[Tags.T]
         else:
-            key = bib_entry[Tags.T].replace(' ', '_').upper()
-        return key.replace('.', '')
+            key = bib_entry[Tags.J]
+        return (key.replace(' ', '_')
+                .replace('.', '')
+                .upper())
 
 
     def to_py(self, o: TextIO):
