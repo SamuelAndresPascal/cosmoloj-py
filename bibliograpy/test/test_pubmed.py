@@ -28,6 +28,23 @@ def test_to_py():
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
-    from test_ris2011_to_py import FIRK_AL_2002
+    from test_pubmed_to_py import PUBMED_16596158
 
-    assert len(FIRK_AL_2002) == 16
+    assert len(PUBMED_16596158) == 31
+
+
+def test_to_py_bis():
+    """test process from a yml bibliography to a py source bibliography"""
+
+    _process(Namespace(CMD='pubmed',
+                       file=_resource('16596158_bis.nbib'),
+                       output_file=_sibbling_module('test_pubmed_to_py_bis.py'),
+                       encoding='utf-8',
+                       output_dir='.'))
+
+    time.sleep(1) # wait for the bibliography source file to be generated
+
+    from test_pubmed_to_py_bis import PUBMED_16596158, BIS_16596158
+
+    assert len(PUBMED_16596158) == 31
+    assert len(BIS_16596158) == 31
