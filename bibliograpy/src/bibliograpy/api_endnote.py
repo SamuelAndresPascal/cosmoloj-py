@@ -56,6 +56,8 @@ class Tags(Tag, Enum):
 
     E = auto()
 
+    X = auto()
+
     def endnote_name(self):
         """Gets the endnote format canonical name."""
         return self._name if self._name is not None else self.name

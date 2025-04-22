@@ -103,6 +103,7 @@ class EndnoteOutputFormat(OutputFormat):
             key = bib_entry[Tags.J]
         return (key.replace(' ', '_')
                 .replace('.', '')
+                .replace(',', '')
                 .upper())
 
 

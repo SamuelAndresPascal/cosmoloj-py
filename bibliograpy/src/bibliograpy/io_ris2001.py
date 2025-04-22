@@ -1,6 +1,7 @@
 """RIS I/O module."""
 
 import json
+import warnings
 
 from typing import TextIO
 
@@ -137,7 +138,14 @@ class Ris2001OutputFormat(OutputFormat):
         o.write('\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.ID].upper()} = ')
+            try:
+                key = bib_entry[Tags.ID].upper()
+                key = key.replace('.', '_')
+                o.write(f'{key} = ')
+            except KeyError:
+                warnings.warn("ID tag not found but required to python serialization")
+                continue
+
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:

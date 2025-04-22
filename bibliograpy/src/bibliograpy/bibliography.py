@@ -43,3 +43,8 @@ MESH_PUBLICATION_TYPES = Misc.generic(cite_key='mesh_publication_types',
                                       title='MESH publication types',
                                       non_standard=NonStandard(url='https://www.nlm.nih.gov/mesh/pubtypes.html'),
                                       scope=_SCOPE)
+
+PUBMED_MEDLINE_PMC_DIFFERENCE = Misc.generic(cite_key='pubmed_medline_pmc_difference',
+                                             title='MEDLINE, PubMed, and PMC (PubMed Central): How are they different?',
+                                             non_standard=NonStandard(url='https://www.nlm.nih.gov/bsd/difference.html'),
+                                             scope=_SCOPE)

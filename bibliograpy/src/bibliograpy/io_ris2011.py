@@ -136,9 +136,12 @@ class Ris2011OutputFormat(OutputFormat):
 
         for bib_entry in self._content:
             try:
-                o.write(f'{bib_entry[Tags.ID].upper()} = ')
+                key = bib_entry[Tags.ID].upper()
+                key = key.replace('.', '_')
+                o.write(f'{key} = ')
             except KeyError:
                 warnings.warn("ID tag not found but required to python serialization")
+                continue
 
             o.write('{\n')
             for e in bib_entry:
