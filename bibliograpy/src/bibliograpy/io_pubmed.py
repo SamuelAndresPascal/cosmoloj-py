@@ -40,7 +40,7 @@ class PubmedInputFormat(InputFormat):
             results.append(entry)
         return results
 
-def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicationType] | None:
+def _read_pubmed_entry(tio: TextIO) -> dict[Tags | str, str | list[str] | MeshPublicationType] | None:
     """Reads a single Pubmed entry from the input stream.
     Args:
         tio (TextIO): the input text stream
@@ -52,7 +52,7 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicat
 
     result = None
 
-    last_tag: Tags | None = None
+    last_tag: Tags | str | None = None
 
     while line := tio.readline():
 
@@ -66,9 +66,21 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicat
             return result
 
         try:
-            tag = Tags.parse(line[:4].rstrip())
+            tag: Tags = Tags.parse(line[:4].rstrip())
             last_tag = tag
-            content = MeshPublicationType.parse(line[6:].rstrip('\n\r')) if tag is Tags.PT else line[6:].rstrip('\n\r')
+
+            # hack to support some exports which en hyphen offset can be found:
+            # instead of:
+            # AID - https://doi.org/10.1136/vr.d2344 [doi]
+            # PMID- 21730035
+            # such lines are:
+            # AID  - https://doi.org/10.1136/vr.d2344 [doi]
+            # PMID  - 21730035
+
+            start_line_idx = 6 if line[4] == '-' else _adjust_line_idx(tag.name)
+
+            content = line[start_line_idx:].rstrip('\n\r')
+            content = MeshPublicationType.parse(content) if tag is Tags.PT else content
 
             if tag.repeating:
                 if tag in result:
@@ -78,16 +90,35 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags, str | list[str] | MeshPublicat
             else:
                 result[tag] = content
         except ValueError as e:
-            if line[2:6] == '  - ' or last_tag is None:
+
+            # extension tags support (as strings)
+            tag: str = line[:4].rstrip()
+            start_line_idx = 6 if line[4] == '-' else _adjust_line_idx(tag)
+            if line[start_line_idx - 2] == '-':
+                result[tag] = line[start_line_idx:].rstrip('\n\r')
+                last_tag = tag
+                continue
+
+            if last_tag is None:
                 raise e
 
             # long field support
+            if isinstance(last_tag, str):
+                result[last_tag] += line.rstrip('\n\r')
             if last_tag.repeating:
                 result[last_tag][-1] += line.rstrip('\n\r')
             else:
                 result[last_tag] += line.rstrip('\n\r')
 
     return result
+
+
+def _adjust_line_idx(tag_str: str) -> int:
+    if len(tag_str) == 3:
+        return 7
+    if len(tag_str) == 4:
+        return 8
+    return 6
 
 
 class PubmedOutputFormat(OutputFormat):
@@ -140,8 +171,12 @@ class PubmedOutputFormat(OutputFormat):
 
         for bib_entry in self._content:
             key = bib_entry[Tags.PMID].upper()
+
             if not key[0].isalpha():
                 key = 'PUBMED_' + key
+
+            key.replace('.', '_')
+
             o.write(f'{key} = ')
             o.write('{\n')
             for e in bib_entry:
