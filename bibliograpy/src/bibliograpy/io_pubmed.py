@@ -10,6 +10,10 @@ from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags
 
+_MAX_TAG_LENGTH = 4
+_DEFAULT_START_LINE = _MAX_TAG_LENGTH + 2
+_TAG_LINE_SEPARATOR = '-'
+
 class PubmedInputFormat(InputFormat):
     """Ris 2001 input format implementation."""
 
@@ -26,13 +30,13 @@ class PubmedInputFormat(InputFormat):
         return [{Tags.parse(k): MeshPublicationType.parse(e[k]) if Tags.parse(k) is Tags.PT else e[k] for k in e}
                 for e in json.load(i)]
 
-    def from_standard(self, i: TextIO) -> list[dict[Tags, str | list[str] | MeshPublicationType]]:
+    def from_standard(self, i: TextIO) -> list[dict[Tags | str, str | list[str] | MeshPublicationType]]:
         """Reads from standard format."""
 
         results: list[dict[Tags, str | list[str] | MeshPublicationType]] = []
 
         while True:
-            entry: dict[Tags, str | list[str] | MeshPublicationType] | None = _read_pubmed_entry(i)
+            entry: dict[Tags | str, str | list[str] | MeshPublicationType] | None = _read_pubmed_entry(i)
             if entry is None:
                 return results
             if len(entry) == 0:
@@ -46,27 +50,28 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags | str, str | list[str] | MeshPu
         tio (TextIO): the input text stream
 
     Return:
-        (dict[Tags, str | list[str] | MeshPublicationType] | None): a pubmed entry as a dictionary, an empty dictionary
-        is returned if the first potential entry line is empty, None is returned if the end of input stream is reached
+        (dict[Tags | str, str | list[str] | MeshPublicationType] | None): a pubmed entry as a dictionary, an empty
+        dictionary is returned if the first potential entry line is empty, None is returned if the end of input stream
+        is reached
     """
 
-    result = None
+    entry = None
 
     last_tag: Tags | str | None = None
 
     while line := tio.readline():
 
         # init the result dictionary inside the loop to return None if the end of the stream has been previously reached
-        if result is None:
-            result = {}
+        if entry is None:
+            entry = {}
 
         # An empty line interrupts the entry reading.
         # Thus, if the first potential entry line is empty, en empty dictionary is returned
         if line.rstrip() == '':
-            return result
+            return entry
 
         try:
-            tag: Tags = Tags.parse(line[:4].rstrip())
+            tag: Tags = Tags.parse(line[:_MAX_TAG_LENGTH].rstrip())
             last_tag = tag
 
             # hack to support some exports which en hyphen offset can be found:
@@ -77,25 +82,26 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags | str, str | list[str] | MeshPu
             # AID  - https://doi.org/10.1136/vr.d2344 [doi]
             # PMID  - 21730035
 
-            start_line_idx = 6 if line[4] == '-' else _adjust_line_idx(tag.name)
+            start_line_idx = _DEFAULT_START_LINE if line[_MAX_TAG_LENGTH] == _TAG_LINE_SEPARATOR \
+                else _adjust_line_idx(tag.name)
 
             content = line[start_line_idx:].rstrip('\n\r')
             content = MeshPublicationType.parse(content) if tag is Tags.PT else content
 
-            if tag.repeating:
-                if tag in result:
-                    result[tag].append(content)
-                else:
-                    result[tag] = [content]
+            if tag.repeating and tag in entry:
+                entry[tag].append(content)
+            elif tag.repeating:
+                entry[tag] = [content]
             else:
-                result[tag] = content
+                entry[tag] = content
+
         except ValueError as e:
 
             # extension tags support (as strings)
-            tag: str = line[:4].rstrip()
-            start_line_idx = 6 if line[4] == '-' else _adjust_line_idx(tag)
-            if line[start_line_idx - 2] == '-':
-                result[tag] = line[start_line_idx:].rstrip('\n\r')
+            tag: str = line[:_MAX_TAG_LENGTH].rstrip()
+            start_line_idx = _DEFAULT_START_LINE if line[4] == _TAG_LINE_SEPARATOR else _adjust_line_idx(tag)
+            if line[start_line_idx - 2] == _TAG_LINE_SEPARATOR:
+                entry[tag] = line[start_line_idx:].rstrip('\n\r')
                 last_tag = tag
                 continue
 
@@ -103,22 +109,20 @@ def _read_pubmed_entry(tio: TextIO) -> dict[Tags | str, str | list[str] | MeshPu
                 raise e
 
             # long field support
-            if isinstance(last_tag, str):
-                result[last_tag] += line.rstrip('\n\r')
-            if last_tag.repeating:
-                result[last_tag][-1] += line.rstrip('\n\r')
+            if isinstance(last_tag, Tags) and last_tag.repeating:
+                entry[last_tag][-1] += line.rstrip('\n\r')
             else:
-                result[last_tag] += line.rstrip('\n\r')
+                entry[last_tag] += line.rstrip('\n\r')
 
-    return result
+    return entry
 
 
 def _adjust_line_idx(tag_str: str) -> int:
     if len(tag_str) == 3:
-        return 7
+        return _DEFAULT_START_LINE + 1
     if len(tag_str) == 4:
-        return 8
-    return 6
+        return _DEFAULT_START_LINE + 2
+    return _DEFAULT_START_LINE
 
 
 class PubmedOutputFormat(OutputFormat):
