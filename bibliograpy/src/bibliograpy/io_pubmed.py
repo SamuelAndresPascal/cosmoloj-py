@@ -162,13 +162,12 @@ class PubmedOutputFormat(OutputFormat):
         s = tag if isinstance(tag, str) else tag.name
         l = len(s)
 
-        prefix: str
         if l == 3:
             return s + ' - '
         elif l == 4:
             return s + '- '
-        else:
-            return s + '  - '
+
+        return s + '  - '
 
 
     def to_standard(self, o: TextIO):
