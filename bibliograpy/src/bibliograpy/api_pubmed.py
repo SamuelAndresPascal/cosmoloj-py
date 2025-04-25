@@ -499,15 +499,15 @@ def default_pubmed_formatter(r: dict[Tags, str | list[str] | MeshPublicationType
     if Tags.TI in r:
         title = r[Tags.TI]
 
-    id = ''
+    ref_id = ''
     if Tags.PMID in r:
-        id = r[Tags.PMID]
+        ref_id = r[Tags.PMID]
     if Tags.PMC in r:
-        id = r[Tags.PMC]
+        ref_id = r[Tags.PMC]
     if Tags.OID in r:
-        id = r[Tags.OID]
+        ref_id = r[Tags.OID]
     if Tags.AID in r:
-        id = r[Tags.AID]
+        ref_id = r[Tags.AID]
     if Tags.MID in r:
-        id = r[Tags.MID]
-    return f'{title} [{id}]'
+        ref_id = r[Tags.MID]
+    return f'{title} [{ref_id}]'
