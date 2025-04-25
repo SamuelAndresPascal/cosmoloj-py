@@ -164,7 +164,8 @@ class PubmedOutputFormat(OutputFormat):
 
         if l == 3:
             return s + ' - '
-        elif l == 4:
+
+        if l == 4:
             return s + '- '
 
         return s + '  - '
