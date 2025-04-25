@@ -17,11 +17,14 @@ lint:bibliograpy:
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2011.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_refer.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_endnote.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_mesh.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_pubmed.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_bibtex.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2001.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_ris2011.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_refer.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_endnote.py
+    - pylint --rcfile=../pylintrc_strict src/bibliograpy/io_pubmed.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_common.py
 
 lint_test:bibliograpy:
@@ -40,14 +43,20 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_refer.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_endnote.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_pubmed.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_core.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_ris2001.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_mesh.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_api_common.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2001.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_ris2011.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_refer.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_endnote.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_io_pubmed.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_ris2011.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_endnote.py
+    - pylint --rcfile=../pylintrc_bibliograpy-test test/test_pubmed.py
 
 mkdocs:bibliograpy:
   stage: doc
@@ -90,21 +99,8 @@ test:bibliograpy:
   artifacts:
     when: always
     paths:
-      - bibliograpy/test/test_bibtex_bib_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_bibtex_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_bibtex_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2001_ris_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2001_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2001_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2011_ris_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2011_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_ris2011_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_refer_refer_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_refer_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_refer_yml_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_endnote_endnote_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_endnote_json_to_py.py # generated bibliography in tests needed at coverage time
-      - bibliograpy/test/test_endnote_yml_to_py.py # generated bibliography in tests needed at coverage time
+       # generated bibliography modules in tests needed at coverage time
+      - bibliograpy/test/test_*_to_py.py
       - .coverage
       - bibliograpy/report.xml
     reports:

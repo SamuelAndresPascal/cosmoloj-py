@@ -1,6 +1,7 @@
 """RIS I/O module."""
 
 import json
+import warnings
 
 from typing import TextIO
 
@@ -88,7 +89,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
 
 
 class Ris2001OutputFormat(OutputFormat):
-    """Bibtex format implementation."""
+    """RIS 2001 format implementation."""
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | TypeFieldName]],
@@ -137,10 +138,19 @@ class Ris2001OutputFormat(OutputFormat):
         o.write('\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.ID].upper()} = ')
+            try:
+                key = bib_entry[Tags.ID].upper()
+                key = key.replace('.', '_')
+                o.write(f'{key} = ')
+            except KeyError:
+                warnings.warn("ID tag not found but required to python serialization")
+                continue
+
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                elif e.repeating:
                     o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
                 else:
                     o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")

@@ -1,7 +1,10 @@
 %X institution
 %L nasa
 %T NASA
+%A Author
 
 %X institution
 %L iau
 %T International Astronomical Union
+%A Author1
+%A Author2

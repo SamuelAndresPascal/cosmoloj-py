@@ -1,0 +1,14 @@
+[
+  {
+    "PT": ["Journal Article"],
+    "PMID": "nasa",
+    "TI": "NASA",
+    "AU": ["Author"]
+  },
+  {
+    "PT": ["Journal Article"],
+    "PMID": "iau",
+    "TI": "International Astronomical Union",
+    "AU": ["Author1", "Author2"]
+  }
+]

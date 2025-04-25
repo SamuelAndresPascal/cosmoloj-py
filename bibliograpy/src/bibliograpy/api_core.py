@@ -17,6 +17,7 @@ class Formats(Format, Enum):
     RIS2011 = ('RIS (2011)', 'ris2011', ['ris'])
     REFER = ('refer', 'refer', ['refer'])
     ENDNOTE = ('Endnote', 'endnote', ['enw'])
+    PUBMED = ('PubMed', 'pubmed', ['nbib', 'txt'])
     YML = (None, None, ['yml', 'yaml'])
     JSON = (None, None, ['json'])
     PYTHON = (None, None, ['py'])

@@ -1,6 +1,6 @@
 from bibliograpy.api_bibtex import *
 
-_SCOPE = dict()
+_SCOPE = {}
 
 
 BIBLIOGRAPI = Misc.generic(cite_key='bibliograpi',
@@ -28,3 +28,23 @@ REFER_MAN = Misc.generic(cite_key='refer_man',
                          title='refer(1) — Linux manual page',
                          non_standard=NonStandard(url='https://man7.org/linux/man-pages/man1/refer.1.html'),
                          scope=_SCOPE)
+
+PUBMED_FORMAT = Misc.generic(cite_key='pubmed_format',
+                             title='PubMed format',
+                             non_standard=NonStandard(url='https://pubmed.ncbi.nlm.nih.gov/help/#pubmed-format'),
+                             scope=_SCOPE)
+
+PUBMED_PUBLICATION_TYPES = Misc.generic(cite_key='pubmed_publication_types',
+                                        title='PubMed publication types',
+                                        non_standard=NonStandard(url='https://pubmed.ncbi.nlm.nih.gov/help/#publication-types'),
+                                        scope=_SCOPE)
+
+MESH_PUBLICATION_TYPES = Misc.generic(cite_key='mesh_publication_types',
+                                      title='MESH publication types',
+                                      non_standard=NonStandard(url='https://www.nlm.nih.gov/mesh/pubtypes.html'),
+                                      scope=_SCOPE)
+
+PUBMED_MEDLINE_PMC_DIFFERENCE = Misc.generic(cite_key='pubmed_medline_pmc_difference',
+                                             title='MEDLINE, PubMed, and PMC (PubMed Central): How are they different?',
+                                             non_standard=NonStandard(url='https://www.nlm.nih.gov/bsd/difference.html'),
+                                             scope=_SCOPE)

@@ -88,6 +88,25 @@ class EndnoteOutputFormat(OutputFormat):
 
             o.write('\n')
 
+    @staticmethod
+    def _to_py_key(bib_entry: dict[Tags, str | list[str]]) -> str:
+        """Computes a python entry key to name the bibliography constant."""
+        key = ''
+        if Tags.A in bib_entry:
+            for i in range(min(3, len(bib_entry[Tags.A]))):
+                key += bib_entry[Tags.A][i]
+            if Tags.D in bib_entry:
+                key += f"_{bib_entry[Tags.D]}"
+        elif Tags.T in bib_entry:
+            key = bib_entry[Tags.T]
+        else:
+            key = bib_entry[Tags.J]
+        return (key.replace(' ', '_')
+                .replace('.', '')
+                .replace(',', '')
+                .upper())
+
+
     def to_py(self, o: TextIO):
         """Writes to python representation."""
 
@@ -95,18 +114,11 @@ class EndnoteOutputFormat(OutputFormat):
 
         for bib_entry in self._content:
 
-            key: str = ''
-
-            if Tags.A in bib_entry:
-                for i in range(min(3, len(bib_entry[Tags.A]))):
-                    key += bib_entry[Tags.A][i].replace(' ', '_').upper()
-                if Tags.D in bib_entry:
-                    key += f"_{bib_entry[Tags.D]}"
-            else:
-                key = bib_entry[Tags.T].replace(' ', '_').upper()
-
-            o.write(f'{key} = ')
+            o.write(f'{EndnoteOutputFormat._to_py_key(bib_entry=bib_entry)} = ')
             o.write('{\n')
             for e in bib_entry:
-                o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
+                if e.repeating:
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                else:
+                    o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")
             o.write('}\n')

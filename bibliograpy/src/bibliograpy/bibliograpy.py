@@ -48,14 +48,14 @@ def _create_parser() -> ArgumentParser:
     group = bibtex.add_mutually_exclusive_group()
     group.add_argument('--scope', '-s',
                        nargs='?',
-                       help="""the scope name, must be consistent with --init-scope \
-    (for bibtex format cross-reference resolution)""")
+                       help="the local scope name")
     group.add_argument('--shared-scope', '-S',
                        action='store_true',
-                       help='use the default shared scope named SHARED_SCOPE')
+                       help='use the bibtex bibliograpy shared scope named SHARED_SCOPE')
     bibtex.add_argument('--init-scope', '-i',
-                         nargs='?',
-                         help='the scope initialization value line (for bibtex format cross-reference resolution)')
+                        nargs='?',
+                        help='the local scope initialization (default to "{}"',
+                        default=DEFAULT_INIT_SCOPE)
 
 
     for fmt in [f for f in Formats if f.command is not None and f is not Formats.BIBTEX]:

@@ -1,6 +1,7 @@
 """RIS I/O module."""
 
 import json
+import warnings
 
 from typing import TextIO
 
@@ -87,7 +88,7 @@ def _read_ris_entry(tio: TextIO) -> dict[Tags, str | list[str]]:
     raise ValueError(f'the last RIS entry tag is expected to be {Tags.ER.name} but found {last_tag}')
 
 class Ris2011OutputFormat(OutputFormat):
-    """Bibtex format implementation."""
+    """RIS 2011 format implementation."""
 
     def __init__(self,
                  content: list[dict],
@@ -131,13 +132,22 @@ class Ris2011OutputFormat(OutputFormat):
     def to_py(self, o: TextIO):
         """Writes to python representation."""
 
-        o.write('from bibliograpy.api_ris2001 import *\n\n')
+        o.write('from bibliograpy.api_ris2011 import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.ID].upper()} = ')
+            try:
+                key = bib_entry[Tags.ID].upper()
+                key = key.replace('.', '_')
+                o.write(f'{key} = ')
+            except KeyError:
+                warnings.warn("ID tag not found but required to python serialization")
+                continue
+
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:
+                    o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
+                elif e.repeating:
                     o.write(f"  Tags.{e.name}: {bib_entry[e]},\n")
                 else:
                     o.write(f"  Tags.{e.name}: '{bib_entry[e]}',\n")

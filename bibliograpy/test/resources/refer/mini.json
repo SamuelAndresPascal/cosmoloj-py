@@ -2,11 +2,13 @@
   {
     "X": "institution",
     "L": "nasa",
-    "T": "NASA"
+    "T": "NASA",
+    "A": ["Author"]
   },
   {
     "X": "institution",
     "L": "iau",
-    "T": "International Astronomical Union"
+    "T": "International Astronomical Union",
+    "A": ["Author1", "Author2"]
   }
 ]

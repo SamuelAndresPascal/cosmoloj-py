@@ -1,6 +1,16 @@
 [
   {
     "0": "institution",
+    "T": "NASA",
+    "A": ["Author"]
+  },
+  {
+    "0": "institution",
+    "T": "International Astronomical Union",
+    "A": ["Author1", "Author2"]
+  },
+  {
+    "0": "institution",
     "T": "NASA"
   },
   {
