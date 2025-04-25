@@ -493,16 +493,21 @@ Book Volume Title"""
         raise ValueError(f'unknown {tag_str} tag')
 
 
-def default_ris2001_formatter(r: dict[Tags, str | list[str] | MeshPublicationType]):
+def default_pubmed_formatter(r: dict[Tags, str | list[str] | MeshPublicationType]):
     """The default formatter for PubMed references."""
+    title = ''
+    if Tags.TI in r:
+        title = r[Tags.TI]
+
+    id = ''
     if Tags.PMID in r:
-        return r[Tags.PMID]
+        id = r[Tags.PMID]
     if Tags.PMC in r:
-        return r[Tags.PMC]
+        id = r[Tags.PMC]
     if Tags.OID in r:
-        return r[Tags.OID]
+        id = r[Tags.OID]
     if Tags.AID in r:
-        return r[Tags.AID]
+        id = r[Tags.AID]
     if Tags.MID in r:
-        return r[Tags.MID]
-    return ''
+        id = r[Tags.MID]
+    return f'{title} [{id}]'

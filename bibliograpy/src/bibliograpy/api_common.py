@@ -6,6 +6,7 @@ from bibliograpy.api_ris2001 import Tags as Ris2001, TypeFieldName as Ris2001Fie
 from bibliograpy.api_ris2011 import Tags as Ris2011, TypeFieldName as Ris2011Field, default_ris2011_formatter
 from bibliograpy.api_refer import Tags as Refer, default_refer_formatter
 from bibliograpy.api_endnote import Tags as Endnote, default_endnote_formatter
+from bibliograpy.api_pubmed import Tags as Pubmed, default_pubmed_formatter
 
 
 class DefaultCitationFormatter(CitationFormatter):
@@ -38,6 +39,8 @@ class DefaultCitationFormatter(CitationFormatter):
                 return self.refer(r)
             if Endnote.A in r or Endnote.T in r:
                 return self.endnote(r)
+            if Pubmed.PT in r:
+                return self.pubmed(r)
 
         raise ValueError('unexpected reference type')
 
@@ -60,5 +63,9 @@ class DefaultCitationFormatter(CitationFormatter):
     def endnote(self, r: dict[Endnote, str | list[str]]):
         """endnote reference formatter."""
         return default_endnote_formatter(r)
+
+    def pubmed(self, r: dict[Endnote, str | list[str]]):
+        """pubmed reference formatter."""
+        return default_pubmed_formatter(r)
 
 cite = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')

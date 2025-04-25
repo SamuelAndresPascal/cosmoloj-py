@@ -134,37 +134,58 @@ class PubmedOutputFormat(OutputFormat):
         super().__init__(target=target, standard=Formats.PUBMED)
         self._content = content
 
+    def _to_value(self, value: list | str) -> str | list[str]:
+        if isinstance(value, list):
+            result = []
+            for v in value:
+                result.append(self._to_value(v))
+            return result
+
+        return value.value if isinstance(value, MeshPublicationType) else value
+
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""
-        yaml.dump([{k.name: (e[k].name if isinstance(e[k], MeshPublicationType) else e[k]) for k in e}
+        yaml.dump([{k.name: self._to_value(e[k]) for k in e}
                    for e in self._content],
                   o,
                   sort_keys=False)
 
     def to_json(self, o: TextIO):
         """Writes to json representation."""
-        json.dump([{k.name: (e[k].name if isinstance(e[k], MeshPublicationType) else e[k]) for k in e}
+        json.dump([{k.name: self._to_value(e[k]) for k in e}
                    for e in self._content],
                   fp=o,
                   sort_keys=False)
+
+    @staticmethod
+    def _to_std_tag(tag: Tags | str) -> str:
+        s = tag if isinstance(tag, str) else tag.name
+        l = len(s)
+
+        prefix: str
+        if l == 3:
+            return s + ' - '
+        elif l == 4:
+            return s + '- '
+        else:
+            return s + '  - '
+
 
     def to_standard(self, o: TextIO):
         """Writes to standard format."""
 
         for bib_entry in self._content:
-            o.write(f'{Tags.PT.name}  - {bib_entry[Tags.PT].name}')
-            o.write('\n')
 
             for tag in bib_entry:
 
                 if tag is Tags.PT:
-                    continue
-
-                if tag.repeating:
+                    for pt in bib_entry[tag]:
+                        o.write(f'{Tags.PT.name}  - {pt.value}\n')
+                elif tag.repeating:
                     for l in bib_entry[tag]:
-                        o.write(f'{tag.name}  - {l}\n')
+                        o.write(f'{PubmedOutputFormat._to_std_tag(tag)}{l}\n')
                 else:
-                    o.write(f'{tag.name}  - {bib_entry[tag]}\n')
+                    o.write(f'{PubmedOutputFormat._to_std_tag(tag)}{bib_entry[tag]}\n')
 
     def to_py(self, o: TextIO):
         """Writes to python representation."""

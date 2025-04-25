@@ -809,8 +809,10 @@ class MeshPublicationType(Enum):
     WIT_AND_HUMOR = 'Wit and Humor'
 
     @staticmethod
-    def parse(entry_type: str):
+    def parse(entry_type: str | list[str]):
         """Parses an entry type name into an enum value."""
+        if isinstance(entry_type, list):
+            return [MeshPublicationType.parse(v) for v in entry_type]
         for n in MeshPublicationType:
             if entry_type == n.value:
                 return n
