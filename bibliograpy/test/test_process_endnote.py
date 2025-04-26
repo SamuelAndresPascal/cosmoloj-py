@@ -259,7 +259,8 @@ def test_yml_to_py():
                        file=_endnote_resource('mini.yml'),
                        output_file=_sibbling_module('test_endnote_yml_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -301,7 +302,8 @@ def test_json_to_py():
                        file=_endnote_resource('mini.json'),
                        output_file=_sibbling_module('test_endnote_json_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -343,7 +345,8 @@ def test_endnote_to_py():
                        file=_endnote_resource('mini.enw'),
                        output_file=_sibbling_module('test_endnote_endnote_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 

@@ -15,7 +15,7 @@ from bibliograpy.api_common import cite
 from bibliograpy.process import _process
 
 
-def _ris2001_resource(file: str) -> str:
+def _resource(file: str) -> str:
     """Chemin vers les fichiers d'entrée."""
     return str(Path(Path(__file__).parent / 'resources' / 'pubmed' / file))
 
@@ -88,7 +88,7 @@ def test_pubmed_yml_to_pubmed():
     """test process from a yml bibliography to a RIS 2001 bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.yml'),
+                       file=_resource('sample1.yml'),
                        output_file=_output('test_pubmed_yml_to_pubmed.nbib'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -134,7 +134,7 @@ def test_pubmed_yml_to_json():
     """test process from a yml bibliography to a RIS 2001 bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.yml'),
+                       file=_resource('sample1.yml'),
                        output_file=_output('test_pubmed_yml_to_json.json'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -178,7 +178,7 @@ def test_pubmed_json_to_yml():
     """test process from a json bibliography to a yml bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.json'),
+                       file=_resource('sample1.json'),
                        output_file=_output('test_pubmed_json_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -233,7 +233,7 @@ def test_pubmed_json_to_pubmed():
     """test process from a json bibliography to a RIS 2001 bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.json'),
+                       file=_resource('sample1.json'),
                        output_file=_output('test_pubmed_json_to_pubmed.nbib'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -279,7 +279,7 @@ def test_pubmed_json_to_json():
     """test process from a json bibliography to a json bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.json'),
+                       file=_resource('sample1.json'),
                        output_file=_output('test_pubmed_json_to_json.json'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -323,7 +323,7 @@ def test_pubmed_pubmed_to_yml():
     """test process from a bib bibliography to a yml bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.nbib'),
+                       file=_resource('sample1.nbib'),
                        output_file=_output('test_pubmed_pubmed_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -377,7 +377,7 @@ def test_pubmed_pubmed_to_pubmed():
     """test process from a RIS 2001 bibliography to a RIS 2001 bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.nbib'),
+                       file=_resource('sample1.nbib'),
                        output_file=_output('test_pubmed_pubmed_to_pubmed.nbib'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -423,7 +423,7 @@ def test_pubmed_pubmed_to_json():
     """test process from a RIS 2001 bibliography to a json bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.nbib'),
+                       file=_resource('sample1.nbib'),
                        output_file=_output('test_pubmed_pubmed_to_json.json'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -466,7 +466,7 @@ def test_pubmed_yml_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('mini.yml'),
+                       file=_resource('mini.yml'),
                        output_file=_sibbling_module('test_pubmed_yml_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -508,7 +508,7 @@ def test_pubmed_json_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('mini.json'),
+                       file=_resource('mini.json'),
                        output_file=_sibbling_module('test_pubmed_json_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -550,7 +550,7 @@ def test_pubmed_pubmed_to_py():
     """test process from a yml bibliography to a py source bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('mini.nbib'),
+                       file=_resource('mini.nbib'),
                        output_file=_sibbling_module('test_pubmed_pubmed_to_py.py'),
                        encoding='utf-8',
                        output_dir='.'))
@@ -592,7 +592,7 @@ def test_input_file_not_found():
     """test process input file not found"""
 
     with pytest.raises(FileNotFoundError) as e:
-        with open(_ris2001_resource('not_existing_file.yml'), encoding='utf-8') as s:
+        with open(_resource('not_existing_file.yml'), encoding='utf-8') as s:
             yaml.safe_load(s)
 
     assert e.value.args[0] == 2

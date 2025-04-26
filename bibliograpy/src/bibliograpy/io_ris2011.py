@@ -1,7 +1,5 @@
 """RIS I/O module."""
-
 import json
-import warnings
 
 from typing import TextIO
 
@@ -9,12 +7,14 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_ris2011 import Tags, TypeFieldName
+from bibliograpy.api_core import PythonHelper
+
 
 class Ris2011InputFormat(InputFormat):
     """Ris 2001 input format implementation."""
 
     def __init__(self, source: Format):
-        super().__init__(source=source, standard=Formats.RIS2001)
+        super().__init__(source=source, standard=Formats.RIS2011)
 
     def from_yml(self, i: TextIO):
         """Reads from yml representation."""
@@ -92,8 +92,9 @@ class Ris2011OutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict],
-                 target: Format):
-        super().__init__(target=target, standard=Formats.RIS2001)
+                 target: Format,
+                 python_helper: PythonHelper):
+        super().__init__(target=target, standard=Formats.RIS2011, python_helper=python_helper)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -135,14 +136,7 @@ class Ris2011OutputFormat(OutputFormat):
         o.write('from bibliograpy.api_ris2011 import *\n\n')
 
         for bib_entry in self._content:
-            try:
-                key = bib_entry[Tags.ID].upper()
-                key = key.replace('.', '_')
-                o.write(f'{key} = ')
-            except KeyError:
-                warnings.warn("ID tag not found but required to python serialization")
-                continue
-
+            o.write(f'{self._python_helper.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:

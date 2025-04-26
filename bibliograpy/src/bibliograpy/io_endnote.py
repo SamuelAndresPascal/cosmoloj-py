@@ -8,6 +8,8 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_endnote import Tags
+from bibliograpy.api_core import PythonHelper
+
 
 class EndnoteInputFormat(InputFormat):
     """endnote input format implementation."""
@@ -56,8 +58,9 @@ class EndnoteOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str]]],
-                 target: Format):
-        super().__init__(target=target, standard=Formats.ENDNOTE)
+                 target: Format,
+                 python_helper: PythonHelper):
+        super().__init__(target=target, standard=Formats.ENDNOTE, python_helper=python_helper)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -88,24 +91,6 @@ class EndnoteOutputFormat(OutputFormat):
 
             o.write('\n')
 
-    @staticmethod
-    def _to_py_key(bib_entry: dict[Tags, str | list[str]]) -> str:
-        """Computes a python entry key to name the bibliography constant."""
-        key = ''
-        if Tags.A in bib_entry:
-            for i in range(min(3, len(bib_entry[Tags.A]))):
-                key += bib_entry[Tags.A][i]
-            if Tags.D in bib_entry:
-                key += f"_{bib_entry[Tags.D]}"
-        elif Tags.T in bib_entry:
-            key = bib_entry[Tags.T]
-        else:
-            key = bib_entry[Tags.J]
-        return (key.replace(' ', '_')
-                .replace('.', '')
-                .replace(',', '')
-                .upper())
-
 
     def to_py(self, o: TextIO):
         """Writes to python representation."""
@@ -114,7 +99,7 @@ class EndnoteOutputFormat(OutputFormat):
 
         for bib_entry in self._content:
 
-            o.write(f'{EndnoteOutputFormat._to_py_key(bib_entry=bib_entry)} = ')
+            o.write(f'{self._python_helper.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
             o.write('{\n')
             for e in bib_entry:
                 if e.repeating:

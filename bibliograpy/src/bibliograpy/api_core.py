@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import TextIO
 
+
 @dataclass(frozen=True)
 class Format:
     """A format representation."""
@@ -30,12 +31,15 @@ class Formats(Format, Enum):
                 return f
         raise ValueError(f'unexpected format {format_id}')
 
-    @staticmethod
-    def as_io_extension(format_id: str):
+    def as_io_extension(self, format_id: str):
         """Gets a supported format enum instance from a supported process argument string."""
         for f in Formats:
-            if format_id in f.io_extension:
+            if f.command is None and format_id in f.io_extension:
                 return f
+
+        if format_id in self.io_extension:
+            return self
+
         raise ValueError(f'unexpected format {format_id}')
 
 
@@ -74,12 +78,18 @@ class InputFormat:
 
         raise ValueError(f'unsupported configuration format {self.source()}')
 
+class PythonHelper:
+
+    def to_symbol(self, fmt: Format, bib_entry):
+        """Produces a python symbol from a bibliographical reference entry."""
+
 class OutputFormat:
     """Output format to serialize a bibliography."""
 
-    def __init__(self, target: Format, standard: Format):
+    def __init__(self, target: Format, standard: Format, python_helper: PythonHelper | None):
         self._target = target
         self._standard = standard
+        self._python_helper = python_helper
 
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""

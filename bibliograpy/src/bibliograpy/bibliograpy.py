@@ -78,6 +78,9 @@ def _create_parser() -> ArgumentParser:
                        nargs='?',
                        help='the source bibliograpy output file name',
                        default=DEFAULT_OUTPUT_FILE)
+        f.add_argument('--python-helper', '-p',
+                       nargs='?',
+                       help='an helper class my.helper.module:MyHelperClass used to build python symbols')
 
     return parser
 
