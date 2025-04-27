@@ -1,3 +1,4 @@
+"""Custom PythonHelper for testing purpose."""
 from bibliograpy.api_endnote import Tags as Endnote
 from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags as Pubmed
@@ -5,6 +6,7 @@ from bibliograpy.python_helper import DefaultPythonHelper
 
 
 class PythonHelperExample(DefaultPythonHelper):
+    """Override DefaultPythonHelper behavior for some formats."""
 
     def pubmed(self, bib_entry: dict[Pubmed, str | list[str] | MeshPublicationType]):
         key = super().pubmed(bib_entry=bib_entry)
