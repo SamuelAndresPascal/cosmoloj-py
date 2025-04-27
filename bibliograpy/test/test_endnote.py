@@ -24,7 +24,8 @@ def test_to_py():
                        file=_resource('360680.360684.enw'),
                        output_file=_sibbling_module('test_endnote_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -39,7 +40,8 @@ def test_issue_to_py():
                        file=_resource('com_acm_issue.enw'),
                        output_file=_sibbling_module('test_endnote_issue_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -54,7 +56,8 @@ def test_example_to_py():
                        file=_resource('example.enw'),
                        output_file=_sibbling_module('test_endnote_example_to_py.py'),
                        encoding='utf-8',
-                       output_dir='.'))
+                       output_dir='.',
+                       python_helper='python_helper_example:PythonHelperExample'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 

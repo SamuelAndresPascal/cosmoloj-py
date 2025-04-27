@@ -53,8 +53,10 @@ class Tags(Tag, Enum):
     R = auto()
 
     K = auto()
+    """keywords ?"""
 
     E = auto()
+    """editor ?"""
 
     X = auto()
 

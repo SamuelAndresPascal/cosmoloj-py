@@ -9,6 +9,7 @@ import yaml
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags
+from bibliograpy.api_core import PythonHelper
 
 _MAX_TAG_LENGTH = 4
 _DEFAULT_START_LINE = _MAX_TAG_LENGTH + 2
@@ -130,8 +131,9 @@ class PubmedOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | MeshPublicationType]],
-                 target: Format):
-        super().__init__(target=target, standard=Formats.PUBMED)
+                 target: Format,
+                 python_helper: PythonHelper):
+        super().__init__(target=target, standard=Formats.PUBMED, python_helper=python_helper)
         self._content = content
 
     def _to_value(self, value: list | str) -> str | list[str]:
@@ -195,15 +197,10 @@ class PubmedOutputFormat(OutputFormat):
         o.write('\n')
 
         for bib_entry in self._content:
-            key = bib_entry[Tags.PMID].upper()
 
-            if not key[0].isalpha():
-                key = 'PUBMED_' + key
-
-            key.replace('.', '_')
-
-            o.write(f'{key} = ')
+            o.write(f'{self._python_helper.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
             o.write('{\n')
+
             for e in bib_entry:
                 if e is Tags.PT:
                     o.write(f"  Tags.{e.name}: [")

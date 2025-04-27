@@ -8,6 +8,8 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_refer import Tags
+from bibliograpy.api_core import PythonHelper
+
 
 class ReferInputFormat(InputFormat):
     """refer input format implementation."""
@@ -56,8 +58,9 @@ class ReferOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str]]],
-                 target: Format):
-        super().__init__(target=target, standard=Formats.REFER)
+                 target: Format,
+                 python_helper: PythonHelper):
+        super().__init__(target=target, standard=Formats.REFER, python_helper=python_helper)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -93,7 +96,7 @@ class ReferOutputFormat(OutputFormat):
         o.write('from bibliograpy.api_refer import *\n\n')
 
         for bib_entry in self._content:
-            o.write(f'{bib_entry[Tags.L].upper()} = ')
+            o.write(f'{self._python_helper.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
             o.write('{\n')
             for e in bib_entry:
                 if e.repeating:
