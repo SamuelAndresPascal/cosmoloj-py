@@ -47,7 +47,8 @@ The `bibliograpy` tool allows generating a source code bibliograpy from a resour
 
 ### Supported formats and syntaxes
 
-`bibliograpy` supports bibliography files in `Bibtex`, `RIS (2001)`, `RIS (2011)` or `refer` formats.
+`bibliograpy` supports bibliography files in `Bibtex`, `RIS (2001)`, `RIS (2011)`, `refer`, `endnote` (partially 
+supported) and `PubMed` formats.
 
 Each format can be expressed in its own syntax or using an equivalent representation in `YAML` or `JSON`.
 
