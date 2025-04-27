@@ -34,7 +34,7 @@ def test_pubmed_yml_to_yml():
     """test process from a yml bibliography to a yml bibliography"""
 
     _process(Namespace(CMD='pubmed',
-                       file=_ris2001_resource('sample1.yml'),
+                       file=_resource('sample1.yml'),
                        output_file=_output('test_pubmed_yml_to_yml.yml'),
                        encoding='utf-8',
                        output_dir='.'))

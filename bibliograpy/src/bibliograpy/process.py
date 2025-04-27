@@ -59,7 +59,14 @@ class _Params:
         return Formats.as_command(self.ns.CMD)
 
     def python_helper(self) -> PythonHelper:
-        return importlib.import_module(self.ns.python_helper.split(':')[0]).__getattribute__(self.ns.python_helper.split(':')[1])() if 'python_helper' in self.ns else DefaultPythonHelper()
+        """Computes and gets the python helper for python symbol definition."""
+        if 'python_helper' in self.ns:
+            p = self.ns.python_helper.split(':')
+            module_name = p[0]
+            class_name = p[1] if len(p) > 1 else 'PythonHelper'
+            return vars(importlib.import_module(module_name))[class_name]()
+        else:
+            return DefaultPythonHelper()
 
 def _process(ns: Namespace):
     """config
