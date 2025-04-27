@@ -11,11 +11,10 @@ from bibliograpy.process import _process
 LOG = logging.getLogger(__name__)
 
 
-DEFAULT_FILE = "bibliograpy.yaml"
+DEFAULT_FILE = "bibliography"
 DEFAULT_ENCODING = 'utf-8'
 DEFAULT_OUTPUT_DIR = '.'
 DEFAULT_OUTPUT_FILE = 'bibliography.py'
-DEFAULT_FORMAT = 'bib'
 DEFAULT_INIT_SCOPE = '{}'
 
 
@@ -32,7 +31,7 @@ def _create_parser() -> ArgumentParser:
     bibtex.add_argument('file',
                          nargs='?',
                          help="path to the input bibliography file",
-                         default=DEFAULT_FILE)
+                         default=DEFAULT_FILE + '.bib')
     bibtex.add_argument('--encoding', '-e',
                          nargs='?',
                          help='the bibliograpy configuration file encoding (default to utf-8)',
@@ -65,7 +64,7 @@ def _create_parser() -> ArgumentParser:
         f.add_argument('file',
                        nargs='?',
                        help="path to the input bibliography file",
-                       default=DEFAULT_FILE)
+                       default=DEFAULT_FILE + fmt.io_extension[0])
         f.add_argument('--encoding', '-e',
                        nargs='?',
                        help='the bibliograpy configuration file encoding (default to utf-8)',
