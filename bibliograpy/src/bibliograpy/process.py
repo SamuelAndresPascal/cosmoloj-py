@@ -65,8 +65,8 @@ class _Params:
             module_name = p[0]
             class_name = p[1] if len(p) > 1 else 'PythonHelper'
             return vars(importlib.import_module(module_name))[class_name]()
-        else:
-            return DefaultPythonHelper()
+
+        return DefaultPythonHelper()
 
 def _process(ns: Namespace):
     """config
