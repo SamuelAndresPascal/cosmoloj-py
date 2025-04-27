@@ -79,8 +79,9 @@ class InputFormat:
         raise ValueError(f'unsupported configuration format {self.source()}')
 
 class PythonHelper:
+    """Builds a Python symbol for a given entry in a given format."""
 
-    def to_symbol(self, fmt: Format, bib_entry):
+    def to_symbol(self, fmt: Format, bib_entry) -> str:
         """Produces a python symbol from a bibliographical reference entry."""
 
 class OutputFormat:
