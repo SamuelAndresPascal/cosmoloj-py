@@ -63,6 +63,7 @@ jobs:
           pip install .
           pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
+          pylint --rcfile=../pylintrc_strict src/bibliograpy/python_helper.py
           pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_core.py
           pylint --rcfile=../pylintrc_bibliograpy-src-api src/bibliograpy/api_bibtex.py
           pylint --rcfile=../pylintrc_strict src/bibliograpy/api_ris2001.py
@@ -103,6 +104,7 @@ jobs:
       - working-directory: bibliograpy
         run: |
           pip install .
+          pylint --rcfile=../pylintrc_strict test/python_helper_example.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
           pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2011.py
