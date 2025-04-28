@@ -1,5 +1,5 @@
 """Python code generator helper."""
-from bibliograpy.api_core import Format, Formats, PythonHelper
+from bibliograpy.api_core import Format, Formats, Symbolizer
 from bibliograpy.api_endnote import Tags as Endnote
 from bibliograpy.api_refer import Tags as Refer
 from bibliograpy.api_ris2001 import Tags as Ris2001, TypeFieldName as Ris2001Type
@@ -8,8 +8,8 @@ from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags as Pubmed
 
 
-class DefaultPythonHelper(PythonHelper):
-    """A default PythonHelper implementation supplying a simple behavior for each bibliograpy supported format,
+class DefaultSymbolizer(Symbolizer):
+    """A default Symbolizer implementation supplying a simple behavior for each bibliograpy supported format,
     each one implemented in a dedicated method"""
 
     def to_symbol(self, fmt: Format, bib_entry):

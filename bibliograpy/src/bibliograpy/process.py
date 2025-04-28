@@ -14,8 +14,8 @@ from bibliograpy.io_refer import ReferInputFormat, ReferOutputFormat
 from bibliograpy.io_ris2001 import Ris2001InputFormat, Ris2001OutputFormat
 from bibliograpy.io_ris2011 import Ris2011InputFormat, Ris2011OutputFormat
 from bibliograpy.io_endnote import EndnoteInputFormat, EndnoteOutputFormat
-from bibliograpy.api_core import PythonHelper
-from bibliograpy.python_helper import DefaultPythonHelper
+from bibliograpy.api_core import Symbolizer
+from bibliograpy.default_symbolizer import DefaultSymbolizer
 
 LOG = logging.getLogger(__name__)
 
@@ -58,15 +58,15 @@ class _Params:
         """Gets the processing format."""
         return Formats.as_command(self.ns.CMD)
 
-    def python_helper(self) -> PythonHelper:
+    def symbolizer(self) -> Symbolizer:
         """Computes and gets the python helper for python symbol definition."""
-        if 'python_helper' in self.ns:
-            p = self.ns.python_helper.split(':')
+        if 'symbolizer' in self.ns:
+            p = self.ns.symbolizer.split(':')
             module_name = p[0]
             class_name = p[1] if len(p) > 1 else 'PythonHelper'
             return vars(importlib.import_module(module_name))[class_name]()
 
-        return DefaultPythonHelper()
+        return DefaultSymbolizer()
 
 def _process(ns: Namespace):
     """config
@@ -115,7 +115,7 @@ def _process_ris2001(params: _Params) -> None:
     iformat = Ris2001InputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2001OutputFormat(target=params.target(), content=content, python_helper=params.python_helper())
+        oformat = Ris2001OutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -124,7 +124,7 @@ def _process_ris2011(params: _Params) -> None:
     iformat = Ris2011InputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2011OutputFormat(target=params.target(), content=content, python_helper=params.python_helper())
+        oformat = Ris2011OutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -133,7 +133,7 @@ def _process_refer(params: _Params) -> None:
     iformat = ReferInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = ReferOutputFormat(target=params.target(), content=content, python_helper=params.python_helper())
+        oformat = ReferOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -142,7 +142,7 @@ def _process_endnote(params: _Params) -> None:
     iformat = EndnoteInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = EndnoteOutputFormat(target=params.target(), content=content, python_helper=params.python_helper())
+        oformat = EndnoteOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -151,6 +151,6 @@ def _process_pubmed(params: _Params) -> None:
     iformat = PubmedInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = PubmedOutputFormat(target=params.target(), content=content, python_helper=params.python_helper())
+        oformat = PubmedOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)

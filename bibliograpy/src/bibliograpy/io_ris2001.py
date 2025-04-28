@@ -8,7 +8,7 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
 from bibliograpy.api_ris2001 import Tags, TypeFieldName
-from bibliograpy.api_core import PythonHelper
+from bibliograpy.api_core import Symbolizer
 
 
 class Ris2001InputFormat(InputFormat):
@@ -95,8 +95,8 @@ class Ris2001OutputFormat(OutputFormat):
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | TypeFieldName]],
                  target: Format,
-                 python_helper: PythonHelper):
-        super().__init__(target=target, standard=Formats.RIS2001, python_helper=python_helper)
+                 symbolizer: Symbolizer):
+        super().__init__(target=target, standard=Formats.RIS2001, symbolizer=symbolizer)
         self._content = content
 
     def to_yml(self, o: TextIO):
@@ -140,7 +140,7 @@ class Ris2001OutputFormat(OutputFormat):
         o.write('\n')
 
         for bib_entry in self._content:
-            o.write(f'{self._python_helper.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
+            o.write(f'{self._symbolizer.to_symbol(fmt=self.standard(), bib_entry=bib_entry)} = ')
             o.write('{\n')
             for e in bib_entry:
                 if e is Tags.TY:

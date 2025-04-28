@@ -25,7 +25,7 @@ def test_to_py():
                        output_file=_sibbling_module('test_endnote_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
-                       python_helper='python_helper_example:PythonHelperExample'))
+                       symbolizer='example_symbolizer:ExampleSymbolizer'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -41,7 +41,7 @@ def test_issue_to_py():
                        output_file=_sibbling_module('test_endnote_issue_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
-                       python_helper='python_helper_example:PythonHelperExample'))
+                       symbolizer='example_symbolizer:ExampleSymbolizer'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 
@@ -57,7 +57,7 @@ def test_example_to_py():
                        output_file=_sibbling_module('test_endnote_example_to_py.py'),
                        encoding='utf-8',
                        output_dir='.',
-                       python_helper='python_helper_example:PythonHelperExample'))
+                       symbolizer='example_symbolizer:ExampleSymbolizer'))
 
     time.sleep(1) # wait for the bibliography source file to be generated
 

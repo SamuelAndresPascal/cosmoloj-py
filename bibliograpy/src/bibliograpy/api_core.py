@@ -78,7 +78,7 @@ class InputFormat:
 
         raise ValueError(f'unsupported configuration format {self.source()}')
 
-class PythonHelper:
+class Symbolizer:
     """Builds a Python symbol for a given entry in a given format."""
 
     def to_symbol(self, fmt: Format, bib_entry) -> str:
@@ -87,10 +87,10 @@ class PythonHelper:
 class OutputFormat:
     """Output format to serialize a bibliography."""
 
-    def __init__(self, target: Format, standard: Format, python_helper: PythonHelper | None):
+    def __init__(self, target: Format, standard: Format, symbolizer: Symbolizer | None):
         self._target = target
         self._standard = standard
-        self._python_helper = python_helper
+        self._symbolizer = symbolizer
 
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""

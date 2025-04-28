@@ -49,7 +49,7 @@ class BibtexOutputFormat(OutputFormat):
                  target: Format,
                  scope_symbol: str | None,
                  init_scope: str):
-        super().__init__(target=target, standard=Formats.BIBTEX, python_helper=None)
+        super().__init__(target=target, standard=Formats.BIBTEX, symbolizer=None)
         self._content = content
         self._scope_symbol = scope_symbol
         self._init_scope = init_scope
