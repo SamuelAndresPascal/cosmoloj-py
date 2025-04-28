@@ -87,6 +87,7 @@ class Symbolizer:
 
 @dataclass
 class OutputParams:
+    """Output stream params."""
     target: Formats
     symbolizer: Symbolizer
 
