@@ -84,13 +84,19 @@ class Symbolizer:
     def to_symbol(self, fmt: Format, bib_entry) -> str:
         """Produces a python symbol from a bibliographical reference entry."""
 
+
+@dataclass
+class OutputParams:
+    target: Formats
+    symbolizer: Symbolizer
+
 class OutputFormat:
     """Output format to serialize a bibliography."""
 
-    def __init__(self, target: Format, standard: Format, symbolizer: Symbolizer | None):
-        self._target = target
+    def __init__(self, params: OutputParams, standard: Format):
+        self._target = params.target
+        self._symbolizer = params.symbolizer
         self._standard = standard
-        self._symbolizer = symbolizer
 
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""

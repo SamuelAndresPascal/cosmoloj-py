@@ -6,7 +6,7 @@ from typing import TextIO
 
 import yaml
 
-from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
+from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_ris2001 import Tags, TypeFieldName
 from bibliograpy.api_core import Symbolizer
 
@@ -94,9 +94,8 @@ class Ris2001OutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | TypeFieldName]],
-                 target: Format,
-                 symbolizer: Symbolizer):
-        super().__init__(target=target, standard=Formats.RIS2001, symbolizer=symbolizer)
+                 params: OutputParams):
+        super().__init__(params=params, standard=Formats.RIS2001)
         self._content = content
 
     def to_yml(self, o: TextIO):

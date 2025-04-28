@@ -6,7 +6,7 @@ from typing import TextIO
 
 import yaml
 
-from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
+from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags
 from bibliograpy.api_core import Symbolizer
@@ -131,9 +131,8 @@ class PubmedOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str] | MeshPublicationType]],
-                 target: Format,
-                 symbolizer: Symbolizer):
-        super().__init__(target=target, standard=Formats.PUBMED, symbolizer=symbolizer)
+                 params: OutputParams):
+        super().__init__(params=params, standard=Formats.PUBMED)
         self._content = content
 
     def _to_value(self, value: list | str) -> str | list[str]:

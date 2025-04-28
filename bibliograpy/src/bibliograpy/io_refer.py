@@ -6,7 +6,7 @@ from typing import TextIO
 
 import yaml
 
-from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats
+from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_refer import Tags
 from bibliograpy.api_core import Symbolizer
 
@@ -58,9 +58,8 @@ class ReferOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict[Tags, str | list[str]]],
-                 target: Format,
-                 symbolizer: Symbolizer):
-        super().__init__(target=target, standard=Formats.REFER, symbolizer=symbolizer)
+                 params: OutputParams):
+        super().__init__(params=params, standard=Formats.REFER)
         self._content = content
 
     def to_yml(self, o: TextIO):

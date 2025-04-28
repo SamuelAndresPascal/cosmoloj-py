@@ -10,7 +10,7 @@ from bibtexparser.bibdatabase import BibDatabase
 from bibtexparser.bwriter import BibTexWriter
 
 from bibliograpy.api_bibtex import TYPES, BibtexReference, ENTRYTYPE_FIELD_IN_MODEL_DICT, ID_FIELD_IN_MODEL_DICT
-from bibliograpy.api_core import InputFormat, OutputFormat, Formats, Format
+from bibliograpy.api_core import InputFormat, OutputFormat, Formats, Format, OutputParams
 
 _ENTRY_TYPE_FIELD_IN_DICT = 'entry_type'
 
@@ -46,11 +46,10 @@ class BibtexOutputFormat(OutputFormat):
 
     def __init__(self,
                  content: list[dict],
-                 target: Format,
-                 symbolizer: str,
+                 params: OutputParams,
                  scope_symbol: str | None,
                  init_scope: str):
-        super().__init__(target=target, standard=Formats.BIBTEX, symbolizer=None)
+        super().__init__(params=params, standard=Formats.BIBTEX)
         self._content = content
         self._scope_symbol = scope_symbol
         self._init_scope = init_scope
