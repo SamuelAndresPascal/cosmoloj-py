@@ -47,6 +47,7 @@ class BibtexOutputFormat(OutputFormat):
     def __init__(self,
                  content: list[dict],
                  target: Format,
+                 symbolizer: str,
                  scope_symbol: str | None,
                  init_scope: str):
         super().__init__(target=target, standard=Formats.BIBTEX, symbolizer=None)

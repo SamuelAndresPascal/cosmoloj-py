@@ -105,6 +105,7 @@ def _process_bibtex(params: _Params) -> None:
         content = iformat.read(i)
         oformat = BibtexOutputFormat(content=content,
                                      target=params.target(),
+                                     symbolizer='',
                                      scope_symbol=params.scope_symbol(),
                                      init_scope=params.init_scope())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
@@ -115,7 +116,7 @@ def _process_ris2001(params: _Params) -> None:
     iformat = Ris2001InputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2001OutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
+        oformat = Ris2001OutputFormat(content=content, target=params.target(), symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -124,7 +125,7 @@ def _process_ris2011(params: _Params) -> None:
     iformat = Ris2011InputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = Ris2011OutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
+        oformat = Ris2011OutputFormat(content=content, target=params.target(), symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -133,7 +134,7 @@ def _process_refer(params: _Params) -> None:
     iformat = ReferInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = ReferOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
+        oformat = ReferOutputFormat(content=content, target=params.target(), symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -142,7 +143,7 @@ def _process_endnote(params: _Params) -> None:
     iformat = EndnoteInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = EndnoteOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
+        oformat = EndnoteOutputFormat(content=content, target=params.target(), symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
 
@@ -151,6 +152,6 @@ def _process_pubmed(params: _Params) -> None:
     iformat = PubmedInputFormat(source=params.source())
     with open(params.file(), encoding=params.encoding()) as i:
         content = iformat.read(i)
-        oformat = PubmedOutputFormat(target=params.target(), content=content, symbolizer=params.symbolizer())
+        oformat = PubmedOutputFormat(content=content, target=params.target(), symbolizer=params.symbolizer())
         with open(params.output(), 'w', encoding=params.encoding()) as o:
             oformat.write(o)
