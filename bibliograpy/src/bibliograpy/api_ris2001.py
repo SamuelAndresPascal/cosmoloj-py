@@ -383,7 +383,13 @@ class TypeFieldName(Enum):
         raise ValueError(f'unknown {entry_type} type')
 
 
-def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]):
+def default_ris2001_formatter(r: dict[Tags, str | list[str] | TypeFieldName]) -> str:
     """The default formatter for RIS 2001 references."""
-    title = r[Tags.TI] if Tags.TI in r else (r[Tags.T1] if Tags.T1 in r else (r[Tags.CT] if Tags.CT in r else ""))
+    title = ""
+    if Tags.TI in r:
+        title = r[Tags.TI]
+    elif Tags.T1 in r:
+        title = r[Tags.T1]
+    elif Tags.CT in r:
+        title = r[Tags.CT]
     return f"{title} [{r[Tags.ID]}]" if Tags.ID in r else title
