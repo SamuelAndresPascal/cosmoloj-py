@@ -94,5 +94,7 @@ class BibtexOutputFormat(OutputFormat):
         for ref in self._content:
             entry_type = ref[_ENTRY_TYPE_FIELD_IN_DICT]
             if entry_type in TYPES:
-                o.write(f"{TYPES[entry_type].from_dict(ref, scope)
-                        .to_py(scope_symbol=self._scope_symbol, symbolizer=self._symbolizer)}\n")
+                line = (TYPES[entry_type]
+                        .from_dict(ref, scope)
+                        .to_py(scope_symbol=self._scope_symbol, symbolizer=self._symbolizer))
+                o.write(f"{line}\n")
