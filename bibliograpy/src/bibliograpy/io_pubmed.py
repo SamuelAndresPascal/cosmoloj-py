@@ -9,7 +9,6 @@ import yaml
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_mesh import MeshPublicationType
 from bibliograpy.api_pubmed import Tags
-from bibliograpy.api_core import Symbolizer
 
 _MAX_TAG_LENGTH = 4
 _DEFAULT_START_LINE = _MAX_TAG_LENGTH + 2

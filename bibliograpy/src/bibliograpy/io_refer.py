@@ -8,7 +8,6 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_refer import Tags
-from bibliograpy.api_core import Symbolizer
 
 
 class ReferInputFormat(InputFormat):

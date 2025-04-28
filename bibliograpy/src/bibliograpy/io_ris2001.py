@@ -8,7 +8,6 @@ import yaml
 
 from bibliograpy.api_core import InputFormat, OutputFormat, Format, Formats, OutputParams
 from bibliograpy.api_ris2001 import Tags, TypeFieldName
-from bibliograpy.api_core import Symbolizer
 
 
 class Ris2001InputFormat(InputFormat):
