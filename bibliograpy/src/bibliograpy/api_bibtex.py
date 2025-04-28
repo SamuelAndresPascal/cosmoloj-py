@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any
 import logging
 
-from bibliograpy.api_core import SimpleCitationFormatter
+from bibliograpy.api_core import SimpleCitationFormatter, Symbolizer, Formats
 
 LOG = logging.getLogger(__name__)
 
@@ -290,15 +290,11 @@ class BibtexReference:
         # si on souhaite disposer des champs hérités par références croisées, il faut utiliser l'instance résolue
         return type(self).from_dict(source=resolved_standard_dict,
                                     scope=None)
-    @staticmethod
-    def to_source_symbol(cite_key: str) -> str:
-        """Produces a Python symbol for the reference."""
-        return cite_key.upper()
 
-    def to_py(self, scope_symbol: str | None) -> str:
+    def to_py(self, scope_symbol: str | None, symbolizer: Symbolizer) -> str:
         """Serialization of the reference in processed python code."""
 
-        base = f"{BibtexReference.to_source_symbol(self.cite_key)} = {type(self).__name__}.generic("
+        base = f"{symbolizer.to_symbol(Formats.BIBTEX, self)} = {type(self).__name__}.generic("
 
         fields = []
         for f in dataclasses.fields(type(self)):
@@ -309,7 +305,7 @@ class BibtexReference:
             value = getattr(self, f.name)
 
             if f.name == BibtexReference.CROSSREF_FIELD and value is not None:
-                fields.append(f"{f.name}={BibtexReference.to_source_symbol(value)}")
+                fields.append(f"{f.name}={symbolizer.to_symbol(Formats.BIBTEX, value)}")
             elif isinstance(value, str):
                 if "'" in value:
                     fields.append(f'{f.name}="{value}"')

@@ -44,6 +44,9 @@ def _create_parser() -> ArgumentParser:
                          nargs='?',
                          help='the source bibliograpy output file name (default to bibliography.py)',
                          default=DEFAULT_OUTPUT_FILE)
+    bibtex.add_argument('--symbolizer',
+                       nargs='?',
+                       help='an helper class my.symbolizer.module:MySymbolizerClass used to build python symbols')
     group = bibtex.add_mutually_exclusive_group()
     group.add_argument('--scope', '-s',
                        nargs='?',
@@ -78,9 +81,9 @@ def _create_parser() -> ArgumentParser:
                        nargs='?',
                        help='the source bibliograpy output file name (default to bibliography.py)',
                        default=DEFAULT_OUTPUT_FILE)
-        f.add_argument('--python-helper', '-p',
+        f.add_argument('--symbolizer',
                        nargs='?',
-                       help='an helper class my.helper.module:MyHelperClass used to build python symbols')
+                       help='an helper class my.symbolizer.module:MySymbolizerClass used to build python symbols')
 
     return parser
 

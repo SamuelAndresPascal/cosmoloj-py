@@ -54,10 +54,6 @@ class BibtexOutputFormat(OutputFormat):
         self._scope_symbol = scope_symbol
         self._init_scope = init_scope
 
-    def _to_standard_ext(self) -> list[str]:
-        """Extensions to be serialized to standard format."""
-        return ['bib', 'bibtex']
-
     def to_yml(self, o: TextIO):
         """Writes to yml representation."""
         yaml.dump(self._content, o, sort_keys=False)
@@ -98,4 +94,5 @@ class BibtexOutputFormat(OutputFormat):
         for ref in self._content:
             entry_type = ref[_ENTRY_TYPE_FIELD_IN_DICT]
             if entry_type in TYPES:
-                o.write(f"{TYPES[entry_type].from_dict(ref, scope).to_py(scope_symbol=self._scope_symbol)}\n")
+                o.write(f"{TYPES[entry_type].from_dict(ref, scope)
+                        .to_py(scope_symbol=self._scope_symbol, symbolizer=self._symbolizer)}\n")

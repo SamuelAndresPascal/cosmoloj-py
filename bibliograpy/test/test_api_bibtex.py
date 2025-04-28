@@ -6,6 +6,7 @@ import pytest
 
 from bibliograpy.api_bibtex import Misc, TechReport, BibtexReference, inbook
 from bibliograpy.api_common import cite
+from bibliograpy.default_symbolizer import DefaultSymbolizer
 
 SCOPE: dict[str, BibtexReference] = {}
 
@@ -27,7 +28,7 @@ IAU_2006_B1 = TechReport.generic(
 
 def test_to_source_bib():
     """test to python source bib serialization"""
-    assert (IAU_2006_B1.to_py(scope_symbol=None) ==
+    assert (IAU_2006_B1.to_py(scope_symbol=None, symbolizer=DefaultSymbolizer.default()) ==
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',
@@ -38,7 +39,7 @@ IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
 
 def test_to_source_bib_with_scope():
     """test to python source bib serialization"""
-    assert (IAU_2006_B1.to_py(scope_symbol='SCOPE') ==
+    assert (IAU_2006_B1.to_py(scope_symbol='SCOPE', symbolizer=DefaultSymbolizer.default()) ==
 """
 IAU_2006_B1 = TechReport.generic(cite_key='iau_2006_b1',
                                  author='',

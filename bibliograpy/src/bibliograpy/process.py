@@ -63,12 +63,23 @@ class _Params:
         if 'symbolizer' in self.ns:
             p = self.ns.symbolizer.split(':')
             module_name = p[0]
-            class_name = p[1] if len(p) > 1 else 'PythonHelper'
+            class_name = p[1] if len(p) > 1 else 'Symbolizer'
             return vars(importlib.import_module(module_name))[class_name]()
 
-        return DefaultSymbolizer()
+        return DefaultSymbolizer.default()
+
+    def documenter(self) -> Symbolizer:
+        """Computes and gets the python helper for python symbol definition."""
+        if 'documenter' in self.ns:
+            p = self.ns.documenter.split(':')
+            module_name = p[0]
+            class_name = p[1] if len(p) > 1 else 'Documenter'
+            return vars(importlib.import_module(module_name))[class_name]()
+
+        return DefaultSymbolizer.default()
 
     def to_output_params(self) -> OutputParams:
+        """Builds output parameters."""
         return OutputParams(target=self.target(), symbolizer=self.symbolizer())
 
 def _process(ns: Namespace):
