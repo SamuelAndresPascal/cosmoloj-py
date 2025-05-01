@@ -2,7 +2,7 @@
 import inspect
 from dataclasses import dataclass
 from enum import Enum
-from typing import TextIO
+from typing import TextIO, Any
 
 
 @dataclass(frozen=True)
@@ -150,14 +150,14 @@ class CitationRenderer:
         Returns: a string rendering the list of the input reference symbols
         """
 
-    def _doc_core(self, doc: str, *refs) -> str:
+    def _doc_core(self, doc: str, *refs: Any | list) -> str:
         """Manages the documentation modification in various use cases:
 
         1. If the documentation is None, inits it to an empty string.
         2. Then, handles the cases the refs are a single instance, a list or a varargs of bibliographical symbols.
 
         Args:
-            *refs: a series of bibliographical reference symbols
+            *refs (Any | list): a series of bibliographical reference symbols
         """
         if doc is None:
             doc = ''
@@ -173,22 +173,22 @@ class CitationRenderer:
 
         return doc
 
-    def cite_module(self, *refs) -> None:
+    def cite_module(self, *refs: Any | list) -> None:
         """The bibliographical reference function to invoque at module loading to add a reference rendering to its
         documentation.
 
         Args:
-            *refs: a series of bibliographical reference symbols
+            *refs (Any | list): a series of bibliographical reference symbols
         """
         frm = inspect.stack()[1]
         mod = inspect.getmodule(frm[0])
         mod.__doc__ = self._doc_core(mod.__doc__, *refs)
 
-    def decorator(self, *refs) -> "Returns a function to handle a function, a class or a method.":
+    def decorator(self, *refs: Any) -> "Returns a function to handle a function, a class or a method.":
         """The bibliographical reference decorator to use for functions, classes and methods.
 
         Args:
-            *refs: a series of bibliographical reference symbols
+            *refs (Any | list[Any]): a series of bibliographical reference symbols
 
         Returns: a function to handle a function, a class or a method documentation which to render the bibliographical
         references into
