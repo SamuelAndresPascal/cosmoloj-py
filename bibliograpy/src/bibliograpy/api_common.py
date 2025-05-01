@@ -1,7 +1,7 @@
 """"Common management of citation decorators for references."""
 
 from bibliograpy.api_bibtex import BibtexReference, default_bibtex_formatter
-from bibliograpy.api_core import CitationFormatter
+from bibliograpy.api_core import CitationRenderer
 from bibliograpy.api_ris2001 import Tags as Ris2001, TypeFieldName as Ris2001Field, default_ris2001_formatter
 from bibliograpy.api_ris2011 import Tags as Ris2011, TypeFieldName as Ris2011Field, default_ris2011_formatter
 from bibliograpy.api_refer import Tags as Refer, default_refer_formatter
@@ -9,8 +9,8 @@ from bibliograpy.api_endnote import Tags as Endnote, default_endnote_formatter
 from bibliograpy.api_pubmed import Tags as Pubmed, default_pubmed_formatter
 
 
-class DefaultCitationFormatter(CitationFormatter):
-    """Default citation formatter."""
+class DefaultCitationRenderer(CitationRenderer):
+    """Default citation renderer allowing to define and override a specific rendering by format."""
 
     def __init__(self, prefix: str, itemize: str):
         self._prefix = prefix
@@ -68,7 +68,7 @@ class DefaultCitationFormatter(CitationFormatter):
         """pubmed reference formatter."""
         return default_pubmed_formatter(r)
 
-_renderer = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')
+_renderer = DefaultCitationRenderer(prefix='Bibliography:', itemize='*')
 cite = _renderer.decorator
 cite_module = _renderer.cite_module
 

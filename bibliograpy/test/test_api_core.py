@@ -3,7 +3,7 @@ import sys
 import pydoc
 
 from bibliograpy.api_bibtex import Misc, TechReport, BibtexReference
-from bibliograpy.api_core import CitationFormatter
+from bibliograpy.api_core import CitationRenderer
 
 SCOPE: dict[str, BibtexReference] = {}
 
@@ -26,7 +26,7 @@ IAU_2006_B1 = TechReport.generic(
 def test_custom_citation_formatter():
     """test custom citation formatter"""
 
-    class _CitationFormatter(CitationFormatter):
+    class _CitationRenderer(CitationRenderer):
         def format(self, refs: list) -> str:
             if len(refs) == 1:
                 return f"\n\nBibliographie : {self.ref_formatter(refs[0])}\n"
@@ -40,7 +40,7 @@ def test_custom_citation_formatter():
             """The single reference formatter."""
             return f"{r.title} [{r.cite_key}]"
 
-    ref = _CitationFormatter().decorator
+    ref = _CitationRenderer().decorator
 
     @ref(IAU_2006_B1, IAU)
     def tatafr():

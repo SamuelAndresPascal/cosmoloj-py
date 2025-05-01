@@ -4,7 +4,7 @@ import pydoc
 
 
 from bibliograpy.api_bibtex import Misc, TechReport, BibtexReference
-from bibliograpy.api_common import DefaultCitationFormatter
+from bibliograpy.api_common import DefaultCitationRenderer
 from bibliograpy.api_ris2001 import Tags as Ris2001, TypeFieldName as Ris2001Type
 
 NASA = {Ris2001.TY: Ris2001Type.GEN, Ris2001.TI: 'NASA', Ris2001.ID: 'nasa'}
@@ -30,7 +30,7 @@ IAU_2006_B1 = TechReport.generic(
 def test_parameterized_default_citation_formatter():
     """test parameterized default citation formatter"""
 
-    class _DefaultCitationFormatter(DefaultCitationFormatter):
+    class _DefaultCitationFormatter(DefaultCitationRenderer):
         def bibtex(self, r: BibtexReference) -> str:
             base = f'{r.title} [{r.cite_key}]'
             if r.crossref:

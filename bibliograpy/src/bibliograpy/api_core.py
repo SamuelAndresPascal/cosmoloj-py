@@ -134,18 +134,30 @@ class OutputFormat:
         raise ValueError(f'unsupported configuration format {self.target()}')
 
 
-class CitationFormatter:
-    """A builder of reference decorators."""
+class CitationRenderer:
+    """A builder of reference renderers:
+
+    1. the function, class and symbol decorator
+    2. the function to invoque at module loading
+    """
 
     def format(self, refs: list) -> str:
-        """Formats a citation list."""
+        """Formats a citation list.
+
+        Args:
+            *refs: a list of bibliographical reference symbols
+
+        Returns: a string rendering the list of the input reference symbols
+        """
 
     def _doc_core(self, doc: str, *refs) -> str:
-        """Manages the documentation modification in various use cases.
+        """Manages the documentation modification in various use cases:
 
         1. If the documentation is None, inits it to an empty string.
-        2. Then, handles the cases the refs are a single instance, a list or a varargs
+        2. Then, handles the cases the refs are a single instance, a list or a varargs of bibliographical symbols.
 
+        Args:
+            *refs: a series of bibliographical reference symbols
         """
         if doc is None:
             doc = ''
@@ -162,34 +174,36 @@ class CitationFormatter:
         return doc
 
     def cite_module(self, *refs) -> None:
+        """The bibliographical reference function to invoque at module loading to add a reference rendering to its
+        documentation.
+
+        Args:
+            *refs: a series of bibliographical reference symbols
+        """
         frm = inspect.stack()[1]
         mod = inspect.getmodule(frm[0])
         mod.__doc__ = self._doc_core(mod.__doc__, *refs)
 
-    def decorator(self, *refs):
-        """The reference decorator."""
+    def decorator(self, *refs) -> "Returns a function to handle a function, a class or a method.":
+        """The bibliographical reference decorator to use for functions, classes and methods.
+
+        Args:
+            *refs: a series of bibliographical reference symbols
+
+        Returns: a function to handle a function, a class or a method documentation which to render the bibliographical
+        references into
+        """
 
         def internal(obj):
+            """
+            Renders the bibliographical references given to the decorator into the parameter documentation.
+
+            Args:
+                obj: a function, a class or a method which documentation has to be added in
+
+            Returns: the very input function, class or method
+            """
             obj.__doc__ = self._doc_core(obj.__doc__, *refs)
             return obj
 
         return internal
-
-
-class SimpleCitationFormatter(CitationFormatter):
-    """A simple citation formatter for """
-
-    def __init__(self, prefix, itemize, reference_formatter):
-        self._prefix = prefix
-        self._itemize = itemize
-        self._reference_formatter = reference_formatter
-
-    def format(self, refs: list) -> str:
-
-        if len(refs) == 1:
-            return f"\n\n{self._prefix} {self._reference_formatter(refs[0])}\n"
-
-        result = f"\n\n{self._prefix}\n\n"
-        for r in refs:
-            result += f"{self._itemize} {self._reference_formatter(r)}\n"
-        return result

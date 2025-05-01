@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any
 import logging
 
-from bibliograpy.api_core import SimpleCitationFormatter, Symbolizer, Formats
+from bibliograpy.api_core import Symbolizer, Formats, CitationRenderer
 
 LOG = logging.getLogger(__name__)
 
@@ -479,8 +479,29 @@ def default_bibtex_formatter(r: BibtexReference):
     r = r.cross_resolved()
     return f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY else r.title
 
+####
+#### Define internal bibtex decorators
+####
 
-_cite = SimpleCitationFormatter(prefix='Bibliography:',
+class _SimpleCitationRenderer(CitationRenderer):
+    """A simple citation formatter for """
+
+    def __init__(self, prefix, itemize, reference_formatter):
+        self._prefix = prefix
+        self._itemize = itemize
+        self._reference_formatter = reference_formatter
+
+    def format(self, refs: list) -> str:
+
+        if len(refs) == 1:
+            return f"\n\n{self._prefix} {self._reference_formatter(refs[0])}\n"
+
+        result = f"\n\n{self._prefix}\n\n"
+        for r in refs:
+            result += f"{self._itemize} {self._reference_formatter(r)}\n"
+        return result
+
+_cite = _SimpleCitationRenderer(prefix='Bibliography:',
                                 itemize='*',
                                 reference_formatter=default_bibtex_formatter).decorator
 
