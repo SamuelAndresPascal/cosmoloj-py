@@ -13,6 +13,7 @@ nav:
       - bibliograpy: bibliograpy.md
       - bibtex: bibliograpy_bibtex.md
       - 'RIS/refer/Endnote': bibliograpy_ris_refer_endnote.md
+  - installation: installation.md
   - API: api.md
   - About: about.md
 
@@ -27,6 +28,7 @@ plugins:
   - bibtex:
       bib_file: bibliography.bib
       csl_file: https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/bristol-university-press.csl
+      enable_inline_citations: false
 
 markdown_extensions:
   - admonition

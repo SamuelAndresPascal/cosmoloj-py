@@ -3,12 +3,39 @@ from bibliograpy.api_bibtex import *
 _SCOPE = {}
 
 
+ECMA = Misc.generic(cite_key='ecma',
+                    organization='ecma international',
+                    non_standard=NonStandard(url='https://ecma-international.org'),
+                    scope=_SCOPE)
+
+JSON = Misc.generic(cite_key='json',
+                    crossref=ECMA,
+                    note='ECMA-404',
+                    title='The JSON data interchange syntax',
+                    non_standard=NonStandard(url='https://ecma-international.org/publications-and-standards/standards/ecma-404/'),
+                    scope=_SCOPE)
+
+YAML = Misc.generic(cite_key='yaml',
+                    title='YAML™ Specification Index',
+                    non_standard=NonStandard(url='https://yaml.org/spec/'),
+                    scope=_SCOPE)
+
 BIBLIOGRAPI = Misc.generic(cite_key='bibliograpi',
                            author='Samuel Andrés',
                            title='BibliogrAPI Specification',
                            year='2024',
                            non_standard=NonStandard(url='https://cosmoloj.com/bibapi/'),
                            scope=_SCOPE)
+
+BIBTEX_COM = Misc.generic(cite_key='bibtex_com',
+                          title='www.bibtex.com',
+                          non_standard=NonStandard(url='https://www.bibtex.com/'),
+                          scope=_SCOPE)
+
+BIBTEX_PACKAGE = Misc.generic(cite_key='bibtex_package',
+                              title='CTAN Bibtex package documentation',
+                              non_standard=NonStandard(url='https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/biblio/bibtex/base/btxdoc.pdf'),
+                              scope=_SCOPE)
 
 RIS_2001 = Misc.generic(cite_key='ris_2001',
                         month='february',

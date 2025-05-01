@@ -6,7 +6,7 @@
 **/test_pypi_dist/
 **/*.egg-info/
 **/build/
-**/site/
+**/site*/
 *.coverage
 report.xml
 coverage.xml
