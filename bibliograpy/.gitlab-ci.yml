@@ -145,8 +145,6 @@ python-version-support:bibliograpy:
     - cd bibliograpy
     - . resources/check_py_version.sh 3.13 || exit 1
     - . resources/check_py_version.sh 3.12 || exit 1
-    - . resources/check_py_version.sh 3.11 || exit 1
-    - . resources/check_py_version.sh 3.10 || exit 1
 
 demo:bibliograpy:
   stage: demo
