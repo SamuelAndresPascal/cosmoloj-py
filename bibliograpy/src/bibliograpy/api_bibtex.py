@@ -480,7 +480,9 @@ def default_bibtex_formatter(r: BibtexReference):
     return f"{r.title} [{r.cite_key}]" if r.cite_key != _ANONYM_CITE_KEY else r.title
 
 
-_cite = SimpleCitationFormatter(prefix='Bibliography:', itemize='*', reference_formatter=default_bibtex_formatter)
+_cite = SimpleCitationFormatter(prefix='Bibliography:',
+                                itemize='*',
+                                reference_formatter=default_bibtex_formatter).decorator
 
 
 class _InternalReference(BibtexReference):

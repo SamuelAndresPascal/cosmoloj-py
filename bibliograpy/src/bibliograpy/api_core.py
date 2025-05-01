@@ -1,4 +1,5 @@
 """Core management of reference decorators."""
+import inspect
 from dataclasses import dataclass
 from enum import Enum
 from typing import TextIO
@@ -139,20 +140,37 @@ class CitationFormatter:
     def format(self, refs: list) -> str:
         """Formats a citation list."""
 
-    def __call__(self, *refs):
+    def _doc_core(self, doc: str, *refs) -> str:
+        """Manages the documentation modification in various use cases.
+
+        1. If the documentation is None, inits it to an empty string.
+        2. Then, handles the cases the refs are a single instance, a list or a varargs
+
+        """
+        if doc is None:
+            doc = ''
+
+        if len(refs) == 1:
+            ref0 = refs[0]
+            if isinstance(ref0, list):
+                doc += self.format(ref0)
+            else:
+                doc += self.format([ref0])
+        else:
+            doc += self.format([*refs])
+
+        return doc
+
+    def cite_module(self, *refs) -> None:
+        frm = inspect.stack()[1]
+        mod = inspect.getmodule(frm[0])
+        mod.__doc__ = self._doc_core(mod.__doc__, *refs)
+
+    def decorator(self, *refs):
         """The reference decorator."""
 
         def internal(obj):
-            if obj.__doc__ is None:
-                obj.__doc__ = ''
-            if len(refs) == 1:
-                ref0 = refs[0]
-                if isinstance(ref0, list):
-                    obj.__doc__ += self.format(ref0)
-                else:
-                    obj.__doc__ += self.format([ref0])
-            else:
-                obj.__doc__ += self.format([*refs])
+            obj.__doc__ = self._doc_core(obj.__doc__, *refs)
             return obj
 
         return internal

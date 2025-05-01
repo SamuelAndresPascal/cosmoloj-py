@@ -68,4 +68,37 @@ class DefaultCitationFormatter(CitationFormatter):
         """pubmed reference formatter."""
         return default_pubmed_formatter(r)
 
-cite = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')
+_renderer = DefaultCitationFormatter(prefix='Bibliography:', itemize='*')
+cite = _renderer.decorator
+cite_module = _renderer.cite_module
+
+def cite_hint[T](t: T, *refs) -> T:
+    """A citation hint function to be used everywhere a type hint could have been used:
+    * global variables hints
+    * local variables hints
+    * dataclass fields hints
+    * function/method parameters hints
+    * function/method return hints
+
+    Instead of:
+
+    >>> a: int = 3
+
+    >>> def foo(b: int) -> int
+    >>>    return b
+
+    Use it for bibliographical annotation:
+
+    >>>
+    >>> MY_REFERENCE = {}
+    >>>
+    >>> a: cite_hint(int, MY_REFERENCE) = 3
+
+    >>> MY_REFERENCE = {}
+    >>>
+    >>> def foo(b: cite_hint(int, MY_REFERENCE)) -> cite_hint(int, MY_REFERENCE)
+    >>>    return b
+
+    """
+
+    return t

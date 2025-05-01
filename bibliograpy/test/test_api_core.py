@@ -40,7 +40,7 @@ def test_custom_citation_formatter():
             """The single reference formatter."""
             return f"{r.title} [{r.cite_key}]"
 
-    ref = _CitationFormatter()
+    ref = _CitationFormatter().decorator
 
     @ref(IAU_2006_B1, IAU)
     def tatafr():

@@ -1,9 +1,9 @@
 site_name: Bibliograpy
 repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
-edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/bibliograpy/docs/en
+edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/bibliograpy/docs/fr
 site_description: Bibliograpy documentation site
 site_author: Samuel Andrés
-docs_dir: docs/en
+docs_dir: docs/fr
 
 strict: true
 

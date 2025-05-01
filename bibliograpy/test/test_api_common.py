@@ -38,7 +38,7 @@ def test_parameterized_default_citation_formatter():
             return base
 
     ref = _DefaultCitationFormatter(prefix='Références bibliographiques :',
-                                    itemize='++')
+                                    itemize='++').decorator
 
     @ref(IAU_2006_B1, IAU, NASA)
     def tatafr():

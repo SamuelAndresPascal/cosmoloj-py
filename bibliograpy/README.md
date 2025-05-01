@@ -445,6 +445,6 @@ my_function()
 
 ## Documentation
 
-[Latest release](https://cosmoloj.com/mkdocs/bibliograpy/latest/)
+[Latest release](https://cosmoloj.com/mkdocs/bibliograpy/en/latest/)
 
-[Trunk](https://cosmoloj.com/mkdocs/bibliograpy/master/)
+[Trunk](https://cosmoloj.com/mkdocs/bibliograpy/en/master/)
