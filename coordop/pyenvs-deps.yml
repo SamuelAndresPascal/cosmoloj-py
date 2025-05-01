@@ -31,14 +31,14 @@ dependencies:
   - id: pytest-cov
     environments: [test]
   - id: mkdocs
-    version: '1.6'
+    version: 1.6.1
     environments: [doc]
   - id: mkdocstrings
     environments: [doc]
   - id: mkdocstrings-python
     environments: [doc]
   - id: mkdocs-bibtex
-    version: 4.0.1
+    version: 4.2.5
     environments: [doc]
   - id: build
     version: 1.2.2.post1
