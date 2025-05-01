@@ -102,6 +102,6 @@ def cite_hint[T](t: T, *refs) -> T:
     """
 
     for r in refs:
-        assert isinstance(r, dict) or isinstance(r, BibtexReference)
+        assert isinstance(r, (dict, BibtexReference))
 
     return t
