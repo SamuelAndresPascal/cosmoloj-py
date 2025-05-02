@@ -16,11 +16,11 @@ syntaxe `YAML` [@yaml] ou `JSON` [@json]
 
 ## Cas d'utilisation
 
-Un code source élégant, rigoureux, raisonnablement documenté peut être vu comme une documentation exécutable. À ce titre
-on souhaiterait y indiquer les ressources bibliographiques auxquelles il se réfère de manière aussi aisée qu'on le fait
-dans un article même: une simple annotation par une clef bibliographique dans le texte renvoyant à la référence 
-détaillée dans une bibliographie centralisée, une même référence pouvant aisément être souvent utilisée dans le texte
-par la simple mention de sa clef bibliographique.
+Un code source élégant, rigoureux, raisonnablement documenté, peut être vu comme une documentation exécutable.
+À ce titre, on souhaiterait y indiquer les ressources bibliographiques auxquelles il se réfère de manière aussi aisée 
+qu'on le pratique dans un article : une simple annotation par une clef bibliographique dans le texte renvoyant à la 
+référence détaillée dans une bibliographie centralisée, une même référence pouvant aisément être souvent utilisée dans 
+le texte par la simple mention de sa clef bibliographique.
 
 Sans outil dédié, la manière la plus intuitive de référencer des ressources bibliographiques dans du code source Python 
 consiste à les énumérer dans la documentation des entités concernées (classes, fonctions, constantes).
