@@ -85,7 +85,7 @@ class TSEvaluation:
         LOG.debug("prepare modelisation data")
         modelisation_data = self._prepare_modelisation(raw_data=raw_modelisation)
         LOG.debug("preprocess modelisation data")
-        modelisation_data = self.preprocess_reference(data=modelisation_data)
+        modelisation_data = self.preprocess_modelisation(data=modelisation_data)
 
         LOG.debug("process group analysis")
         l = []
