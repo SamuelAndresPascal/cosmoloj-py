@@ -35,9 +35,7 @@ class TSEvaluation:
         """"""
         return data[self.modelisation_time_label()]
 
-    def _prepare_reference(self, raw_data: pd.DataFrame) -> pd.DataFrame:
-
-        data = pd.DataFrame(data=raw_data, copy=True)
+    def _prepare_reference(self, data: pd.DataFrame) -> pd.DataFrame:
 
         # calcul des colonnes d'identifiant de série temporelle et de date
         data[self.reference_tsid_label()] = self.reference_tsid_series_computation(data)
@@ -57,9 +55,7 @@ class TSEvaluation:
     def preprocess_modelisation_ts(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
         return data[self.modelisation_time_label()]
 
-    def _prepare_modelisation(self, raw_data: pd.DataFrame) -> pd.DataFrame:
-
-        data = pd.DataFrame(data=raw_data, copy=True)
+    def _prepare_modelisation(self, data: pd.DataFrame) -> pd.DataFrame:
 
         # calcul des colonnes d'identifiant de série temporelle et de date
         data[self.modelisation_tsid_label()] = self.modelisation_tsid_series_computation(data)
@@ -70,20 +66,20 @@ class TSEvaluation:
                                 ascending=True)
 
 
-    def process_ts(self, reference_data: pd.Series, model_dates: pd.DataFrame | pd.Series):
+    def process_ts(self, reference_data: pd.Series, modelisation_data: pd.DataFrame | pd.Series):
         return {
             self.reference_tsid_label(): reference_data[self.reference_tsid_label()],
             self.reference_time_label(): reference_data[self.reference_time_label()]
         }
 
-    def compute(self, raw_reference: pd.DataFrame, raw_modelisation: pd.DataFrame) -> pd.DataFrame:
+    def compute(self, raw_reference: pd.DataFrame, raw_modelisation: pd.DataFrame) -> list[pd.DataFrame]:
         LOG.debug("prepare reference data")
-        reference_data = self._prepare_reference(raw_data=raw_reference)
+        reference_data = self._prepare_reference(data=raw_reference)
         LOG.debug("preprocess reference data")
         reference_data = self.preprocess_reference(data=reference_data)
 
         LOG.debug("prepare modelisation data")
-        modelisation_data = self._prepare_modelisation(raw_data=raw_modelisation)
+        modelisation_data = self._prepare_modelisation(data=raw_modelisation)
         LOG.debug("preprocess modelisation data")
         modelisation_data = self.preprocess_modelisation(data=modelisation_data)
 
@@ -95,6 +91,6 @@ class TSEvaluation:
             l.append(reference_ts.apply(self.process_ts,
                                         axis=1,
                                         result_type='expand',
-                                        model_data=modelisation_ts))
-        LOG.debug("concat group results")
-        return pd.concat(l)
+                                        modelisation_data=modelisation_ts))
+        LOG.debug("end of processing")
+        return l

@@ -30,10 +30,8 @@ if __name__ == '__main__':
     print(model)
     print(model[model['tsid'] == 0])
 
-    evaluation = ObsValWindowEvaluation.from_day_window(raw_reference_data=reference,
-                                                        reference_tsid_label='tsid',
+    evaluation = ObsValWindowEvaluation.from_day_window(reference_tsid_label='tsid',
                                                         reference_date_label='date',
-                                                        raw_modelisation_data=model,
                                                         modelisation_tsid_label='tsid',
                                                         modelisation_date_label='date',
                                                         obs_inf=30,
@@ -41,7 +39,7 @@ if __name__ == '__main__':
                                                         val_inf=15,
                                                         val_sup=15)
 
-    obs_val = evaluation.compute(raw_reference=reference, raw_modelisation=model)
+    obs_val = pd.concat(evaluation.compute(raw_reference=reference, raw_modelisation=model))
     print(obs_val)
     LOG.info("end mapping")
 

@@ -1,11 +1,8 @@
 from datetime import timedelta
-from logging import getLogger, config, DEBUG
-from pathlib import Path
+from logging import getLogger, DEBUG
 from typing import override
 
-import numpy as np
 import pandas as pd
-import polars as pl
 
 from learning.time_series.simple_window_evaluation.ts_evaluation import TSEvaluation
 
@@ -16,20 +13,16 @@ class ObsValWindowEvaluation(TSEvaluation):
     TRACE = DEBUG - DEBUG // 2
 
     def __init__(self,
-                 raw_reference_data: pd.DataFrame,
                  reference_tsid_label: str,
                  reference_date_label: str,
-                 raw_modelisation_data: pd.DataFrame,
                  modelisation_tsid_label: str,
                  modelisation_date_label: str,
                  obs_inf: timedelta,
                  obs_sup: timedelta,
                  val_inf: timedelta,
                  val_sup: timedelta):
-        self._raw_reference_data = raw_reference_data
         self._reference_tsid_label = reference_tsid_label
         self._reference_date_label = reference_date_label
-        self._raw_modelisation_data = raw_modelisation_data
         self._modelisation_tsid_label = modelisation_tsid_label
         self._modelisation_date_label = modelisation_date_label
         self._obs_inf = obs_inf
@@ -72,27 +65,23 @@ class ObsValWindowEvaluation(TSEvaluation):
         return data
 
     @override
-    def process_ts(self, reference_data, model_data):
-        result = super().process_ts(reference_data=reference_data, model_dates=model_data)
+    def process_ts(self, reference_data: pd.Series, modelisation_data: pd.DataFrame | pd.Series):
+        result = super().process_ts(reference_data=reference_data, modelisation_data=modelisation_data)
         LOG.log(level=ObsValWindowEvaluation.TRACE, msg='compute observed / validated')
-        obs = model_data[model_data.between(reference_data['obs_inf'], reference_data['obs_sup'])]  # 3s
+        obs = modelisation_data[modelisation_data.between(reference_data['obs_inf'], reference_data['obs_sup'])]  # 3s
         val = obs[obs.between(reference_data['val_inf'], reference_data['val_sup'])]  # 3s
         result['obs'] = len(obs)
         result['val'] = len(val)
         return result
 
     @staticmethod
-    def from_day_window(raw_reference_data: pd.DataFrame,
-                        reference_tsid_label: str,
+    def from_day_window(reference_tsid_label: str,
                         reference_date_label: str,
-                        raw_modelisation_data: pd.DataFrame,
                         modelisation_tsid_label: str,
                         modelisation_date_label: str,
                         obs_inf: int, obs_sup: int, val_inf: int, val_sup: int):
-        return ObsValWindowEvaluation(raw_reference_data=raw_reference_data,
-                                      reference_tsid_label=reference_tsid_label,
+        return ObsValWindowEvaluation(reference_tsid_label=reference_tsid_label,
                                       reference_date_label=reference_date_label,
-                                      raw_modelisation_data=raw_modelisation_data,
                                       modelisation_tsid_label=modelisation_tsid_label,
                                       modelisation_date_label=modelisation_date_label,
                                       obs_inf=timedelta(days=obs_inf),
