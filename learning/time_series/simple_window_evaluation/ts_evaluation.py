@@ -17,7 +17,7 @@ class TSEvaluation:
         """"""
         return data[self.reference_tsid_label()]
 
-    def reference_date_series_computation(self, data: pd.DataFrame) -> pd.Series:
+    def reference_time_series_computation(self, data: pd.DataFrame) -> pd.Series:
         """"""
         return data[self.reference_time_label()]
 
@@ -31,7 +31,7 @@ class TSEvaluation:
         """"""
         return data[self.modelisation_tsid_label()]
 
-    def modelisation_date_series_computation(self, data: pd.DataFrame) -> pd.Series:
+    def modelisation_time_series_computation(self, data: pd.DataFrame) -> pd.Series:
         """"""
         return data[self.modelisation_time_label()]
 
@@ -39,7 +39,7 @@ class TSEvaluation:
 
         # calcul des colonnes d'identifiant de série temporelle et de date
         data[self.reference_tsid_label()] = self.reference_tsid_series_computation(data)
-        data[self.reference_time_label()] = self.reference_date_series_computation(data)
+        data[self.reference_time_label()] = self.reference_time_series_computation(data)
 
 
         return data.sort_values(by=[self.reference_tsid_label(), self.reference_time_label()],
@@ -59,7 +59,7 @@ class TSEvaluation:
 
         # calcul des colonnes d'identifiant de série temporelle et de date
         data[self.modelisation_tsid_label()] = self.modelisation_tsid_series_computation(data)
-        data[self.modelisation_time_label()] = self.modelisation_date_series_computation(data)
+        data[self.modelisation_time_label()] = self.modelisation_time_series_computation(data)
 
         return data.sort_values(by=[self.modelisation_tsid_label(), self.modelisation_time_label()],
                                 axis=0,
