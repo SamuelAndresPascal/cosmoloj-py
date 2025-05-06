@@ -34,13 +34,15 @@ if __name__ == '__main__':
                                                         reference_date_label='date',
                                                         modelisation_tsid_label='tsid',
                                                         modelisation_date_label='date',
-                                                        obs_inf=30,
-                                                        obs_sup=30,
-                                                        val_inf=15,
-                                                        val_sup=15)
+                                                        windows={
+                                                            'srch': (60, 60),
+                                                            'obs': (30, 30),
+                                                            'val': (15, 15)
+                                                        })
 
-    obs_val = pd.concat(evaluation.compute(raw_reference=reference, raw_modelisation=model))
-    print(obs_val)
+    LOG.info("start mapping")
+    wineval = pd.concat(evaluation.compute(raw_reference=reference, raw_modelisation=model))
+    print(wineval)
     LOG.info("end mapping")
 
-    print(obs_val[obs_val['tsid'] == 0])
+    print(wineval[wineval['tsid'] == 0])
