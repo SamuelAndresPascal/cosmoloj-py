@@ -1,12 +1,12 @@
+"""Window evaluation demo."""
+
 from logging import getLogger, config
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
-import polars as pl
 
-from learning.time_series.simple_window_evaluation.data_random import random_ts_df
-from learning.time_series.simple_window_evaluation.win_evaluation import WindowEvaluation
+from data_random import random_ts_df
+from pylotable.ts.win_ts_coprocessor import WindowTSCoprocessor
 
 LOG = getLogger(__name__)
 
@@ -30,13 +30,13 @@ if __name__ == '__main__':
     print(model)
     print(model[model['tsid'] == 0])
 
-    evaluation = WindowEvaluation.from_day_window(reference_labels=('tsid', 'date'),
-                                                  modelisation_labels=('tsid', 'date'),
-                                                  windows={
-                                                      'srch': (60, 60),
-                                                      'obs': (30, 30),
-                                                      'val': (15, 15)
-                                                  })
+    evaluation = WindowTSCoprocessor.from_day_window(reference_labels=('tsid', 'date'),
+                                                     modelisation_labels=('tsid', 'date'),
+                                                     windows={
+                                                         'srch': (60, 60),
+                                                         'obs': (30, 30),
+                                                         'val': (15, 15)
+                                                     })
 
     LOG.info("start mapping")
     wineval = pd.concat(evaluation.compute(raw_reference=reference, raw_modelisation=model))

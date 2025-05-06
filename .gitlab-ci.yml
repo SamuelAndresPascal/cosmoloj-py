@@ -28,6 +28,7 @@ include:
   - local: 'coordop/.gitlab-ci.yml'
   - local: 'multienv/.gitlab-ci.yml'
   - local: 'bibliograpy/.gitlab-ci.yml'
+  - local: 'pylotable/.gitlab-ci.yml'
 
 conda_envs:
   stage: envs
@@ -47,6 +48,8 @@ conda_envs:
     - pyenvs deps
     - cd ../bibliograpy
     - pyenvs deps
+    - cd ../pylotable
+    - pyenvs deps
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
     - . ./clean_conda.sh multienv
@@ -58,6 +61,7 @@ conda_envs:
       - coordop/environment_*
       - multienv/environment_*
       - bibliograpy/environment_*
+      - pylotable/environment_*
     expire_in: 2 days
 
 pylintrc_envs:
