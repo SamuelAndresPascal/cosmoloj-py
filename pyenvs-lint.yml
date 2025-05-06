@@ -9,6 +9,7 @@ environments:
   - bibliograpy-test
   - multienv-src
   - taxref-src
+  - pylotable-src
   - src
   - test
 
@@ -67,3 +68,4 @@ sections:
           multienv-src: 'undefined-variable,unused-argument,duplicate-code'
           bibliograpy-test: 'import-error,import-outside-toplevel'
           bibliograpy-src-api: 'too-many-instance-attributes,too-many-arguments,too-many-locals,redefined-builtin'
+          pylotable-src: 'unused-argument'
