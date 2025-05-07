@@ -34,8 +34,6 @@ if __name__ == '__main__':
                                                      modelisation_labels=('tsid', 'date'),
                                                      windows={
                                                          'srch': (60, 60),
-                                                         'obs': (30, 30),
-                                                         'val': (15, 15)
                                                      })
 
     LOG.info("start mapping")

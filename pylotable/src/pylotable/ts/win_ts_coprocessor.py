@@ -3,6 +3,7 @@
 from datetime import timedelta
 from logging import getLogger, DEBUG
 from typing import override
+from collections.abc import Hashable
 
 import pandas as pd
 
@@ -18,7 +19,7 @@ class WindowTSCoprocessor(TSCoprocessor):
     def __init__(self,
                  reference_labels: tuple[str, str],
                  modelisation_labels: tuple[str, str],
-                 windows: dict[str: tuple[timedelta, timedelta]]):
+                 windows: dict[Hashable: tuple[timedelta, timedelta]]):
         self._reference_tsid_label = reference_labels[0]
         self._reference_date_label = reference_labels[1]
         self._modelisation_tsid_label = modelisation_labels[0]
@@ -45,11 +46,10 @@ class WindowTSCoprocessor(TSCoprocessor):
         """Computes the time windows around each reference event."""
 
         LOG.log(level=WindowTSCoprocessor.TRACE, msg='compute observation / validation windows')
-        time_col = data[self.reference_time_label()]
-
+        data = super().preprocess_reference(data)
         for w in self._windows:
-            data[f'{w}_inf'] = time_col - self._windows[w][0]
-            data[f'{w}_sup'] = time_col + self._windows[w][1]
+            data[f'{w}_inf'] = data[self.reference_time_label()] - self._windows[w][0]
+            data[f'{w}_sup'] = data[self.reference_time_label()] + self._windows[w][1]
         return data
 
     @override
@@ -68,7 +68,7 @@ class WindowTSCoprocessor(TSCoprocessor):
     @staticmethod
     def from_day_window(reference_labels: tuple[str, str],
                         modelisation_labels: tuple[str, str],
-                        windows: dict[str, tuple[int, int]]):
+                        windows: dict[Hashable, tuple[int, int]]):
         """Get a window evaluation defined by daily margins around reference events."""
 
         return WindowTSCoprocessor(reference_labels=reference_labels,

@@ -76,9 +76,10 @@ class TSCoprocessor:
     def _prepare_reference(self, data: pd.DataFrame) -> pd.DataFrame:
         """Prepares the reference data.
 
-        The preparation phase include two kinds of steps. First, it computes mandatory steps required for the core
-        computation, such as the timeseries id and timeseries date series computation. Second, it computes optional
-        steps required for more user purposes, like data sorting.
+        The preparation stage includes mandatory steps from a functional point of view and independent of the user
+        purposes.
+
+        It is not supposed to be overridden.
 
         The default behavior computes and assigns the timeseries id and date series to the reference data and sorts it
         by time series id and date.
@@ -92,56 +93,61 @@ class TSCoprocessor:
         # calcul des colonnes d'identifiant de série temporelle et de date
         data[self.reference_tsid_label()] = self.reference_tsid_series_computation(data)
         data[self.reference_time_label()] = self.reference_time_series_computation(data)
-
-        return data.sort_values(by=[self.reference_tsid_label(), self.reference_time_label()],
-                                axis=0,
-                                ascending=True)
+        return data
 
     def preprocess_reference(self, data: pd.DataFrame) -> pd.DataFrame:
         """Preprocesses the reference data.
 
-        The preprocessing phase is not always strictly distinct from the preparation phase, but the preparation phase is
-        recommended not to be modified because of the structural computation it operates on the timeseries id and date
-        series.
-
-        It is why the preparation method is private and the preprocessing method is left public.
-
-        Hence, to implement optional operations on the reference data to be executed before the core processing, prefer
-        adding them to this preprocessing phase rather than to override the preparation phase.
-
-        It commonly consists in dropping data columns not useless to the core processing.
-
-        The default behavior is doing nothing and returning the reference data.
+        The preprocessing stage allows to implement user specific operation. By default, it sorts the data by id and
+        time ascending.
 
         Args:
             data (pd.DataFrame): the reference data.
 
         Returns (pd.Series): the reference data.
         """
-        return data
 
-    def preprocess_modelisation(self, data: pd.DataFrame) -> pd.DataFrame:
-        """Preprocesses the modelisation data.
+        return data.sort_values(by=[self.reference_tsid_label(), self.reference_time_label()],
+                                axis=0,
+                                ascending=True)
 
-        The preprocessing phase is not always strictly distinct from the preparation phase, but the preparation phase is
-        recommended not to be modified because of the structural computation it operates on the timeseries id and date
-        series.
+    def _prepare_modelisation(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Prepares the modelisation data.
 
-        It is why the preparation method is private and the preprocessing method is left public.
+        The preparation stage includes mandatory steps from a functional point of view and independent of the user
+        purposes.
 
-        Hence, to implement optional operations on the modelisation data to be executed before the core processing,
-        prefer adding them to this preprocessing phase rather than to override the preparation phase.
+        It is not supposed to be overridden.
 
-        It commonly consists in dropping data columns not useless to the core processing.
-
-        The default behavior is doing nothing and returning the modelisation data.
+        The default behavior computes and assigns the timeseries id and date series to the modelisation data and sorts
+        it by time series id and date.
 
         Args:
             data (pd.DataFrame): the modelisation data.
 
         Returns (pd.Series): the modelisation data.
         """
+
+        # calcul des colonnes d'identifiant de série temporelle et de date
+        data[self.modelisation_tsid_label()] = self.modelisation_tsid_series_computation(data)
+        data[self.modelisation_time_label()] = self.modelisation_time_series_computation(data)
+
         return data
+
+    def preprocess_modelisation(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Preprocesses the modelisation data.
+
+        The preprocessing stage allows to implement user specific operation. By default, it sorts the data by id and
+        time ascending.
+
+        Args:
+            data (pd.DataFrame): the modelisation data.
+
+        Returns (pd.Series): the modelisation data.
+        """
+        return data.sort_values(by=[self.modelisation_tsid_label(), self.modelisation_time_label()],
+                                axis=0,
+                                ascending=True)
 
     def preprocess_modelisation_ts(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
         """The core process loop over each reference data and processes it to the corresponding modelisation data.
@@ -162,30 +168,6 @@ class TSCoprocessor:
         Returns (pd.DataFrame | pd.Series): the modelisation time series useful for the core processing.
         """
         return data[self.modelisation_time_label()]
-
-    def _prepare_modelisation(self, data: pd.DataFrame) -> pd.DataFrame:
-        """Prepares the modelisation data.
-
-        The preparation phase include two kinds of steps. First, it computes mandatory steps required for the core
-        computation, such as the timeseries id and timeseries date series computation. Second, it computes optional
-        steps required for more user purposes, like data sorting.
-
-        The default behavior computes and assigns the timeseries id and date series to the modelisation data and sorts
-        it by time series id and date.
-
-        Args:
-            data (pd.DataFrame): the modelisation data.
-
-        Returns (pd.Series): the modelisation data.
-        """
-
-        # calcul des colonnes d'identifiant de série temporelle et de date
-        data[self.modelisation_tsid_label()] = self.modelisation_tsid_series_computation(data)
-        data[self.modelisation_time_label()] = self.modelisation_time_series_computation(data)
-
-        return data.sort_values(by=[self.modelisation_tsid_label(), self.modelisation_time_label()],
-                                axis=0,
-                                ascending=True)
 
 
     def process_ts(self, reference_data: pd.Series, modelisation_data: pd.DataFrame | pd.Series):

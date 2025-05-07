@@ -1,9 +1,9 @@
 site_name: Pylotable
 repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
-edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/pylotable/docs/en
-site_description: Pylotable documentation site
+edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/pylotable/docs/fr
+site_description: Pylotable documentation
 site_author: Samuel Andrés
-docs_dir: docs/en
+docs_dir: docs/fr
 
 strict: true
 

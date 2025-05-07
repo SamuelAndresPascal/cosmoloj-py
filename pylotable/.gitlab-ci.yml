@@ -23,9 +23,9 @@ lint_test:pylotable:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc_strict test/test_pylotable.py
+    - pylint --rcfile=../pylintrc_strict test/test_win_ts_coprocessor.py
 
-mkdocs:pylotable:
+mkdocs:en:pylotable:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -37,18 +37,33 @@ mkdocs:pylotable:
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - echo $'\n**Version '$VERSION'**' >> docs/about.md
-    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> docs/about.md
-    - mkdocs build
-    - zip -r site.zip site/
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_SITE_SERVER_PATH/mkdocs/pylotable"
-    - scp site.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/pylotable
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/pylotable ; rm -rf $VERSION ; unzip site.zip ; mv site $VERSION ; rm site.zip"
-    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/pylotable ; rm latest ; ln -s $VERSION latest" ; fi
+    - source ../resources/doc/version.sh en
+    - mkdocs build -d site.en
+    - zip -r site.en.zip site.en/
+    - source ../resources/doc/publish.sh en
   environment:
-    name: documentation
-    url: https://cosmoloj.com/mkdocs/pylotable/master
+    name: documentation.en
+    url: https://cosmoloj.com/mkdocs/pylotable/en/master
+
+mkdocs:fr:pylotable:
+  stage: doc
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+    - if: $CI_COMMIT_TAG =~ /^pylotable_/
+  script:
+    - cd pylotable
+    - conda env create --yes --file environment_doc.yml
+    - conda activate doc
+    - conda list
+    - pip install . # to compile the API docstrings with mkdocstrings
+    - source ../resources/doc/version.sh fr
+    - mkdocs build -d site.fr -f mkdocs.fr.yml
+    - zip -r site.fr.zip site.fr/
+    - source ../resources/doc/publish.sh fr
+  environment:
+    name: documentation.fr
+    url: https://cosmoloj.com/mkdocs/pylotable/fr/master
 
 test:pylotable:
   stage: test
