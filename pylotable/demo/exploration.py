@@ -6,9 +6,9 @@ from pathlib import Path
 import pandas as pd
 
 from data_random import random_ts_df
-from pylotable.ts.win_ts_coprocessor import WindowTSCoprocessor
+from pylotable.ts.win_ts_coprocessor import WindowPandasDfTSCoprocessor
 
-LOG = getLogger(__name__)
+_LOG = getLogger(__name__)
 
 REFERENCE_SEED = 42
 MODELISATION_SEED = 1
@@ -30,15 +30,15 @@ if __name__ == '__main__':
     print(model)
     print(model[model['tsid'] == 0])
 
-    evaluation = WindowTSCoprocessor.from_day_window(reference_labels=('tsid', 'date'),
-                                                     modelisation_labels=('tsid', 'date'),
-                                                     windows={
-                                                         'srch': (60, 60),
-                                                     })
+    evaluation = WindowPandasDfTSCoprocessor.from_day_window(reference_labels=('tsid', 'date'),
+                                                             modelisation_labels=('tsid', 'date'),
+                                                             windows={
+                                                                 'srch': (60, 60)
+                                                             })
 
-    LOG.info("start mapping")
-    wineval = pd.concat(evaluation.compute(raw_reference=reference, raw_modelisation=model))
+    _LOG.info("start mapping")
+    wineval = pd.concat(evaluation.compute(reference=reference, modelisation=model))
     print(wineval)
-    LOG.info("end mapping")
+    _LOG.info("end mapping")
 
     print(wineval[wineval['tsid'] == 0])

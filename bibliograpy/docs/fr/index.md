@@ -10,7 +10,7 @@ syntaxe `YAML` [@yaml] ou `JSON` [@json]
 ***Bibliograpy* n'est pas un outil de conversion de bibliographies entre des formats standards.**
 
 * [Cas d'utilisation](#cas-dutilisation)
-* [Annoter son code](#annoter-son-code)
+* [Décorer son code](#decorer-son-code)
 * [Synchroniser ses références](#synchroniser-ses-references)
 * [Résultat](#resultat)
 
@@ -94,7 +94,7 @@ Cette confusion contraint à opérer des choix quant aux informations relatives 
 mentionner et celles que l'on ne souhaite pas conserver pour ne pas encombrer le rendu : il n'y a pas de place pour 
 d'éventuelles  informations que l'on souhaiterait conserver en tant que données mais pas afficher dans la documentation.
 
-## Annoter son code
+## Décorer son code
 
 L'API *Bibliograpy* permet de représenter les ressources bibliographiques en tant que telles sous une forme réifiée. Les
 ressources sont des objets utilisables dans le code source, ce qui apporte une réponse à ces différents problèmes.

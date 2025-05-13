@@ -12,7 +12,7 @@ nav:
   - bibliograpy:
       - bibliograpy: bibliograpy.md
       - bibtex: bibliograpy_bibtex.md
-      - 'RIS/refer/Endnote': bibliograpy_ris_refer_endnote.md
+      - 'other formats': bibliograpy_other_formats.md
   - API: api.md
   - About: about.md
 

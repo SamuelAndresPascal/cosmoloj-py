@@ -23,7 +23,8 @@ lint_test:pylotable:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc_strict test/test_win_ts_coprocessor.py
+    - pylint --rcfile=../pylintrc_strict test/ts/test_win_ts_coprocessor.py
+    - pylint --rcfile=../pylintrc_strict test/test_gap_ts_processor.py
 
 mkdocs:en:pylotable:
   stage: doc

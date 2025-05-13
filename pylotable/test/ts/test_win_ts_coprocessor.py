@@ -2,9 +2,9 @@
 
 import pandas as pd
 
-from pylotable.ts.win_ts_coprocessor import WindowTSCoprocessor
+from pylotable.ts.win_ts_coprocessor import WindowPandasDfTSCoprocessor
 
-def test_reference_fixture(reference):
+def test_reference_fixture(ref_pd_df):
     """Tests the reference fixture"""
 
     exp_ref = pd.DataFrame()
@@ -16,10 +16,10 @@ def test_reference_fixture(reference):
         '2015-01-14 03:59:32',
         '2015-01-13 23:46:15',
         '2015-01-26 18:11:25']])
-    pd.testing.assert_frame_equal(reference, exp_ref)
+    pd.testing.assert_frame_equal(ref_pd_df, exp_ref)
 
 
-def test_modelisation_fixture(model):
+def test_modelisation_fixture(model_pd_df):
     """Tests the modelisation fixture"""
 
     exp_model = pd.DataFrame()
@@ -31,22 +31,22 @@ def test_modelisation_fixture(model):
         '2015-01-29 12:20:01',
         '2015-01-02 01:05:37',
         '2015-01-05 07:47:41']])
-    pd.testing.assert_frame_equal(model, exp_model)
+    pd.testing.assert_frame_equal(model_pd_df, exp_model)
 
 
-def test_win_ts_coprocessor(reference: pd.DataFrame, model: pd.DataFrame):
+def test_win_ts_coprocessor(ref_pd_df: pd.DataFrame, model_pd_df: pd.DataFrame):
     """Tests the default window counts are correctly computed."""
 
-    coprocessor = WindowTSCoprocessor.from_day_window(reference_labels=('tsid', 'date'),
-                                                     modelisation_labels=('tsid', 'date'),
-                                                     windows={
-                                                         'w_10_10': (10, 10),
-                                                         'w_1_5': (1, 5),
-                                                     })
+    coprocessor = WindowPandasDfTSCoprocessor.from_day_window(reference_labels=('tsid', 'date'),
+                                                              modelisation_labels=('tsid', 'date'),
+                                                              windows={
+                                                                  'w_10_10': (10, 10),
+                                                                  'w_1_5': (1, 5),
+                                                              })
 
-    evaluation = pd.concat(coprocessor.compute(raw_reference=reference, raw_modelisation=model))
+    evaluation = pd.concat(coprocessor.compute(reference=ref_pd_df, modelisation=model_pd_df))
 
-    # ressult should have been sorted by reference tsid/date
+    # result should have been sorted by reference tsid/date
     exp_eval = pd.DataFrame(index=[0, 4, 3, 2, 1, 5], data={
         'tsid': [0, 1, 1, 1, 2, 2],
         'date': [pd.to_datetime(e) for e in [

@@ -31,9 +31,13 @@ START = pd.to_datetime('2015-01-01')
 END = pd.to_datetime('2015-01-31')
 
 @pytest.fixture
-def reference():
+def ref_pd_df():
     return random_ts_df(seed=REFERENCE_SEED, ind_card=CARD, evt_card=EVT, ts_start=START, ts_end=END)
 
 @pytest.fixture
-def model():
+def model_pd_df():
     return random_ts_df(seed=MODELISATION_SEED, ind_card=CARD, evt_card=EVT, ts_start=START, ts_end=END)
+
+@pytest.fixture
+def ref_pd_series(ref_pd_df):
+    return ref_pd_df['date']

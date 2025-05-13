@@ -4,21 +4,31 @@ from logging import getLogger
 
 import pandas as pd
 
-LOG = getLogger(__name__)
+_LOG = getLogger(__name__)
 
-class TSCoprocessor:
+class Coprocessor:
+    """"""
+
+    def compute(self, reference, modelisation):
+        """"""
+
+
+class PandasDfTSCoprocessor(Coprocessor):
     """Co-processes series."""
 
     def reference_time_label(self) -> str:
         """The time column label of the reference data."""
 
-    def reference_tsid_label(self) -> str:
-        """The time series id of the reference data."""
+    def reference_sid_label(self) -> str:
+        """The series id label of the reference data."""
 
-    def reference_tsid_series_computation(self, data: pd.DataFrame) -> pd.Series:
-        """Computes the timeseries id series of the reference data.
+    def reference_sid_series_computation(self, data: pd.DataFrame) -> pd.Series:
+        """Computes the id series of the reference data.
+
         It is supposed to be called internally only once.
+
         It is not supposed to add the series to the reference data if it is not included yet, but only to compute it.
+
         The default implementation does compute nothing. It assumes the series exists and returns it.
 
         Args:
@@ -26,7 +36,7 @@ class TSCoprocessor:
 
         Returns (pd.Series): the timeseries id series of the reference data.
         """
-        return data[self.reference_tsid_label()]
+        return data[self.reference_sid_label()]
 
     def reference_time_series_computation(self, data: pd.DataFrame) -> pd.Series:
         """Computes the timeseries date series of the reference data.
@@ -44,13 +54,16 @@ class TSCoprocessor:
     def modelisation_time_label(self) -> str:
         """The time column label of the modelisation data."""
 
-    def modelisation_tsid_label(self) -> str:
-        """The time series id of the modelisation data."""
+    def modelisation_sid_label(self) -> str:
+        """The series id label of the modelisation data."""
 
-    def modelisation_tsid_series_computation(self, data: pd.DataFrame) -> pd.Series:
-        """Computes the timeseries id series of the modelisation data.
+    def modelisation_sid_series_computation(self, data: pd.DataFrame) -> pd.Series:
+        """Computes the id series of the modelisation data.
+
         It is supposed to be called internally only once.
+
         It is not supposed to add the series to the modelisation data if it is not included yet, but only to compute it.
+
         The default implementation does compute nothing. It assumes the series exists and returns it.
 
         Args:
@@ -58,7 +71,7 @@ class TSCoprocessor:
 
         Returns (pd.Series): the timeseries id series of the modelisation data.
         """
-        return data[self.modelisation_tsid_label()]
+        return data[self.modelisation_sid_label()]
 
     def modelisation_time_series_computation(self, data: pd.DataFrame) -> pd.Series:
         """Computes the timeseries date series of the modelisation data.
@@ -91,7 +104,7 @@ class TSCoprocessor:
         """
 
         # calcul des colonnes d'identifiant de série temporelle et de date
-        data[self.reference_tsid_label()] = self.reference_tsid_series_computation(data)
+        data[self.reference_sid_label()] = self.reference_sid_series_computation(data)
         data[self.reference_time_label()] = self.reference_time_series_computation(data)
         return data
 
@@ -107,7 +120,7 @@ class TSCoprocessor:
         Returns (pd.Series): the reference data.
         """
 
-        return data.sort_values(by=[self.reference_tsid_label(), self.reference_time_label()],
+        return data.sort_values(by=[self.reference_sid_label(), self.reference_time_label()],
                                 axis=0,
                                 ascending=True)
 
@@ -129,7 +142,7 @@ class TSCoprocessor:
         """
 
         # calcul des colonnes d'identifiant de série temporelle et de date
-        data[self.modelisation_tsid_label()] = self.modelisation_tsid_series_computation(data)
+        data[self.modelisation_sid_label()] = self.modelisation_sid_series_computation(data)
         data[self.modelisation_time_label()] = self.modelisation_time_series_computation(data)
 
         return data
@@ -145,7 +158,7 @@ class TSCoprocessor:
 
         Returns (pd.Series): the modelisation data.
         """
-        return data.sort_values(by=[self.modelisation_tsid_label(), self.modelisation_time_label()],
+        return data.sort_values(by=[self.modelisation_sid_label(), self.modelisation_time_label()],
                                 axis=0,
                                 ascending=True)
 
@@ -170,7 +183,7 @@ class TSCoprocessor:
         return data[self.modelisation_time_label()]
 
 
-    def process_ts(self, reference_data: pd.Series, modelisation_data: pd.DataFrame | pd.Series):
+    def compute_core(self, reference_data: pd.Series, modelisation_data: pd.DataFrame | pd.Series):
         """The elementary processing of a given timeseries. For consistency purpose, inside this method, both reference
         and modelisation data must be related to the same timeseries id, even if this information is not always used
         byt the processing.
@@ -188,11 +201,11 @@ class TSCoprocessor:
         and the reference timeseries date to the reference data time series label.
         """
         return {
-            self.reference_tsid_label(): reference_data[self.reference_tsid_label()],
+            self.reference_sid_label(): reference_data[self.reference_sid_label()],
             self.reference_time_label(): reference_data[self.reference_time_label()]
         }
 
-    def compute(self, raw_reference: pd.DataFrame, raw_modelisation: pd.DataFrame) -> list[pd.DataFrame]:
+    def compute(self, reference: pd.DataFrame, modelisation: pd.DataFrame) -> list[pd.DataFrame]:
         """The global core processing.
 
         Only override it with caution. Prefers to override each data preparation and preprocessing steps.
@@ -201,32 +214,34 @@ class TSCoprocessor:
         the elementary core process to each of its rows.
 
         Args:
-            raw_reference (pd.DataFrame): the reference data ; be careful to make a defensive copy before passing it as
+            reference (pd.DataFrame): the reference data ; be careful to make a defensive copy before passing it as
             an argument or when overriding the preparation stage if no modification is wanted on the raw dataframe
-            raw_modelisation (pd.DataFrame): the modelisation data ; be careful to make a defensive copy before passing
+            modelisation (pd.DataFrame): the modelisation data ; be careful to make a defensive copy before passing
             it as an argument or when overriding the preparation stage if no modification is wanted on the raw dataframe
 
         Returns (list[pd.DataFrame]): a list of resulting data computations for each timeseries.
         """
 
-        LOG.debug("prepare reference data")
-        reference_data = self._prepare_reference(data=raw_reference)
-        LOG.debug("preprocess reference data")
+        _LOG.debug("prepare reference data")
+        reference_data = self._prepare_reference(data=reference)
+        _LOG.debug("preprocess reference data")
         reference_data = self.preprocess_reference(data=reference_data)
 
-        LOG.debug("prepare modelisation data")
-        modelisation_data = self._prepare_modelisation(data=raw_modelisation)
-        LOG.debug("preprocess modelisation data")
+        _LOG.debug("prepare modelisation data")
+        modelisation_data = self._prepare_modelisation(data=modelisation)
+        _LOG.debug("preprocess modelisation data")
         modelisation_data = self.preprocess_modelisation(data=modelisation_data)
 
-        LOG.debug("process group analysis")
+        _LOG.debug("process group analysis")
         l = []
-        for tsid, reference_ts in reference_data.groupby(self.reference_tsid_label()):
+        for tsid, reference_ts in reference_data.groupby(self.reference_sid_label()):
+
             modelisation_ts = self.preprocess_modelisation_ts(
-                data=modelisation_data[modelisation_data[self.modelisation_tsid_label()] == tsid])
-            l.append(reference_ts.apply(self.process_ts,
+                data=modelisation_data[modelisation_data[self.modelisation_sid_label()] == tsid])
+
+            l.append(reference_ts.apply(self.compute_core,
                                         axis=1,
                                         result_type='expand',
                                         modelisation_data=modelisation_ts))
-        LOG.debug("end of processing")
+        _LOG.debug("end of processing")
         return l
