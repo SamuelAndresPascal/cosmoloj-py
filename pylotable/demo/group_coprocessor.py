@@ -31,12 +31,12 @@ if __name__ == '__main__':
     print(model[model['tsid'] == 0])
 
     evaluation = WindowPandasDfGroupCoprocessor.from_day_window(left_labels=('tsid', 'date'),
-                                                             right_labels=('tsid', 'date'),
-                                                             windows={
-                                                                 'srch': (60, 60),
-                                                                 'obs': (20, 30),
-                                                                 'val': (16, 14)
-                                                             })
+                                                                right_labels=('tsid', 'date'),
+                                                                windows={
+                                                                    'srch': (60, 60),
+                                                                    'obs': (20, 30),
+                                                                    'val': (16, 14)
+                                                                })
 
     _LOG.info("start mapping")
     wineval = (evaluation.compute(left=reference, right=model)
