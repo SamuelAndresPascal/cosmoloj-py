@@ -18,6 +18,12 @@ EVT = CARD * 10
 START = pd.to_datetime('2015-01-01')
 END = pd.to_datetime('2018-01-01')
 
+WINDOWS = {
+    'srch': (60, 60),
+    'obs': (20, 30),
+    'val': (16, 14)
+}
+
 
 if __name__ == '__main__':
     config.fileConfig(Path(__file__).parent / "log.conf")
@@ -32,11 +38,7 @@ if __name__ == '__main__':
 
     evaluation = WindowPandasDfGroupCoprocessor.from_day_window(left_labels=('tsid', 'date'),
                                                                 right_labels=('tsid', 'date'),
-                                                                windows={
-                                                                    'srch': (60, 60),
-                                                                    'obs': (20, 30),
-                                                                    'val': (16, 14)
-                                                                })
+                                                                windows=WINDOWS)
 
     _LOG.info("start mapping")
     wineval = (evaluation.compute(left=reference, right=model)
