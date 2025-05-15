@@ -6,5 +6,5 @@ conda --version
 pip install .
 conda install pytest -y
 pytest
-python demo/group_proprocessor.py
-python demo/merge_proprocessor.py
+python demo/group_preprocessor.py
+python demo/merge_preprocessor.py
