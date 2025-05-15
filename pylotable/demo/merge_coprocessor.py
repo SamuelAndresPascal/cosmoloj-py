@@ -12,8 +12,8 @@ _LOG = getLogger(__name__)
 
 REFERENCE_SEED = 42
 MODELISATION_SEED = 1
-CARD = 100000
-EVT = CARD * 100
+CARD = 1000
+EVT = CARD * 10
 
 START = pd.to_datetime('2015-01-01')
 END = pd.to_datetime('2018-01-01')
