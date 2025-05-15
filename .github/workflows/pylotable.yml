@@ -1,0 +1,116 @@
+name: pylotable
+run-name: ${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - master
+      - pylotable_*
+  schedule:
+    - cron: '30 5 * * 0'
+
+jobs:
+  envs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: multienv
+          python-version: 3.13
+          auto-activate-base: false
+      - run: conda install -c cosmoloj multienv
+      - run: pyenvs lint
+      - working-directory: pylotable
+        run: pyenvs deps
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pylintrc-environments
+          path: pylintrc_*
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: conda-environments
+          path: pylotable/environment_*
+          retention-days: 1
+
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    needs: envs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* pylotable/
+      - run: mv pylintrc-environments/* .
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: lint
+          environment-file: pylotable/environment_lint.yml
+          python-version: 3.13
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: pylotable
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc_pylotable-src src
+          pylint --rcfile=../pylintrc_strict demo
+
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    needs: envs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* pylotable/
+      - run: mv pylintrc-environments/* .
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: lint_test
+          environment-file: pylotable/environment_lint_test.yml
+          python-version: 3.13
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: pylotable
+        run: |
+          pip install .
+          pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    needs: envs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - run: mv conda-environments/* pylotable/
+      - run: mv pylintrc-environments/* .
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          environment-file: pylotable/environment_test.yml
+          python-version: 3.13
+          auto-activate-base: false
+      - run: |
+          conda --version
+          python --version
+          conda list
+      - working-directory: pylotable
+        run: pip install .
+      - run: pytest --cov=pylotable --junitxml=pylotable/report.xml --cov-append pylotable
