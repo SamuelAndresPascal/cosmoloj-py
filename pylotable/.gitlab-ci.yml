@@ -24,7 +24,6 @@ lint_test:pylotable:
     - conda list
     - pip install .
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
-    - pylint --rcfile=../pylintrc_strict test/test_gap_processor.py
 
 mkdocs:en:pylotable:
   stage: doc

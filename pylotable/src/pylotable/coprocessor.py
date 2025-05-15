@@ -6,14 +6,9 @@ import pandas as pd
 
 _LOG = getLogger(__name__)
 
-class Coprocessor:
-    """"""
-
-    def compute(self, reference, modelisation):
-        """"""
 
 
-class PandasDfGroupCoprocessor(Coprocessor):
+class PandasDfGroupCoprocessor:
     """Co-processes two series collections here called "right" and "left"."""
 
     def left_sid_label(self) -> str:
@@ -50,30 +45,28 @@ class PandasDfGroupCoprocessor(Coprocessor):
         return data
 
     def preprocess_right_data(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
-        """The core process loop over each reference data and processes it to the corresponding modelisation data.
+        """The core process loops over each left data and processes it to the corresponding right data.
 
-        Before each of these processing loops, the modelisation data relative to the timeseries id is isolated so to
-        avoid useless comparisons between unrelated timeseries.
+        Before each of these processing loops, the right data relative to the series id is isolated so to
+        avoid useless comparisons between unrelated left series.
 
-        Then, this modelisation data subset is preprocessed in order to manipulate the lightest possible data.
+        Then, this right data subset is preprocessed in order to manipulate the lightest possible data.
 
-        This last modelisation subset preprocessing is the purpose of the current method.
+        This last right subset preprocessing is the purpose of the current method.
 
-        By default, it only returns the date series of the modelisation subset corresponding to the current timeseries
-        to process.
+        By default, it only returns the data series of the right subset corresponding to the current series to process.
 
         Args:
-            data (pd.DataFrame): the modelisation data subset of the currently processed timeseries.
+            data (pd.DataFrame): the right data subset of the currently processed series.
 
-        Returns (pd.DataFrame | pd.Series): the modelisation time series useful for the core processing.
+        Returns (pd.DataFrame | pd.Series): the right series useful for the core processing.
         """
         return data[self.right_data_label()]
 
 
     def compute_core(self, left_row: pd.Series, right_series: pd.DataFrame | pd.Series):
         """The elementary processing of a given series. For consistency purpose, inside this method, both left and
-        right data must be related to the same series id, even if this information is not always used
-        by the processing.
+        right data must be related to the same series id, even if this information is not always used by the processing.
 
         Args:
             left_row (pd.Series): a series of the left data related to a single row
@@ -95,18 +88,18 @@ class PandasDfGroupCoprocessor(Coprocessor):
     def compute(self, left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
         """The global core processing.
 
-        Only override it with caution. Prefers to override each data preparation and preprocessing steps.
+        Only override it with caution. Prefers to override each data preprocessing steps.
 
-        Prepares and preprocesses the reference and modelisation data. Then, loops over reference timeseries and applies
-        the elementary core process to each of its rows.
+        Preprocesses the left and right data. Then, loops over left series and applies the elementary core process to
+        each of its rows.
 
         Args:
             left (pd.DataFrame): the left data collection; be careful to make a defensive copy before passing it as
-            an argument or when overriding the preparation stage if no modification is wanted on the raw dataframe
-            right (pd.DataFrame): the right data collection; be careful to make a defensive copy before passing
-            it as an argument or when overriding the preparation stage if no modification is wanted on the raw dataframe
+            an argument or when overriding the preprocessing stage if no modification is wanted on the raw dataframe
+            right (pd.DataFrame): the right data collection; be careful to make a defensive copy before passing it as
+            an argument or when overriding the preprocessing stage if no modification is wanted on the raw dataframe
 
-        Returns (list[pd.DataFrame]): a list of resulting data computations for each timeseries.
+        Returns (list[pd.DataFrame]): the data computation for the whole series collections.
         """
         _LOG.debug("preprocess left data")
         left = self.preprocess_left(data=left)
@@ -128,7 +121,7 @@ class PandasDfGroupCoprocessor(Coprocessor):
         return pd.concat(l)
 
 
-class PandasDfMergeCoprocessor(Coprocessor):
+class PandasDfMergeCoprocessor:
     """Co-processes two series collections here called "right" and "left"."""
 
     def left_sid_label(self) -> str:
@@ -164,61 +157,11 @@ class PandasDfMergeCoprocessor(Coprocessor):
 
         return data
 
-    def preprocess_right_data(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
-        """The core process loop over each reference data and processes it to the corresponding modelisation data.
-
-        Before each of these processing loops, the modelisation data relative to the timeseries id is isolated so to
-        avoid useless comparisons between unrelated timeseries.
-
-        Then, this modelisation data subset is preprocessed in order to manipulate the lightest possible data.
-
-        This last modelisation subset preprocessing is the purpose of the current method.
-
-        By default, it only returns the date series of the modelisation subset corresponding to the current timeseries
-        to process.
-
-        Args:
-            data (pd.DataFrame): the modelisation data subset of the currently processed timeseries.
-
-        Returns (pd.DataFrame | pd.Series): the modelisation time series useful for the core processing.
-        """
-        return data[self.right_data_label()]
-
-    def preprocess_modelisation_ts(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
-        """The core process loop over each reference data and processes it to the corresponding modelisation data.
-
-        Before each of these processing loops, the modelisation data relative to the timeseries id is isolated so to
-        avoid useless comparisons between unrelated timeseries.
-
-        Then, this modelisation data subset is preprocessed in order to manipulate the lightest possible data.
-
-        This last modelisation subset preprocessing is the purpose of the current method.
-
-        By default, it only returns the date series of the modelisation subset corresponding to the current timeseries
-        to process.
-
-        Args:
-            data (pd.DataFrame): the modelisation data subset of the currently processed timeseries.
-
-        Returns (pd.DataFrame | pd.Series): the modelisation time series useful for the core processing.
-        """
-        return data[self.right_data_label()]
-
     def compute_core(self, merge_series: pd.DataFrame) -> pd.DataFrame:
-        """The elementary processing of a given timeseries. For consistency purpose, inside this method, both reference
-        and modelisation data must be related to the same timeseries id, even if this information is not always used
-        byt the processing.
+        """The elementary processing of a given series.
 
         Args:
-            merge_series (pd.Series): a series of the reference data related to a single reference data row
-            timeseries id of the reference data
-
-        Returns: the method result is applied to each row of the reference data subset related to a given timeseries id,
-        with the same modelisation data given in argument for each reference data row. Please refer to the
-        pd.DataFrame.apply() method to adjust the current method return type to custom usages. The default behavior
-        returns a dict in order to produce a dataframe whose column labels are the dict keys and the column values the
-        successive associated dict values. The default dict maps the timeseries id to its label in the reference data
-        and the reference timeseries date to the reference data time series label.
+            merge_series (pd.Series): a series of the left data inner joined to the right data for a given series.
         """
         return merge_series
 
