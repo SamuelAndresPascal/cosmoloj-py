@@ -121,7 +121,7 @@ class WindowPandasDfMergeCoprocessor(PandasDfMergeCoprocessor):
         to_drop = [self.right_data_label()]
 
         merge.drop(columns=to_drop, inplace=True)
-        return merge.groupby([self.left_sid_label(), self.left_data_label()], as_index=False).sum()
+        return merge.groupby(by=[self.left_sid_label(), self.left_data_label()], as_index=False).sum()
 
     @classmethod
     def from_day_window(cls,
