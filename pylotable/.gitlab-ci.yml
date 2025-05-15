@@ -23,8 +23,8 @@ lint_test:pylotable:
     - conda activate lint_test
     - conda list
     - pip install .
-    - pylint --rcfile=../pylintrc_strict test/ts/test_win_ts_coprocessor.py
-    - pylint --rcfile=../pylintrc_strict test/test_gap_ts_processor.py
+    - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
+    - pylint --rcfile=../pylintrc_strict test/test_gap_processor.py
 
 mkdocs:en:pylotable:
   stage: doc
@@ -112,7 +112,8 @@ demo:pylotable:
     - conda list
     - pip install .
     - cd demo
-    - python exploration.py
+    - python group_proprocessor.py
+    - python merge_proprocessor.py
 
 pypi-package:pylotable:pypi:
   stage: pypi-package

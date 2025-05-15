@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from pylotable.gap_ts_processor import GapPandasSeriesTSProcessor, ComputeGapDatesKernel
+from pylotable.gap_processor import GapPandasSeriesTSProcessor, ComputeGapDatesKernel
 
 
 def test_reference_fixture(ref_pd_series):
