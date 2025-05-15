@@ -3,26 +3,12 @@
 from logging import getLogger, config
 from pathlib import Path
 
-import pandas as pd
+from common_const import REFERENCE_SEED, MODELISATION_SEED, CARD, EVT, START, END, WINDOWS
 
 from data_random import random_ts_df
 from pylotable.win_coprocessor import WindowPandasDfGroupCoprocessor
 
 _LOG = getLogger(__name__)
-
-REFERENCE_SEED = 42
-MODELISATION_SEED = 1
-CARD = 1000
-EVT = CARD * 10
-
-START = pd.to_datetime('2015-01-01')
-END = pd.to_datetime('2018-01-01')
-
-WINDOWS = {
-    'srch': (60, 60),
-    'obs': (20, 30),
-    'val': (16, 14)
-}
 
 
 if __name__ == '__main__':
