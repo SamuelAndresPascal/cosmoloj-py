@@ -166,9 +166,11 @@ class PandasDfMergeCoprocessor:
         return merge_series
 
     def preprocess(self, merge: pd.DataFrame):
+        """Preprocesses the merged data before the core process applied by series."""
         return merge
 
     def postprocess(self, merge: pd.DataFrame):
+        """Postprocesses the cancatenated processed data."""
         return merge
 
     def compute(self, left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
@@ -206,7 +208,7 @@ class PandasDfMergeCoprocessor:
 
         _LOG.debug("process group analysis")
         l = []
-        for sid, merge_series in m.groupby(self.left_sid_label()):
+        for _, merge_series in m.groupby(self.left_sid_label()):
             l.append(self.compute_core(merge_series=merge_series))
 
         _LOG.debug("end of processing")
