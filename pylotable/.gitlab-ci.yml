@@ -111,8 +111,8 @@ demo:pylotable:
     - conda list
     - pip install .
     - cd demo
-    - python group_preprocessor.py
-    - python merge_preprocessor.py
+    - python group_coprocessor.py
+    - python merge_coprocessor.py
 
 pypi-package:pylotable:pypi:
   stage: pypi-package
