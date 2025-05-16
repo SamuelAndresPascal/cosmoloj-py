@@ -44,7 +44,7 @@ class PandasDfGroupCoprocessor:
 
         return data
 
-    def preprocess_right_data(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
+    def preprocess_right_series(self, data: pd.DataFrame) -> pd.DataFrame | pd.Series:
         """The core process loops over each left data and processes it to the corresponding right data.
 
         Before each of these processing loops, the right data relative to the series id is isolated so to
@@ -111,7 +111,7 @@ class PandasDfGroupCoprocessor:
         l = []
         for sid, left_series in left.groupby(self.left_sid_label()):
 
-            right_data = self.preprocess_right_data(data=right[right[self.right_sid_label()] == sid])
+            right_data = self.preprocess_right_series(data=right[right[self.right_sid_label()] == sid])
 
             l.append(left_series.apply(self.compute_core,
                                         axis=1,
@@ -171,15 +171,22 @@ class PandasDfMergeCoprocessor:
         return merge
 
     def compute_core(self, merge_series: pd.DataFrame) -> pd.DataFrame:
-        """The elementary processing of a given series.
-
-        Args:
-            merge_series (pd.Series): a series of the left data inner joined to the right data for a given series.
-        """
         return merge_series
 
+    def process(self, merge: pd.DataFrame) -> pd.DataFrame:
+        """The default core processing series by series.
+
+        Args:
+            merge (pd.DataFrame): a series of the left data inner joined to the right data for a given series.
+        """
+        l = []
+        for _, merge_series in merge.groupby(self.left_sid_label()):
+            l.append(self.compute_core(merge_series=merge_series))
+
+        return pd.concat(l)
+
     def postprocess(self, merge: pd.DataFrame):
-        """Postprocesses the cancatenated processed data."""
+        """Postprocesses the concatenated processed data."""
         return merge
 
     def compute(self, left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
@@ -211,9 +218,7 @@ class PandasDfMergeCoprocessor:
         m = self.preprocess(m)
 
         _LOG.debug("process group analysis")
-        l = []
-        for _, merge_series in m.groupby(self.left_sid_label()):
-            l.append(self.compute_core(merge_series=merge_series))
+        m = self.process(m)
 
         _LOG.debug("end of processing")
-        return self.postprocess(merge=pd.concat(l))
+        return self.postprocess(merge=m)

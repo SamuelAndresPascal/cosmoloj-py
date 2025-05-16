@@ -107,17 +107,14 @@ class WindowPandasDfMergeCoprocessor(PandasDfMergeCoprocessor):
     def right_data_label(self) -> str:
         return self._right_data_label
 
-    def preprocess(self, merge: pd.DataFrame) -> pd.DataFrame:
+    @override
+    def process(self, merge: pd.DataFrame) -> pd.DataFrame:
         """Computes the time windows around each reference event."""
 
         _LOG.log(level=_TRACE, msg='compute o')
         for w in self._windows:
             merge[w] = ((merge[self.right_data_label()] > merge[self.left_data_label()] - self._windows[w][0])
                          & (merge[self.right_data_label()] < merge[self.left_data_label()] + self._windows[w][1]))
-        return merge
-
-    @override
-    def postprocess(self, merge: pd.DataFrame):
         merge.drop(columns=[self.right_data_label()], inplace=True)
         return merge.groupby(by=[self.left_sid_label(), self.left_data_label()], as_index=False).sum()
 
