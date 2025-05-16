@@ -118,9 +118,7 @@ class WindowPandasDfMergeCoprocessor(PandasDfMergeCoprocessor):
 
     @override
     def postprocess(self, merge: pd.DataFrame):
-        to_drop = [self.right_data_label()]
-
-        merge.drop(columns=to_drop, inplace=True)
+        merge.drop(columns=[self.right_data_label()], inplace=True)
         return merge.groupby(by=[self.left_sid_label(), self.left_data_label()], as_index=False).sum()
 
     @classmethod

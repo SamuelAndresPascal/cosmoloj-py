@@ -157,6 +157,19 @@ class PandasDfMergeCoprocessor:
 
         return data
 
+    def merge(self, left: pd.DataFrame, right: pd.DataFrame):
+        """Merges left and right series collections."""
+        return pd.merge(left=left,
+                        right=right,
+                        how='inner',
+                        left_on=[self.left_sid_label()],
+                        right_on=[self.right_sid_label()],
+                        validate='many_to_many')
+
+    def preprocess(self, merge: pd.DataFrame):
+        """Preprocesses the merged data before the core process applied by series."""
+        return merge
+
     def compute_core(self, merge_series: pd.DataFrame) -> pd.DataFrame:
         """The elementary processing of a given series.
 
@@ -164,10 +177,6 @@ class PandasDfMergeCoprocessor:
             merge_series (pd.Series): a series of the left data inner joined to the right data for a given series.
         """
         return merge_series
-
-    def preprocess(self, merge: pd.DataFrame):
-        """Preprocesses the merged data before the core process applied by series."""
-        return merge
 
     def postprocess(self, merge: pd.DataFrame):
         """Postprocesses the cancatenated processed data."""
@@ -196,12 +205,7 @@ class PandasDfMergeCoprocessor:
         right = self.preprocess_right(data=right)
 
         _LOG.debug("merge data")
-        m = pd.merge(left=left,
-                     right=right,
-                     how='inner',
-                     left_on=[self.left_sid_label()],
-                     right_on=[self.right_sid_label()],
-                     validate='many_to_many')
+        m = self.merge(left=left, right=right)
 
         _LOG.debug("preprocess data")
         m = self.preprocess(m)
