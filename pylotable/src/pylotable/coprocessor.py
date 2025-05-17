@@ -171,6 +171,7 @@ class PandasDfMergeCoprocessor:
         return merge
 
     def compute_core(self, merge_series: pd.DataFrame) -> pd.DataFrame:
+        """The default core processing for an individual serries."""
         return merge_series
 
     def process(self, merge: pd.DataFrame) -> pd.DataFrame:
