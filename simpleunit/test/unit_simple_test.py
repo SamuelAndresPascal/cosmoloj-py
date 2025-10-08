@@ -2,8 +2,8 @@
 
 import pytest
 import simpleunit as su
-from simpleunit import Metric as pm, Si, Volume, Mass
-from simpleunit.unit_simple import UnitTransformer, UnitTransformFormula
+from simpleunit import Metric as pm, Volume, Mass
+from simpleunit.unit_simple import UnitTransformFormula
 
 
 def test_metric_prefix():
@@ -110,6 +110,7 @@ def test_speed():
 
 
 def test_unit_transformer():
+    """test unit physical transformations"""
 
     cm3 = Volume.M3 * 1e-6
     copper = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 8.94)
