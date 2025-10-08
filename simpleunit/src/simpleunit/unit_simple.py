@@ -70,27 +70,27 @@ class UnitConverter:
                                           translation=-self._translation / self._scale,
                                           inverse=self) if inverse is None else inverse
 
-    def scale(self):
+    def scale(self) -> float:
         """pente (facteur d'echelle) de la conversion"""
         return self._scale
 
-    def offset(self):
+    def offset(self) -> float:
         """decalage d'origine d'echelle"""
         return self._translation
 
-    def inverse(self):
+    def inverse(self) -> "UnitConverter":
         """Inverse converter, from the target unit to the source unit of the current converter.
         """
         return self._inverse
 
-    def linear(self):
+    def linear(self) -> "UnitConverter":
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel"""
         # comparaison volontaire avec un double
         if self._translation == 0.:
             return self
         return UnitConverters.scaling(scale=self._scale)
 
-    def linear_pow(self, power: float):
+    def linear_pow(self, power: float) -> "UnitConverter":
         """convertisseur lineaire conservant uniquement le facteur d'echelle du convertisseur d'appel, eleve a la
         puissance en parametre"""
         # comparaison volontaire avec des doubles
@@ -103,7 +103,7 @@ class UnitConverter:
         exprimee dans son unite source"""
         return value * self._scale + self._translation
 
-    def concatenate(self, converter):
+    def concatenate(self, converter: "UnitConverter") -> "UnitConverter":
         """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la
         conversion du convertisseur d'appel"""
         return UnitConverter(scale=converter.scale() * self.scale(),
@@ -121,17 +121,17 @@ class UnitConverters(Enum):
     _IDENTITY = UnitConverter(scale=1.0)
 
     @staticmethod
-    def scaling(scale: float):
+    def scaling(scale: float) -> UnitConverter:
         """build a linear converter"""
         return UnitConverter(scale=scale)
 
     @staticmethod
-    def translation(translation: float):
+    def translation(translation: float) -> UnitConverter:
         """build an offset converter"""
         return UnitConverter(scale=1.0, translation=translation)
 
     @staticmethod
-    def identity():
+    def identity() -> UnitConverter:
         """get the instance of the identity converter"""
         return UnitConverters._IDENTITY.value
 
@@ -139,7 +139,7 @@ class UnitConverters(Enum):
 class Factor:
     """representation d'une unite elevee a une puissance rationnelle"""
 
-    def __init__(self, unit, numerator: int = 1, denominator: int = 1):
+    def __init__(self, unit: "Unit | Factor", numerator: int = 1, denominator: int = 1):
         if isinstance(unit, Unit):
             self._unit = unit
             self._numerator = numerator
@@ -149,7 +149,7 @@ class Factor:
             self._numerator = numerator * unit.numerator()
             self._denominator = denominator * unit.denominator()
 
-    def dim(self):
+    def dim(self) -> "Unit | Factor":
         """dimension (unite) du facteur"""
         return self._unit
 
@@ -165,13 +165,13 @@ class Factor:
         """puissance du facteur"""
         return self._numerator / self._denominator
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> "Unit":
         return DerivedUnit(self, other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> "Unit":
         return DerivedUnit(self, Factor(other, -1))
 
-    def __invert__(self):
+    def __invert__(self) -> "Unit":
         return DerivedUnit(Factor(self, -1))
 
 
@@ -181,69 +181,69 @@ class Unit(Factor):
     def __init__(self):
         super().__init__(self, numerator=1, denominator=1)
 
-    def get_converter_to(self, target) -> UnitConverter:
+    def get_converter_to(self, target: "Unit") -> UnitConverter:
         """construit un convertisseur de l'unite d'appel vers l'unite cible en parametre"""
         return target.to_base().inverse().concatenate(converter=self.to_base())
 
     def to_base(self) -> UnitConverter:
         """construit un convertisseur vers le jeu d'unites fondamentales sous-jascent a l'unite d'appel"""
 
-    def translate(self, value: float):
+    def translate(self, value: float) -> "Unit":
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
         l'unite d'appel"""
         return TransformedUnit(to_reference=UnitConverters.translation(translation=value), reference=self)
 
-    def shift(self, value: float):
+    def shift(self, value: float) -> "Unit":
         """construit une unite transformee en decalant l'origine de l'echelle de la valeur en parametre par rapport a
         l'unite d'appel"""
         return self.translate(value)
 
-    def scale_multiply(self, value: float):
+    def scale_multiply(self, value: float) -> "Unit":
         """construit une unite transformee en multipliant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
         return TransformedUnit(to_reference=UnitConverters.scaling(scale=value), reference=self)
 
-    def scale_divide(self, value: float):
+    def scale_divide(self, value: float) -> "Unit":
         """construit une unite transformee en divisant le facteur d'echelle par la valeur en parametre par rapport a
         l'unite d'appel"""
         return self.scale_multiply(value=1.0 / value)
 
-    def factor(self, numerator: int, denominator: int = 1):
+    def factor(self, numerator: int, denominator: int = 1) -> Factor:
         """construit un facteur de l'unite d'appel eleve a la puissance rationnelle dont le numerateur et le
         denominateur sont en parametre"""
         return Factor(self, numerator=numerator, denominator=denominator)
 
-    def __add__(self, other):
+    def __add__(self, other: float) -> "Unit":
         return self.shift(other)
 
-    def __sub__(self, other):
+    def __sub__(self, other: float) -> "Unit":
         return self.shift(-other)
 
-    def __mul__(self, other):
+    def __mul__(self, other: "float | Factor") -> "Unit":
         if isinstance(other, Factor):
             return super().__mul__(other)
         return self.scale_multiply(other)
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: float) -> "Unit":
         return self.scale_multiply(other)
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other: "Unit") -> "Unit":
         return DerivedUnit(self.factor(-1)).scale_multiply(other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: "float | Factor") -> "Unit":
         if isinstance(other, Factor):
             return super().__truediv__(other)
         return self.scale_divide(other)
 
-    def __pow__(self, power, modulo=None):
+    def __pow__(self, power: int, modulo=None) -> "Unit":
         if isinstance(power, int):
             return DerivedUnit(self.factor(power))
         raise ValueError
 
-    def __rshift__(self, other):
+    def __rshift__(self, other: "Unit") -> UnitConverter:
         return self.get_converter_to(other)
 
-    def __lshift__(self, other):
+    def __lshift__(self, other: "Unit") -> UnitConverter:
         return self.get_converter_to(other).inverse()
 
 
@@ -457,3 +457,98 @@ class Speed(_EnumUnit):
     """Linear speed unit set"""
 
     M_PER_S = Length.M / Time.S
+
+
+class UnitTransformer:
+    """Transforms a physical value in another one. The transformation operation involves a UnitTransformationFormula.
+    """
+
+    def formula(self) -> "UnitTransformFormula":
+        """The reference physical formula."""
+
+    def transform(self, value: float) -> float:
+        """Applies the transformation operation."""
+
+
+class _IOConversionUnitTransformer(UnitTransformer):
+    """
+    The default implementation of a derived UnitTransformer built from a core UnitTransformer and integrating input and
+    output unit conversion operations respectively applied before and after the core transformation operation.
+    """
+
+    def __init__(self, formula: UnitTransformer,
+                 to_spec_source: UnitConverter,
+                 from_spec_target: UnitConverter):
+        """
+        formula (UnitTransformer): the core UnitTransformer (most likely a UnitTransformFormula)
+        to_spec_source (UnitConverter): the conversion operation applied to the input value before the core
+                                        transformation operation
+        from_spec_target (UnitConverter): the conversion operation applied to the output value after the core
+                                          transformation operation
+        """
+        self._formula = formula
+        self._to_spec = to_spec_source
+        self._from_spec = from_spec_target
+
+    def formula(self):
+        return self._formula
+
+    def transform(self, value: float) -> float:
+        return self._from_spec.convert(value=self._formula.transform(value=self._to_spec.convert(value=value)))
+
+
+class UnitTransformFormula(UnitTransformer):
+    """A UnitTransformationFormula is defined from a given input unit to a given output unit and represent a physical
+    connection between an input value and an output one. Unit which both are expressed in, may be identical or distinct
+    in the last case, they can refer themselves to distinct physical dimensions.
+
+    The validity of a UnitTransformationFormula is only guaranteed if the input and output values are correctly
+    interpreted with the corresponding input and output units.
+
+    A UnitTransformFormula implements the UnitTransformer contract.
+    """
+
+    def __init__(self, spec_source: Unit, spec_target: Unit, kernel):
+        """
+        spec_source (Unit): the mandatory specification unit the input value must be expressed in
+        spec_target (Unit): the mandatory specification unit the output value is computed in
+        """
+        self._source = spec_source
+        self._target = spec_target
+        self._kernel = kernel
+
+    def source(self) -> Unit:
+        """
+        return (Unit): the mandatory specification unit the input value must be expressed in
+        """
+        return self._source
+
+    def target(self) -> Unit:
+        """
+        return (Unit): the mandatory specification unit the output value is computed in
+        """
+        return self._target
+
+    def formula(self):
+        return self
+
+    def transform(self, value: float) -> float:
+        """Applies the physical formula to the input value expressed in the input specification unit to compute a result
+        in the output specification unit."""
+        return self._kernel(value)
+
+    def transformer(self, source: Unit, target: Unit) -> UnitTransformer:
+        """
+        Builds a UnitTransformer based on the current UnitTransformFormula.
+
+        Since a UnitTransformationFormula relies on specified input and output units, this method builds derived
+        UnitTransformers based on the same single formula, but providing the ability to integrate conversion operations
+        to the core formula, both from the requested source unit to the specified input unit, and from the specified
+        output unit to the requested target unit.
+        """
+        if (self.source() is source) and (self.target() is target):
+            return self
+
+        return _IOConversionUnitTransformer(formula=self,
+                                            to_spec_source=source.get_converter_to(self.source()),
+                                            from_spec_target=self.target().get_converter_to(target))

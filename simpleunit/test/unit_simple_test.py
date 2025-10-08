@@ -2,7 +2,8 @@
 
 import pytest
 import simpleunit as su
-from simpleunit import Metric as pm
+from simpleunit import Metric as pm, Si, Volume, Mass
+from simpleunit.unit_simple import UnitTransformer, UnitTransformFormula
 
 
 def test_metric_prefix():
@@ -106,3 +107,51 @@ def test_speed():
 
     assert ms_to_kmh.convert(100.) == pytest.approx(expected=360., rel=1e-10)
     assert ms_to_kmh.inverse().convert(18.) == pytest.approx(expected=5., rel=1e-10)
+
+
+def test_unit_transformer():
+
+    cm3 = Volume.M3 * 1e-6
+    copper = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 8.94)
+    silver = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 10.49)
+    lead = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 11.33)
+    gold = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 19.3)
+
+    # formulas are transformers
+    assert copper.transform(value=1) == pytest.approx(expected=8.94, rel=1e-10)
+    assert silver.transform(value=1) == pytest.approx(expected=10.49, rel=1e-10)
+    assert lead.transform(value=1) == pytest.approx(expected=11.33, rel=1e-10)
+    assert gold.transform(value=1) == pytest.approx(expected=19.3, rel=1e-10)
+
+    # preserve the target unit
+    copper_m3_to_g = copper.transformer(source=Volume.M3, target=Mass.G)
+    assert copper_m3_to_g is not copper
+    assert copper_m3_to_g.transform(value=1e-6) == pytest.approx(expected=8.94, rel=1e-10)
+    assert copper_m3_to_g.transform(value=1) == pytest.approx(expected=8.94e6, rel=1e-10)
+    assert copper_m3_to_g.transform(value=10) == pytest.approx(expected=8.94e7, rel=1e-10)
+
+    # preserve the source unit
+    copper_cm3_to_kg = copper.transformer(source=cm3, target=Mass.KG)
+    assert copper_cm3_to_kg is not copper
+    assert copper_cm3_to_kg.transform(value=1) == pytest.approx(expected=8.94e-3, rel=1e-10)
+    assert copper_cm3_to_kg.transform(value=10) == pytest.approx(expected=8.94e-2, rel=1e-10)
+    assert copper_cm3_to_kg.transform(value=1000) == pytest.approx(expected=8.94, rel=1e-10)
+
+    # preserve nor the source neither the target unit
+    copper_m3_to_kg = copper.transformer(source=Volume.M3, target=Mass.KG)
+    assert copper_m3_to_kg is not copper
+    assert copper_m3_to_kg.transform(value=1e-6) == pytest.approx(expected=8.94e-3, rel=1e-10)
+    assert copper_m3_to_kg.transform(value=1) == pytest.approx(expected=8.94e3, rel=1e-10)
+    assert copper_m3_to_kg.transform(value=10) == pytest.approx(expected=8.94e4, rel=1e-10)
+    assert copper_m3_to_kg.transform(value=1) == pytest.approx(expected=8.94e3, rel=1e-10)
+    assert copper_m3_to_kg.transform(value=10) == pytest.approx(expected=8.94e4, rel=1e-10)
+    assert copper_m3_to_kg.transform(value=1000) == pytest.approx(expected=8.94e6, rel=1e-10)
+
+    # preserve both the source and the target unit
+    copper_derived = copper.transformer(source=cm3, target=Mass.G)
+    assert copper_derived is copper  # the returned transformer must be the formula itself
+
+    # preserve both the source and the target unit, but redefining one of them
+    copper_derived2 = copper.transformer(source=Volume.M3 * 1e-6, target=Mass.G)
+    assert copper_derived2 is not copper
+    assert copper_derived2.transform(value=1) == pytest.approx(expected=8.94, rel=1e-10)
