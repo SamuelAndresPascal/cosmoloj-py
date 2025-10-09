@@ -17,7 +17,7 @@ class Operation:
         """Compute the operation over an input (ordinarily coordinates).
 
         Args:
-            i [any]: the input
+            i (any): the input
 
         Returns: the operation result (ordinarily output coordinates)
 
