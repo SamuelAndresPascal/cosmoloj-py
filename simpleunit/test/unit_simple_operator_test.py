@@ -2,8 +2,24 @@
 
 import pytest
 import simpleunit as su
-from simpleunit import Metric as pm
+from simpleunit import Metric as pm, Volume, UnitTransformFormula, Mass
 
+
+def test_converter():
+    """test converter operations"""
+
+    conv1 = su.UnitConverter(scale=2, translation=0)
+    conv2 = su.UnitConverter(scale=1, translation=5)
+
+    assert conv1.convert(value=2) == 4
+    assert conv2.convert(value=2) == 7
+
+    assert conv2.concatenate_to(converter=conv1).convert(2) == 9
+    assert conv1.concatenate_to(converter=conv2).convert(2) == 14
+    assert (conv2 | conv1).convert(2) == 9
+    assert (conv1 | conv2).convert(2) == 14
+    assert (conv2 + conv1).convert(2) == 14
+    assert (conv1 + conv2).convert(2) == 9
 
 def test_metric_prefix():
     """test transformed units"""
@@ -141,3 +157,29 @@ def test_temperatures_additional():
         assert (~k_to_f)(0.) == pytest.approx(expected=255.37, abs=1e-2)
         assert (~k_to_f)(32.) == pytest.approx(expected=273.15, rel=1e-10)
         assert (~k_to_f)(211.97102) == pytest.approx(expected=373.1339, rel=1e-10)
+
+
+def test_unit_transformer():
+    """test unit physical transformations"""
+
+    cm3 = Volume.M3 * 1e-6
+    gold = UnitTransformFormula(spec_source=cm3, spec_target=Mass.G, kernel=lambda x: x * 19.3)
+
+    # formulas are transformers
+    assert gold.transform(value=1) == pytest.approx(expected=19.3, rel=1e-10)
+
+    # formula concatenation
+    pure_gold_at_18_carat = UnitTransformFormula(spec_source=Mass.G / 1000,
+                                                 spec_target=Mass.G / 1000,
+                                                 kernel=lambda x: x * 18 / 24)
+    assert (pure_gold_at_18_carat | gold).transform(value=1) == pytest.approx(expected=14_475.0, rel=1e-10)
+    assert (gold + pure_gold_at_18_carat).transform(value=1) == pytest.approx(expected=14_475.0, rel=1e-10)
+
+    # get a transformer from a formula concatenation
+    l = cm3 * 1000
+    assert ((pure_gold_at_18_carat | gold).transformer(source=l, target=Mass.G / 1_000_000)
+            .transform(value=1)
+            == pytest.approx(expected=14_475_000_000.0, rel=1e-10))
+    assert ((gold + pure_gold_at_18_carat).transformer(source=l, target=Mass.G / 1_000_000)
+            .transform(value=1)
+            == pytest.approx(expected=14_475_000_000.0, rel=1e-10))

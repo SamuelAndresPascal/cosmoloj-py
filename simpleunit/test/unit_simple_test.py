@@ -6,6 +6,22 @@ from simpleunit import Metric as pm, Volume, Mass
 from simpleunit.unit_simple import UnitTransformFormula
 
 
+def test_converter():
+    """test converter operations"""
+
+    conv1 = su.UnitConverter(scale=2, translation=0)
+    conv2 = su.UnitConverter(scale=1, translation=5)
+
+    assert conv1.convert(value=2) == 4
+    assert conv2.convert(value=2) == 7
+
+    assert conv2.convert(value=conv1.convert(value=2)) == 9
+    assert conv1.convert(value=conv2.convert(value=2)) == 14
+
+    assert conv2.concatenate_to(converter=conv1).convert(value=2) == 9
+    assert conv1.concatenate_to(converter=conv2).convert(value=2) == 14
+
+
 def test_metric_prefix():
     """test transformed units"""
 
@@ -156,3 +172,17 @@ def test_unit_transformer():
     copper_derived2 = copper.transformer(source=Volume.M3 * 1e-6, target=Mass.G)
     assert copper_derived2 is not copper
     assert copper_derived2.transform(value=1) == pytest.approx(expected=8.94, rel=1e-10)
+
+    # formula concatenation
+    pure_gold_at_18_carat = UnitTransformFormula(spec_source=Mass.G / 1000,
+                                                 spec_target=Mass.G / 1000,
+                                                 kernel=lambda x: x * 18 / 24)
+    assert (pure_gold_at_18_carat.concatenate_to(formula=gold).transform(value=1)
+            == pytest.approx(expected=14_475.0, rel=1e-10))
+
+    # get a transformer from a formula concatenation
+    l = cm3 * 1000
+    assert (pure_gold_at_18_carat.concatenate_to(formula=gold)
+            .transformer(source=l, target=Mass.G / 1_000_000)
+            .transform(value=1)
+            == pytest.approx(expected=14_475_000_000.0, rel=1e-10))

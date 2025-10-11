@@ -26,7 +26,7 @@ class UnitConverter:
         >>>
         >>> k = su.FundamentalUnit()
         >>> f = su.TransformedUnit(to_reference=su.UnitConverter(scale=5/9)
-        >>>                                       .concatenate(su.UnitConverter(scale=1, offset=459.67)),
+        >>>                                       .concatenate_to(su.UnitConverter(scale=1, offset=459.67)),
         >>>                        reference=k)
 
         Most of the time, unit converters are not directly instancitated.
@@ -103,7 +103,7 @@ class UnitConverter:
         exprimee dans son unite source"""
         return value * self._scale + self._translation
 
-    def concatenate(self, converter: "UnitConverter") -> "UnitConverter":
+    def concatenate_to(self, converter: "UnitConverter") -> "UnitConverter":
         """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la
         conversion du convertisseur d'appel"""
         return UnitConverter(scale=converter.scale() * self.scale(),
@@ -114,6 +114,12 @@ class UnitConverter:
 
     def __call__(self, *args, **kwargs):
         return self.convert(args[0])
+
+    def __or__(self, other):
+        return self.concatenate_to(converter=other)
+
+    def __add__(self, other):
+        return other.concatenate_to(converter=self)
 
 
 class UnitConverters(Enum):
@@ -183,7 +189,7 @@ class Unit(Factor):
 
     def get_converter_to(self, target: "Unit") -> UnitConverter:
         """construit un convertisseur de l'unite d'appel vers l'unite cible en parametre"""
-        return target.to_base().inverse().concatenate(converter=self.to_base())
+        return target.to_base().inverse().concatenate_to(converter=self.to_base())
 
     def to_base(self) -> UnitConverter:
         """construit un convertisseur vers le jeu d'unites fondamentales sous-jascent a l'unite d'appel"""
@@ -271,7 +277,7 @@ class TransformedUnit(Unit):
         return self._reference
 
     def to_base(self) -> UnitConverter:
-        return self.reference().to_base().concatenate(converter=self.to_reference())
+        return self.reference().to_base().concatenate_to(converter=self.to_reference())
 
 
 class DerivedUnit(Unit):
@@ -288,7 +294,7 @@ class DerivedUnit(Unit):
     def to_base(self) -> UnitConverter:
         transform = UnitConverters.identity()
         for factor in self._definition:
-            transform = factor.dim().to_base().linear_pow(factor.power()).concatenate(transform)
+            transform = factor.dim().to_base().linear_pow(factor.power()).concatenate_to(transform)
         return transform
 
 
@@ -552,3 +558,22 @@ class UnitTransformFormula(UnitTransformer):
         return _IOConversionUnitTransformer(formula=self,
                                             to_spec_source=source.get_converter_to(self.source()),
                                             from_spec_target=self.target().get_converter_to(target))
+
+    def concatenate_to(self, formula: "UnitTransformFormula") -> "UnitTransformFormula":
+        """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la
+        conversion du convertisseur d'appel"""
+
+        converter = formula.target().get_converter_to(target=self.source())
+
+        def _result_kernel(value: float):
+            return self._kernel(converter.convert(value=formula._kernel(value)))
+
+        return UnitTransformFormula(spec_source=formula.source(),
+                                    spec_target=self.target(),
+                                    kernel=_result_kernel)
+
+    def __or__(self, other):
+        return self.concatenate_to(formula=other)
+
+    def __add__(self, other):
+        return other.concatenate_to(formula=self)
