@@ -566,7 +566,7 @@ class UnitTransformFormula(UnitTransformer):
         converter = formula.target().get_converter_to(target=self.source())
 
         def _result_kernel(value: float):
-            return self._kernel(converter.convert(value=formula._kernel(value)))
+            return self.transform(converter.convert(value=formula.transform(value)))
 
         return UnitTransformFormula(spec_source=formula.source(),
                                     spec_target=self.target(),
