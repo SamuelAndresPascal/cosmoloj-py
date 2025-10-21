@@ -40,13 +40,13 @@ doc:simpleunit:
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh fr
-    - mkdocs build -d site.fr -f mkdocs.yml
-    - zip -r site.fr.zip site.fr/
-    - source ../resources/doc/publish.sh fr
+    - source ../resources/doc/version.sh en
+    - mkdocs build -d site.en -f mkdocs.yml
+    - zip -r site.en.zip site.en/
+    - source ../resources/doc/publish.sh en
   environment:
     name: documentation
-    url: https://cosmoloj.com/doc/simpleunit/master
+    url: https://cosmoloj.com/doc/simpleunit/en/master
 
 test:simpleunit:
   stage: test
