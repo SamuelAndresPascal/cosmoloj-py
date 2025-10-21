@@ -3,6 +3,7 @@ repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
 edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/simpleunit/docs
 site_description: Simple Unit Python Reference Implementation documentation site
 site_author: Samuel Andrés
+docs_dir: docs/en
 
 strict: true
 
