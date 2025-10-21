@@ -2,6 +2,8 @@
 import math
 from enum import Enum
 
+from warnings import deprecated
+
 
 class UnitConverter:
     """Converter between units.
@@ -102,6 +104,10 @@ class UnitConverter:
         """exprime la valeur en parametre dans l'unite cible du convertisseur en faisant l'hypothese qu'elle est
         exprimee dans son unite source"""
         return value * self._scale + self._translation
+
+    @deprecated('Use concatenate_to()')
+    def concatenate(self, converter: "UnitConverter") -> "UnitConverter":
+        return self.concatenate_to(converter=converter)
 
     def concatenate_to(self, converter: "UnitConverter") -> "UnitConverter":
         """convertisseur correspondant a la combinaison de la conversion du convertisseur en parametre suivie de la

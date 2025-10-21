@@ -25,7 +25,7 @@ lint_test:pylotable:
     - pip install .
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
-mkdocs:en:pylotable:
+doc:en:pylotable:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -38,14 +38,14 @@ mkdocs:en:pylotable:
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
     - source ../resources/doc/version.sh en
-    - mkdocs build -d site.en
+    - mkdocs build -d site.en -f mkdocs.yml
     - zip -r site.en.zip site.en/
     - source ../resources/doc/publish.sh en
   environment:
     name: documentation.en
-    url: https://cosmoloj.com/mkdocs/pylotable/en/master
+    url: https://cosmoloj.com/doc/pylotable/en/master
 
-mkdocs:fr:pylotable:
+doc:fr:pylotable:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -63,7 +63,7 @@ mkdocs:fr:pylotable:
     - source ../resources/doc/publish.sh fr
   environment:
     name: documentation.fr
-    url: https://cosmoloj.com/mkdocs/pylotable/fr/master
+    url: https://cosmoloj.com/doc/pylotable/fr/master
 
 test:pylotable:
   stage: test

@@ -200,7 +200,7 @@ k = FundamentalUnit()
 
 # standard academic solution using explicit converter concatenation
 f = TransformedUnit(to_reference=UnitConverter(scale=5/9)
-                                 .concatenate(UnitConverter(scale=1, translation=459.67)),
+                                 .concatenate_to(UnitConverter(scale=1, translation=459.67)),
                     reference=k)
 
 k_to_f = k.get_converter_to(f)
