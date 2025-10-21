@@ -107,6 +107,7 @@ class UnitConverter:
 
     @deprecated('Use concatenate_to()')
     def concatenate(self, converter: "UnitConverter") -> "UnitConverter":
+        """rétrocompatibilité SimpleUnit 1.x"""
         return self.concatenate_to(converter=converter)
 
     def concatenate_to(self, converter: "UnitConverter") -> "UnitConverter":
