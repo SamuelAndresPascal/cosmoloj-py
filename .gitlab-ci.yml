@@ -31,6 +31,7 @@ include:
   - local: 'multienv/.gitlab-ci.yml'
   - local: 'bibliograpy/.gitlab-ci.yml'
   - local: 'pylotable/.gitlab-ci.yml'
+  - local: 'pycar/.gitlab-ci.yml'
 
 conda_envs:
   stage: envs
@@ -51,6 +52,8 @@ conda_envs:
     - cd ../bibliograpy
     - pyenvs deps
     - cd ../pylotable
+    - pyenvs deps
+    - cd ../pycar
     - pyenvs deps
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin

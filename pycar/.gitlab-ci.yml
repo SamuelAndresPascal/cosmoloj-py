@@ -1,0 +1,174 @@
+lint:pycar:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_lint.yml
+    - conda activate lint
+    - conda list
+    - pip install .
+
+lint_test:pycar:
+  stage: lint
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_lint_test.yml
+    - conda activate lint_test
+    - conda list
+    - pip install .
+
+doc:en:pycar:
+  stage: doc
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_doc.yml
+    - conda activate doc
+    - conda list
+    - pip install . # to compile the API docstrings with mkdocstrings
+    - source ../resources/doc/version.sh en
+    - mkdocs build -d site.en -f mkdocs.yml
+    - zip -r site.en.zip site.en/
+    - source ../resources/doc/publish.sh en pycar
+  environment:
+    name: documentation.pycar.en
+    url: https://cosmoloj.com/doc/pycar/en/master
+
+test:pycar:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_test.yml
+    - conda activate test
+    - conda list
+    - pip install .
+    - cd ..
+    - pytest --cov=pycar --junitxml=pycar/report.xml --cov-append pycar
+  artifacts:
+    when: always
+    paths:
+      - .coverage
+      - pycar/report.xml
+    reports:
+      junit: pycar/report.xml
+    expire_in: 2 days
+
+python-version-support:pycar:
+  stage: python-version-support
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  variables:
+    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+  script:
+    - cd pycar
+    - . resources/check_py_version.sh 3.14 || exit 1
+    - . resources/check_py_version.sh 3.13 || exit 1
+    - . resources/check_py_version.sh 3.12 || exit 1
+
+pypi-package:pycar:pypi:
+  stage: pypi-package
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_pypi_pkg.yml
+    - conda activate pypi_pkg
+    - conda list
+    - rm -rf dist/
+    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
+    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/pycar\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
+    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
+    - cat pyproject.toml
+    - cp ../LICENSE.md .
+    - pip install .
+    - python -m build
+    - ls -l $DIST_DIR
+  artifacts:
+    paths:
+      - pycar/dist/*
+
+pypi-publish:pycar:test_pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
+    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
+  environment:
+    name: test pypi pycar
+    url: https://test.pypi.org/project/pycar/
+
+pypi-publish:pycar:pypi:
+  stage: pypi-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_pypi_publish.yml
+    - conda activate pypi_publish
+    - conda list
+    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
+  environment:
+    name: pypi pycar
+    url: https://pypi.org/project/pycar/
+
+conda-package:pycar:
+  stage: conda-package
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+      when: delayed
+      start_in: 5 minutes
+  variables:
+    DIST_DIR: conda_dist
+    PACKAGE: pycar
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_conda_pkg.yml
+    - conda activate conda_pkg
+    - conda list
+    - rm -rf $DIST_DIR/
+    - mkdir $DIST_DIR
+    - grayskull pypi -o $DIST_DIR $PACKAGE
+    - cat $DIST_DIR/$PACKAGE/meta.yaml
+    - conda build --numpy=2.0 --channel conda-forge $DIST_DIR/$PACKAGE
+  artifacts:
+    paths:
+      - pycar/$DIST_DIR/*
+
+conda-publish:pycar:
+  stage: conda-publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+  variables:
+    PACKAGE: pycar
+  script:
+    - cd pycar
+    - conda env create --yes --file environment_conda_pkg.yml
+    - conda activate conda_pkg
+    - conda list
+    - VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2)
+    - anaconda logout
+    - anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
+    - anaconda upload $CONDA_HOME/conda-bld/noarch/$PACKAGE-$VERSION-py_0.tar.bz2
+    - anaconda logout
+  environment:
+    name: anaconda pycar
+    url: https://anaconda.org/cosmoloj/pycar/
