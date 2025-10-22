@@ -31,4 +31,4 @@ pyenvs = "multienv.pyenvs:entrypoint"
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/multienv"
-"Documentation" = "http://cosmoloj.com/mkdocs/multienv/master"
+"Documentation" = "http://cosmoloj.com/doc/multienv/en/master"

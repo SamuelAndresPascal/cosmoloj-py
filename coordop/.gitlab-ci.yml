@@ -26,7 +26,7 @@ lint_test:coordop:
     - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
     - pylint --rcfile=../pylintrc_test test/projection/*
 
-mkdocs:coordop:
+doc:en:coordop:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -38,18 +38,13 @@ mkdocs:coordop:
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - echo $'\n**Version '$VERSION'**' >> docs/about.md
-    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> docs/about.md
-    - mkdocs build
-    - zip -r site.zip site/
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_SITE_SERVER_PATH/mkdocs/coordop"
-    - scp site.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/coordop
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/coordop ; rm -rf $VERSION ; unzip site.zip ; mv site $VERSION ; rm site.zip"
-    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/coordop ; rm latest ; ln -s $VERSION latest" ; fi
+    - source ../resources/doc/version.sh en
+    - mkdocs build -d site.en -f mkdocs.yml
+    - zip -r site.en.zip site.en/
+    - source ../resources/doc/publish.sh en coordop
   environment:
-    name: documentation
-    url: https://cosmoloj.com/mkdocs/coordop/master
+    name: documentation.coordop.en
+    url: https://cosmoloj.com/doc/coordop/en/master
 
 test:coordop:
   stage: test

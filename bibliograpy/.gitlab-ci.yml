@@ -60,7 +60,7 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_endnote.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_pubmed.py
 
-mkdocs:en:bibliograpy:
+doc:en:bibliograpy:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -72,20 +72,15 @@ mkdocs:en:bibliograpy:
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - echo $'\n**Version '$VERSION'**' >> docs/about.md
-    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> docs/en/about.md
-    - mkdocs build -d site.en
+    - source ../resources/doc/version.sh en
+    - mkdocs build -d site.en -f mkdocs.yml
     - zip -r site.en.zip site.en/
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/en"
-    - scp site.en.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/en
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/en ; rm -rf $VERSION ; unzip site.en.zip ; mv site.en $VERSION ; rm site.en.zip"
-    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/en ; rm latest ; ln -s $VERSION latest" ; fi
+    - source ../resources/doc/publish.sh en bibliograpy
   environment:
-    name: documentation.en
-    url: https://cosmoloj.com/mkdocs/bibliograpy/en/master
+    name: documentation.bibliograpy.en
+    url: https://cosmoloj.com/doc/bibliograpy/en/master
 
-mkdocs:fr:bibliograpy:
+doc:fr:bibliograpy:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -97,18 +92,13 @@ mkdocs:fr:bibliograpy:
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - echo $'\n**Version '$VERSION'**' >> docs/about.md
-    - echo $'\nDocumentation générée à '$(date -u +"%F %T")' UTC' >> docs/fr/about.md
-    - mkdocs build -d site.fr -f mkdocs.fr.yml
+    - source ../resources/doc/version.sh fr
+    - mkdocs build -d site.fr -f mkdocs.yml
     - zip -r site.fr.zip site.fr/
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/fr"
-    - scp site.fr.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/fr
-    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/fr ; rm -rf $VERSION ; unzip site.fr.zip ; mv site.fr $VERSION ; rm site.fr.zip"
-    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_SITE_SERVER_PATH/mkdocs/bibliograpy/fr ; rm latest ; ln -s $VERSION latest" ; fi
+    - source ../resources/doc/publish.sh fr bibliograpy
   environment:
-    name: documentation.fr
-    url: https://cosmoloj.com/mkdocs/bibliograpy/fr/master
+    name: documentation.bibliograpy.fr
+    url: https://cosmoloj.com/doc/bibliograpy/fr/master
 
 test:bibliograpy:
   stage: test

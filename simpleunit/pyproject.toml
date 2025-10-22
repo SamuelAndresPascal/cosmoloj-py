@@ -27,5 +27,5 @@ keywords = ["units", "converter", "unit converter", "measure", "units of measure
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/simpleunit"
-"Documentation" = "http://cosmoloj.com/mkdocs/simpleunit/master"
+"Documentation" = "http://cosmoloj.com/doc/simpleunit/en/master"
 "Specification" = "http://cosmoloj.com/su"

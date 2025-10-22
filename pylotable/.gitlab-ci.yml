@@ -42,7 +42,7 @@ doc:en:pylotable:
     - zip -r site.en.zip site.en/
     - source ../resources/doc/publish.sh en pylotable
   environment:
-    name: documentation.en
+    name: documentation.pylotable.en
     url: https://cosmoloj.com/doc/pylotable/en/master
 
 doc:fr:pylotable:
@@ -62,7 +62,7 @@ doc:fr:pylotable:
     - zip -r site.fr.zip site.fr/
     - source ../resources/doc/publish.sh fr pylotable
   environment:
-    name: documentation.fr
+    name: documentation.pylotable.fr
     url: https://cosmoloj.com/doc/pylotable/fr/master
 
 test:pylotable:

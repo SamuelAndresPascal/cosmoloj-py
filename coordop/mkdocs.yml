@@ -3,6 +3,7 @@ repo_url: https://github.com/SamuelAndresPascal/cosmoloj-py
 edit_uri: https://github.com/SamuelAndresPascal/cosmoloj-py/blob/master/coordop/docs
 site_description: Coordop documentation site
 site_author: Samuel Andrés
+docs_dir: docs/en
 
 strict: true
 

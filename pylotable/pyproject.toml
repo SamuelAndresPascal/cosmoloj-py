@@ -30,4 +30,4 @@ dependencies= [
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/pylotable"
-"Documentation" = "http://cosmoloj.com/mkdocs/pylotable/master"
+"Documentation" = "http://cosmoloj.com/doc/pylotable/en/master"

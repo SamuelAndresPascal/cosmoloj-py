@@ -28,7 +28,7 @@ lint_test:simpleunit:
     - pylint --rcfile=../pylintrc_src test/unit_simple_operator_test.py
     - pylint --rcfile=../pylintrc_src test/unit_simple_built_in_test.py
 
-doc:simpleunit:
+doc:en:simpleunit:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -45,7 +45,7 @@ doc:simpleunit:
     - zip -r site.en.zip site.en/
     - source ../resources/doc/publish.sh en simpleunit
   environment:
-    name: documentation
+    name: documentation.simpleunit.en
     url: https://cosmoloj.com/doc/simpleunit/en/master
 
 test:simpleunit:
