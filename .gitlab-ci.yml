@@ -67,6 +67,7 @@ conda_envs:
       - multienv/environment_*
       - bibliograpy/environment_*
       - pylotable/environment_*
+      - pycar/environment_*
     expire_in: 2 days
 
 pylintrc_envs:
