@@ -43,7 +43,7 @@ doc:simpleunit:
     - source ../resources/doc/version.sh en
     - mkdocs build -d site.en -f mkdocs.yml
     - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en
+    - source ../resources/doc/publish.sh en simpleunit
   environment:
     name: documentation
     url: https://cosmoloj.com/doc/simpleunit/en/master

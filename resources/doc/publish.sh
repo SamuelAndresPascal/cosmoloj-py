@@ -1,11 +1,13 @@
 # expects the language argument
 LANG=$1
+PACKAGE=$2
 
 # assumes the documentation archive is available, named "site.<lang>.zip" and contains a "site.lang" folder to extract.
 
-PUBLIC_DOC_DIR=$PUBLIC_SITE_SERVER_PATH/doc/$CI_PROJECT_NAME/$LANG
+PUBLIC_DOC_DIR=$PUBLIC_SITE_SERVER_PATH/doc/$PACKAGE/$LANG
 echo $PUBLIC_DOC_DIR
 echo $VERSION
+
 ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_DOC_DIR"
 scp site.$LANG.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_DOC_DIR
 ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "ls -l $PUBLIC_DOC_DIR"

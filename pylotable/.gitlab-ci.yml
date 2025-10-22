@@ -40,7 +40,7 @@ doc:en:pylotable:
     - source ../resources/doc/version.sh en
     - mkdocs build -d site.en -f mkdocs.yml
     - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en
+    - source ../resources/doc/publish.sh en pylotable
   environment:
     name: documentation.en
     url: https://cosmoloj.com/doc/pylotable/en/master
@@ -60,7 +60,7 @@ doc:fr:pylotable:
     - source ../resources/doc/version.sh fr
     - mkdocs build -d site.fr -f mkdocs.fr.yml
     - zip -r site.fr.zip site.fr/
-    - source ../resources/doc/publish.sh fr
+    - source ../resources/doc/publish.sh fr pylotable
   environment:
     name: documentation.fr
     url: https://cosmoloj.com/doc/pylotable/fr/master
