@@ -93,7 +93,7 @@ doc:fr:bibliograpy:
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
     - source ../resources/doc/version.sh fr
-    - mkdocs build -d site.fr -f mkdocs.yml
+    - mkdocs build -d site.fr -f mkdocs.fr.yml
     - zip -r site.fr.zip site.fr/
     - source ../resources/doc/publish.sh fr bibliograpy
   environment:
