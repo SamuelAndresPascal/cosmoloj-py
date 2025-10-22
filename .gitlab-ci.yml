@@ -10,8 +10,8 @@ default:
 
 stages:
   - envs
-  - lint
   - doc
+  - lint
   - test
   - python-version-support
   - coverage
