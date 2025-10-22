@@ -2,7 +2,9 @@ default:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - . ./init_conda.sh cosmoloj_py 3.11
+    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
+    - echo "computed version: $VERSION"
+    - source resources/init_conda.sh cosmoloj_py 3.11
 
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
@@ -35,7 +37,7 @@ conda_envs:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - . ./init_conda.sh multienv 3.13
+    - source resources/init_conda.sh multienv 3.13
     - conda install -c cosmoloj multienv=0.5.0 -y
   script:
     - cd simpleunit
@@ -69,7 +71,7 @@ pylintrc_envs:
   before_script:
     - echo $CONDA_HOME
     - PATH=$PATH:$CONDA_HOME/bin
-    - . ./init_conda.sh multienv 3.13
+    - source resources/init_conda.sh multienv 3.13
     - conda install -c cosmoloj multienv=0.5.0 -y
   script:
     - pyenvs lint
