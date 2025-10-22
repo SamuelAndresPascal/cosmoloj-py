@@ -32,4 +32,4 @@ bibliograpy = "bibliograpy.bibliograpy:entrypoint"
 
 [project.urls]
 "Homepage" = "https://github.com/SamuelAndresPascal/cosmoloj-py/tree/master/bibliograpy"
-"Documentation" = "http://cosmoloj.com/mkdocs/bibliograpy/master"
+"Documentation" = "http://cosmoloj.com/mkdocs/bibliograpy/en/master"
