@@ -12,6 +12,8 @@
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
+  script:
+    - *lint_base_script
 
 .lint_test:
   stage: lint
@@ -20,3 +22,5 @@
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
+  script:
+    - *lint_base_script

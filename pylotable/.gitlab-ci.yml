@@ -3,16 +3,12 @@ conda_env:simple_unit:
   variables:
     PACKAGE_NAME: pylotable
 
-include:
-  - local: '../.gitlab-ci-env.yml'
-  - local: '../.gitlab-ci-lint.yml'
-
 lint:pylotable:
   extends: .lint
   variables:
     PACKAGE_NAME: pylotable
   script:
-    - *lint_base_script
+    - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_pylotable-src src
     - pylint --rcfile=../pylintrc_strict demo
 
@@ -21,7 +17,7 @@ lint_test:pylotable:
   variables:
     PACKAGE_NAME: pylotable
   script:
-    - *lint_base_script
+    - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
 doc:en:pylotable:

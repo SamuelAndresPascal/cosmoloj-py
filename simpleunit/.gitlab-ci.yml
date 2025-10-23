@@ -3,16 +3,12 @@ conda_env:simple_unit:
   variables:
     PACKAGE_NAME: simpleunit
 
-include:
-  - local: '../.gitlab-ci-env.yml'
-  - local: '../.gitlab-ci-lint.yml'
-
 lint:simpleunit:
   extends: .lint
   variables:
     PACKAGE_NAME: simpleunit
   script:
-    - *lint_base_script
+    - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_src src
     - pylint --rcfile=../pylintrc_src demo/demo.py
 
@@ -21,7 +17,7 @@ lint_test:simpleunit:
   variables:
     PACKAGE_NAME: simpleunit
   script:
-    - *lint_base_script
+    - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test.py
     - pylint --rcfile=../pylintrc_src test/unit_simple_test.py
     - pylint --rcfile=../pylintrc_src test/unit_simple_operator_test.py
