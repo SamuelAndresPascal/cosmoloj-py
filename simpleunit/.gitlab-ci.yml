@@ -25,12 +25,12 @@ lint_test:simpleunit:
 
 doc:en:simpleunit:
   extends: .doc
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
-    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
   variables:
     PACKAGE_NAME: simpleunit
     LANG: en
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
 
 test:simpleunit:
   extends: .test

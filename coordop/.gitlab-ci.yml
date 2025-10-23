@@ -26,6 +26,9 @@ doc:en:coordop:
   variables:
     PACKAGE_NAME: coordop
     LANG: en
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
 
 test:coordop:
   extends: .test

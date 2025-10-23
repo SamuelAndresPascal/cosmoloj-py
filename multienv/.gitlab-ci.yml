@@ -34,6 +34,9 @@ doc:en:multienv:
   variables:
     PACKAGE_NAME: multienv
     LANG: en
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+    - if: $CI_COMMIT_TAG =~ /^multienv_/
 
 test:multienv:
   extends: .test

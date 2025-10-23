@@ -25,12 +25,18 @@ doc:en:pylotable:
   variables:
     PACKAGE_NAME: pylotable
     LANG: en
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+    - if: $CI_COMMIT_TAG =~ /^pylotable_/
 
 doc:fr:pylotable:
   extends: .doc
   variables:
     PACKAGE_NAME: pylotable
     LANG: fr
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+    - if: $CI_COMMIT_TAG =~ /^pylotable_/
 
 test:pylotable:
   extends: .test
