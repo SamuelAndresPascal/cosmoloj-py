@@ -1,0 +1,18 @@
+.conda_env:
+  stage: envs
+  before_script:
+    - echo $CONDA_HOME
+    - PATH=$PATH:$CONDA_HOME/bin
+    - source resources/init_conda.sh multienv 3.13
+    - conda install -c cosmoloj multienv=0.5.0 -y
+  script:
+    - cd $PACKAGE_NAME
+    - pyenvs deps
+  after_script:
+    - PATH=$PATH:$CONDA_HOME/bin
+    - . ./clean_conda.sh multienv
+  artifacts:
+    when: always
+    paths:
+      - $PACKAGE_NAME/environment_*
+    expire_in: 2 days

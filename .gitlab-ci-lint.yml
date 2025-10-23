@@ -1,23 +1,22 @@
-.lint:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
-  script:
+.lint_base_script: &lint_base_script
     - cd $PACKAGE_NAME
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
+    - conda env create --yes --file environment_${JOB_ENV_ID}.yml
+    - conda activate ${JOB_ENV_ID}
     - conda list
     - pip install .
 
-.lint_test:
+.lint:
   stage: lint
+  variables:
+    JOB_ENV_ID: lint
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
-  script:
-    - cd $PACKAGE_NAME
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+
+.lint_test:
+  stage: lint
+  variables:
+    JOB_ENV_ID: lint_test
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/

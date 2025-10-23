@@ -1,8 +1,14 @@
+conda_env:simple_unit:
+  extends: .conda_env
+  variables:
+    PACKAGE_NAME: pylotable
+
 lint:pylotable:
   extends: .lint
   variables:
     PACKAGE_NAME: pylotable
   script:
+    - *lint_base_script
     - pylint --rcfile=../pylintrc_pylotable-src src
     - pylint --rcfile=../pylintrc_strict demo
 
@@ -11,6 +17,7 @@ lint_test:pylotable:
   variables:
     PACKAGE_NAME: pylotable
   script:
+    - *lint_base_script
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
 doc:en:pylotable:

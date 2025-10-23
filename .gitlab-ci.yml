@@ -25,6 +25,7 @@ stages:
   - sonar
 
 include:
+  - local: '.gitlab-ci-env.yml'
   - local: '.gitlab-ci-lint.yml'
   - local: 'simpleunit/.gitlab-ci.yml'
   - local: 'taxref/.gitlab-ci.yml'
@@ -42,9 +43,7 @@ conda_envs:
     - source resources/init_conda.sh multienv 3.13
     - conda install -c cosmoloj multienv=0.5.0 -y
   script:
-    - cd simpleunit
-    - pyenvs deps
-    - cd ../taxref
+    - taxref
     - pyenvs deps
     - cd ../coordop
     - pyenvs deps

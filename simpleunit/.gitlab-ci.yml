@@ -1,28 +1,23 @@
+conda_env:simple_unit:
+  extends: .conda_env
+  variables:
+    PACKAGE_NAME: simpleunit
+
 lint:simpleunit:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: simpleunit
   script:
-    - cd simpleunit
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - *lint_base_script
     - pylint --rcfile=../pylintrc_src src
     - pylint --rcfile=../pylintrc_src demo/demo.py
 
 lint_test:simpleunit:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: simpleunit
   script:
-    - cd simpleunit
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - *lint_base_script
     - pylint --rcfile=../pylintrc_src test/test.py
     - pylint --rcfile=../pylintrc_src test/unit_simple_test.py
     - pylint --rcfile=../pylintrc_src test/unit_simple_operator_test.py
