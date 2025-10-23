@@ -1,4 +1,4 @@
-conda_env:simple_unit:
+conda_env:pylotable:
   extends: .conda_env
   variables:
     PACKAGE_NAME: pylotable
@@ -21,44 +21,16 @@ lint_test:pylotable:
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
 doc:en:pylotable:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
-    - if: $CI_COMMIT_TAG =~ /^pylotable_/
-  script:
-    - cd pylotable
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh en
-    - mkdocs build -d site.en -f mkdocs.yml
-    - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en pylotable
-  environment:
-    name: documentation.pylotable.en
-    url: https://cosmoloj.com/doc/pylotable/en/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: pylotable
+    LANG: en
 
 doc:fr:pylotable:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
-    - if: $CI_COMMIT_TAG =~ /^pylotable_/
-  script:
-    - cd pylotable
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh fr
-    - mkdocs build -d site.fr -f mkdocs.fr.yml
-    - zip -r site.fr.zip site.fr/
-    - source ../resources/doc/publish.sh fr pylotable
-  environment:
-    name: documentation.pylotable.fr
-    url: https://cosmoloj.com/doc/pylotable/fr/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: pylotable
+    LANG: fr
 
 test:pylotable:
   stage: test

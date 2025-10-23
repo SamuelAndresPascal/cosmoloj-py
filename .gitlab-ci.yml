@@ -27,6 +27,7 @@ stages:
 include:
   - local: '.gitlab-ci-env.yml'
   - local: '.gitlab-ci-lint.yml'
+  - local: '.gitlab-ci-doc.yml'
   - local: 'simpleunit/.gitlab-ci.yml'
   - local: 'taxref/.gitlab-ci.yml'
   - local: 'coordop/.gitlab-ci.yml'
@@ -43,15 +44,13 @@ conda_envs:
     - source resources/init_conda.sh multienv 3.13
     - conda install -c cosmoloj multienv=0.5.0 -y
   script:
-    - taxref
+    - cd taxref
     - pyenvs deps
     - cd ../coordop
     - pyenvs deps
     - cd ../multienv
     - pyenvs deps
     - cd ../bibliograpy
-    - pyenvs deps
-    - cd ../pylotable
     - pyenvs deps
     - cd ../pycar
     - pyenvs deps
@@ -61,12 +60,10 @@ conda_envs:
   artifacts:
     when: always
     paths:
-      - simpleunit/environment_*
       - taxref/environment_*
       - coordop/environment_*
       - multienv/environment_*
       - bibliograpy/environment_*
-      - pylotable/environment_*
       - pycar/environment_*
     expire_in: 2 days
 
