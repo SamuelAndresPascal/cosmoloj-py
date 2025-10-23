@@ -14,7 +14,7 @@ lint:multienv:
 lint_test:multienv:
   extends: .lint_test
   variables:
-    PACKAGE_NAME: pylotable
+    PACKAGE_NAME: multienv
   script:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test_pyenvs.py
