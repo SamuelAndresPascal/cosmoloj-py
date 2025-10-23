@@ -4,28 +4,18 @@ conda_env:pycar:
     PACKAGE_NAME: pycar
 
 lint:pycar:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: pycar
   script:
-    - cd pycar
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - !reference [.lint, script]
 
 lint_test:pycar:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: pycar
   script:
-    - cd pycar
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - !reference [.lint_test, script]
 
 doc:en:pycar:
   stage: doc

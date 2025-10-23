@@ -4,29 +4,19 @@ conda_env:taxref:
     PACKAGE_NAME: taxref
 
 lint:taxref:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: taxref
   script:
-    - cd taxref
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_taxref-src src
 
 lint_test:taxref:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: taxref
   script:
-    - cd taxref
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test.py
     - pylint --rcfile=../pylintrc_src test/taxref_test.py
 

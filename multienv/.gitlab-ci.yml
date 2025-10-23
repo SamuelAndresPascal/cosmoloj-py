@@ -4,29 +4,19 @@ conda_env:multienv:
     PACKAGE_NAME: multienv
 
 lint:multienv:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: multienv
   script:
-    - cd multienv
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_multienv-src src
 
 lint_test:multienv:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: pylotable
   script:
-    - cd multienv
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test_pyenvs.py
     - pylint --rcfile=../pylintrc_src test/test_pyenvs_info.py
     - pylint --rcfile=../pylintrc_src test/test_pyenvs_deps.py

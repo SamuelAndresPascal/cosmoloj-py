@@ -4,30 +4,20 @@ conda_env:coordop:
     PACKAGE_NAME: coordop
 
 lint:coordop:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: coordop
   script:
-    - cd coordop
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - !reference [.lint, script]
     - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
     - pylint --rcfile=../pylintrc_coordop-src --ignore-paths src/coordop/bibliography.py src
 
 lint_test:coordop:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: coordop
   script:
-    - cd coordop
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - !reference [.lint_test, script]
     - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
     - pylint --rcfile=../pylintrc_test test/projection/*
 

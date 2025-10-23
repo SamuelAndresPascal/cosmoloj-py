@@ -4,16 +4,11 @@ conda_env:bibliograpy:
     PACKAGE_NAME: bibliograpy
 
 lint:bibliograpy:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^bibliograpy_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: bibliograpy
   script:
-    - cd bibliograpy
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
+    - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/bibliograpy.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/process.py
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/default_symbolizer.py
@@ -34,16 +29,11 @@ lint:bibliograpy:
     - pylint --rcfile=../pylintrc_strict src/bibliograpy/api_common.py
 
 lint_test:bibliograpy:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^bibliograpy_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: bibliograpy
   script:
-    - cd bibliograpy
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
+    - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_strict test/example_symbolizer.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_bibtex.py
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_process_ris2001.py
