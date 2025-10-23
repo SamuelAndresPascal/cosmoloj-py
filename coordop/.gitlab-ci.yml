@@ -22,24 +22,10 @@ lint_test:coordop:
     - pylint --rcfile=../pylintrc_test test/projection/*
 
 doc:en:coordop:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
-    - if: $CI_COMMIT_TAG =~ /^coordop_/
-  script:
-    - cd coordop
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh en
-    - mkdocs build -d site.en -f mkdocs.yml
-    - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en coordop
-  environment:
-    name: documentation.coordop.en
-    url: https://cosmoloj.com/doc/coordop/en/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: coordop
+    LANG: en
 
 test:coordop:
   stage: test

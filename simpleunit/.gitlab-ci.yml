@@ -1,4 +1,4 @@
-conda_env:simple_unit:
+conda_env:simpleunit:
   extends: .conda_env
   variables:
     PACKAGE_NAME: simpleunit
@@ -26,7 +26,7 @@ lint_test:simpleunit:
 doc:en:simpleunit:
   extends: .doc
   variables:
-    PACKAGE_NAME: pylotable
+    PACKAGE_NAME: simpleunit
     LANG: en
 
 test:simpleunit:

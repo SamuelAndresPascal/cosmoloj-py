@@ -56,44 +56,16 @@ lint_test:bibliograpy:
     - pylint --rcfile=../pylintrc_bibliograpy-test test/test_pubmed.py
 
 doc:en:bibliograpy:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^bibliograpy_/
-    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
-  script:
-    - cd bibliograpy
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh en
-    - mkdocs build -d site.en -f mkdocs.yml
-    - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en bibliograpy
-  environment:
-    name: documentation.bibliograpy.en
-    url: https://cosmoloj.com/doc/bibliograpy/en/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: bibliograpy
+    LANG: en
 
 doc:fr:bibliograpy:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^bibliograpy_/
-    - if: $CI_COMMIT_TAG =~ /^bibliograpy_/
-  script:
-    - cd bibliograpy
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh fr
-    - mkdocs build -d site.fr -f mkdocs.fr.yml
-    - zip -r site.fr.zip site.fr/
-    - source ../resources/doc/publish.sh fr bibliograpy
-  environment:
-    name: documentation.bibliograpy.fr
-    url: https://cosmoloj.com/doc/bibliograpy/fr/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: bibliograpy
+    LANG: fr
 
 test:bibliograpy:
   stage: test

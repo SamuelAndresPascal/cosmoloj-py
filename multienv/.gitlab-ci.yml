@@ -30,24 +30,10 @@ lint_test:multienv:
     - pylint --rcfile=../pylintrc_test test/test_pyenvs_lint_output_pylint.py
 
 doc:en:multienv:
-  stage: doc
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
-    - if: $CI_COMMIT_TAG =~ /^multienv_/
-  script:
-    - cd multienv
-    - conda env create --yes --file environment_doc.yml
-    - conda activate doc
-    - conda list
-    - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh en
-    - mkdocs build -d site.en -f mkdocs.yml
-    - zip -r site.en.zip site.en/
-    - source ../resources/doc/publish.sh en multienv
-  environment:
-    name: documentation.multienv.en
-    url: https://cosmoloj.com/doc/multienv/en/master
+  extends: .doc
+  variables:
+    PACKAGE_NAME: multienv
+    LANG: en
 
 test:multienv:
   stage: test
