@@ -27,6 +27,7 @@ doc:en:coordop:
     PACKAGE_NAME: coordop
     LANG: en
   rules:
+    - !reference [.doc, rules]
     - if: $CI_COMMIT_BRANCH =~ /^coordop_/
     - if: $CI_COMMIT_TAG =~ /^coordop_/
 
