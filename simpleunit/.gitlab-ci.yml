@@ -38,14 +38,11 @@ test:simpleunit:
     - python simpleunit/test/test.py
 
 python-version-support:simpleunit:
-  stage: python-version-support
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+  extends: .python-version-support
   variables:
-    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+    PACKAGE_NAME: simpleunit
   script:
-    - cd simpleunit
+    - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 3.14 || exit 1
     - . resources/check_py_version.sh 3.13 || exit 1
 

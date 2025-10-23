@@ -41,14 +41,11 @@ test:multienv:
     PACKAGE_NAME: multienv
 
 python-version-support:multienv:
-  stage: python-version-support
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+  extends: .python-version-support
   variables:
-    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+    PACKAGE_NAME: multienv
   script:
-    - cd multienv
+    - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 312
 
 demo:multienv:

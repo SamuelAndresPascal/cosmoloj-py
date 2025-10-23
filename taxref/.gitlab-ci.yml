@@ -26,14 +26,11 @@ test:taxref:
     PACKAGE_NAME: taxref
 
 python-version-support:taxref:
-  stage: python-version-support
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+  extends: .python-version-support
   variables:
-    PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
+    PACKAGE_NAME: taxref
   script:
-    - cd taxref
+    - !reference [.python-version-support, script]
     #- . resources/check_py_version.sh 3.13 || exit 1 doit attendre le support de 3.13 par pandas
     - . resources/check_py_version.sh 3.12 || exit 1
     - . resources/check_py_version.sh 3.11 || exit 1
