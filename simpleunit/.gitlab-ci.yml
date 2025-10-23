@@ -3,6 +3,10 @@ conda_env:simple_unit:
   variables:
     PACKAGE_NAME: simpleunit
 
+include:
+  - local: '../.gitlab-ci-env.yml'
+  - local: '../.gitlab-ci-lint.yml'
+
 lint:simpleunit:
   extends: .lint
   variables:
