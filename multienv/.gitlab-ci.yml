@@ -36,26 +36,9 @@ doc:en:multienv:
     LANG: en
 
 test:multienv:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
-  script:
-    - cd multienv
-    - conda env create --yes --file environment_test.yml
-    - conda activate test
-    - conda list
-    - pip install .
-    - cd ..
-    - pytest --cov=multienv --junitxml=multienv/report.xml --cov-append multienv
-  artifacts:
-    when: always
-    paths:
-      - .coverage
-      - multienv/report.xml
-    reports:
-      junit: multienv/report.xml
-    expire_in: 2 days
+  extends: .test
+  variables:
+    PACKAGE_NAME: multienv
 
 python-version-support:multienv:
   stage: python-version-support

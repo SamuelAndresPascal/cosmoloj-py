@@ -68,28 +68,9 @@ doc:fr:bibliograpy:
     LANG: fr
 
 test:bibliograpy:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^bibliograpy_/
-  script:
-    - cd bibliograpy
-    - conda env create --yes --file environment_test.yml
-    - conda activate test
-    - conda list
-    - pip install .
-    - cd ..
-    - pytest --cov=bibliograpy --junitxml=bibliograpy/report.xml --cov-append bibliograpy
-  artifacts:
-    when: always
-    paths:
-       # generated bibliography modules in tests needed at coverage time
-      - bibliograpy/test/test_*_to_py.py
-      - .coverage
-      - bibliograpy/report.xml
-    reports:
-      junit: bibliograpy/report.xml
-    expire_in: 2 days
+  extends: .test
+  variables:
+    PACKAGE_NAME: bibliograpy
 
 python-version-support:bibliograpy:
   stage: python-version-support

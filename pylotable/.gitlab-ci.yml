@@ -33,26 +33,9 @@ doc:fr:pylotable:
     LANG: fr
 
 test:pylotable:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
-  script:
-    - cd pylotable
-    - conda env create --yes --file environment_test.yml
-    - conda activate test
-    - conda list
-    - pip install .
-    - cd ..
-    - pytest --cov=pylotable --junitxml=pylotable/report.xml --cov-append pylotable
-  artifacts:
-    when: always
-    paths:
-      - .coverage
-      - pylotable/report.xml
-    reports:
-      junit: pylotable/report.xml
-    expire_in: 2 days
+  extends: .test
+  variables:
+    PACKAGE_NAME: pylotable
 
 python-version-support:pylotable:
   stage: python-version-support

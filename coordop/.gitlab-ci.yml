@@ -28,10 +28,9 @@ doc:en:coordop:
     LANG: en
 
 test:coordop:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+  extends: .test
+  variables:
+    PACKAGE_NAME: coordop
   script:
     - cd coordop
     - conda env create --yes --file environment_test.yml
@@ -42,14 +41,6 @@ test:coordop:
     - pip install .
     - cd ..
     - pytest --cov=coordop --junitxml=coordop/report.xml --cov-append coordop
-  artifacts:
-    when: always
-    paths:
-      - .coverage
-      - coordop/report.xml
-    reports:
-      junit: coordop/report.xml
-    expire_in: 2 days
 
 python-version-support:coordop:
   stage: python-version-support

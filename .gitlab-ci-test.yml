@@ -1,0 +1,21 @@
+.test:
+  stage: test
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
+  script:
+    - cd multienv
+    - conda env create --yes --file environment_test.yml
+    - conda activate test
+    - conda list
+    - pip install .
+    - cd ..
+    - pytest --cov=$PACKAGE_NAME --junitxml=$PACKAGE_NAME/report.xml --cov-append $PACKAGE_NAME
+  artifacts:
+    when: always
+    paths:
+      - .coverage
+      - $PACKAGE_NAME/report.xml
+    reports:
+      junit: $PACKAGE_NAME/report.xml
+    expire_in: 2 days

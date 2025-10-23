@@ -30,27 +30,12 @@ doc:en:simpleunit:
     LANG: en
 
 test:simpleunit:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+  extends: .test
+  variables:
+    PACKAGE_NAME: simpleunit
   script:
-    - cd simpleunit
-    - conda env create --yes --file environment_test.yml
-    - conda activate test
-    - conda list
-    - pip install .
-    - cd ..
-    - pytest --cov=simpleunit --junitxml=simpleunit/report.xml --cov-append simpleunit
+    - !reference [.test, script]
     - python simpleunit/test/test.py
-  artifacts:
-    when: always
-    paths:
-      - .coverage
-      - simpleunit/report.xml
-    reports:
-      junit: simpleunit/report.xml
-    expire_in: 2 days
 
 python-version-support:simpleunit:
   stage: python-version-support

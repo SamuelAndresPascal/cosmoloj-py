@@ -24,26 +24,9 @@ doc:en:pycar:
     LANG: en
 
 test:pycar:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
-  script:
-    - cd pycar
-    - conda env create --yes --file environment_test.yml
-    - conda activate test
-    - conda list
-    - pip install .
-    - cd ..
-    - pytest --cov=pycar --junitxml=pycar/report.xml --cov-append pycar
-  artifacts:
-    when: always
-    paths:
-      - .coverage
-      - pycar/report.xml
-    reports:
-      junit: pycar/report.xml
-    expire_in: 2 days
+  extends: .test
+  variables:
+    PACKAGE_NAME: pycar
 
 python-version-support:pycar:
   stage: python-version-support

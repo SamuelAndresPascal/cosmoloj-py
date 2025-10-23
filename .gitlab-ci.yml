@@ -36,25 +36,6 @@ include:
   - local: 'pylotable/.gitlab-ci.yml'
   - local: 'pycar/.gitlab-ci.yml'
 
-conda_envs:
-  stage: envs
-  before_script:
-    - echo $CONDA_HOME
-    - PATH=$PATH:$CONDA_HOME/bin
-    - source resources/init_conda.sh multienv 3.13
-    - conda install -c cosmoloj multienv=0.5.0 -y
-  script:
-    - cd taxref
-    - pyenvs deps
-  after_script:
-    - PATH=$PATH:$CONDA_HOME/bin
-    - . ./clean_conda.sh multienv
-  artifacts:
-    when: always
-    paths:
-      - taxref/environment_*
-    expire_in: 2 days
-
 pylintrc_envs:
   stage: envs
   before_script:
