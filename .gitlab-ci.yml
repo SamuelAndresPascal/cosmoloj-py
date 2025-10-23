@@ -25,6 +25,7 @@ stages:
   - sonar
 
 include:
+  - local: '.gitlab-ci-lint.yml'
   - local: 'simpleunit/.gitlab-ci.yml'
   - local: 'taxref/.gitlab-ci.yml'
   - local: 'coordop/.gitlab-ci.yml'

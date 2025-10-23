@@ -1,28 +1,16 @@
 lint:pylotable:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+  extends: .lint
+  variables:
+    PACKAGE_NAME: pylotable
   script:
-    - cd pylotable
-    - conda env create --yes --file environment_lint.yml
-    - conda activate lint
-    - conda list
-    - pip install .
     - pylint --rcfile=../pylintrc_pylotable-src src
     - pylint --rcfile=../pylintrc_strict demo
 
 lint_test:pylotable:
-  stage: lint
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+  extends: .lint_test
+  variables:
+    PACKAGE_NAME: pylotable
   script:
-    - cd pylotable
-    - conda env create --yes --file environment_lint_test.yml
-    - conda activate lint_test
-    - conda list
-    - pip install .
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
 doc:en:pylotable:
