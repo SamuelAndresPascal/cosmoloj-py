@@ -6,8 +6,8 @@
     - if: $CI_COMMIT_TAG =~ /^$PACKAGE_NAME_/
   script:
     - cd $PACKAGE_NAME
-    - conda env create --yes --file environment_${JOB_ENV_ID}.yml
-    - conda activate ${JOB_ENV_ID}
+    - conda env create --yes --file environment_doc.yml
+    - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
     - source ../resources/doc/version.sh $LANG
