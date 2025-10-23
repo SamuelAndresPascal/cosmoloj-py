@@ -29,3 +29,16 @@
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
     - cd $PACKAGE_NAME
+
+.demo:
+  stage: demo
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
+  script:
+    - cd $PACKAGE_NAME
+    - conda env create --yes --file environment_strict.yml
+    - conda activate strict
+    - conda list
+    - pip install .
+    - cd demo

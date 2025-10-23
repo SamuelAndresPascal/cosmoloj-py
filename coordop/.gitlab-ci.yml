@@ -51,60 +51,20 @@ python-version-support:coordop:
     - . resources/check_py_version.sh 3.13 || exit 1
     - . resources/check_py_version.sh 3.12 || exit 1
 
-pypi-package:coordop:pypi:
-  stage: pypi-package
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
-    - if: $CI_COMMIT_TAG =~ /^coordop_/
-  script:
-    - cd coordop
-    - conda env create --yes  --file environment_pypi_pkg.yml
-    - conda activate pypi_pkg
-    - conda list
-    - rm -rf dist/
-    - if [ $CI_COMMIT_TAG ] ; then VERSION=$(echo $CI_COMMIT_TAG | cut -d'_' -f 2) ; else VERSION=$CI_COMMIT_BRANCH ; fi
-    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#version\ =\ \"0.0.0\"\$#version\ =\ \"$VERSION\"#g" pyproject.toml ; fi
-    - if [ $CI_COMMIT_TAG ] ; then sed -i "s#\(\"Homepage\" = .*/\)master\(/coordop\)#\1$CI_COMMIT_TAG\2#g" pyproject.toml ; fi
-    - sed -i "s#\(\"Documentation\" = .*/\)master#\1$VERSION#g" pyproject.toml
-    - cat pyproject.toml
-    - cp ../LICENSE.md .
-    - pip install .
-    - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
-    - pip install .
-    - python -m build
-    - ls -l $DIST_DIR
-  artifacts:
-    paths:
-      - coordop/dist/*
+pypi-package:coordop:
+  extends: .pypi-package
+  variables:
+    PACKAGE_NAME: coordop
 
-pypi-publish:coordop:test_pypi:
-  stage: pypi-publish
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^coordop_/
-  script:
-    - cd coordop
-    - conda env create --yes --file environment_pypi_publish.yml
-    - conda activate pypi_publish
-    - conda list
-    - python -m twine upload --repository testpypi -u $TEST_PYPI_USERNAME -p $TEST_PYPI_PASSWORD dist/*
-  environment:
-    name: test pypi math operation
-    url: https://test.pypi.org/project/coordop/
+pypi-publish-test:coordop:
+  extends: .pypi-publish-test
+  variables:
+    PACKAGE_NAME: coordop
 
-pypi-publish:coordop:pypi:
-  stage: pypi-publish
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^coordop_/
-  script:
-    - cd coordop
-    - conda env create --yes --file environment_pypi_publish.yml
-    - conda activate pypi_publish
-    - conda list
-    - python -m twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*
-  environment:
-    name: pypi math operation
-    url: https://pypi.org/project/coordop/
+pypi-publish:coordop:
+  extends: .pypi-publish
+  variables:
+    PACKAGE_NAME: coordop
 
 conda-package:coordop:
   stage: conda-package

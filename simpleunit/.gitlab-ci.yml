@@ -47,17 +47,11 @@ python-version-support:simpleunit:
     - . resources/check_py_version.sh 3.13 || exit 1
 
 demo:simpleunit:
-  stage: demo
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+  extends: .demo
+  variables:
+    PACKAGE_NAME: simpleunit
   script:
-    - cd simpleunit
-    - conda env create --yes --file environment_strict.yml
-    - conda activate strict
-    - conda list
-    - pip install .
-    - cd demo
+    - !reference [.demo, script]
     - python demo.py
 
 pypi-package:simpleunit:
