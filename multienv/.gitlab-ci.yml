@@ -1,3 +1,8 @@
+conda_env:multienv:
+  extends: .conda_env
+  variables:
+    PACKAGE_NAME: multienv
+
 lint:multienv:
   stage: lint
   rules:

@@ -46,14 +46,6 @@ conda_envs:
   script:
     - cd taxref
     - pyenvs deps
-    - cd ../coordop
-    - pyenvs deps
-    - cd ../multienv
-    - pyenvs deps
-    - cd ../bibliograpy
-    - pyenvs deps
-    - cd ../pycar
-    - pyenvs deps
   after_script:
     - PATH=$PATH:$CONDA_HOME/bin
     - . ./clean_conda.sh multienv
@@ -61,10 +53,6 @@ conda_envs:
     when: always
     paths:
       - taxref/environment_*
-      - coordop/environment_*
-      - multienv/environment_*
-      - bibliograpy/environment_*
-      - pycar/environment_*
     expire_in: 2 days
 
 pylintrc_envs:

@@ -1,3 +1,8 @@
+conda_env:bibliograpy:
+  extends: .conda_env
+  variables:
+    PACKAGE_NAME: bibliograpy
+
 lint:bibliograpy:
   stage: lint
   rules:
