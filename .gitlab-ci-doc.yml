@@ -1,5 +1,8 @@
 .doc:
   stage: doc
+  variables:
+    DOC_DIR: docs
+    PUBLIC_DOC_DIR: $PUBLIC_SITE_SERVER_PATH/doc/$PACKAGE_NAME/$LANG
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
@@ -10,10 +13,20 @@
     - conda activate doc
     - conda list
     - pip install . # to compile the API docstrings with mkdocstrings
-    - source ../resources/doc/version.sh $LANG
+    - echo $'\n**Version '$VERSION'**' >> docs/$LANG/about.md
+    - echo $'\nDocumentation generated at '$(date -u +"%F %T")' UTC' >> $DOC_DIR/$LANG/about.md
+    - cat $DOC_DIR/$LANG/about.md
     - mkdocs build -d site.$LANG -f mkdocs.$LANG.yml
     - zip -r site.$LANG.zip site.$LANG/
-    - source ../resources/doc/publish.sh $LANG $PACKAGE_NAME
+    - echo $PUBLIC_DOC_DIR
+    - echo $VERSION
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "mkdir -p $PUBLIC_DOC_DIR"
+    - scp site.$LANG.zip $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER:$PUBLIC_DOC_DIR
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "ls -l $PUBLIC_DOC_DIR"
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_DOC_DIR ; rm -rf $VERSION ; unzip site.$LANG.zip ; mv site.$LANG $VERSION ; rm site.$LANG.zip"
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "ls -l $PUBLIC_DOC_DIR"
+    - ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "ls -l $PUBLIC_DOC_DIR/$VERSION"
+    - if [ $CI_COMMIT_TAG ] ; then ssh $PUBLIC_SITE_USER@$PUBLIC_SITE_SERVER "cd $PUBLIC_DOC_DIR ; mkdir -p latest ; rm -rf latest/$LANG ; ln -s $VERSION latest/$LANG" ; fi
   environment:
     name: documentation.$PACKAGE_NAME.$LANG
     url: https://cosmoloj.com/doc/$PACKAGE_NAME/$LANG/master
