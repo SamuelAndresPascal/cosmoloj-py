@@ -1,4 +1,4 @@
-.doc:en:pylotable:
+.doc:
   stage: doc
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
