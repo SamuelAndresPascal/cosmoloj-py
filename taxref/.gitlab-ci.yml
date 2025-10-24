@@ -1,3 +1,16 @@
+.taxref:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+
+.taxref:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^taxref_/
+
+.taxref:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^taxref_/
+    - if: $CI_COMMIT_TAG =~ /^taxref_/
+
 conda_env:taxref:
   extends: .conda_env
   variables:
@@ -43,16 +56,23 @@ pypi-package:taxref:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: taxref
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.taxref:branch_tag, rules]
 
 pypi-publish-test:taxref:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: taxref
+  rules:
+    - !reference [.taxref:tag, rules]
 
 pypi-publish:taxref:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: taxref
+  rules:
+    - !reference [.taxref:tag, rules]
 
 conda-package:taxref:
   stage: conda-package
