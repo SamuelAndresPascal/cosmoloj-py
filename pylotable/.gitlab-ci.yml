@@ -20,6 +20,9 @@ lint:pylotable:
   extends: .lint
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.pylotable:branch, rules]
   script:
     - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_pylotable-src src
@@ -29,6 +32,9 @@ lint_test:pylotable:
   extends: .lint_test
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.pylotable:branch, rules]
   script:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py

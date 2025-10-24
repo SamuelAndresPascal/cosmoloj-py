@@ -20,6 +20,9 @@ lint:taxref:
   extends: .lint
   variables:
     PACKAGE_NAME: taxref
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.taxref:branch, rules]
   script:
     - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_taxref-src src
@@ -28,6 +31,9 @@ lint_test:taxref:
   extends: .lint_test
   variables:
     PACKAGE_NAME: taxref
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.taxref:branch, rules]
   script:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test.py

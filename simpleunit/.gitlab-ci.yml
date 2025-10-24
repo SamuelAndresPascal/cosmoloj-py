@@ -20,6 +20,9 @@ lint:simpleunit:
   extends: .lint
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.simpleunit:branch, rules]
   script:
     - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_src src
@@ -29,6 +32,9 @@ lint_test:simpleunit:
   extends: .lint_test
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.simpleunit:branch, rules]
   script:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test.py
