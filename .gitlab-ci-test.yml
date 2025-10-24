@@ -2,7 +2,6 @@
   stage: test
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
   script:
     - cd $PACKAGE_NAME
     - conda env create --yes --file environment_test.yml
@@ -24,7 +23,6 @@
   stage: python-version-support
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
   variables:
     PYTHONNOUSERSITE: 1 # shortcuts system python libs installed in ~/.local/lib/python3.x/site-packages
   script:
@@ -34,7 +32,6 @@
   stage: demo
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^$PACKAGE_NAME_/
   script:
     - cd $PACKAGE_NAME
     - conda env create --yes --file environment_strict.yml

@@ -1,3 +1,16 @@
+.coordop:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+
+.coordop:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
+
+.coordop:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
+    - if: $CI_COMMIT_TAG =~ /^coordop_/
+
 conda_env:coordop:
   extends: .conda_env
   variables:
@@ -7,6 +20,9 @@ lint:coordop:
   extends: .lint
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.coordop:branch, rules]
   script:
     - !reference [.lint, script]
     - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
@@ -16,6 +32,9 @@ lint_test:coordop:
   extends: .lint_test
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.coordop:branch, rules]
   script:
     - !reference [.lint_test, script]
     - bibliograpy process --output-dir src/coordop -s SHARED_SCOPE bibliograpy.bib
@@ -28,13 +47,15 @@ doc:en:coordop:
     LANG: en
   rules:
     - !reference [.doc, rules]
-    - if: $CI_COMMIT_BRANCH =~ /^coordop_/
-    - if: $CI_COMMIT_TAG =~ /^coordop_/
+    - !reference [.coordop:branch_tag, rules]
 
 test:coordop:
   extends: .test
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.test, rules]
+    - !reference [.coordop:branch, rules]
   script:
     - cd coordop
     - conda env create --yes --file environment_test.yml
@@ -50,6 +71,9 @@ python-version-support:coordop:
   extends: .python-version-support
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.python-version-support, rules]
+    - !reference [.coordop:branch, rules]
   script:
     - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 3.13 || exit 1
@@ -59,16 +83,23 @@ pypi-package:coordop:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.coordop:branch_tag, rules]
 
 pypi-publish-test:coordop:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.coordop:tag, rules]
 
 pypi-publish:coordop:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: coordop
+  rules:
+    - !reference [.coordop:tag, rules]
 
 conda-package:coordop:
   stage: conda-package

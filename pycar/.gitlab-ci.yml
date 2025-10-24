@@ -1,3 +1,16 @@
+.pycar:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+
+.pycar:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+
+.pycar:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
+    - if: $CI_COMMIT_TAG =~ /^pycar_/
+
 conda_env:pycar:
   extends: .conda_env
   variables:
@@ -7,6 +20,9 @@ lint:pycar:
   extends: .lint
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.pycar:branch, rules]
   script:
     - !reference [.lint, script]
 
@@ -14,6 +30,9 @@ lint_test:pycar:
   extends: .lint_test
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.pycar:branch, rules]
   script:
     - !reference [.lint_test, script]
 
@@ -24,18 +43,23 @@ doc:en:pycar:
     LANG: en
   rules:
     - !reference [.doc, rules]
-    - if: $CI_COMMIT_BRANCH =~ /^pycar_/
-    - if: $CI_COMMIT_TAG =~ /^pycar_/
+    - !reference [.pycar:branch_tag, rules]
 
 test:pycar:
   extends: .test
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.test, rules]
+    - !reference [.pycar:branch, rules]
 
 python-version-support:pycar:
   extends: .python-version-support
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.python-version-support, rules]
+    - !reference [.pycar:branch, rules]
   script:
     - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 3.14 || exit 1
@@ -46,16 +70,23 @@ pypi-package:pycar:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.pycar:branch_tag, rules]
 
 pypi-publish-test:pycar:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.pycar:tag, rules]
 
 pypi-publish:pycar:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: pycar
+  rules:
+    - !reference [.pycar:tag, rules]
 
 conda-package:pycar:
   stage: conda-package

@@ -1,3 +1,16 @@
+.simpleunit:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+
+.simpleunit:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
+
+.simpleunit:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
+    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
+
 conda_env:simpleunit:
   extends: .conda_env
   variables:
@@ -30,13 +43,15 @@ doc:en:simpleunit:
     LANG: en
   rules:
     - !reference [.doc, rules]
-    - if: $CI_COMMIT_BRANCH =~ /^simpleunit_/
-    - if: $CI_COMMIT_TAG =~ /^simpleunit_/
+    - !reference [.simpleunit:branch_tag, rules]
 
 test:simpleunit:
   extends: .test
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.test, rules]
+    - !reference [.simpleunit:branch, rules]
   script:
     - !reference [.test, script]
     - python simpleunit/test/test.py
@@ -45,6 +60,9 @@ python-version-support:simpleunit:
   extends: .python-version-support
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.python-version-support, rules]
+    - !reference [.simpleunit:branch, rules]
   script:
     - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 3.14 || exit 1
@@ -54,6 +72,9 @@ demo:simpleunit:
   extends: .demo
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.demo, rules]
+    - !reference [.simpleunit:branch, rules]
   script:
     - !reference [.demo, script]
     - python demo.py
@@ -62,16 +83,23 @@ pypi-package:simpleunit:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.simpleunit:branch_tag, rules]
 
 pypi-publish-test:simpleunit:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.simpleunit:tag, rules]
 
 pypi-publish:simpleunit:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: simpleunit
+  rules:
+    - !reference [.simpleunit:tag, rules]
 
 conda-package:simpleunit:
   stage: conda-package

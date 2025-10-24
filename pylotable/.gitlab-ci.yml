@@ -1,3 +1,16 @@
+.pylotable:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+
+.pylotable:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^pylotable_/
+
+.pylotable:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
+    - if: $CI_COMMIT_TAG =~ /^pylotable_/
+
 conda_env:pylotable:
   extends: .conda_env
   variables:
@@ -20,11 +33,6 @@ lint_test:pylotable:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_strict test/test_win_coprocessor.py
 
-.pylotable:
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /^pylotable_/
-    - if: $CI_COMMIT_TAG =~ /^pylotable_/
-
 doc:en:pylotable:
   extends: .doc
   variables:
@@ -32,7 +40,7 @@ doc:en:pylotable:
     LANG: en
   rules:
     - !reference [.doc, rules]
-    - !reference [.pylotable, rules]
+    - !reference [.pylotable:branch_tag, rules]
 
 doc:fr:pylotable:
   extends: .doc
@@ -41,17 +49,23 @@ doc:fr:pylotable:
     LANG: fr
   rules:
     - !reference [.doc, rules]
-    - !reference [.pylotable, rules]
+    - !reference [.pylotable:branch_tag, rules]
 
 test:pylotable:
   extends: .test
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.test, rules]
+    - !reference [.pylotable:branch, rules]
 
 python-version-support:pylotable:
   extends: .python-version-support
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.python-version-support, rules]
+    - !reference [.pylotable:branch, rules]
   script:
     - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 3.13 || exit 1
@@ -61,6 +75,9 @@ demo:pylotable:
   extends: .demo
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.demo, rules]
+    - !reference [.pylotable:branch, rules]
   script:
     - !reference [.demo, script]
     - python group_coprocessor.py
@@ -70,16 +87,23 @@ pypi-package:pylotable:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.pylotable:branch_tag, rules]
 
 pypi-publish-test:pylotable:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.pylotable:tag, rules]
 
 pypi-publish:pylotable:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: pylotable
+  rules:
+    - !reference [.pylotable:tag, rules]
 
 conda-package:pylotable:
   stage: conda-package

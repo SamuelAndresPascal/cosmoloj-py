@@ -1,3 +1,16 @@
+.multienv:branch:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+
+.multienv:tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^multienv_/
+
+.multienv:branch_tag:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
+    - if: $CI_COMMIT_TAG =~ /^multienv_/
+
 conda_env:multienv:
   extends: .conda_env
   variables:
@@ -7,6 +20,9 @@ lint:multienv:
   extends: .lint
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.lint, rules]
+    - !reference [.multienv:branch, rules]
   script:
     - !reference [.lint, script]
     - pylint --rcfile=../pylintrc_multienv-src src
@@ -15,6 +31,9 @@ lint_test:multienv:
   extends: .lint_test
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.lint_test, rules]
+    - !reference [.multienv:branch, rules]
   script:
     - !reference [.lint_test, script]
     - pylint --rcfile=../pylintrc_src test/test_pyenvs.py
@@ -36,18 +55,23 @@ doc:en:multienv:
     LANG: en
   rules:
     - !reference [.doc, rules]
-    - if: $CI_COMMIT_BRANCH =~ /^multienv_/
-    - if: $CI_COMMIT_TAG =~ /^multienv_/
+    - !reference [.multienv:branch_tag, rules]
 
 test:multienv:
   extends: .test
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.test, rules]
+    - !reference [.multienv:branch, rules]
 
 python-version-support:multienv:
   extends: .python-version-support
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.python-version-support, rules]
+    - !reference [.multienv:branch, rules]
   script:
     - !reference [.python-version-support, script]
     - . resources/check_py_version.sh 312
@@ -56,6 +80,9 @@ demo:multienv:
   extends: .demo
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.demo, rules]
+    - !reference [.multienv:branch, rules]
   script:
     - !reference [.demo, script]
     - . demo.sh
@@ -64,16 +91,23 @@ pypi-package:multienv:
   extends: .pypi-package
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.pypi-package, rules]
+    - !reference [.multienv:branch_tag, rules]
 
 pypi-publish-test:multienv:
   extends: .pypi-publish-test
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.multienv:tag, rules]
 
 pypi-publish:multienv:
   extends: .pypi-publish
   variables:
     PACKAGE_NAME: multienv
+  rules:
+    - !reference [.multienv:tag, rules]
 
 conda-package:multienv:
   stage: conda-package
